@@ -16,6 +16,7 @@
 
 <body>
 	<? php
+	// This code was written by Larry Ullman and slightly modified
 	// Print any error messages, if they exist:
 		if (isset($errors) && !empty($errors)) {
 			echo '<h1>Error!</h1>

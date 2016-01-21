@@ -1,6 +1,6 @@
 <?php
+// This code was written by Larry Ullman and slightly modified
 // This page defines two functions used by the login/logout process.
-
 function redirect_user ($page = 'index.php') {
 
   //Define the URL

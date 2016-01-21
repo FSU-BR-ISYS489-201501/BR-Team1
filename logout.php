@@ -1,4 +1,5 @@
 <?php # Script 12.11 - logout.php #2
+// This code was written by Larry Ullman and slightly modified
 // This page lets the user logout.
 // This version uses sessions.
 
