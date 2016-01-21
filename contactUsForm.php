@@ -3,6 +3,8 @@ $page_title = 'Contact Us';
 include ('includes/header.html');
 ?>
  
+ Testing Testing
+ 
 <form name="contactform" method="post" action="sendFormEmail.php">
  
 <table>
