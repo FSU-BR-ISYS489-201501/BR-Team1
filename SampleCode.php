@@ -17,4 +17,5 @@
 	else {
 		echo("I don't understand!");
 	}
+	// I am happy!
 ?>
