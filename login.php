@@ -16,6 +16,9 @@
 
 <body>
 	<? php
+	// Shane is adding comments to this document.
+	
+	
 	// This code was written by Larry Ullman and slightly modified
 	// Print any error messages, if they exist:
 		if (isset($errors) && !empty($errors)) {
@@ -25,6 +28,7 @@
 				echo " - $msg<br />\n";
 			}
 		}
+		//Ben brackett's comment
 			echo '</p><p>Please try again.</p>';
 	?>
 	<h2> TEAM 1 </h2>
