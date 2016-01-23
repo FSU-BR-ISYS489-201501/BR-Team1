@@ -16,6 +16,9 @@
 
 <body>
 	<? php
+	// Shane is adding comments to this document.
+	
+	
 	// This code was written by Larry Ullman and slightly modified
 	// Print any error messages, if they exist:
 		if (isset($errors) && !empty($errors)) {
