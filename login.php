@@ -25,6 +25,7 @@
 				echo " - $msg<br />\n";
 			}
 		}
+		//Ben brackett's comment
 			echo '</p><p>Please try again.</p>';
 	?>
 	<h2> TEAM 1 </h2>
