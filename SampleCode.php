@@ -8,7 +8,7 @@
 		so that Mark knows that you understand how to 
 		push to GitHub.";
 	echo($messageForDevelopers);
-	
+	//Ben's comment to this page so that Mark knows I understand how to push to GitHub
 	// Asking if Software Developers understand
 	$understood = true;
 	if ($understood = true) {
