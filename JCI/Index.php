@@ -1,6 +1,6 @@
 <!-- By Faisal Alfadhli-->
 <!--Email: alfadhf@ferris.edu-->
-<!--This is my own code I wrote it 2 years ago for ISYS 288  -->
+<!--This code I have it 2 years ago from ISYS 288 class -->
 <!--02/04/2016 -->
 <!-- Access Website-->
 
@@ -36,7 +36,7 @@
 	</div>
 	
 	<div id="footer">
-		<!--<p>Copyright &copy; <a href="#">Plain and Simple</a> 2007 | Designed by <a href="http://www.edg3.co.uk/">edg3.co.uk</a> | Sponsored by <a href="http://www.opendesigns.org/">Open Designs</a> | Valid <a href="http://jigsaw.w3.org/css-validator/">CSS</a> &amp; <a href="http://validator.w3.org/">XHTML</a></p> -->
+	
 	</div>
 </body>
 </html>
