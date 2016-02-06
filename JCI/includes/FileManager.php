@@ -51,6 +51,12 @@
 			
 		};
 		
+		// SQL function LOAD_FILE(Filename) must be used on server.
+	
+		function fileDownload() {
+			
+		};
+		
 		
 		// Mark Bowman: This block calls the uploadFile function for testing.
 		uploadFile("uploadedFile", "../uploads/");
