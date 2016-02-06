@@ -5,7 +5,8 @@
 		function uploadFile($divName, $fileStorageLocation) {
 			
 			
-			// Mark Bowman: This block is setting a counter for the number of files and how many have been uploaded.
+			// Mark Bowman: This block is setting a counter for the number of 
+			// files and how many have been uploaded.
 			$fileUplaodSuccessCounter = 0;
 			$numberOfFilesUploaded = count($_FILES["$divName"]['tmp_name']);
 			$i = 0;
@@ -18,18 +19,29 @@
 				// for the uploaded file and the location it is going to be saved to.
 				$tempUploadedFileName = $_FILES["$divName"]['tmp_name'][$i];
 				$uploadedFileNameSaveLocation = $fileStorageLocation . "{$_FILES["$divName"]['name']["$i"]}";
-				
+				$insertFileLocationSqlQuery = "INSERT INTO files (content, file_des)
+					VALUES ({$uploadedFileNameSaveLocation}, {$tempUploadedFileName})";
 				
 				// Mark Bowman: This block checks if a file has been submitted with the HTML
 				// form and then moves it to the final storage location.
 				if(file_exists($tempUploadedFileName)) {
 					if(move_uploaded_file($tempUploadedFileName, 
 						$uploadedFileNameSaveLocation)) {
+
+							
+							// Mark Bowman: This block performs an SQL query to insert file
+							// location into the database.
+							if (mysqli_query($dbc, $insertFileLocationSqlQuery)) {
+							    echo '<p> Upload was successful. </p>';
+							} 
+							else {
+							    echo '<p> Database Error </p>';
+							}
+							mysqli_close();
 							$fileUplaodSuccessCounter += 1;
 					}
 					else {
 						echo '<p> Upload was not successful! </p>';
-						
 					}		
 				}
 				else {
@@ -41,8 +53,8 @@
 			}
 			
 			
-			
-			// Mark Bowman: This block displays a success message if all of the files have successfully uploaded.
+			// Mark Bowman: This block displays a success message if all of the 
+			// files have successfully uploaded.
 			if ($i != 0) {
 				if($i == $fileUplaodSuccessCounter) {
 					echo '<p> You did it! </p>';
