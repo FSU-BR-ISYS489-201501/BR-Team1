@@ -29,6 +29,7 @@
 					}
 					else {
 						echo '<p> Upload was not successful! </p>';
+						
 					}		
 				}
 				else {
@@ -38,10 +39,12 @@
 					break;
 				}
 			}
-			
-			if($i == $fileUplaodSuccessCounter) {
-				echo '<p> You did it! </p>';
+			if ($i != 0) {
+				if($i == $fileUplaodSuccessCounter) {
+					echo '<p> You did it! </p>';
+				}
 			}
+			
 		};
 		
 		uploadFile("uploadedFile", "../uploads/");
