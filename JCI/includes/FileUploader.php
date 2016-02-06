@@ -51,5 +51,7 @@
 			
 		};
 		
+		
+		// Mark Bowman: This block calls the uploadFile function for testing.
 		uploadFile("uploadedFile", "../uploads/");
 ?>
