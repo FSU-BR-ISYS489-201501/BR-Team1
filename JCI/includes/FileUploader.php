@@ -20,7 +20,7 @@
 				$uploadedFileNameSaveLocation = $fileStorageLocation . "{$_FILES["$divName"]['name']["$i"]}";
 				
 				
-				//Mark Bowman: This block checks if a file has been submitted with the HTML
+				// Mark Bowman: This block checks if a file has been submitted with the HTML
 				// form and then moves it to the final storage location.
 				if(file_exists($tempUploadedFileName)) {
 					if(move_uploaded_file($tempUploadedFileName, 
@@ -39,6 +39,10 @@
 					break;
 				}
 			}
+			
+			
+			
+			// Mark Bowman: This block displays a success message if all of the files have successfully uploaded.
 			if ($i != 0) {
 				if($i == $fileUplaodSuccessCounter) {
 					echo '<p> You did it! </p>';
