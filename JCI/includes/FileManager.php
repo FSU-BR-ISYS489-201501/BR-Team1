@@ -72,7 +72,7 @@
 		};
 		
 		// SQL function LOAD_FILE(Filename) must be used on server.
-		function fileDownload($fileId) {
+		function downloadFile($fileId) {
 			
 			// Mark Bowman: If a 0 is returned, an error was encountered. If a 1 is returned,
 			// then the download was successful.
@@ -124,6 +124,6 @@
 		}
 		
 		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-			$downloadMessage = fileDownload($fileId);
+			$downloadMessage = downloadFile($fileId);
 		}
 ?>
