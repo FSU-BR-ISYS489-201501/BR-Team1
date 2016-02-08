@@ -12,56 +12,45 @@
 			return $filePath . " ($counter)";
 		};
 		
-		// Mark Bowman: This function will upload a file from the host's computer to the server.
+		// Mark Bowman: This function will upload a file from the host's computer to the server. 
+		// A string is returned that specifies if the upload was successful or not.
 		function uploadFile($divName, $fileStorageLocation) {
+			
+			$successMessage = 0;
+			
 			// Mark Bowman: This block is setting a counter for the number of 
 			// files and how many have been uploaded.
 			$fileUplaodSuccessCounter = 0;
 			$numberOfFilesUploaded = count($_FILES["$divName"]['tmp_name']);
 			$i = 0;
-			
-			
 			// Mark Bowman: This allows access to the database connection information.
 			include('DbConnector.php');
-			
-			
 			// Mark Bowman: This block is going through all of the uploaded files.
 			for($i; $i < $numberOfFilesUploaded; $i++) {
-	
-			
 				// Mark bowman: This block contains variables for the browser's temporary name
 				// for the uploaded file and the location it is going to be saved to.
 				$tempUploadedFileName = $_FILES["$divName"]['tmp_name'][$i];
 				$uploadedFileNameSaveLocation = $fileStorageLocation . "{$_FILES["$divName"]['name']["$i"]}";
 				$insertFileLocationSqlQuery = "INSERT INTO files (content, file_des, fileid)
 					VALUES ('$tempUploadedFileName', '$uploadedFileNameSaveLocation', '$i')";
-				
-				
 				// Mark Bowman: This block checks if a file has been submitted with the HTML
 				// form and then moves it to the final storage location.
 				if(file_exists($tempUploadedFileName)) {
 					if(move_uploaded_file($tempUploadedFileName, 
 						$uploadedFileNameSaveLocation)) {
-
-							
 							// Mark Bowman: This block performs an SQL query to insert file
 							// location into the database.
-							
 							if (mysqli_query($dbc, $insertFileLocationSqlQuery)) {
-							    echo '<p> Upload was successful. </p>';
+							    $fileUplaodSuccessCounter += 1;
 							} 
-							else {
-							    echo '<p> Database Error. </p>';
-							}
-							$fileUplaodSuccessCounter += 1;
 					}
 					else {
-						echo '<p> Upload was not successful! </p>';
+						$successMessage = "File did not save to file server.";
 					}		
 				}
 				else {
 					if ($i == 0) {
-						echo '<p> You must attach a file first. </p>';
+						$successMessage = "Attach a file first.";
 					}
 					break;
 				}
@@ -72,27 +61,34 @@
 			// files have successfully uploaded.
 			if ($i != 0) {
 				if($i == $fileUplaodSuccessCounter) {
-					echo '<p> You did it! </p>';
+					$successMessage = "All files were uploaded successfully.";
 				}
 			}
 			
 			
 			// Mark Bowman: This block closes the connection to the database.
 			mysqli_close($dbc);
+			return $successMessage;
 		};
 		
 		// SQL function LOAD_FILE(Filename) must be used on server.
-		function fileDownload() {
+		function fileDownload($fileName) {
 			
+			
+			
+			// Mark Bowman: This code was written by bebertjean at yahoo dot fr. This 
+			// code was retrived from http://php.net/manual/en/function.header.php.
+			header('Content-Type: application/download');
+  			header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
 		};
 		
 		
 		// Mark Bowman: This block calls the uploadFile function for testing.
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			uploadFile("uploadedFile", "../uploads/");
+			$message = uploadFile("uploadedFile", "../uploads/");
 		}
 		
 		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-			fileDownload();
+			$message = fileDownload($fileName);
 		}
 ?>
