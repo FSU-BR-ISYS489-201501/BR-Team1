@@ -38,6 +38,7 @@
 				if(file_exists($tempUploadedFileName)) {
 					if(move_uploaded_file($tempUploadedFileName, 
 						$uploadedFileNameSaveLocation)) {
+							//TODO: Alter this to be a prepared statement.
 							// Mark Bowman: This block performs an SQL query to insert file
 							// location into the database.
 							if (mysqli_query($dbc, $insertFileLocationSqlQuery)) {
