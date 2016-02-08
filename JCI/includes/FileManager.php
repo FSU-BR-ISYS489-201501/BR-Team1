@@ -15,9 +15,6 @@
 		// Mark Bowman: This function will upload a file from the host's computer to the server. 
 		// A string is returned that specifies if the upload was successful or not.
 		function uploadFile($divName, $fileStorageLocation) {
-			
-			$successMessage = 0;
-			
 			// Mark Bowman: This block is setting a counter for the number of 
 			// files and how many have been uploaded.
 			$fileUplaodSuccessCounter = 0;
