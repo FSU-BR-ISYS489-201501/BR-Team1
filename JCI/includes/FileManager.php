@@ -72,23 +72,58 @@
 		};
 		
 		// SQL function LOAD_FILE(Filename) must be used on server.
-		function fileDownload($fileName) {
+		function fileDownload($fileId) {
+			
+			// Mark Bowman: If a 0 is returned, an error was encountered. If a 1 is returned,
+			// then the download was successful.
+			$successMessage = 0;
+			
+			include('DbConnector.php');
+			$selectFileLocationSqlQuery = "SELECT File_Des FROM Files WHERE FileID = ?;";
 			
 			
+			// Mark Bowman: This code was retrived from http://php.net/manual/en/mysqli.prepare.php.
+			// A specific author was not specified, but the code from the manual was altered to 
+			// meet the needs of the JCI website.
+			if ($stmt = mysqli_prepare($dbc, $selectFileLocationSqlQuery)) {
+			    /* bind parameters for markers */
+			    mysqli_stmt_bind_param($stmt, "s", $fileId);
 			
-			// Mark Bowman: This code was written by bebertjean at yahoo dot fr. This 
-			// code was retrived from http://php.net/manual/en/function.header.php.
-			header('Content-Type: application/download');
-  			header("Content-Disposition: attachment; filename=\"" . basename($fileName) . "\"");
+			    /* execute query */
+			    mysqli_stmt_execute($stmt);
+			
+			    /* bind result variables */
+			    mysqli_stmt_bind_result($stmt, $filePath);
+			
+			    /* fetch value */
+			    mysqli_stmt_fetch($stmt);
+				
+				// Mark Bowman: This code was written by bebertjean at yahoo dot fr. This 
+				// code was retrived from http://php.net/manual/en/function.header.php.
+				header('Content-Type: application/download');
+	  			header("Content-Disposition: attachment; filename=\"" . basename($filePath) . "\"");
+				readfile($filePath);
+			
+			    /* close statement */
+			    mysqli_stmt_close($stmt);
+				mysqli_close($dbc);
+				
+				$successMessage = 1;
+				return $successMessage;
+			}
+			else {
+				return $successMessage;
+			}
 		};
 		
 		
 		// Mark Bowman: This block calls the uploadFile function for testing.
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			$message = uploadFile("uploadedFile", "../uploads/");
+			$uploadMessage = uploadFile("uploadedFile", "../uploads/");
+			echo "$message";
 		}
 		
 		if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-			$message = fileDownload($fileName);
+			$downloadMessage = fileDownload($fileId);
 		}
 ?>
