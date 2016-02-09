@@ -9,6 +9,7 @@
  * from code I used and learned in ISYS288.
  * We used Larry Uldman's PHP book
  * http://www.larryullman.com/category/php/
+ * Shane: edited on 2/9/2016 (finished the page and added psw complexity to the code)
  *********************************************/
  include ("includes/Header.php");
  $page_title = 'Register';
@@ -91,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		} elseif(checkPSW($_POST['pass1'])) {
 			$pass = mysqli_real_escape_string($dbc, trim($_POST['pass1']));
 		} else {
-			$errp[] = 'Your password did not contain at least 1 uppercase, lowercase, number, and symbol.';
+			$err[] = 'Your password did not contain at least 1 uppercase, lowercase, number, and symbol.';
 		}
 
 	//Check if the array is empty, no ERRORS?
