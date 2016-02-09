@@ -1,7 +1,7 @@
 <?php
 	// Put code here for functions that will help downloading and uploading files
 		
-		
+		// Mark Bowman: Comment
 		// Mark Bowman: This function checks if the input file name exists on the file server
 		// and returns a file name that doesn't exist on the file server.
 		function checkIfFileExistsOnFileServer($filePath) {
