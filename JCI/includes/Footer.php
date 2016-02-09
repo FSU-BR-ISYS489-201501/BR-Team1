@@ -7,6 +7,9 @@
 
 	<!-- End of the page-specific content. -->
 	</div>
+	<!-- Shane added the following line. -->
+	&0169 2016 JCI Website | Ferris State University | Team 1 
+	
 	
 	<div id="footer">
 	</div>
