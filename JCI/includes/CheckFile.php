@@ -9,7 +9,7 @@ function checkFile()
 	
 	// Faisal: this block to check file type 
 	$fileType=$_FILES['uploadedFile']['type'];
-	if ($fileType== "pdf" OR $fileType== "docs"){
+	if ($fileType== "doc" OR $fileType== "docx"){
 	
 		echo  "the file type is valid ";     //Faisal : if file type valid.
 												}
