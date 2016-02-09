@@ -18,7 +18,7 @@
 	<div id="navigation">
 		<ul>
 			<li><a href="index.php">Home Page</a></li>
-			<li><a href="register.php">Register</a></li>
+			<li><a href="Register.php">Register</a></li>
 			<li><a href="login.php">Login</a></li>
 			<li><a href="logout.php">Lougout</a></li>
 			<li><a href="contact.php">Contact Us</a></li>
