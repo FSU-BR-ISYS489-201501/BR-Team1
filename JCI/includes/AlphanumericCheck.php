@@ -10,4 +10,5 @@ if (preg_match('/^[a-z0-9 .\/-@#+*=_&^()!$%,.?;:]+$/i',$test)) // This if statem
         echo "The string $test consists of all letters, digits, special character, and spaces.\n";
 }  
 	;
+// test comment	
 ?>
