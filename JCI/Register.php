@@ -88,8 +88,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			$err[] = 'You forgot to confirm your password.';
 		} elseif (($_POST['pass1']) != ($_POST['pass2'])) {
 			$err[] = 'Your passwords do not match!';		
-		} else {
-			$pass = mysqli_real_escape_string($dbc, trim($_POST['pass1']));
+		} elseif(checkPSW($_POST['pass1'])) {
+			
 		}
 
 	//Check if the array is empty, no ERRORS?
