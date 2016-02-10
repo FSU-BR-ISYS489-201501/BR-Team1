@@ -27,7 +27,7 @@ function check_login () {
 
 
 <?php
-//Author: Ben Brackett 02/05/16
+//Author: Ben Brackett 02/06/16
 //Email: brackeb1@ferris.edu
 //Ben Brackett: I found this code written by David Walsh on
 //https://davidwalsh.name/php-validatie-numeric-digits 
