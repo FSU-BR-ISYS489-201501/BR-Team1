@@ -1,7 +1,7 @@
 <?php
 //Author: Benjamin Brackett
 //Email: brackeb1@ferris.edu
-//Date: 02/08/2016
+//Date: 02/09/2016
 //This is logout code that I found online 
 //https://github.com/Goatella/Simple-PHP-Login/blob/master/logout.php
 //The actual author of this code is Angela Bradley
