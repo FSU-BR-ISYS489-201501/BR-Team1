@@ -1,10 +1,10 @@
 <?php
 	// Put code here for functions that will help downloading and uploading files
 		
-		// Mark Bowman: Comment
 		// Mark Bowman: This function checks if the input file name exists on the file server
 		// and if the input file name exists on the file server, itreturns a file name 
-		// that doesn't exist on the file server.
+		// that doesn't exist on the file server. 0 = failure. 1 = success. 2 = failed to save 
+		// to database server. 3 = failed to save to file server. 4 = No file attached.
 		function checkIfFileExistsOnFileServer($filePath) {
 			$counter = 1;
 			while (file_exists($filePath)) {
@@ -17,7 +17,7 @@
 		// A string is returned that specifies if the upload was successful or not.
 		function uploadFile($divName, $fileStorageLocation) {
 			//This is the message that will be returned.
-			$successMessage = "Upload failed.";
+			$successMessage = 0;
 			
 			// Mark Bowman: This block is setting a counter for the number of 
 			// files and how many have been uploaded.
@@ -47,13 +47,16 @@
 							$fileUplaodSuccessCounter += 1;
 						}
 						else {
-							$successMessage = "File did not save to file server.";
+							$successMessage = 2;
 						}	
-					} 		
+					} 	
+					else {
+						$successMessage = 3;
+					}	
 				}
 				else {
 					if ($i == 0) {
-						$successMessage = "Attach a file first.";
+						$successMessage = 4;
 					}
 					break;
 				}
@@ -64,7 +67,7 @@
 			// files have successfully uploaded.
 			if ($i != 0) {
 				if($i == $fileUplaodSuccessCounter) {
-					$successMessage = "All files were uploaded successfully.";
+					$successMessage = 1;
 				}
 			}
 			
