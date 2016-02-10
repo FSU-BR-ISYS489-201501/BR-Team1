@@ -3,7 +3,8 @@
 		
 		// Mark Bowman: Comment
 		// Mark Bowman: This function checks if the input file name exists on the file server
-		// and returns a file name that doesn't exist on the file server.
+		// and if the input file name exists on the file server, itreturns a file name 
+		// that doesn't exist on the file server.
 		function checkIfFileExistsOnFileServer($filePath) {
 			$counter = 1;
 			while (file_exists($filePath)) {
@@ -32,22 +33,23 @@
 				$tempUploadedFileName = $_FILES["$divName"]['tmp_name'][$i];
 				$uploadedFileNameSaveLocation = $fileStorageLocation . "{$_FILES["$divName"]['name']["$i"]}";
 				$insertFileLocationSqlQuery = "INSERT INTO files (content, file_des, fileid)
-					VALUES ('$tempUploadedFileName', '$uploadedFileNameSaveLocation', '$i')";
-				// Mark Bowman: This block checks if a file has been submitted with the HTML
-				// form and then moves it to the final storage location.
+					VALUES ('$tempUploadedFileName', '$uploadedFileNameSaveLocation')";
+				// Mark Bowman: This block checks if a file has been submitted with the HTML form.
 				if(file_exists($tempUploadedFileName)) {
-					if(move_uploaded_file($tempUploadedFileName, 
+					// Mark Bowman: This block performs an SQL query to insert file
+					// location into the database.
+					if ($stmt = mysqli_prepare($dbc, $selectFileLocationSqlQuery)) {
+						mysqli_stmt_execute($stmt);
+						
+						// Mark Bowman: This block moves the input file to the file server.
+						if(move_uploaded_file($tempUploadedFileName, 
 						$uploadedFileNameSaveLocation)) {
-							//TODO: Alter this to be a prepared statement.
-							// Mark Bowman: This block performs an SQL query to insert file
-							// location into the database.
-							if (mysqli_query($dbc, $insertFileLocationSqlQuery)) {
-							    $fileUplaodSuccessCounter += 1;
-							} 
-					}
-					else {
-						$successMessage = "File did not save to file server.";
-					}		
+							$fileUplaodSuccessCounter += 1;
+						}
+						else {
+							$successMessage = "File did not save to file server.";
+						}	
+					} 		
 				}
 				else {
 					if ($i == 0) {
