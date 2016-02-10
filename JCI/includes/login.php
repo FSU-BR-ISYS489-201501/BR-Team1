@@ -4,7 +4,7 @@
 //This is the login code, ALL OF IT I FOUND ONLINE AT PHP.ABOUT.COM
 //The actual location of the code is located below. It is written by Angela Bradley
 //https://github.com/Goatella/Simple-PHP-Login/blob/master/login.php
-//Date: 02/08/2016
+//Date: 02/09/2016
 
 
 // Set the database access information as constants:
