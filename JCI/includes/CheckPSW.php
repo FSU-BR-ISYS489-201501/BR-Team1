@@ -7,7 +7,6 @@
  * ISYS489: Ferris State University.
  * Used Marks FileManager.php for help at how to make this file.
  * Used regex from my C# course CIT244 from NMC...
- * I feel that this is over attributation... but I also dont want to fail!
  *********************************************/
  
  // creates the function call
