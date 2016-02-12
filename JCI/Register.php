@@ -1,95 +1,102 @@
 <?php
-/**********************************************
+ /*********************************************************************************************
  * Original Author: Shane Workman
  * Date of origination: 02/06/2016
+ *
  * Page created for use in the JCI Project.
- * Project work is done as part of a Capstone class
- * ISYS489: Ferris State University.
- * A bulk of this code is derived in some part
- * from code I used and learned in ISYS288.
- * We used Larry Uldman's PHP book
- * http://www.larryullman.com/category/php/
- * Shane: edited on 2/9/2016 (finished the page and added psw complexity to the code)
- *********************************************/
+ * Project work is done as part of a Capstone class ISYS489: Ferris State University.
+ * Purpose: This page is used to collect user information whom wish to register for the JCI site.
+ * Credit: A bulk of this code is derived in some part from code I used and learned in ISYS288.
+ *			We used Larry Uldman's PHP book
+ * 
+ * Function:  checkPsw($pass)
+ * Purpose: To make sure the password supplied by the user meets complexity.
+ * Variable: $pass is the variable passed into the function from the form text pass1.
+ *
+ * Revision1.1: 02/09/2016 Author: Shane Workman 
+ * Added the checkPsw() function to the page.
+ ********************************************************************************************/
  include ("includes/Header.php");
+ include ("includes/CheckPsw.php");
  $page_title = 'Register';
  
- //grab the db connector
+ //Grab the db connector.
  require ('../DbConnector.php');
  
- //set up Error msg array
+ //Set up Error msg array.
  $err[] = array();
 	
 //Begin Validation... 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
-	//grab the db connector
+	//Grab the db connector.
  	require ('../DbConnector.php');
  
- 	//set up Error msg array
+ 	//Set up Error msg array.
  	$err[] = array();
 	
-	//set prefix sql string
+	//Set prefix sql string.
 	$prefix = mysqli_real_escape_string($dbc, trim($_POST['prefix']));
 	
-	//check if the text box has a value or set it to null
+	//Check if the text box has a value or set it to null.
 	if (empty($_POST['title'])) {
 		$title = 'NULL';
 		} else {
 			$title = mysqli_real_escape_string($dbc, trim($_POST['title']));
 		}
 	
-	//check if the first name text box has a value.
+	//Check if the first name text box has a value.
 	if (empty($_POST['fName'])) {
 		$err[] = 'You forgot to enter your first name.';
 		} else {
 			$fname = mysqli_real_escape_string($dbc, trim($_POST['fName']));
 		}
  	
-	//check if last name text box has a value.
+	//Check if last name text box has a value.
 	if (empty($_POST['lName'])) {
 		$err[] = 'You forgot to enter your last name.';
 		} else {
 			$lname = mysqli_real_escape_string($dbc, trim($_POST['lName']));
 		}
  	
- 	//check if last name text box has a value.
+ 	//Check if last name text box has a value.
  	if (empty($_POST['suffix'])) {
 		$sfx = 'NULL';
 		} else {
 			$sfx = mysqli_real_escape_string($dbc, trim($_POST['suffix']));
 		}
  
- 	//check if email text box has a value.
+ 	//Check if email text box has a value.
+ 	//Need to add the check email mask function when completed.
  	if (empty($_POST['email'])) {
 		$err[] = 'You forgot to enter your email.';
 		} else {
 			$email = mysqli_real_escape_string($dbc, trim($_POST['email']));
 		}
 
- 	//check if university text box has a value or set it to null
+ 	//Check if university text box has a value or set it to null.
  	if (empty($_POST['university'])) {
 		$uni = 'NULL';
 		} else {
 			$uni = mysqli_real_escape_string($dbc, trim($_POST['university']));
 		}		
 
- 	//check if SCR member id text box has a value or set it to null
+ 	//Check if SCR member id text box has a value or set it to null.
  	if (empty($_POST['memberID'])) {
 		$mem = 'NULL';
 		} else {
 			$mem = mysqli_real_escape_string($dbc, trim($_POST['memberID']));
 		}
 		
-	//Check the password text boxes contain values and are equal.
-	//Needs password validation function added.
+	//Check the password text boxes contain values and that both boxes are equal.
+	//Shane Workman: Added checkPsw() function to make sure the password meets complexity.
  	if (empty($_POST['pass1'])) {
 		$err[] = 'You forgot to enter your password.';
 		} elseif (empty($_POST['pass2'])) {
 			$err[] = 'You forgot to confirm your password.';
 		} elseif (($_POST['pass1']) != ($_POST['pass2'])) {
 			$err[] = 'Your passwords do not match!';		
-		} elseif(checkPSW($_POST['pass1'])) {
+		} elseif(checkPsw($_POST['pass1'])) {
 			$pass = mysqli_real_escape_string($dbc, trim($_POST['pass1']));
 		} else {
 			$err[] = 'Your password did not contain at least 1 uppercase, lowercase, number, and symbol.';
@@ -104,16 +111,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		//Run the query...
 		$run = @mysqli_query($dbc, $query);
 		
-		//Check successssssss!
+		//Check to make sure the dbConnector didnt die!
 		IF (!$run)
 		{
-			die('Error, You could not be registered please try again.');
+			echo 'Error, You could not be registered please try again.';
 		} else {
-			// At some point a landing page of a profile sheet or default view needs to replace the following code!
+			//At some point a landing page of a profile sheet or default view needs to replace the following code!
 			echo "Thank you for registering for our site, $fName $lName more miraculous things to come!";
 		}		
 	}else {
-		// report any errors that occurred.
+		//List each Error msg that is stored in the array.
 		Foreach($err as $m)
 		{
 			echo " $m<br />";

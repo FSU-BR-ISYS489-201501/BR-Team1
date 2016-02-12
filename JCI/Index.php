@@ -1,16 +1,13 @@
 <?php
 
- /**********************************************
+/*********************************************************************************************
  * Original Author: Shane Workman
  * Date of origination: 02/08/2016
+ *
  * Page created for use in the JCI Project.
- * Project work is done as part of a Capstone class
- * ISYS489: Ferris State University.
- * A bulk of this code is derived in some part
- * from code I used and learned in ISYS288.
- * We used Larry Uldman's PHP book
- * http://www.larryullman.com/category/php/
- *********************************************/
+ * Project work is done as part of a Capstone class ISYS489: Ferris State University.
+ * Purpose of Page: This is the index.php and will serve as the home page content of the site.
+ ********************************************************************************************/
 
 include ('includes/Header.php');
 $page_title = 'Home';
