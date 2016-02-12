@@ -1,7 +1,7 @@
 <?php
 
 /* Faisal Alfadhli 
-refrence: http://www.w3schools.com/php
+refrence: http://www.w3schools.com
 */
 
 
@@ -9,9 +9,8 @@ refrence: http://www.w3schools.com/php
 	//This Function will check the email if it is well formed
 	Function checkEmail($email) {
 			
-    	// check if email address is well formed
-    	$successMsg = 0;
-		//
+		$successMsg = 0;
+    	//check if email address is well formed
 		if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
 			$successMsg = 1;
 		}

@@ -3,30 +3,26 @@
 //Faisal: (Refrences:1- www.tizg.com 
 // 2- www.W3schools.com/php
 // 3- http://io.hsoub.com/php  
-function checkFile()
-{
+
+	function checkFile() {
+		$successMsg = 0;
 	
-	
-	// Faisal: this block to check file type 
-	$fileType=$_FILES['uploadedFile']['type'];
-	if ($fileType== "doc" OR $fileType== "docx"){
-	
-		echo  "the file type is valid ";     //Faisal : if file type valid.
-												}
-	else
-	{
-		echo "the file type is invalid";   //Faisal: if file type invalid 
+		// this block to check file type 
+		$fileType=$_FILES['uploadedFile']['type'];
+		if ($fileType== "doc" OR $fileType== "docx") {
+			$successMsg = 1;    
+		}
+		return $successMsg;
+		
+		
+		//this block to check file size 
+		$fileSize=$_FILES['uploadedFile']['size'];
+			// Maximum file size  is 100 KB.
+			if( ($fileSize <= 100000) ) {
+				$successMsg = 1;                  
+			}
+			return $successMsg;
+			
+			
 	}
-	
-	//Faisal: this block to check file size 
-	$fileSize=$_FILES['uploadedFile']['size'];
-	if( ($fileSize > 100000) ) //Faisal: Maximum file size  is 100 KB.
-                    {
-                     echo "The file size is invalid ";                  
-                    }
-	else 
-	{
-					echo "The file size is valid";
-	}
-}
 ?>
