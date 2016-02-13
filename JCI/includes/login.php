@@ -1,10 +1,16 @@
 <?PHP
-//Author: Ben Brackett
-//Email: brackeb1@ferris.edu
-//This is the login code, ALL OF IT I FOUND ONLINE AT PHP.ABOUT.COM
-//The actual location of the code is located below. It is written by Angela Bradley
-//https://github.com/Goatella/Simple-PHP-Login/blob/master/login.php
-//Date: 02/09/2016
+/*********************************************************************************************
+ * Original Author: Benjamin Brackett
+ * Date of origination: 02/09/2016
+ *
+ * Page created for use in the JCI Project.
+ * Project work is done as part of a Capstone class ISYS489: Ferris State University.
+ * Purpose: Login code
+ * Credit: https://github.com/Goatella/Simple-PHP-Login/blob/master/login.php
+ *
+ * Revision1.1: 02/13/2016 Author: Benjamin Brackett
+ * Description of change. Changed a lot to make it sessions instead of cookies
+ ********************************************************************************************/
 
 
 // Set the database access information as constants:
@@ -21,60 +27,48 @@ $conect = @mysqli_connect (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die ('Coul
 // Set the encoding...
 mysqli_set_charset($dbc, 'utf8');
 
+session_start(); 
 
-//Checks if there is a login cookie
-if(isset($_COOKIE['ID_your_site'])){ //if there is, it logs you in and directes you to the members page
- 	$username = $_COOKIE['ID_your_site']; 
- 	$pass = $_COOKIE['Key_your_site'];
- 	$check = mysqli_query($conect, "SELECT * FROM users WHERE username = '$username'")or die(mysql_error());
- 	while($info = mysqli_fetch_array( $check )){
- 		if ($pass != $info['password']){}
- 		else{
- 			header("Location: login.php");
-		}
- 	}
+//start tracking user
+$_SESSION['user'] = $user_id;
+
+//Checks if someone is logged in
+ if (isset($_SESSION['user'])) {
+   // logged in...WHERE TO DIRECT?
+   {
+    header("Location:index.php"); 
  }
+ 
+ 
  //if the login form is submitted 
- if (isset($_POST['submit'])) {
+ if (isset($_SESSION['submit'])) {
 	// makes sure they filled it in
- 	if(!$_POST['username']){
+ 	if(!$_SESSION['username']){
  		die('You did not fill in a username.');
  	}
- 	if(!$_POST['pass']){
+ 	if(!$_SESSION['pass']){
  		die('You did not fill in a password.');
  	}
  	// checks it against the database
  	if (!get_magic_quotes_gpc()){
- 		$_POST['email'] = addslashes($_POST['email']);
+ 		$_SESSION['email'] = addslashes($_SESSION['email']);
  	}
- 	$check = mysqli_query($conect, "SELECT * FROM users WHERE username = '".$_POST['username']."'")or die(mysql_error());
+ 	$check = mysqli_query($conect, "SELECT * FROM users WHERE username = '".$_SESSION['username']."'")or die(mysql_error());
  //Gives error if user dosen't exist
  $check2 = mysqli_num_rows($check);
  if ($check2 == 0){
 	die('That user does not exist in our database.<br /><br />If you think this is wrong <a href="login.php">try again</a>.');
 }
 while($info = mysqli_fetch_array( $check )){
-	$_POST['pass'] = stripslashes($_POST['pass']);
+	$_SESSION['pass'] = stripslashes($_SESSION['pass']);
  	$info['password'] = stripslashes($info['password']);
- 	$_POST['pass'] = md5($_POST['pass']);
+ 	$_SESSION['pass'] = md5($_SESSION['pass']);
 	//gives error if the password is wrong
- 	if ($_POST['pass'] != $info['password']){
+ 	if ($_SESSION['pass'] != $info['password']){
  		die('Incorrect password, please <a href="login.php">try again</a>.');
  	}
 	
-	else{ // if login is ok then we add a cookie 
-		$_POST['username'] = stripslashes($_POST['username']); 
-		$hour = time() + 3600; 
-		setcookie(ID_your_site, $_POST['username'], $hour); 
-		setcookie(Key_your_site, $_POST['pass'], $hour);	 
- 
-		//then redirect them to the members area 
-		header("Location: members.php"); 
-	}
-}
-}
-else{
-// if they are not logged in 
+	
 ?>
 
  <form action="<?php echo $_SERVER['PHP_SELF']?>" method="post"> 
@@ -105,6 +99,6 @@ else{
 
  </form> 
 
- <?php 
- }
- ?> 				  	 
+<?php
+include ("includes/Footer.php");
+?>				  	 
