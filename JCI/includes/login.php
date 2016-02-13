@@ -12,20 +12,7 @@
  * Description of change. Changed a lot to make it sessions instead of cookies
  ********************************************************************************************/
 
-
-// Set the database access information as constants:
-DEFINE ('DB_USER', 'db_connector');
-DEFINE ('DB_PASSWORD', 'rV);R8PriM*8');
-DEFINE ('DB_HOST', 'localhost');
-DEFINE ('DB_NAME', 'isys489c-BT1-JCI');
-
-
-//Connects to your Database 
-$conect = @mysqli_connect (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME) OR die ('Could not connect to MySQL: ' . mysqli_connect_error() );
-
-
-// Set the encoding...
-mysqli_set_charset($dbc, 'utf8');
+include ("dbConnector.php");
 
 session_start(); 
 
@@ -53,7 +40,7 @@ $_SESSION['user'] = $user_id;
  	if (!get_magic_quotes_gpc()){
  		$_SESSION['email'] = addslashes($_SESSION['email']);
  	}
- 	$check = mysqli_query($conect, "SELECT * FROM users WHERE username = '".$_SESSION['username']."'")or die(mysql_error());
+ 	$check = mysqli_query($dbc, "SELECT * FROM users WHERE username = '".$_SESSION['username']."'")or die(mysql_error());
  //Gives error if user dosen't exist
  $check2 = mysqli_num_rows($check);
  if ($check2 == 0){
