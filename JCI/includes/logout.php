@@ -16,8 +16,6 @@
 require_once('login.php');
 
 
-session_start();
-
  $username = '';
 if(isset($_SESSION['user'])) {
 	$username = $_SESSION['user'];
