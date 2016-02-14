@@ -17,18 +17,20 @@
 	</div>
 	<div id="navigation">
 		<ul>
+<!--Ben Brackett: changed login href link 
+<!--Ben Brackett: changed a spelling mistake for logout	-->
 <!-- <<<<<<< HEAD -->
 			<li><a href="Index.php">Home Page</a></li>
 			<li><a href="Register.php">Register</a></li>
-			<li><a href="Login.php">Login</a></li>
-			<li><a href="Logout.php">Lougout</a></li>
+			<li><a href="includes/LoginPage.php">Login</a></li>
+			<li><a href="Logout.php">Logout</a></li>
 			<li><a href="Contact.php">Contact Us</a></li>
 			
 			<!--
 =======
 			<li><a href="index.php">Home Page</a></li>
 			<li><a href="Register.php">Register</a></li>
-			<li><a href="login.php">Login</a></li>
+			<li><a href="includes/LoginPage.php">Login</a></li>
 			<li><a href="logout.php">Lougout</a></li>
 			<li><a href="contact.php">Contact Us</a></li>
 >>>>>>> ac3072db73b496b2e4cccd03501441faf0b1e589 -->
