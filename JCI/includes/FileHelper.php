@@ -1,8 +1,8 @@
 <?php
 	/*******************************************************************************************************************
 	 * 
-	 * Author: Mark Bowman
-	 * Creation Date: 2/04/2016
+	 * Original Author: Mark Bowman
+	 * Date of Origination: 02/04/2016
 	 * 
 	 * Functions: checkIfFileExistsOnFileServer($filePath), uploadFile($htmlElement, $fileStorageLocation)
 	 * , downloadFile($fileId)
@@ -17,16 +17,20 @@
 	 * Purpose: This function will recieve any number of files from an html form. This 
 	 * function will then insert the location and name of the file into a database, and then save the actual file on 
 	 * the file server. Finally, it will return $successMessage, which is described in the variables section.
-	 * Variables: $htmlElement contains all of the uploaded files. $fileStorageLocation is the destination file path
-	 * for the uploaded files. $uploadedFileNameSaveLocation is the destination file path for the uploaded files in
-	 * to the file name. $successMessage contains a number between 0 and 4; 0 means failure, 1 means success, 2 means 
-	 * database error, 3 means file server error, and 4 means no files were uploaded.
+	 * Variables: $htmlElement contains all of the uploaded files. 
+	 * 			$fileStorageLocation is the destination file path for the uploaded files. 
+	 * 			$uploadedFileNameSaveLocation is the destination file path for the uploaded files in to the file name. 
+	 * 			$successMessage contains a number between 0 and 4; 0 means failure, 1 means success, 2 means 
+	 * 				database error, 3 means file server error, and 4 means no files were uploaded.
 	 * 
 	 * Function: downloadFile($fileId)
 	 * Purpose: This function will recieve the database ID for a file. It will query the database for that ID.
 	 * If the ID exists in the database, it will return the file location for that record. Finally, this function will
 	 * force the file to be downloaded to the client's system.
 	 * Variables: $successMessage contains either a 0 or a 1; 0 means failure, and 1 means success.
+	 * 
+	 * Revision 1.1: 02/14/2016 Author: Mark Bowman
+	 * Description of Change: Modified comments and altered header.
 	 * 
 	 *******************************************************************************************************************/
 	//TODO fix this function
@@ -40,14 +44,14 @@
 	
 	// This function will upload a file from the host's computer to the server. 
 	// A string is returned that specifies if the upload was successful or not.
-	function uploadFile($divName, $fileStorageLocation) {
+	function uploadFile($htmlElement, $fileStorageLocation) {
 		//This is the message that will be returned.
 		$successMessage = 0;
 		
 		// This block is setting a counter for the number of 
 		// files and how many have been uploaded.
 		$fileUplaodSuccessCounter = 0;
-		$numberOfFilesUploaded = count($_FILES["$divName"]['tmp_name']);
+		$numberOfFilesUploaded = count($_FILES["$htmlElement"]['tmp_name']);
 		$i = 0;
 		// This allows access to the database connection information.
 		require('DbConnector.php');
@@ -55,8 +59,8 @@
 		for($i; $i < $numberOfFilesUploaded; $i++) {
 			// This block contains variables for the browser's temporary name
 			// for the uploaded file and the location it is going to be saved to.
-			$tempUploadedFileName = $_FILES["$divName"]['tmp_name'][$i];
-			$uploadedFileNameSaveLocation = $fileStorageLocation . "{$_FILES["$divName"]['name']["$i"]}";
+			$tempUploadedFileName = $_FILES["$htmlElement"]['tmp_name'][$i];
+			$uploadedFileNameSaveLocation = $fileStorageLocation . "{$_FILES["$htmlElement"]['name']["$i"]}";
 			$insertFileLocationSqlQuery = "INSERT INTO files (content, file_des, fileid)
 				VALUES ('$tempUploadedFileName', '$uploadedFileNameSaveLocation')";
 			// This block checks if a file has been submitted with the HTML form.
