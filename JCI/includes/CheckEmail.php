@@ -13,18 +13,20 @@
  * Variable: $email - it needs to be verified like this format address@domain.com*
  * 
  *
- * Revision1.1: 02/13/2016 Author: Faisal Alfadhli
- * Description of change. Chenged the return to True & False instead of 0 & 1.
+ * Revision1.1: 02/14/2016 Author: Faisal Alfadhli
+ * Description of change. Chenged the return to  0 & 1.
  ********************************************************************************************/
 
 	
 	Function checkEmail($email) {
+		$successMessage = 0;
     	//check if email address is well formed
 		if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-			return TRUE;
+			$successMessage = 1;
+			return $successMessage;
 		}
-		else {
-			return FALSE;
+		else{
+			return $successMessage;
 		}
   	}
 
