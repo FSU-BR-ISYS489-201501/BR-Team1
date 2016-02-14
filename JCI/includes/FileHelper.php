@@ -22,13 +22,14 @@
 	 * to the file name. $successMessage contains a number between 0 and 4; 0 means failure, 1 means success, 2 means 
 	 * database error, 3 means file server error, and 4 means no files were uploaded.
 	 * 
-	 * Funciton: downloadFile($fileId)
+	 * Function: downloadFile($fileId)
 	 * Purpose: This function will recieve the database ID for a file. It will query the database for that ID.
 	 * If the ID exists in the database, it will return the file location for that record. Finally, this function will
 	 * force the file to be downloaded to the client's system.
 	 * Variables: $successMessage contains either a 0 or a 1; 0 means failure, and 1 means success.
 	 * 
 	 *******************************************************************************************************************/
+	//TODO fix this function
 	function checkIfFileExistsOnFileServer($filePath) {
 		$counter = 1;
 		while (file_exists($filePath)) {
@@ -37,52 +38,52 @@
 		return $filePath . " ($counter)";
 	};
 	
-	// Mark Bowman: This function will upload a file from the host's computer to the server. 
+	// This function will upload a file from the host's computer to the server. 
 	// A string is returned that specifies if the upload was successful or not.
 	function uploadFile($divName, $fileStorageLocation) {
 		//This is the message that will be returned.
 		$successMessage = 0;
 		
-		// Mark Bowman: This block is setting a counter for the number of 
+		// This block is setting a counter for the number of 
 		// files and how many have been uploaded.
 		$fileUplaodSuccessCounter = 0;
 		$numberOfFilesUploaded = count($_FILES["$divName"]['tmp_name']);
 		$i = 0;
-		// Mark Bowman: This allows access to the database connection information.
+		// This allows access to the database connection information.
 		require('DbConnector.php');
-		// Mark Bowman: This block is going through all of the uploaded files.
+		// This block is going through all of the uploaded files.
 		for($i; $i < $numberOfFilesUploaded; $i++) {
-			// Mark bowman: This block contains variables for the browser's temporary name
+			// This block contains variables for the browser's temporary name
 			// for the uploaded file and the location it is going to be saved to.
 			$tempUploadedFileName = $_FILES["$divName"]['tmp_name'][$i];
 			$uploadedFileNameSaveLocation = $fileStorageLocation . "{$_FILES["$divName"]['name']["$i"]}";
 			$insertFileLocationSqlQuery = "INSERT INTO files (content, file_des, fileid)
 				VALUES ('$tempUploadedFileName', '$uploadedFileNameSaveLocation')";
-			// Mark Bowman: This block checks if a file has been submitted with the HTML form.
+			// This block checks if a file has been submitted with the HTML form.
 			if(file_exists($tempUploadedFileName)) {
-				// Mark Bowman: This block performs an SQL query to insert file
+				// This block performs an SQL query to insert file
 				// location into the database.
 				if ($stmt = mysqli_prepare($dbc, $selectFileLocationSqlQuery)) {
 					mysqli_stmt_execute($stmt);
-					
-					// Mark Bowman: This block moves the input file to the file server.
+					mysqli_stmt_close($stmt);
+					// This block moves the input file to the file server.
 					if(move_uploaded_file($tempUploadedFileName, 
 					$uploadedFileNameSaveLocation)) {
 						$fileUplaodSuccessCounter += 1;
 					}
 					else {
-						// Mark Bowman: This block ets the variable if the file could not be saved to the file server.
+						// This block ets the variable if the file could not be saved to the file server.
 						$successMessage = 2;
 					}	
 				} 	
 				else {
-					// Mark Bowman: This block sets the variable if the file location could not be saved to the database.
+					// This block sets the variable if the file location could not be saved to the database.
 					$successMessage = 3;
 				}	
 			}
 			else {
 				if ($i == 0) {
-					// Mark Bowman: This block sets the variable if no files were uploaded.
+					// This block sets the variable if no files were uploaded.
 					$successMessage = 4;
 				}
 				break;
@@ -90,7 +91,7 @@
 		}
 		
 		
-		// Mark Bowman: This block sets the variable if all files were successfully uploaded to the database and file server.
+		// This block sets the variable if all files were successfully uploaded to the database and file server.
 		if ($i != 0) {
 			if($i == $fileUplaodSuccessCounter) {
 				$successMessage = 1;
@@ -98,7 +99,7 @@
 		}
 		
 		
-		// Mark Bowman: This block closes the connection to the database.
+		// This block closes the connection to the database.
 		mysqli_close($dbc);
 		return $successMessage;
 	};
@@ -112,7 +113,7 @@
 		$selectFileLocationSqlQuery = "SELECT File_Des FROM Files WHERE FileID = ?;";
 		
 		
-		// Mark Bowman: This code was retrived from http://php.net/manual/en/mysqli.prepare.php.
+		// This code was retrived from http://php.net/manual/en/mysqli.prepare.php.
 		// A specific author was not specified, but the code from the manual was altered to 
 		// meet the needs of the JCI website.
 		if ($stmt = mysqli_prepare($dbc, $selectFileLocationSqlQuery)) {
@@ -121,7 +122,7 @@
 		    mysqli_stmt_bind_result($stmt, $filePath);
 		    mysqli_stmt_fetch($stmt);
 			
-			// Mark Bowman: This code was written by bebertjean at yahoo dot fr. This 
+			// This code was written by bebertjean at yahoo dot fr. This 
 			// code was retrived from http://php.net/manual/en/function.header.php.
 			header('Content-Type: application/download');
   			header("Content-Disposition: attachment; filename=\"" . basename($filePath) . "\"");
@@ -140,13 +141,13 @@
 	};
 	
 	
-	// Mark Bowman: This block calls the uploadFile function for testing.
+	// This block calls the uploadFile function for testing.
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$uploadMessage = uploadFile("uploadedFile", "../uploads/");
 		echo "$message";
 	}
 	
-	// Mark Bowman: This block calls the downloadFile function for testing.
+	// This block calls the downloadFile function for testing.
 	if ($_SERVER['REQUEST_METHOD'] == 'GET') {
 		$downloadMessage = downloadFile($fileId);
 	}
