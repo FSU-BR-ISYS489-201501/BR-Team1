@@ -15,6 +15,9 @@
  *
  * Revision1.1: 02/09/2016 Author: Shane Workman 
  * Added the checkPsw() function to the page.
+  * 
+ * Revision1.2: 02/14/2016 Author: Shane Workman 
+ * Added an email to the registered user. Next update should include validation of email with a token.
  ********************************************************************************************/
  include ("includes/Header.php");
  include ("includes/CheckPsw.php");
@@ -118,6 +121,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		} else {
 			//At some point a landing page of a profile sheet or default view needs to replace the following code!
 			echo "Thank you for registering for our site, $fName $lName more miraculous things to come!";
+			echo "An email has been sent to the address you provided for validation!";
+				
+				//The Following builds the email to be sent.
+				//Email needs to change to reflect a webhost generic email.
+				//Email validation with token to be added in the future. 
+				$defaultEmail = "webmailer@JCI.com";
+				$to = $email;
+				$subject = "JCI Registration Validation";
+				$message = "$fName $lName, Thank you for registering for JCI.";
+			    $headers = 'From: ' . $defaultEmail . "\r\n" .
+        		'Reply-To: ' . $defaultEmail . "\r\n" .
+        		'X-Mailer: PHP/' . phpversion();
+				//Builds email to send to the registered.
+    			mail($to, $subject, $message, $headers);
+			
+			
 		}		
 	}else {
 		//List each Error msg that is stored in the array.
