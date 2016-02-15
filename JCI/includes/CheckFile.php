@@ -14,32 +14,29 @@
  * Variable: $fileSize - it must be 100KB( this may need to be increades later).
  * 
  *
- * Revision1.1: 02/14/2016 Author: Faisal Alfadhli
- * Description of change. I chenge the return to 0 & 1.
+ * Revision 1.1: 02/14/2016 Author: Faisal Alfadhli
+ * Description of change: I chenge the return to 0 & 1.
+ * 
+ * Revision 1.2: 02/15/0016 Author: Mark Bowman
+ * Description of change: I reorganized the structure of the code in order to check
+ * for both file type and file size before returning 0 for false or 1 for true.
+ * Also altered the filetype to check the MIME types for word documents.
  ********************************************************************************************/
 
 
 	function checkFile($fileType, $fileSize) {
 		$successMessage = 0;
-		// this block to check file type 
-		$fileType=$_FILES['uploadedFile']['fileType'];
-		if ($fileType== "doc" OR $fileType== "docx") {
-			$successMessage = 1;   
-			return $successMessage;
-		} 
-		else{
-			return $successMessage;
-		}
+		// Mark Bowman: changed the structure of this block
+		// in order to check both file type and file size.
 		
-		//this block to check file size 
-		$fileSize=$_FILES['uploadedFile']['fileSize'];
-			// Maximum file size  is 100 KB.
-			if( ($fileSize <= 100000) ) {
-				$successMessage = 1; 
-				return $successMessage;                 
+		// this block to check file type 
+		if ($fileType== "application/msword" || 
+		$fileType== "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+			// this block to check file size
+			if($fileSize <= 10000000) {
+				$successMessage = 1;                 
 			}
-			else {
-				return $successMessage;
-			}
+		} 
+		return $successMessage;
 	}
 ?>
