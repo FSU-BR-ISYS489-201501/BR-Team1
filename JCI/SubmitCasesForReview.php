@@ -30,7 +30,7 @@
 	//Grab the db connector.
  	require ('../DbConnector.php');
 	//Set up as an arrary for errors
-	$Err = array();
+	$err = array();
 	// define variables
 	$author; 
 	$title;
@@ -43,48 +43,50 @@
 		for($i = 0; $i < 4; $i++) {
 			//$i > means at least 1 author is input.
 			// Mark Bowman: Changed authors[] to author[]
-			if (empty($_POST["author[$i]"]) && ($_POST["author[$i]"]==0)) {
-				$Err[]= 'Failed, at least one name is required';
+			if (empty($_POST["author"][$i]) && ($i==0)) {
+				$err[]= 'Failed, at least one name is required';
 			}
 			// check if name only contains letters and whitespace
-			else if (!preg_match("/^[a-zA-Z ]*$/", $_POST["author[$i]"])) {
-				$Err[]= 'Only letters and white space allowed';	
+			else if (!preg_match("/^[a-zA-Z ]*$/", $_POST["author"][$i])) {
+				$err[]= 'Only letters and white space allowed';	
 			}
 		} 
 
 		// check if the title text has no value 
 		if(empty($_POST["title"])) {
-			$Err[]= 'Type the title, please..!';
+			$err[]= 'Type the title, please..!';
 		}
 		
 		// check if the keywords text has no value 
 		// Mark Bowman: Changed keywords[] to keyword[]
 		for($i = 0; $i < 4; $i++) {
-			if(empty($_POST["keyword[$i]"]) && ($_POST["keyword[$i]"]==0)) {
-				$Err[]= 'Type the keywords, please..!';
+			if(empty($_POST["keyword"][$i]) && ($i==0)) {
+				$err[]= 'Type the keywords, please..!';
 			}
 		}
 		
 		// ceck if the text has no value
 		if(empty($_POST["email"])) {
-			$Err[]= 'Type your email, please..!';
+			$err[]= 'Type your email, please..!';
 		}
 		else{
 			// call the checkEmail function
 			if(!checkEmail($_POST["email"])){
-				$Err[]= 'Type a valid email address..!';
+				$err[]= 'Type a valid email address..!';
 			}
 		}
 	
 		// make this check all of the files being uploaded.
 		// Mark Bowman: Changed fileDoc[] to uploadedFile[].
 		for($i = 0; $i < 5; $i++) {
-			if (empty($_POST["uploadedFile[$i]"])) {
-				$Err[]= 'Failed, you must upload five files';
+			if (!file_exists($_FILES["uploadedFile"]['tmp_name'][$i])) {
+				$err[]= 'Failed, you must upload five files';
 			}
 			else {
 				// call checkFile function
-				if (!checkFile(($_POST["uploadedFile[$i]"]))) {
+				if (checkFile(($_FILES["uploadedFile"]["type"][$i]), 
+					$_FILES['uploadedFile']['size'][$i]) == 0) {
+						
 					$err[] = "File number $i is not a word document.";
 				}
 				
@@ -95,30 +97,30 @@
 		// If it does not, it uploads the files to the database and file server. It then sends
 		// a confirmation email to the submitting author and the editor on file and then displays
 		// a message on the page. If the $err array contains errors, it prints them on the screen.
-		if (empty($err[])) {
-			switch (uploadFile("uploadedFile", "../uploads/")) {
+		if (empty($err)) {
+			switch (uploadFile($dbc, "uploadedFile", "../uploads/")) {
 				case 0;
 					echo 'Upload failed. Contact the system administrator.';
 					break;
 				case 1;
-					$userMsg = 'Author: ' . $_POST['author[0]'] . "\n"
+					$userMsg = 'Author: ' . $_POST['author'][$i] . "\n"
 					. 'Thank you for your submission! You will be contacted shortly.';
 			 	 	// send email notification 
 					mail($_POST['email'],"File uploaded, thank you..!",$userMsg);
 					
 					$editorMsg = "Authors:";
 					for ($i = 0; $i < 4; $i++) {
-						$editorMsg += " " . $_POST['author[$i]'];
+						$editorMsg += " " . $_POST['author'][$i];
 					}
 					$editorMsg += " have made a new submission.";
 					mail($editorEmail,"New Submission",$editorMsg);
 					echo 'Thank you for your submission, you will recieve an email message shortly.';
 					break;
 				case 2;
-					echo 'Upload failed. There was an error with the database.';
+					echo 'Upload failed. There was an error with the file server.';
 					break;
 				case 3;
-					echo 'Upload failed. There was an error with the file server.';
+					echo 'Upload failed. There was an error with the database.';
 					break;
 				case 4;
 					echo 'Upload failed. No files were attached.';
@@ -126,7 +128,7 @@
 			}
 		}
 		else {
-			for($i = 0; $i < count($err[]); $i++) {
+			for($i = 0; $i < count($err); $i++) {
 				echo "$err[$i] <br>";
 			}
 		}
