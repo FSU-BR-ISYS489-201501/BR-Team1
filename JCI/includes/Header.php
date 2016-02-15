@@ -23,7 +23,7 @@
 			<li><a href="Index.php">Home Page</a></li>
 			<li><a href="Register.php">Register</a></li>
 			<li><a href="includes/LoginPage.php">Login</a></li>
-			<li><a href="Logout.php">Logout</a></li>
+			<li><a href="includes/logout.php">Logout</a></li>
 			<li><a href="Contact.php">Contact Us</a></li>
 			
 			<!--

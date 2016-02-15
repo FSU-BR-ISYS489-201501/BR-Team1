@@ -12,19 +12,34 @@
  * Description of change. Changed entire code in order to use sessions
  ********************************************************************************************/
 
- 
-require_once('login.php');
+ # Script 12.11 - logout.php #2
+// This page lets the user logout.
+// This version uses sessions.
 
+session_start(); // Access the existing session.
 
- $username = '';
-if(isset($_SESSION['user'])) {
-	$username = $_SESSION['user'];
-	echo $username . ", you are being logged out."; 
-	$user->logout();
-	header("Refresh: 3; url=index.php");
-	exit();
-} else {
-	header("Location: index.php");
-	exit();
+// If no session variable exists, redirect the user:
+if (!isset($_SESSION['USERID'])) {
+
+	// Need the functions:
+	require ('LoginFunction.php');
+	redirect_user();	
+	
+} else { // Cancel the session:
+
+	$_SESSION = array(); // Clear the variables.
+	session_destroy(); // Destroy the session itself.
+	setcookie ('PHPSESSID', '', time()-3600, '/', '', 0, 0); // Destroy the cookie.
+
 }
+
+// Set the page title and include the HTML header:
+$page_title = 'Logged Out!';
+include ('Header.php');
+
+// Print a customized message:
+echo "<h1>Logged Out!</h1>
+<p>You are now logged out!</p>";
+
+include ('Footer.php');
 ?>
