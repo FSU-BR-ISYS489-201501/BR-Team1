@@ -18,7 +18,8 @@
 	<div id="navigation">
 		<ul>
 <!--Ben Brackett: changed login href link 
-<!--Ben Brackett: changed a spelling mistake for logout	-->
+<!--Ben Brackett: changed a spelling mistake for logout
+<!--Ben Brackett: changed logout link-->
 <!-- <<<<<<< HEAD -->
 			<li><a href="Index.php">Home Page</a></li>
 			<li><a href="Register.php">Register</a></li>
