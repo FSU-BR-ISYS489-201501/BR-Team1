@@ -103,18 +103,18 @@
 					echo 'Upload failed. Contact the system administrator.';
 					break;
 				case 1;
-					$userMsg = 'Author: ' . $_POST['author'][$i] . "\n"
-					. 'Thank you for your submission! You will be contacted shortly.';
-			 	 	// send email notification 
-					mail($_POST['email'],"File uploaded, thank you..!",$userMsg);
-					
-					$editorMsg = "Authors:";
-					for ($i = 0; $i < 4; $i++) {
-						$editorMsg += " " . $_POST['author'][$i];
-					}
-					$editorMsg += " have made a new submission.";
-					mail($editorEmail,"New Submission",$editorMsg);
-					echo 'Thank you for your submission, you will recieve an email message shortly.';
+					// Send email
+					// $userMsg = "Author: {$_POST['author'][$i]}.Thank you for your submission! You will be contacted shortly.";
+			 	 	// // send email notification 
+					// mail($_POST['email'],"File uploaded, thank you..!",$userMsg, "markbowman100@gmail.com");
+// 					
+					// $editorMsg = "Authors:";
+					// for ($i = 0; $i < 4; $i++) {
+						// $editorMsg += " " . $_POST['author'][$i];
+					// }
+					// $editorMsg += " have made a new submission.";
+					// mail($editorEmail,"New Submission",$editorMsg, "markbowman100@gmail.com");
+					// echo 'Thank you for your submission, you will recieve an email message shortly.';
 					break;
 				case 2;
 					echo 'Upload failed. There was an error with the file server.';
