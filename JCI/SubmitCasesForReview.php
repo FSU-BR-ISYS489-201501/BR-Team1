@@ -13,11 +13,14 @@
  * Tutorialspoints.com/php/
  * www.php.net
  *
- * Revision: 02/14/2016 authors: Faisal $ Mark 
+ * Revision 1.1: 02/14/2016 authors: Faisal $ Mark 
  * Mark:edited some peices of code and still not finish. Faial: edited the variables names added input for title and include the some function. 
  * 
  * Revision 1.2: 02/15/2016 Author: Mark Bowman
  * Description of Change: Altered code to make it funcitonal
+ * 
+ * Revision 1.3: 02/16/2016 Author: Faisal
+ * Description of Change: added send email notifications to author and editor
  ********************************************************************************************/
 
 	include ("includes/Header.php");
@@ -48,7 +51,7 @@
 			}
 			// check if name only contains letters and whitespace
 			else if (!preg_match("/^[a-zA-Z ]*$/", $_POST["author"][$i])) {
-				$err[]= 'Only letters and white space allowed';	
+				$err[]= 'Only letters and white space are allowed';	
 			}
 		} 
 
@@ -103,19 +106,23 @@
 					echo 'Upload failed. Contact the system administrator.';
 					break;
 				case 1;
-					// Send email
-					// $userMsg = "Author: {$_POST['author'][$i]}.Thank you for your submission! You will be contacted shortly.";
-			 	 	// // send email notification 
-					// mail($_POST['email'],"File uploaded, thank you..!",$userMsg, "markbowman100@gmail.com");
-// 					
-					// $editorMsg = "Authors:";
+					// a meesage to be sent to author
+					$userMsg = "Author: {$_POST['author'][$i]}.Thank you for your submission! You will be contacted shortly.";
+					// a message to be sent to editor			
+					 $editorMsg = "Authors:{$_POST['author'][$i]}. made a new submission.";
+			 	 	 // send email notification to an author 
+					 mail($_POST['email'],"File uploaded, thank you..!" ,$userMsg, "do-not-reply@jci.com"); 
+					// send email notification to editor
+					 mail("alfadhf@ferris.edu", "New Submission", $editorMsg);
+					 // display Thank you Message
+					 echo 'Thank you for your submission, you will recieve an email message shortly.';
+					break;
 					// for ($i = 0; $i < 4; $i++) {
 						// $editorMsg += " " . $_POST['author'][$i];
 					// }
 					// $editorMsg += " have made a new submission.";
-					// mail($editorEmail,"New Submission",$editorMsg, "markbowman100@gmail.com");
-					echo 'Thank you for your submission, you will recieve an email message shortly.';
-					break;
+					//mail("alfadhf@ferris.edu","New Submission",$editorMsg, "markbowman100@gmail.com");
+					
 				case 2;
 					echo 'Upload failed. There was an error with the file server.';
 					break;
@@ -129,7 +136,7 @@
 		}
 		else {
 			for($i = 0; $i < count($err); $i++) {
-				echo "$err[$i] <br>";
+				echo '$err[$i] <br />';
 			}
 		}
 	}
