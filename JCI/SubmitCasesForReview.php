@@ -114,7 +114,7 @@
 					// }
 					// $editorMsg += " have made a new submission.";
 					// mail($editorEmail,"New Submission",$editorMsg, "markbowman100@gmail.com");
-					// echo 'Thank you for your submission, you will recieve an email message shortly.';
+					echo 'Thank you for your submission, you will recieve an email message shortly.';
 					break;
 				case 2;
 					echo 'Upload failed. There was an error with the file server.';
