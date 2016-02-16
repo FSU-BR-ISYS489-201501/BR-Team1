@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 	// Need two helper files:
 	require ('includes/LoginFunction.php');
-	require ('DbConnector.php');
+	require ('../DbConnector.php');
 		
 	// Check the login:
 	list ($check, $data) = check_login($dbc, $_POST['email'], $_POST['pass']);
