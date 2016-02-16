@@ -1,23 +1,26 @@
 <?php
  /*********************************************************************************************
- * Original Author: Shane Workman
- * Date of origination: 02/06/2016
- *
- * Page created for use in the JCI Project.
- * Project work is done as part of a Capstone class ISYS489: Ferris State University.
- * Purpose: This page is used to collect user information whom wish to register for the JCI site.
- * Credit: A bulk of this code is derived in some part from code I used and learned in ISYS288.
- *			We used Larry Uldman's PHP book
- * 
- * Function:  checkPsw($pass)
- * Purpose: To make sure the password supplied by the user meets complexity.
- * Variable: $pass is the variable passed into the function from the form text pass1.
- *
- * Revision1.1: 02/09/2016 Author: Shane Workman 
- * Added the checkPsw() function to the page.
+  * Original Author: Shane Workman
+  * Date of origination: 02/06/2016
+  *
+  * Page created for use in the JCI Project.
+  * Project work is done as part of a Capstone class ISYS489: Ferris State University.
+  * Purpose: This page is used to collect user information whom wish to register for the JCI site.
+  * Credit: A bulk of this code is derived in some part from code I used and learned in ISYS288.
+  *			We used Larry Uldman's PHP book
   * 
- * Revision1.2: 02/14/2016 Author: Shane Workman 
- * Added an email to the registered user. Next update should include validation of email with a token.
+  * Function:  checkPsw($pass)
+  * Purpose: To make sure the password supplied by the user meets complexity.
+  * Variable: $pass is the variable passed into the function from the form text pass1.
+  *
+  * Revision1.1: 02/09/2016 Author: Shane Workman 
+  * Added the checkPsw() function to the page.
+  * 
+  * Revision1.2: 02/14/2016 Author: Shane Workman 
+  * Added an email to the registered user. Next update should include validation of email with a token.
+  * 
+  * Revision1.3: 02/15/2016 Author: Shane Workman
+  * Fixed A bug in the line 161-169 sticky not working correctly.
  ********************************************************************************************/
  include ("includes/Header.php");
  include ("includes/CheckPsw.php");
@@ -32,15 +35,13 @@
 //Begin Validation... 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
-	//Grab the db connector.
- 	require ('../DbConnector.php');
- 
  	//Set up Error msg array.
  	$err[] = array();
 	
+
 	//Set prefix sql string.
 	$prefix = mysqli_real_escape_string($dbc, trim($_POST['prefix']));
-	
+
 	//Check if the text box has a value or set it to null.
 	if (empty($_POST['title'])) {
 		$title = 'NULL';
@@ -156,13 +157,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	<fieldset>
 		<p>Prefix: 
 		<select name="prefix">
-			<option <?php if($prefixVar=="") echo'selected="selected"'; ?>    value=""></option>
-			<option <?php if($prefixVar=="Ms") echo'selected="selected"'; ?>    value="Ms">Ms</option>
-			<option <?php if($prefixVar=="Mrs") echo'selected="selected"'; ?>    value="Mrs">Mrs</option>
-			<option <?php if($prefixVar=="Miss") echo'selected="selected"'; ?>    value="Miss">Miss</option>
-			<option <?php if($prefixVar=="Mr") echo'selected="selected"'; ?>    value="Mr">Mr</option>
-			<option <?php if($prefixVar=="Sir") echo'selected="selected"'; ?>    value="Sir">Sir</option>
-			<option <?php if($prefixVar=="Prof") echo'selected="selected"'; ?>    value="Prof">Prof</option>
+			<option <?php if(isset($_POST['prefix'])=="NULL") echo'selected="selected"'; ?>    value="NULL"></option>
+			<option <?php if(isset($_POST['prefix'])=="Ms") echo'selected="selected"'; ?>    value="Ms">Ms</option>
+			<option <?php if(isset($_POST['prefix'])=="Mrs") echo'selected="selected"'; ?>    value="Mrs">Mrs</option>
+			<option <?php if(isset($_POST['prefix'])=="Miss") echo'selected="selected"'; ?>    value="Miss">Miss</option>
+			<option <?php if(isset($_POST['prefix'])=="Mr") echo'selected="selected"'; ?>    value="Mr">Mr</option>
+			<option <?php if(isset($_POST['prefix'])=="Sir") echo'selected="selected"'; ?>    value="Sir">Sir</option>
+			<option <?php if(isset($_POST['prefix'])=="Prof") echo'selected="selected"'; ?>    value="Prof">Prof</option>
 		</select></p>
 		<p>Title: <input type="text" name="title" size="15" maxlength="50" value="<?php if (isset($_POST['title'])) echo $_POST['title']; ?>" /></p>
 		<p>First Name: <input type="text" name="fName" size="15" maxlength="50" value="<?php if (isset($_POST['fName'])) echo $_POST['fName']; ?>" /></p>
