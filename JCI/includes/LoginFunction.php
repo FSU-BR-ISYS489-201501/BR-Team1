@@ -30,7 +30,7 @@
  * Description of change. Also add //Name: comments above your change within the code.
  ********************************************************************************************/
 
-function redirect_user ($page = 'index.php') {
+function redirect_user ($page = 'Index.php') {
 
 	// Start defining the URL...
 	// URL is http:// plus the host name plus the current directory:

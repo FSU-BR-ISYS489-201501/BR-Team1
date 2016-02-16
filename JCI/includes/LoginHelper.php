@@ -9,40 +9,41 @@
  * Purpose: Put code here for functions that help in the login, logout, and register processes
  * Credit: Give any attributation to code used within, not created by you.
  *
- * Function:  check_login($myVar, $varTwo)
+ * Function:  CheckLogin($USERID)
  * Purpose: Check if user is logged in
- * Variable: $_SESSION['user'] - identifies session.
+ * Variable: $_SESSION['USERID'] - identifies session.
  * Credit: http://stackoverflow.com/questions/18537016/php-check-if-user-is-logged-in-with-a-function
  	
  *
- * Function:  is_digits($anotherVar)
+ * Function:  CheckDigits($anotherVar)
  * Purpose: Checks to see if field only has digits.
  * Variable: $element - The character in question.
  * Credit: https://davidwalsh.name/php-validatie-numeric-digits 
  *
- * Revision1.1: 02/12/2016 Author: Benjamin Brackett
- * Description of change: changed $_SESSION['login'] to $_SESSION['user']
+ * Revision1.1: 02/16/2016 Author: Benjamin Brackett
+ * Description of change: changed $_SESSION['login'] to $_SESSION['USERID']
+	 * 						Also modified code to return 0s and 1s
  ********************************************************************************************/
-
-	if(check_login()) {
-  echo 'You are in!';
-} else {
-    header('Location: login.php');
-    exit;
+//1 being true, 0 being false
+//If user ID is nonexistant then it returns a 0
+//If one does exist then it returns a 1 
+//Ben Brackett: modified code to return 0s and 1s
+function CheckLogin($USERID) {
+  if (empty($_SESSION['USERID'])) {
+  	return 0;
+  }
+  	else {
+  		1;
+  	}
 }
-//Benjamin Brackett: Changed $_SESSION['login'] to $_SESSION['user']
-function check_login () {
-    if(isset($_SESSION['user'] && $_SESSION['user'] != '')) {
-       return true;
-    } else {
-       false;
-    }
-}
-?>
-
-
-<?php
-
-function is_digits($element) {
-	return !preg_match ("/[^0-9]/", $element);
+//Matchs input to 0-9. If it doesn't match it returns a 0 meaning false.
+//If it does match it returns a 1 meaning true.
+//Ben Brackett: modified code to return 0s and 1s
+function CheckDigits($element) {
+	if (!preg_match ("/[^0-9]/", $element)) {
+	return 0;
+	}
+		else {
+			1;
+		}
 }
