@@ -10,7 +10,7 @@
  * 			(Kindle Location 30). Pearson Education. Kindle Edition.
  *
  * Revision1.1: 02/14/2016 Author: Benjamin Brackett
- * Description of change. Changed entire code in order to use sessions
+ * Removed cookies code and replaced it with sessions logout code
  ********************************************************************************************/
 
 session_start(); // Access the existing session.
