@@ -20,7 +20,7 @@
  * Description of Change: Altered code to make it funcitonal
  * 
  * Revision 1.3: 02/16/2016 Author: Faisal
- * Description of Change: added send email notifications to author and editor
+ * Description of Change: added email function to send notifications to author and editor
  ********************************************************************************************/
 
 	include ("includes/Header.php");
