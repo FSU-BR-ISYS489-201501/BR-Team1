@@ -5,16 +5,13 @@
  *
  * Page created for use in the JCI Project.
  * Project work is done as part of a Capstone class ISYS489: Ferris State University.
- * Purpose: This is the logout page using sessions
- * Credit: https://github.com/GobleB/PHP-Login-with-Sessions/blob/master/logout.php
+ * Purpose: This page lets the user logout. This version uses sessions.
+ * Credit: Ullman, Larry (2011-09-13). PHP and MySQL for Dynamic Web Sites, Fourth Edition: Visual QuickPro Guide (4th Edition) 
+ * 			(Kindle Location 30). Pearson Education. Kindle Edition.
  *
- * Revision1.1: 02/12/2016 Author: Benjamin Brackett
+ * Revision1.1: 02/14/2016 Author: Benjamin Brackett
  * Description of change. Changed entire code in order to use sessions
  ********************************************************************************************/
-
- # Script 12.11 - logout.php #2
-// This page lets the user logout.
-// This version uses sessions.
 
 session_start(); // Access the existing session.
 
@@ -22,7 +19,7 @@ session_start(); // Access the existing session.
 if (!isset($_SESSION['USERID'])) {
 
 	// Need the functions:
-	require ('LoginFunction.php');
+	require ('includes/LoginFunction.php');
 	redirect_user();	
 	
 } else { // Cancel the session:
@@ -35,11 +32,11 @@ if (!isset($_SESSION['USERID'])) {
 
 // Set the page title and include the HTML header:
 $page_title = 'Logged Out!';
-include ('Header.php');
+include ('includes/Header.php');
 
 // Print a customized message:
 echo "<h1>Logged Out!</h1>
 <p>You are now logged out!</p>";
 
-include ('Footer.php');
+include ('includes/Footer.php');
 ?>
