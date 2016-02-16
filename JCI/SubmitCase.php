@@ -13,11 +13,14 @@
  * Tutorialspoints.com/php/
  * www.php.net
  *
- * Revision: 02/14/2016 authors: Faisal $ Mark 
+ * Revision 1.1: 02/14/2016 authors: Faisal $ Mark 
  * Mark:edited some peices of code and still not finish. Faial: edited the variables names added input for title and include the some function. 
  * 
  * Revision 1.2: 02/15/2016 Author: Mark Bowman
  * Description of Change: Altered code to make it funcitonal
+ * 
+ * Revision 1.3: 02/16/2016 Author: Faisal
+ * Description of Change: added email function to send notifications to author and editor
  ********************************************************************************************/
 
 	include ("includes/Header.php");
@@ -34,21 +37,20 @@
 	// define variables
 	$author; 
 	$title;
-	$fileDoc;
 	$email;
 	
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		//TODO: make this check all of the authors names being submitted.
-		//TODO: require 1 author, but allow multiple. if 1 author isn't input, show an error. If 2 authors aren't, don't show an error, but don't include that information in the database.
+		// make this check all of the authors names being submitted.
+		// require 1 author, but allow multiple. if 1 author isn't input, show an error. If 2 authors aren't, don't show an error, but don't include that information in the database.
 		for($i = 0; $i < 4; $i++) {
 			//$i > means at least 1 author is input.
 			// Mark Bowman: Changed authors[] to author[]
 			if (empty($_POST["author"][$i]) && ($i==0)) {
-				$err[]= 'Failed, at least one name is required';
+                            $err[]= 'Failed, at least one name is required';
 			}
 			// check if name only contains letters and whitespace
 			else if (!preg_match("/^[a-zA-Z ]*$/", $_POST["author"][$i])) {
-				$err[]= 'Only letters and white space allowed';	
+                            $err[]= 'Only letters and white space are allowed';	
 			}
 		} 
 
@@ -99,37 +101,52 @@
 		// a message on the page. If the $err array contains errors, it prints them on the screen.
 		if (empty($err)) {
 			switch (uploadFile($dbc, "uploadedFile", "../uploads/")) {
-				case 0;
+				case 0:
 					echo 'Upload failed. Contact the system administrator.';
 					break;
-				case 1;
-					// Send email
-					// $userMsg = "Author: {$_POST['author'][$i]}.Thank you for your submission! You will be contacted shortly.";
-			 	 	// // send email notification 
-					// mail($_POST['email'],"File uploaded, thank you..!",$userMsg, "markbowman100@gmail.com");
-// 					
-					// $editorMsg = "Authors:";
-					// for ($i = 0; $i < 4; $i++) {
-						// $editorMsg += " " . $_POST['author'][$i];
-					// }
-					// $editorMsg += " have made a new submission.";
-					// mail($editorEmail,"New Submission",$editorMsg, "markbowman100@gmail.com");
-					echo 'Thank you for your submission, you will recieve an email message shortly.';
+				case 1:
+						{
+							$userMsg = "Author: {$_POST['author'][$i]}.Thank you for your submission! You will be contacted shortly.";
+
+							// a message to be sent to editor			
+							$editorMsg = "Authors: {$_POST['author'][$i]}. made a new submission.";
+
+							// email header
+							$header = "do-not-reply@jci.com\r\n";
+
+							// send email notification to an author 
+							$rtnVal = mail($_POST['email'], "File uploaded, thank you..!" ,$userMsg, $header); 
+
+							if ($rtnVal == true) {
+								// send email notification to editor
+								$rtnVal = mail("alfadhf@ferris.edu", "New Submission", $editorMsg);
+
+								if ($rtnVal == true) {
+									// display Thank you Message
+									echo "Thank you for your submission, you will recieve an email message shortly."; 
+								}  else  {
+									echo "ERROR: Message not sent to editor.";
+								}
+							} else {
+								echo "ERROR: Messages not sent.";
+							}
+						}
 					break;
-				case 2;
+					
+				case 2:
 					echo 'Upload failed. There was an error with the file server.';
 					break;
-				case 3;
+				case 3:
 					echo 'Upload failed. There was an error with the database.';
 					break;
-				case 4;
+				case 4:
 					echo 'Upload failed. No files were attached.';
 					break;
 			}
 		}
 		else {
 			for($i = 0; $i < count($err); $i++) {
-				echo "$err[$i] <br>";
+				echo '$err[$i] <br />';
 			}
 		}
 	}
