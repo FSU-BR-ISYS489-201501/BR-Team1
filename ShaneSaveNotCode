@@ -1,0 +1,41 @@
+http://stackoverflow.com/a/6231702
+
+The triple-equal operator is type-sensitive. So when you check:
+
+if ($check === false)
+... it will only be true if $check is the boolean value "false". Wheras
+
+if ($check == false)
+... is not checking specifically for boolean false, but a "falsey" value. False, in PHP, equals zero, null is "falsey", as is an empty string ("" == false == null, but "" !== false !== null). So:
+
+$check = 0;
+if ($check == false)
+... evaluates to true.
+
+The ! prefix operator is equivalent to ==. So when zero needs to be a discrete value from boolean false, the ! and == operators are not sufficient.
+
+Check out the docs for comparison operators here: http://php.net/manual/en/language.operators.comparison.php
+
+It is best practice to make your conditional checks as specific as possible. This is not only to avoid potential oversights in your logic, but also to make the code more maintainable for future developers. Imagine encountering a line of code like this:
+
+if (check_something($variable)) {
+  // do stuff
+}
+I can assume the check_something function is returning a boolean value true. But, unless I go dig up the check_something function, it could also be returning an non-empty string, a number... who knows! Much more clear to do this:
+
+if (check_something($variable) === true) {
+  // do stuff
+}
+Now, just by looking, I know that the check_something function is expected to return a true value. I might not know what the function does, but at least it is exactly clear what it returns. Another common example you see EVERYWHERE:
+
+if (!$_GET['value']) {
+  // do something
+}
+This is a pet peeve. A conditional statement should always be comparing things clearly. So, you'd want to do:
+
+if (array_key_exists('value', $_GET) !== false && $_GET['value'] === '1') {
+  // do something
+}
+Now, you can tell that I am not only checking to see if the query string parameter exists, but also whether it is equal to a specific value.
+
+In summary, the single ! prefix operator and the == operator are rarely useful and always ambiguous. You're best served by writing your code in a way that documents itself, or is translatable into human language to express the logic at play. A direct comparison using either !== or ===, where appropriate, is a good habit, good practice, and the least likely to produce unexpected results in your code.
