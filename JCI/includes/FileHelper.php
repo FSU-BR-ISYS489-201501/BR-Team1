@@ -61,7 +61,7 @@
 			// for the uploaded file and the location it is going to be saved to.
 			$tempUploadedFileName = $_FILES["$htmlElement"]['tmp_name'][$i];
 			$uploadedFileNameSaveLocation = $fileStorageLocation . "{$_FILES["$htmlElement"]['name']["$i"]}";
-			$insertFileLocationSqlQuery = "INSERT INTO files (content, file_des)
+			$insertFileLocationSqlQuery = "INSERT INTO Files (File_Location, File_Des)
 				VALUES ('$tempUploadedFileName', '$uploadedFileNameSaveLocation')";
 			// This block checks if a file has been submitted with the HTML form.
 			if(file_exists($tempUploadedFileName)) {

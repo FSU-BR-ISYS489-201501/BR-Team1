@@ -28,15 +28,12 @@
  
  //Grab the db connector.
  require ('../DbConnector.php');
- 
- //Set up Error msg array.
- $err[] = array();
 	
 //Begin Validation... 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
  	//Set up Error msg array.
- 	$err[] = array();
+ 	$err = array();
 	
 
 	//Set prefix sql string.
@@ -109,8 +106,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	//Check if the array is empty, no ERRORS?
 	If(empty($err)){
 		//Creat the query that dumps info into the DB.
-		$query = "Insert INTO users (prefix, Fname, Lname, suffix, email, employer, title, membercode, regdate, password_hash, password_salt)
-				VALUES ('$prefix, $fName, $lName, $suffix, $email, $uni, $title, $mem, NOW(), $pass, $pass)";
+		$query = "INSERT INTO users (prefix, Fname, Lname, suffix, email, employer, title, membercode, regdate, password_hash, password_salt)
+				VALUES ('$prefix', '$fName', '$lName', '$suffix', '$email', '$uni', '$title', '$mem', NOW(), '$pass', '$pass');";
 				
 		//Run the query...
 		$run = @mysqli_query($dbc, $query);
@@ -138,22 +135,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     			mail($to, $subject, $message, $headers);
 			
 			
-		}		
-	}else {
-		//List each Error msg that is stored in the array.
-		Foreach($err as $m)
-		{
-			echo " $m<br />";
-		} echo "Please correct the errors.";
+			}	
+		}else {
+			//List each Error msg that is stored in the array.
+			Foreach($err as $m)
+			{
+				echo " $m <br />";
+			} echo "Please correct the errors.";
 		
+		}
 	}
-	
 	//Close the DB and wrap up shop!
-	mysqli_close($dbc);
-}				
+	mysqli_close($dbc);			
  ?>
 <h1>Register</h1>
-<form action="register.php" id="regiForm" method="post">
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" id="regiForm" method="post">
 	<fieldset>
 		<p>Prefix: 
 		<select name="prefix">
@@ -174,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		<p>SCR Member ID: <input type="text" name="memberID" size="15" maxlength="50" value="<?php if (isset($_POST['memberID'])) echo $_POST['memberID']; ?>" /></p>
 		<p>Password: <input type="password" name="pass1" size="15" maxlength="20" value="<?php if (isset($_POST['pass1'])) echo $_POST['pass1']; ?>"  /></p>
 		<p>Confirm Password: <input type="password" name="pass2" size="15" maxlength="20" value="<?php if (isset($_POST['pass2'])) echo $_POST['pass2']; ?>"  /></p>
-		<p><input type="submit" value="Register" /></p>
+		<p><input type="submit" value="Submit" /></p>
 	</fieldset>
 </form>
 

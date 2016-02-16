@@ -18,10 +18,11 @@
  function checkPsw($pass)
  {
  	// uses a regex expression, Checks for 10 chars, one number, one special char, one lower, one capital!
- 	if (!preg_match_all('$\S*(?=\S{10,})(?=\S*[\d])(?=\S*[\W])\S*)(?=\S*[a-z])(?=\S*[A-Z])$', $pass))
-	{
-		// doesnt match return false
-		return FALSE;
-	} else { return TRUE; }
+ 	// if (!preg_match_all('$\S*(?=\S{10,})(?=\S*[\d])(?=\S*[\W])\S*)(?=\S*[a-z])(?=\S*[A-Z])$', $pass))
+	// {
+		// // doesnt match return false
+		// return FALSE;
+	// } else { return TRUE; }
+	return true;
  }
  ?>
