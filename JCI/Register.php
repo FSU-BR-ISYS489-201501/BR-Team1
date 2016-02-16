@@ -35,8 +35,6 @@
 //Begin Validation... 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
-	//Grab the db connector.
- 	require ('../DbConnector.php');
  	//Set up Error msg array.
  	$err[] = array();
 	
