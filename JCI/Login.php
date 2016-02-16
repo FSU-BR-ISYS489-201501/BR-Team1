@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$_SESSION['agent'] = md5($_SERVER['HTTP_USER_AGENT']);
 
 		// Redirect:
-		redirect_user('index.php');
+		redirect_user('Index.php');
 			
 	} else { // Unsuccessful!
 
@@ -48,5 +48,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 } // End of the main submit conditional.
 
 // Create the page:
-include ('includes/LoginPage.php');
+include ('LoginPage.php');
 ?>
