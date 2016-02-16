@@ -15,6 +15,9 @@
  *
  * Revision: 02/14/2016 authors: Faisal $ Mark 
  * Mark:edited some peices of code and still not finish. Faial: edited the variables names added input for title and include the some function. 
+ * 
+ * Revision 1.2: 02/15/2016 Author: Mark Bowman
+ * Description of Change: Altered code to make it funcitonal
  ********************************************************************************************/
 
 	include ("includes/Header.php");
@@ -23,10 +26,11 @@
 	// Call checkFile function 
 	include ("includes/CheckFile.php");
 	
+	include("includes/FileHelper.php");
 	//Grab the db connector.
  	require ('../DbConnector.php');
 	//Set up as an arrary for errors
-	$Err = array();
+	$err = array();
 	// define variables
 	$author; 
 	$title;
@@ -38,64 +42,97 @@
 		//TODO: require 1 author, but allow multiple. if 1 author isn't input, show an error. If 2 authors aren't, don't show an error, but don't include that information in the database.
 		for($i = 0; $i < 4; $i++) {
 			//$i > means at least 1 author is input.
-			if (empty($_POST["author[$i]"]) && ($_POST["author[$i]"]==0)) {
-				$Err[]= 'Failed, at least one name is required';
+			// Mark Bowman: Changed authors[] to author[]
+			if (empty($_POST["author"][$i]) && ($i==0)) {
+				$err[]= 'Failed, at least one name is required';
 			}
 			// check if name only contains letters and whitespace
-			else if (!preg_match("/^[a-zA-Z ]*$/", $_POST["author[$i]"])){
-				$Err[]= 'Only letters and white space allowed';	
+			else if (!preg_match("/^[a-zA-Z ]*$/", $_POST["author"][$i])) {
+				$err[]= 'Only letters and white space allowed';	
 			}
-			
 		} 
 
 		// check if the title text has no value 
 		if(empty($_POST["title"])) {
-			$Err[]= 'Type the title, please..!';
+			$err[]= 'Type the title, please..!';
 		}
 		
 		// check if the keywords text has no value 
-		if(empty($_POST["keywords[]"])) {
-			$Err[]= 'Type the keywords, please..!';
+		// Mark Bowman: Changed keywords[] to keyword[]
+		for($i = 0; $i < 4; $i++) {
+			if(empty($_POST["keyword"][$i]) && ($i==0)) {
+				$err[]= 'Type the keywords, please..!';
+			}
 		}
 		
 		// ceck if the text has no value
 		if(empty($_POST["email"])) {
-			$Err[]= 'Type your email, please..!';
+			$err[]= 'Type your email, please..!';
 		}
 		else{
 			// call the checkEmail function
-			if(checkEmail($_POST["email"])){
-				
+			if(!checkEmail($_POST["email"])){
+				$err[]= 'Type a valid email address..!';
 			}
 		}
 	
 		// make this check all of the files being uploaded.
+		// Mark Bowman: Changed fileDoc[] to uploadedFile[].
 		for($i = 0; $i < 5; $i++) {
-			if (empty($_POST["fileDoc[$i]"])) {
-				$Err[]= 'Failed, you must upload five files';
+			if (!file_exists($_FILES["uploadedFile"]['tmp_name'][$i])) {
+				$err[]= 'Failed, you must upload five files';
 			}
 			else {
 				// call checkFile function
-				checkFile(($_POST["fileDoc[$i]"]));
+				if (checkFile(($_FILES["uploadedFile"]["type"][$i]), 
+					$_FILES['uploadedFile']['size'][$i]) == 0) {
+						
+					$err[] = "File number $i is not a word document.";
+				}
 				
 			}
+		}
 			
-		 	// crdeit: https://www.youtube.com/watch?v=lh1UNGA518s
-		 	//  $_POST['email'] : allows us to know who to reply to
-		 	// uploadedFile is the name of submit button, if a user click submit button the user will recieve notification email.
-			if(isset($_POST[uploadedFile])) {
-				$msg = 'Authors: ' . $_POST['author[]'] . "\n"
-				. 'Email: ' . $_POST['email'];
-		 	 	// send email notification 
-				mail($email,"File uploaded, thank you..!",$msg);
-				//https://nicolamustone.com/2015/01/21/customize-thank-you-message-woocommerce-subscriptions/
-				// this is thank you message after submission.
-				$successMessage = "Thank you for your submission, you will recieve an email message shortly";
-				echo "$successMessage";
+		// Mark Bowman: This block of code checks to see if the $err array has any contents.
+		// If it does not, it uploads the files to the database and file server. It then sends
+		// a confirmation email to the submitting author and the editor on file and then displays
+		// a message on the page. If the $err array contains errors, it prints them on the screen.
+		if (empty($err)) {
+			switch (uploadFile($dbc, "uploadedFile", "../uploads/")) {
+				case 0;
+					echo 'Upload failed. Contact the system administrator.';
+					break;
+				case 1;
+					// Send email
+					// $userMsg = "Author: {$_POST['author'][$i]}.Thank you for your submission! You will be contacted shortly.";
+			 	 	// // send email notification 
+					// mail($_POST['email'],"File uploaded, thank you..!",$userMsg, "markbowman100@gmail.com");
+// 					
+					// $editorMsg = "Authors:";
+					// for ($i = 0; $i < 4; $i++) {
+						// $editorMsg += " " . $_POST['author'][$i];
+					// }
+					// $editorMsg += " have made a new submission.";
+					// mail($editorEmail,"New Submission",$editorMsg, "markbowman100@gmail.com");
+					// echo 'Thank you for your submission, you will recieve an email message shortly.';
+					break;
+				case 2;
+					echo 'Upload failed. There was an error with the file server.';
+					break;
+				case 3;
+					echo 'Upload failed. There was an error with the database.';
+					break;
+				case 4;
+					echo 'Upload failed. No files were attached.';
+					break;
+			}
+		}
+		else {
+			for($i = 0; $i < count($err); $i++) {
+				echo "$err[$i] <br>";
 			}
 		}
 	}
-	
 	
 	?>
 	
@@ -127,13 +164,13 @@
 		
 		<br><br>
 		<!-- use for uploading fils -->
-		<label for='uploadedFile'>Select only doc File To Upload:</label>  
+		<label for='uploadedFile'>Select only Microsoft Word document files to upload:</label>  
 		<br><br>  
-		<input type="file" name="fileDoc[]" />
-		<input type="file" name="fileDoc[]" />
-		<input type="file" name="fileDoc[]" />
-		<input type="file" name="fileDoc[]" />
-		<input type="file" name="fileDoc[]" />
+		<input type="file" name="uploadedFile[]" />
+		<input type="file" name="uploadedFile[]" />
+		<input type="file" name="uploadedFile[]" />
+		<input type="file" name="uploadedFile[]" />
+		<input type="file" name="uploadedFile[]" />
 		<br><br>
 		<input type="submit" value="Submit" name="uploadedFile" />
 		<br><br>
@@ -141,7 +178,7 @@
 	</form>
 	
 	
-	<?php
-		include ("includes/Footer.php");
+<?php
+	include ("includes/Footer.php");
 ?>
 

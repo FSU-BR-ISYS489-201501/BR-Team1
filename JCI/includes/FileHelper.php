@@ -32,6 +32,8 @@
 	 * Revision 1.1: 02/14/2016 Author: Mark Bowman
 	 * Description of Change: Modified comments and altered header.
 	 * 
+	 * Revision 1.2: 02/15/2016 Author: Mark Bowman
+	 * Description of Change: Added database connection into parameters for downloadFile and uploadFile
 	 *******************************************************************************************************************/
 	//TODO fix this function
 	function checkIfFileExistsOnFileServer($filePath) {
@@ -44,7 +46,7 @@
 	
 	// This function will upload a file from the host's computer to the server. 
 	// A string is returned that specifies if the upload was successful or not.
-	function uploadFile($htmlElement, $fileStorageLocation) {
+	function uploadFile($dbc, $htmlElement, $fileStorageLocation) {
 		//This is the message that will be returned.
 		$successMessage = 0;
 		
@@ -53,21 +55,19 @@
 		$fileUplaodSuccessCounter = 0;
 		$numberOfFilesUploaded = count($_FILES["$htmlElement"]['tmp_name']);
 		$i = 0;
-		// This allows access to the database connection information.
-		require('DbConnector.php');
 		// This block is going through all of the uploaded files.
 		for($i; $i < $numberOfFilesUploaded; $i++) {
 			// This block contains variables for the browser's temporary name
 			// for the uploaded file and the location it is going to be saved to.
 			$tempUploadedFileName = $_FILES["$htmlElement"]['tmp_name'][$i];
 			$uploadedFileNameSaveLocation = $fileStorageLocation . "{$_FILES["$htmlElement"]['name']["$i"]}";
-			$insertFileLocationSqlQuery = "INSERT INTO files (content, file_des, fileid)
+			$insertFileLocationSqlQuery = "INSERT INTO files (content, file_des)
 				VALUES ('$tempUploadedFileName', '$uploadedFileNameSaveLocation')";
 			// This block checks if a file has been submitted with the HTML form.
 			if(file_exists($tempUploadedFileName)) {
 				// This block performs an SQL query to insert file
 				// location into the database.
-				if ($stmt = mysqli_prepare($dbc, $selectFileLocationSqlQuery)) {
+				if ($stmt = mysqli_prepare($dbc, $insertFileLocationSqlQuery)) {
 					mysqli_stmt_execute($stmt);
 					mysqli_stmt_close($stmt);
 					// This block moves the input file to the file server.
@@ -109,11 +109,9 @@
 	};
 	
 	// SQL function LOAD_FILE(Filename) must be used on server.
-	function downloadFile($fileId) {
-		
+	function downloadFile($dbc, $fileId) {
 		
 		$successMessage = 0;
-		require('DbConnector.php');
 		$selectFileLocationSqlQuery = "SELECT File_Des FROM Files WHERE FileID = ?;";
 		
 		
@@ -146,13 +144,13 @@
 	
 	
 	// This block calls the uploadFile function for testing.
-	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		$uploadMessage = uploadFile("uploadedFile", "../uploads/");
-		echo "$message";
-	}
-	
-	// This block calls the downloadFile function for testing.
-	if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-		$downloadMessage = downloadFile($fileId);
-	}
+	// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+		// $uploadMessage = uploadFile("uploadedFile", "../uploads/");
+		// echo "$message";
+	// }
+// 	
+	// // This block calls the downloadFile function for testing.
+	// if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+		// $downloadMessage = downloadFile("1");
+	// }
 ?>
