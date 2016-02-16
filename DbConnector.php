@@ -7,10 +7,10 @@
 // selects the database, and sets the encoding.
 
 // Set the database access information as constants:
-DEFINE ('DB_USER', 'db_connector');
-DEFINE ('DB_PASSWORD', 'rV);R8PriM*8');
+DEFINE ('DB_USER', 'br_connector');
+DEFINE ('DB_PASSWORD', '9109aW90L!W)B');
 DEFINE ('DB_HOST', 'localhost');
-DEFINE ('DB_NAME', 'isys489c-BT1-JCI');
+DEFINE ('DB_NAME', 'br_t1_jci');
 
 
 // Make the connection:
