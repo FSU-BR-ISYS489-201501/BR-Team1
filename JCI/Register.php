@@ -154,7 +154,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 <h1>Register</h1>
 <form action="register.php" id="regiForm" method="post">
 	<fieldset>
-		<p>Prefix: <select name="prefix">
+		<p>Prefix: 
+		<select name="prefix">
 			<option <?php if($prefixVar=="") echo'selected="selected"'; ?>    value=""></option>
 			<option <?php if($prefixVar=="Ms") echo'selected="selected"'; ?>    value="Ms">Ms</option>
 			<option <?php if($prefixVar=="Mrs") echo'selected="selected"'; ?>    value="Mrs">Mrs</option>
