@@ -12,17 +12,21 @@
  * 				Checks for 10 chars, one number, one special char, one lower, one capital!
  * Variable: $myVar - Description of variable.
  * Variable: $varTwo - Another description.
+ * 
+ * Revision 1.1: 02/17/2016 Author: Shane Workman
+ * Fixed the pattern to work corrently. Used a different PHP fuction to test new pattern
  ********************************************************************************************/
  
  // creates the function call
- function checkPsw($pass)
+ // creates the function call
+ function checkPsw($input_line)
  {
- 	// uses a regex expression, Checks for 10 chars, one number, one special char, one lower, one capital!
- 	// if (!preg_match_all('$\S*(?=\S{10,})(?=\S*[\d])(?=\S*[\W])\S*)(?=\S*[a-z])(?=\S*[A-Z])$', $pass))
-	// {
-		// // doesnt match return false
-		// return FALSE;
-	// } else { return TRUE; }
-	return true;
+ 	//Created the regex expression, Checks for 10 chars, one number, one special char, one lower, one capital!
+    $pattern = "/^\S*(?=\S{10,})(?=\S*[a-z])(?=\S*[\W])(?=\S*[A-Z])(?=\S*[\d])\S*$/";
+ 	
+ 	if (!preg_match($pattern, $input_line))
+	{
+		   return FALSE;
+	} else { return TRUE; }
  }
  ?>
