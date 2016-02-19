@@ -106,30 +106,30 @@
 					break;
 				case 1:
 						{
-							// $userMsg = "Author: {$_POST['author'][$i]}.Thank you for your submission! You will be contacted shortly.";
-// 
-							// // a message to be sent to editor			
-							// $editorMsg = "Authors: {$_POST['author'][$i]}. made a new submission.";
-// 
-							// // email header
-							// $header = "do-not-reply@jci.com\r\n";
-// 
-							// // send email notification to an author 
-							// $rtnVal = mail($_POST['email'], "File uploaded, thank you..!" ,$userMsg, $header); 
-// 
-							// if ($rtnVal == true) {
-								// // send email notification to editor
-								// $rtnVal = mail("alfadhf@ferris.edu", "New Submission", $editorMsg);
-// 
-								// if ($rtnVal == true) {
-									// // display Thank you Message
-									// echo "Thank you for your submission, you will recieve an email message shortly."; 
-								// }  else  {
-									// echo "ERROR: Message not sent to editor.";
-								// }
-							// } else {
-								// echo "ERROR: Messages not sent.";
-							// }
+							$userMsg = "Author: {$_POST['author'][$i]}.Thank you for your submission! You will be contacted shortly.";
+
+							// a message to be sent to editor			
+							$editorMsg = "Authors: {$_POST['author'][$i]}. made a new submission.";
+
+							// email header
+							$header = "do-not-reply@jci.com\r\n";
+
+							// send email notification to an author 
+							$rtnVal = mail($_POST['email'], "File uploaded, thank you..!" ,$userMsg, $header); 
+
+							if ($rtnVal == true) {
+								// send email notification to editor
+								$rtnVal = mail("alfadhf@ferris.edu", "New Submission", $editorMsg);
+
+								if ($rtnVal == true) {
+									// display Thank you Message
+									echo "Thank you for your submission, you will recieve an email message shortly."; 
+								}  else  {
+									echo "ERROR: Message not sent to editor.";
+								}
+							} else {
+								echo "ERROR: Messages not sent.";
+							}
 					echo 'Upload Successful.';
 						}
 					break;
