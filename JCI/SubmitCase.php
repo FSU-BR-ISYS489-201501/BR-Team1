@@ -21,8 +21,13 @@
  * 
  * Revision 1.3: 02/16/2016 Author: Faisal
  * Description of Change: added email function to send notifications to author and editor
+ * 
+ * Revision 1.4: 02/20/2016 Author: Ben Brackett
+ * Description of change: added checkLogin function and included LoginHelper.php
  ********************************************************************************************/
-
+	//Ben Brackett: Call checkLogin function
+	include ("includes/LoginHelper.php");
+	
 	include ("includes/Header.php");
 	//include("includes/CheckEmail.php");
 	include("includes/CheckEmail.php");
@@ -94,7 +99,10 @@
 				
 			}
 		}
-			
+		//Ben Brackett: Call checkLogin function
+		if (!isset($_SESSION['USERID'])) {
+				$err[]= 'User is not logged in..!';
+			}
 		// Mark Bowman: This block of code checks to see if the $err array has any contents.
 		// If it does not, it uploads the files to the database and file server. It then sends
 		// a confirmation email to the submitting author and the editor on file and then displays
