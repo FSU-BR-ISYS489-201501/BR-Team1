@@ -21,7 +21,10 @@
   * 
   * Revision1.3: 02/15/2016 Author: Shane Workman
   * Fixed A bug in the line 161-169 sticky not working correctly.
- ********************************************************************************************/
+  * 
+  * Revision1.4: 02/20/2016	Author: Shane Workman /Via Mark Computer.
+  * Fixed a variable bug. Needed to capitalize a few letets.
+  ********************************************************************************************/
  include ("includes/Header.php");
  include ("includes/CheckPsw.php");
  $page_title = 'Register';
@@ -50,14 +53,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	if (empty($_POST['fName'])) {
 		$err[] = 'You forgot to enter your first name.';
 		} else {
-			$fname = mysqli_real_escape_string($dbc, trim($_POST['fName']));
+			$fName = mysqli_real_escape_string($dbc, trim($_POST['fName']));
 		}
  	
 	//Check if last name text box has a value.
 	if (empty($_POST['lName'])) {
 		$err[] = 'You forgot to enter your last name.';
 		} else {
-			$lname = mysqli_real_escape_string($dbc, trim($_POST['lName']));
+			$lName = mysqli_real_escape_string($dbc, trim($_POST['lName']));
 		}
  	
  	//Check if last name text box has a value.
