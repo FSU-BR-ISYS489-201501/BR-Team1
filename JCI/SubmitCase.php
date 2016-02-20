@@ -106,6 +106,7 @@
 					break;
 				case 1:
 						{
+							// Dr. Herrington helped me with this block 
 							$userMsg = "Author: {$_POST['author'][$i]}.Thank you for your submission! You will be contacted shortly.";
 
 							// a message to be sent to editor			
