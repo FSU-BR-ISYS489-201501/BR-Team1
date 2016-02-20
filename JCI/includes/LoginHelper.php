@@ -31,11 +31,11 @@
 //Ben Brackett: modified code to return 0s and 1s
 //Ben Brackett: changed $USERID to USERID for if statement
 function checkLogin($USERID) {
-  if (empty($_SESSION[USERID])) {
+  if (empty(USERID)) {
   	return 0;
   }
-  	else {
-  		1;
+  else {
+  	return 1;
   	}
 }
 //Matchs input to 0-9. If it doesn't match it returns a 0 meaning false.
@@ -43,9 +43,9 @@ function checkLogin($USERID) {
 //Ben Brackett: modified code to return 0s and 1s
 function checkDigits($element) {
 	if (!preg_match ("/[^0-9]/", $element)) {
-	return 0;
+		return 0;
 	}
-		else {
-			1;
-		}
+	else {
+		return	1;
+	}
 }
