@@ -49,8 +49,7 @@ function redirect_user ($page = 'Index.php') {
 } // End of redirect_user() function.
 
 
-
-function check_login($dbc, $email = '', $pass = '') {
+function checkLoginFields($dbc, $email = '', $pass = '') {
 
 	$errors = array(); // Initialize error array.
 
