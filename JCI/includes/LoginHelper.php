@@ -1,5 +1,4 @@
 <?php
-	// Put code here for functions that help in the login, logout, and register processes
 	/*********************************************************************************************
  * Original Author: Benjamin Brackett
  * Date of origination: 02/05/16
@@ -23,13 +22,16 @@
  * Revision1.1: 02/16/2016 Author: Benjamin Brackett
  * Description of change: changed $_SESSION['login'] to $_SESSION['USERID']
 	 * 						Also modified code to return 0s and 1s
+ * Revision1.2: 02/20/2016 Author: Benjamin Brackett
+ * Description of change: changed $USERID to USERID for if statement
  ********************************************************************************************/
 //1 being true, 0 being false
 //If user ID is nonexistant then it returns a 0
 //If one does exist then it returns a 1 
 //Ben Brackett: modified code to return 0s and 1s
-function CheckLogin($USERID) {
-  if (empty($_SESSION['USERID'])) {
+//Ben Brackett: changed $USERID to USERID for if statement
+function checkLogin($USERID) {
+  if (empty($_SESSION[USERID])) {
   	return 0;
   }
   	else {
@@ -39,7 +41,7 @@ function CheckLogin($USERID) {
 //Matchs input to 0-9. If it doesn't match it returns a 0 meaning false.
 //If it does match it returns a 1 meaning true.
 //Ben Brackett: modified code to return 0s and 1s
-function CheckDigits($element) {
+function checkDigits($element) {
 	if (!preg_match ("/[^0-9]/", $element)) {
 	return 0;
 	}
