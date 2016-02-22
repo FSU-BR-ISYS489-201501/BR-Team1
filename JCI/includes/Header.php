@@ -22,6 +22,7 @@
 <!--Ben Brackett: changed logout link-->
 <!-- <<<<<<< HEAD -->
 			<li><a href="Index.php">Home Page</a></li>
+			<li><a href="Announcements.php">Announcements</a></li>
 			<li><a href="Register.php">Register</a></li>
 			<li><a href="LoginPage.php">Login</a></li>
 			<li><a href="Logout.php">Logout</a></li>
