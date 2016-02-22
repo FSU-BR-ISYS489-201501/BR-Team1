@@ -31,7 +31,7 @@
 //Ben Brackett: modified code to return 0s and 1s
 //Ben Brackett: changed $USERID to USERID for if statement
 function checkLogin($USERID) {
-  if (empty(USERID)) {
+  if (empty($USERID)) {
   	return 0;
   }
   else {
