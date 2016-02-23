@@ -84,8 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		<p><input type="submit" value="Submit" /></p>
 	</fieldset>
 </form>
-<!--Creates a table to show the current Announcements in the DB. -->
-
+<!--Creates a table to show the current Announcements in the DB.
 <h1>Announcements</h1>
 <table>
 	<fieldset>
@@ -109,6 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		</tbody>
 	</fieldset>
 </table>
+Mark already has this code. No longer needed.-->
 <?php
 include ("includes/Footer.php");
 ?>
