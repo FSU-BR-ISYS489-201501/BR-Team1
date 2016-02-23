@@ -24,9 +24,13 @@
   * 
   * Revision1.4: 02/20/2016	Author: Shane Workman /Via Mark Computer.
   * Fixed a variable bug. Needed to capitalize a few letets.
+  * 
+  * Revision1.5: 02/22/2016 Author: Shane Workman
+  * Added the CheckEmail.php funciton to the validation. Spelled out a few variables that were abbriviated.
   ********************************************************************************************/
  include ("includes/Header.php");
  include ("includes/CheckPsw.php");
+ include ("CheckEmail.php");
  $page_title = 'Register';
  
  //Grab the db connector.
@@ -44,52 +48,54 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 	//Check if the text box has a value or set it to null.
 	if (empty($_POST['title'])) {
-		$title = 'NULL';
+			$title = 'NULL';
 		} else {
 			$title = mysqli_real_escape_string($dbc, trim($_POST['title']));
 		}
 	
 	//Check if the first name text box has a value.
 	if (empty($_POST['fName'])) {
-		$err[] = 'You forgot to enter your first name.';
+			$err[] = 'You forgot to enter your first name.';
 		} else {
 			$fName = mysqli_real_escape_string($dbc, trim($_POST['fName']));
 		}
  	
 	//Check if last name text box has a value.
 	if (empty($_POST['lName'])) {
-		$err[] = 'You forgot to enter your last name.';
+			$err[] = 'You forgot to enter your last name.';
 		} else {
 			$lName = mysqli_real_escape_string($dbc, trim($_POST['lName']));
 		}
  	
  	//Check if last name text box has a value.
  	if (empty($_POST['suffix'])) {
-		$sfx = 'NULL';
+			$suffix = 'NULL';
 		} else {
-			$sfx = mysqli_real_escape_string($dbc, trim($_POST['suffix']));
+			$suffix = mysqli_real_escape_string($dbc, trim($_POST['suffix']));
 		}
  
  	//Check if email text box has a value.
  	//Need to add the check email mask function when completed.
  	if (empty($_POST['email'])) {
-		$err[] = 'You forgot to enter your email.';
+			$err[] = 'You forgot to enter your email.';
+		} elseif (checkEmail($_POST['email']) == 0) {
+			$err[] = 'The email submitted doesnt have the correct syntax.';
 		} else {
 			$email = mysqli_real_escape_string($dbc, trim($_POST['email']));
 		}
 
  	//Check if university text box has a value or set it to null.
  	if (empty($_POST['university'])) {
-		$uni = 'NULL';
+		$university = 'NULL';
 		} else {
-			$uni = mysqli_real_escape_string($dbc, trim($_POST['university']));
+			$university = mysqli_real_escape_string($dbc, trim($_POST['university']));
 		}		
 
  	//Check if SCR member id text box has a value or set it to null.
  	if (empty($_POST['memberID'])) {
-		$mem = 'NULL';
+		$member = 'NULL';
 		} else {
-			$mem = mysqli_real_escape_string($dbc, trim($_POST['memberID']));
+			$member = mysqli_real_escape_string($dbc, trim($_POST['memberID']));
 		}
 		
 	//Check the password text boxes contain values and that both boxes are equal.
@@ -110,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	If(empty($err)){
 		//Creat the query that dumps info into the DB.
 		$query = "INSERT INTO users (prefix, Fname, Lname, suffix, email, employer, title, membercode, regdate, password_hash, password_salt)
-				VALUES ('$prefix', '$fName', '$lName', '$suffix', '$email', '$uni', '$title', '$mem', NOW(), '$pass', '$pass');";
+				VALUES ('$prefix', '$fName', '$lName', '$suffix', '$email', '$university', '$title', '$member', NOW(), '$pass', '$pass');";
 				
 		//Run the query...
 		$run = @mysqli_query($dbc, $query);
@@ -139,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 			
 			}	
-		}else {
+		} else {
 			//List each Error msg that is stored in the array.
 			Foreach($err as $m)
 			{
@@ -162,13 +168,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			<option <?php if(isset($_POST['prefix'])=="Miss") echo'selected="selected"'; ?>    value="Miss">Miss</option>
 			<option <?php if(isset($_POST['prefix'])=="Mr") echo'selected="selected"'; ?>    value="Mr">Mr</option>
 			<option <?php if(isset($_POST['prefix'])=="Sir") echo'selected="selected"'; ?>    value="Sir">Sir</option>
-			<option <?php if(isset($_POST['prefix'])=="Prof") echo'selected="selected"'; ?>    value="Prof">Prof</option>
+			<option <?php if(isset($_POST['prefix'])=="Dr") echo'selected="selected"'; ?>    value="Dr">Dr</option>
 		</select></p>
-		<p>Title: <input type="text" name="title" size="15" maxlength="50" value="<?php if (isset($_POST['title'])) echo $_POST['title']; ?>" /></p>
 		<p>First Name: <input type="text" name="fName" size="15" maxlength="50" value="<?php if (isset($_POST['fName'])) echo $_POST['fName']; ?>" /></p>
 		<p>Last Name: <input type="text" name="lName" size="15" maxlength="50" value="<?php if (isset($_POST['lName'])) echo $_POST['lName']; ?>" /></p>
 		<p>Suffix: <input type="text" name="suffix" size="10" maxlength="10" value="<?php if (isset($_POST['suffix'])) echo $_POST['suffix']; ?>" /></p>
 		<p>Email Address: <input type="text" name="email" size="20" maxlength="100" value="<?php if (isset($_POST['email'])) echo $_POST['email']; ?>"  /> </p>
+		<p>Title: <input type="text" name="title" size="15" maxlength="50" value="<?php if (isset($_POST['title'])) echo $_POST['title']; ?>" /></p>
 		<p>Institution: <input type="text" name="university" size="20" maxlength="100" value="<?php if (isset($_POST['university'])) echo $_POST['university']; ?>" /></p>
 		<p>SCR Member ID: <input type="text" name="memberID" size="15" maxlength="50" value="<?php if (isset($_POST['memberID'])) echo $_POST['memberID']; ?>" /></p>
 		<p>Password: <input type="password" name="pass1" size="15" maxlength="20" value="<?php if (isset($_POST['pass1'])) echo $_POST['pass1']; ?>"  /></p>

@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	$result = mysql_query($query);
  ?>
  <!--Takes information to create a new announcement in the db.-->
-<h1>New Announcement</h1>
+<h1>Create New Announcement</h1>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" id="announcement" method="post">
 	<fieldset>
 		<p>Title: <input type="text" name="title" size="15" maxlength="50" value="<?php if (isset($_POST['title'])) echo $_POST['title']; ?>" /></p>
@@ -85,6 +85,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	</fieldset>
 </form>
 <!--Creates a table to show the current Announcements in the DB. -->
+
+<h1>Announcements</h1>
 <table>
 	<fieldset>
 		<thead>
