@@ -30,7 +30,7 @@
   ********************************************************************************************/
  include ("includes/Header.php");
  include ("includes/CheckPsw.php");
- include ("CheckEmail.php");
+ include ("includes/CheckEmail.php");
  $page_title = 'Register';
  
  //Grab the db connector.
