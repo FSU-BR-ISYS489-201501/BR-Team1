@@ -8,6 +8,8 @@
   * Purpose: The purpose of this page is to collect data for new announcements.
   * Credit: http://php.net/manual/en/index.php
   * 
+  * Revision1.1 Author:Shane Workman
+  * Tweaked the SQL statement to reflect the database. Few other minor tweaks.
   ********************************************************************************************/
  include ("includes/Header.php");
  $page_title = 'Announcements';
@@ -50,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	//Check to see if any errors exist in the validation array.
 	if(empty($err)) {
 		//Creat the query that dumps info into the DB.
-		$query = "INSERT INTO Announcements (title, announcement, createDate, expireDate)
+		$query = "INSERT INTO Announcement (subject, body, StartDate, EndDate)
 				VALUES ('$title', '$announcement', NOW(), '$endDate');";
 				
 		//Run the query...
@@ -69,15 +71,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		
 		}	
 }
-
+	//Mark already wrote code for viewing the announcements in the DB.
 	//Temp display announcements to verify adding works.
-	$query = "SELECT title, announcement, createDate FROM Announcements WHERE expireDate > DATE(NOW()) ORDER BY createDate ASC"; 
-	$result = mysql_query($query);
+	//$query = "SELECT title, announcement, createDate FROM Announcements WHERE expireDate > DATE(NOW()) ORDER BY createDate ASC"; 
+	//$result = mysql_query($query);
  ?>
  <!--Takes information to create a new announcement in the db.-->
 <h1>Create New Announcement</h1>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" id="announcement" method="post">
 	<fieldset>
+		<p>Who will view this Announcement?:
+		<select name="board">
+			<option <?php if(isset($_POST['prefix'])=="All visitors") echo'selected="selected"'; ?>    value="All visitors"></option>
+			<option <?php if(isset($_POST['prefix'])=="Reviewers") echo'selected="selected"'; ?>    value="Reviewers">Ms</option>
+			<option <?php if(isset($_POST['prefix'])=="Authors") echo'selected="selected"'; ?>    value="Authors">Mrs</option>
+		</select></p>;	
 		<p>Title: <input type="text" name="title" size="15" maxlength="50" value="<?php if (isset($_POST['title'])) echo $_POST['title']; ?>" /></p>
 		<p>Announcement: <textarea name="announcement" style="width:250px;height:150px;" value="<?php if (isset($_POST['announcement'])) echo $_POST['announcement']; ?>"></textarea
 		<p>End Date(MM/DD/YYYY): <input type="text" name="endDate" size="10" maxlength="10" value="<?php if (isset($_POST['endDate'])) echo $_POST['endDate']; ?>" /></p>
