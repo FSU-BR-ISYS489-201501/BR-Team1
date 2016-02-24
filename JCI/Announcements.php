@@ -31,9 +31,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	
 	//Check if the first name text box has a value.
 	if (empty($_POST['announcement'])) {
-		$err[] = 'You forgot to enter an announcement.';
+			$err[] = 'You forgot to enter an announcement.';
 		} else {
 			$announcement = mysqli_real_escape_string($dbc, trim($_POST['announcement']));
+		}
+	
+	//Check if the first name text box has a value.
+	if (empty($_POST['board'])) {
+			$err[] = 'You forgot to enter an announcement.';
+		} elseif (($_POST['board']) == 'Authors') {
+			$board = mysqli_real_escape_string($dbc, 1);
+		} elseif (($_POST['board']) == 'Reviewers') {
+			$board = mysqli_real_escape_string($dbc, 2);
+		} else {
+			// All visitors
+			$board = mysqli_real_escape_string($dbc, 3);
 		}
 		
  	//Check if the first name text box has a value.
@@ -52,8 +64,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	//Check to see if any errors exist in the validation array.
 	if(empty($err)) {
 		//Creat the query that dumps info into the DB.
-		$query = "INSERT INTO Announcement (subject, body, StartDate, EndDate)
-				VALUES ('$title', '$announcement', NOW(), '$endDate');";
+		$query = "INSERT INTO Announcement (AnnouncementBoardId, Subject, Body, StartDate, EndDate)
+				VALUES ('$board', '$title', '$announcement', 'NOW()', '$endDate');";
 				
 		//Run the query...
 		$run = @mysqli_query($dbc, $query);
@@ -82,9 +94,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	<fieldset>
 		<p>Who will view this Announcement?:
 		<select name="board">
-			<option <?php if(isset($_POST['prefix'])=="All visitors") echo'selected="selected"'; ?>    value="All visitors"></option>
-			<option <?php if(isset($_POST['prefix'])=="Reviewers") echo'selected="selected"'; ?>    value="Reviewers">Ms</option>
-			<option <?php if(isset($_POST['prefix'])=="Authors") echo'selected="selected"'; ?>    value="Authors">Mrs</option>
+			<option <?php if(isset($_POST['board'])=="All visitors") echo'selected="selected"'; ?>    value="All visitors"></option>
+			<option <?php if(isset($_POST['board'])=="Reviewers") echo'selected="selected"'; ?>    value="Reviewers">Ms</option>
+			<option <?php if(isset($_POST['board'])=="Authors") echo'selected="selected"'; ?>    value="Authors">Mrs</option>
 		</select></p>;	
 		<p>Title: <input type="text" name="title" size="15" maxlength="50" value="<?php if (isset($_POST['title'])) echo $_POST['title']; ?>" /></p>
 		<p>Announcement: <textarea name="announcement" style="width:250px;height:150px;" value="<?php if (isset($_POST['announcement'])) echo $_POST['announcement']; ?>"></textarea
