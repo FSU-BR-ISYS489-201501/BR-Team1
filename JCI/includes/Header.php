@@ -27,7 +27,7 @@
 			<li><a href="LoginPage.php">Login</a></li>
 			<li><a href="Logout.php">Logout</a></li>
 			<li><a href="SubmitCase.php">Submit a Case</a></li>
-			
+			<li><a href="SearchStaff.php">Search Staff</a></li>
 			<!--
 =======
 			<li><a href="index.php">Home Page</a></li>

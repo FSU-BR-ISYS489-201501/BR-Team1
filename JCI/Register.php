@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		}
 
 	//Check if the array is empty, no ERRORS?
-	If(empty($err)){
+	If(empty($err)) {
 		//Creat the query that dumps info into the DB.
 		$query = "INSERT INTO users (prefix, Fname, Lname, suffix, email, employer, title, membercode, regdate, password_hash, password_salt)
 				VALUES ('$prefix', '$fName', '$lName', '$suffix', '$email', '$university', '$title', '$member', NOW(), '$pass', '$pass');";

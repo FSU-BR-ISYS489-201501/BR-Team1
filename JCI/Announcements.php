@@ -94,9 +94,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	<fieldset>
 		<p>Who will view this Announcement?:
 		<select name="board">
-			<option <?php if(isset($_POST['board'])=="All visitors") echo'selected="selected"'; ?>    value="All visitors"></option>
-			<option <?php if(isset($_POST['board'])=="Reviewers") echo'selected="selected"'; ?>    value="Reviewers">Ms</option>
-			<option <?php if(isset($_POST['board'])=="Authors") echo'selected="selected"'; ?>    value="Authors">Mrs</option>
+			<option <?php if(isset($_POST['board'])=="All visitors") echo'selected="selected"'; ?>    value="All visitors">All Visitors</option>
+			<option <?php if(isset($_POST['board'])=="Reviewers") echo'selected="selected"'; ?>    value="Reviewers">Reviewers</option>
+			<option <?php if(isset($_POST['board'])=="Authors") echo'selected="selected"'; ?>    value="Authors">Authors</option>
 		</select></p>;	
 		<p>Title: <input type="text" name="title" size="15" maxlength="50" value="<?php if (isset($_POST['title'])) echo $_POST['title']; ?>" /></p>
 		<p>Announcement: <textarea name="announcement" style="width:250px;height:150px;" value="<?php if (isset($_POST['announcement'])) echo $_POST['announcement']; ?>"></textarea
