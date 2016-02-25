@@ -34,7 +34,9 @@
  $page_title = 'Register';
  
  //Grab the db connector.
+ //require ('../mysqli_connect.php');
  require ('../DbConnector.php');
+  
 	
 //Begin Validation... 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 

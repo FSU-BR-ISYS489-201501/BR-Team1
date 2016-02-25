@@ -12,9 +12,11 @@
   * Tweaked the SQL statement to reflect the database. Few other minor tweaks.
   ********************************************************************************************/
  include ("includes/Header.php");
+ include ("includes/IsDate.php");
  $page_title = 'Announcements';
  
  //Grab the db connector.
+ //require ('../mysqli_connect.php');
  require ('../DbConnector.php');
  
  //Begin Validation... 
@@ -39,13 +41,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	//Check if the first name text box has a value.
 	if (empty($_POST['board'])) {
 			$err[] = 'You forgot to enter an announcement.';
-		} elseif (($_POST['board']) == 'Authors') {
+		} elseif (($_POST['board']) == 'Private') {
 			$board = mysqli_real_escape_string($dbc, 1);
-		} elseif (($_POST['board']) == 'Reviewers') {
-			$board = mysqli_real_escape_string($dbc, 2);
 		} else {
 			// All visitors
-			$board = mysqli_real_escape_string($dbc, 3);
+			$board = mysqli_real_escape_string($dbc, 2);
 		}
 		
  	//Check if the first name text box has a value.
@@ -53,26 +53,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			$err[] = 'You forgot to enter a date that the announcement expires.';
 		} elseif (!preg_match("/[0-9]{2}\/[0-9]{2}\/[0-9]{4}/", ($_POST['endDate']))) {
 			$err[] = 'You did not enter the date in the MM/DD/YYYY format..';
-		} elseif (!checkdate($_POST['endDate'])) {
-			$err[] = 'You forgot to enter a date that the announcement expires.';
-		} elseif (($_POST['endDate']) < getdate()) {
-			$err[] = 'The expiration date must be in the Future.';
+		} elseif (!isDate($_POST['endDate'])) {
+			$err[] = 'You did not enter a valid date.';
 		} else {
-			$endDate = mysqli_real_escape_string($dbc, trim($_POST['endDate']));
+				$endDate = mysqli_real_escape_string($dbc, trim($_POST['endDate']));
 		}
 
 	//Check to see if any errors exist in the validation array.
 	if(empty($err)) {
 		//Creat the query that dumps info into the DB.
-		$query = "INSERT INTO Announcement (AnnouncementBoardId, Subject, Body, StartDate, EndDate)
-				VALUES ('$board', '$title', '$announcement', 'NOW()', '$endDate');";
+		$query = "INSERT INTO Announcement (AnnouncementBoardId, Subject, Body, StartDate, EndDate, IsActive)
+				  VALUES ('$board', '$title', '$announcement', 'NOW()', '$endDate', 1);";
 				
 		//Run the query...
-		$run = @mysqli_query($dbc, $query);
+		$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
 		
-		IF (!$run)
+		If (!$run)
 		{
 			echo 'There was an error when creating the announcement. Please try again!';
+		} else {
+			echo "Thank you for your Announcement!";
 		}
 	} else {
 			//List each Error msg that is stored in the array.
@@ -83,10 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		
 		}	
 }
-	//Mark already wrote code for viewing the announcements in the DB.
-	//Temp display announcements to verify adding works.
-	//$query = "SELECT title, announcement, createDate FROM Announcements WHERE expireDate > DATE(NOW()) ORDER BY createDate ASC"; 
-	//$result = mysql_query($query);
+
  ?>
  <!--Takes information to create a new announcement in the db.-->
 <h1>Create New Announcement</h1>
@@ -94,41 +91,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	<fieldset>
 		<p>Who will view this Announcement?:
 		<select name="board">
-			<option <?php if(isset($_POST['board'])=="All visitors") echo'selected="selected"'; ?>    value="All visitors">All Visitors</option>
-			<option <?php if(isset($_POST['board'])=="Reviewers") echo'selected="selected"'; ?>    value="Reviewers">Reviewers</option>
-			<option <?php if(isset($_POST['board'])=="Authors") echo'selected="selected"'; ?>    value="Authors">Authors</option>
-		</select></p>;	
+			<option <?php if(isset($_POST['board'])=="Public") echo'selected="selected"'; ?>    value="Public">Public</option>
+			<option <?php if(isset($_POST['board'])=="Private") echo'selected="selected"'; ?>    value="Private">Private</option>
+		</select></p>	
 		<p>Title: <input type="text" name="title" size="15" maxlength="50" value="<?php if (isset($_POST['title'])) echo $_POST['title']; ?>" /></p>
-		<p>Announcement: <textarea name="announcement" style="width:250px;height:150px;" value="<?php if (isset($_POST['announcement'])) echo $_POST['announcement']; ?>"></textarea
+		<p>Announcement: <br/><textarea name="announcement" style="width:250px;height:150px;" value="<?php if (isset($_POST['announcement'])) 
+				echo $_POST['announcement']; ?>"></textarea><br />
 		<p>End Date(MM/DD/YYYY): <input type="text" name="endDate" size="10" maxlength="10" value="<?php if (isset($_POST['endDate'])) echo $_POST['endDate']; ?>" /></p>
 		<p><input type="submit" value="Submit" /></p>
 	</fieldset>
 </form>
-<!--Creates a table to show the current Announcements in the DB.
-<h1>Announcements</h1>
-<table>
-	<fieldset>
-		<thead>
-			<tr>
-				<th>Title</th>
-				<th>Announcement</th>
-				<th>Creation Date</th>
-			</tr>
-		</thead>
-		<tbody>
-			<?php
-			while ($row = mysqli_fetch_row($result)) {
-				echo "<tr>";
-				echo "<td>" . $row['title'] . "</td>";
-				echo "<td>" . $row['announcement'] . "</td>";
-				echo "<td>" . $row['createDate'] . "</td>";
-				echo "</tr>\n";		
-			}
-			?>
-		</tbody>
-	</fieldset>
-</table>
-Mark already has this code. No longer needed.-->
 <?php
 include ("includes/Footer.php");
 ?>

@@ -11,6 +11,7 @@
 include ("includes/Header.php");
 $page_title = 'Search Staff';
 //require ('../DbConnector.php');
+require ('../mysqli_connect.php');
  
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
@@ -47,11 +48,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	//Check to see if any errors occurred during validation.
 	if (empty($err)) {
 		// Create and run the query based of the given criteria.
-		
+		if ($search == "Authored by") {
+			if($field == "First Name")	{
+				$query = "	SELECT CONCAT(users.Fname, users.Lname) As name, users.email, Critical_Incidents.Title
+						FROM users LEFT JOIN Critical_Incidents ON users.USERID = Critical_Incidents.USERID
+						Where user.Fname = $criteria;";
+			} elseif ($search == "Last Name") {
+				$query = "	SELECT CONCAT(users.Fname, users.Lname) As name, users.email, Critical_Incidents.Title
+						FROM users LEFT JOIN Critical_Incidents ON users.USERID = Critical_Incidents.USERID
+						Where user.Lname = $criteria;";
+			} elseif ($search == "Email") {
+				$query = "	SELECT CONCAT(users.Fname, users.Lname) As name, users.email, Critical_Incidents.Title
+						FROM users LEFT JOIN Critical_Incidents ON users.USERID = Critical_Incidents.USERID
+						Where user.email = $criteria;";
+			} else {
+				echo 'This Error should never be print; if it does, query is bugged.';
+			}
+			$results = @mysqli_query($dbc, $query);
+		} else {
+			// add more $search criteria at some point.
+		}
+
+	} else {
+		//List each Error msg that is stored in the array.
+		Foreach($err as $m)
+		{
+			echo " $m <br />";
+		} echo "Please correct the errors.";
 	}
-
-
-
 }
 ?>
 <h1>Search Criteria</h1>
@@ -60,8 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		<p>Search For:
 		<select name="search">
 			<option <?php if(isset($_POST['search'])=="Authored by") echo'selected="selected"'; ?>    value="Authored by">Authored by</option>
-			<option <?php if(isset($_POST['search'])=="Journals Reviewed") echo'selected="selected"'; ?>    value="Journals Reviewed">Journals Reviewed</option>
 			<!-- temp unused. Will add more search on data as presented.
+			<option <?php if(isset($_POST['search'])=="Journals Reviewed") echo'selected="selected"'; ?>    value="Journals Reviewed">Journals Reviewed</option>
 			<option <?php if(isset($_POST['search'])=="Journals Reviewed") echo'selected="selected"'; ?>    value="Journals Reviewed">Journals Reviewed</option>
 			<option <?php if(isset($_POST['search'])=="Journals Reviewed") echo'selected="selected"'; ?>    value="Journals Reviewed">Journals Reviewed</option>
 			<option <?php if(isset($_POST['search'])=="Journals Reviewed") echo'selected="selected"'; ?>    value="Journals Reviewed">Journals Reviewed</option>
@@ -78,32 +102,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		<p><input type="submit" value="Search" /></p>
 	</fieldset>
 </form> 
-<!-- to be used at a later date once decide what to do.
-<h1>Announcements</h1>
-<table>
-	<fieldset>
+<h1>Search Results</h1>
+<fieldset>
+	<table>
 		<thead>
 			<tr>
-				<th>--Something--</th>
-				<th>--Something--</th>
-				<th>--Something--</th>
+				<th>--Name--</th>
+				<th>--Email--</th>
+				<th>--Title--</th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php
 			while ($row = mysqli_fetch_row($result)) {
 				echo "<tr>";
-				echo "<td>" . $row['-'] . "</td>";
-				echo "<td>" . $row['-'] . "</td>";
-				echo "<td>" . $row['-'] . "</td>";
+				echo "<td>" . $row['name'] . "</td>";
+				echo "<td>" . $row['email'] . "</td>";
+				echo "<td>" . $row['title'] . "</td>";
 				echo "</tr>\n";		
 			}
 			?>
 		</tbody>
-	</fieldset>
-</table>
---> 
-
+	</table>
+</fieldset>
 
 <?php
 include ("includes/Footer.php");
