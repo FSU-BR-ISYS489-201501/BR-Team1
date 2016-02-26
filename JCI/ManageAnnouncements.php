@@ -30,7 +30,7 @@
 	// The idea for this code was inspired by Michael J. Calkins.
 	// This block will check if 'deleteId' is set in the url. It will set the announcement with that value to inactive.
 	if (isset($_GET['deleteId'])) {
-		$announcementDeactivateQuery = "UPDATE announcement SET ACTIVE = 0 WHERE ANNOUNCEMENT_ID = {$_GET['deleteId']};";
+		$announcementDeactivateQuery = "UPDATE Announcement SET IsActive = 0 WHERE AnnouncementId = {$_GET['deleteId']};";
 		$deactivateQuery = @mysqli_query($dbc, $announcementDeactivateQuery);
 		if($deactivateQuery){
 		}
@@ -40,7 +40,7 @@
 	// The idea for this code was inspired by Michael J. Calkins.
 	// This block will check if 'activateId' is set in the url. It will set the announcement with that value to active.
 	if (isset($_GET['activateId'])) {
-		$announcementActivateQuery = "UPDATE announcement SET ACTIVE = 1 WHERE ANNOUNCEMENT_ID = {$_GET['activateId']};";
+		$announcementActivateQuery = "UPDATE Announcement SET IsActive = 1 WHERE AnnouncementId = {$_GET['activateId']};";
 		$activateQuery = @mysqli_query($dbc, $announcementActivateQuery);
 		if($activateQuery){
 		}
