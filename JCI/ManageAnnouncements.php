@@ -19,8 +19,8 @@
 	include('TableRowHelper.php');
 	require('../DbConnector.php');
 	
-	$announcementQuery = "SELECT ANNOUNCEMENT_ID, NOTE FROM announcement;";
-	$announcementIdQuery = "SELECT ANNOUNCEMENT_ID FROM announcement;";
+	$announcementQuery = "SELECT AnnouncementId, Subject, Body, StartDate, Type, EndDate, IsActive FROM Announcement;";
+	$announcementIdQuery = "SELECT AnnouncementId FROM announcement;";
 	
 	// Written by Shane Workman.
 	$selectQuery = @mysqli_query($dbc, $announcementQuery);
