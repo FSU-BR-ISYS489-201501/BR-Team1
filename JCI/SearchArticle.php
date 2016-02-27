@@ -15,19 +15,44 @@ include ("includes/Header.php");
 $page_title = 'Search Article';
 require ('mysqli_connect.php');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 //Set up Error msg array.
  	$err = array(); 
+	
+	//Written by Shane Workman
+	//Check to see if any errors occurred during validation.
+	if (empty($err)) {
+		// Create and run the query based of the given criteria.
+		if ($search == "Title") {
+			if($field == "Title")	{
+				$query = "	SELECT CriticalIncidentId, criticalincident.Title, UserId, CONCAT(users.Fname, users.Lname) As name
+						FROM users LEFT JOIN criticalincident ON users.USERID = criticalincident.UserId
+						Where criticalincident.Title = $criteria;";
+			} elseif ($field == "PublicationYear") {
+				$query = "	SELECT PublicationYear
+						FROM journalofcriticalincidents
+						Where PublicationYear = $criteria;";
+			} elseif ($field == "UserId") {
+				$query = "	SELECT CONCAT(users.Fname, users.Lname) As name, criticalincident.Title
+						FROM users LEFT JOIN criticalincident ON users.USERID = criticalincident.UserId
+						Where users.name = $criteria;";
+			} else {
+				echo 'This Error should never be print; if it does, query is bugged.';
+			}
+			$results = @mysqli_query($dbc, $query);
+		} else {
+			// add more $search criteria at some point.
+		}
 
-if(isset($_POST['submit'])){
-	if(isset($_GET['go'])){
-		if(preg_match("/^[  a-zA-Z]+/", $_POST['name'])){
-			$name=$_POST['name'];
+	}
+	/**if(isset($_GET['submit'])){
+		if(preg_match("/^[  a-zA-Z]+/", $_POST['result'])){
+			$result=$_POST['result'];
 
 		//query  the database table
-		$$dbc="CriticalIncidentId, Title, PublicationYear, UserId FROM Critical_Incident 
-		JOIN Journal_of_Critical_Incidents ON Journald.joc=Journald.ci WHERE Title LIKE '%" . $name .  "%' OR PublicationYear LIKE '%" . $name ."%' OR UserId LIKE '%" . $name ."%'";
+		$$dbc="CriticalIncidentId, Title, PublicationYear, UserId FROM criticalincident 
+		JOIN journalofcriticalincidents ON Journald.joc=Journald.ci WHERE Title LIKE '%" . $result .  "%' OR PublicationYear LIKE '%" . $result ."%' OR UserId LIKE '%" . $result ."%'";
 		//run  the query against the mysql query function
 		$result=mysql_query($dbc);
 		//create  while loop and loop through result set
@@ -45,9 +70,10 @@ if(isset($_POST['submit'])){
 		else{
 		echo  "<p>Please enter a search query</p>";
 		}
-	}
+	}*/
 }
 ?>
+<!--Edited, but orginally written by Shane Workman-->
 <h3>Search  Articles</h3>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" id="announcement" method="post">
 	<fieldset>
@@ -57,7 +83,7 @@ if(isset($_POST['submit'])){
 			<option <?php if(isset($_POST['field'])=="PublicationYear") echo'selected="selected"'; ?> value="PublicationYear">Publication Date</option>
 			<option <?php if(isset($_POST['field'])=="UserId") echo'selected="selected"'; ?> value="UserId">Primary Author</option>
 		</select>
-		<input type="text" name="name" size="15" maxlength="50" value="<?php if (isset($_POST['criteria'])) echo $_POST['criteria']; ?>" /></p>
+		<input type="text" name="result" size="15" maxlength="50" value="<?php if (isset($_POST['criteria'])) echo $_POST['criteria']; ?>" /></p>
 		<input type="submit" name="submit" value="Search"/></p>
      </fieldset>
 </form>
