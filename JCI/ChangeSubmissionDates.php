@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	If(empty($err)) {
 	
 		//Creat the query that dumps info into the DB.
-		$query = "INSERT INTO announcement (StartDate, EndDate)
+		$query = "INSERT INTO submission (StartDate, EndDate)
 				VALUES ('$StartDate', '$EndDate');";
 				
 		//Run the query...
@@ -62,10 +62,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			{
 				echo " $m <br />";
 			} echo "Please correct the errors.";
-		
-		}
-	If (strtotime($EndDate) < $StartDate) {
+		If (strtotime($EndDate) < $StartDate) {
 		echo "Oops! Did you mean to put $EndDate as the Start Date and $StartDate as the End Date?";
+		}
+	
 	}
 }
 ?>
