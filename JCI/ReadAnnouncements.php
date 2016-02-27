@@ -12,7 +12,7 @@
  * Revision1.1: MM/DD/YYYY Author: Name Here 
  * Description of change. Also add //Name: comments above your change within the code.
  ********************************************************************************************/
- 	include('Header.php');
+ 	include('includes/Header.php');
 	include('includes/TableRowHelper.php');
 	require('../DbConnector.php');
 	
@@ -40,5 +40,5 @@
 	
 	
 <?php
-	include('Footer.php');
+	include('includes/Footer.php');
 ?>

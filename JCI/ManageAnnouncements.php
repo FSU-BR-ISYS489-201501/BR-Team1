@@ -15,12 +15,12 @@
  * Revision1.1: MM/DD/YYYY Author: Name Here 
  * Description of change. Also add //Name: comments above your change within the code.
  ********************************************************************************************/
-	include('Header.php');
+	include('includes/Header.php');
 	include('includes/TableRowHelper.php');
 	require('../DbConnector.php');
 	
 	$announcementQuery = "SELECT AnnouncementId, Subject, Body, StartDate, Type, EndDate, IsActive FROM Announcement;";
-	$announcementIdQuery = "SELECT AnnouncementId FROM announcement;";
+	$announcementIdQuery = "SELECT AnnouncementId FROM Announcement;";
 	
 	// Written by Shane Workman.
 	$selectQuery = @mysqli_query($dbc, $announcementQuery);
@@ -62,4 +62,5 @@
 	</div>
 	
 <?php
+	include('includes/Footer.php');
 ?>
