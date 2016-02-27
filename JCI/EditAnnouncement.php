@@ -53,7 +53,7 @@
 		
 		if(empty($err)) {
 			//Creat the query that dumps info into the DB.
-			$update = mysql_query("UPDATE Announcements SET Subject='$title', Body='$body', StartDate='$startDate', EndDate='$endDate' WHERE id='$getid'");
+			$update = mysql_query("UPDATE Announcement SET Subject='$title', Body='$body', StartDate='$startDate', EndDate='$endDate' WHERE id='$getid'");
 		
 			//Run update query
 			$run = @mysqli_query($dbc, $update)or die("We could not update, please try again.".mysqli_error($dbc));

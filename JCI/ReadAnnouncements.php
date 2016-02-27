@@ -12,12 +12,12 @@
  * Revision1.1: MM/DD/YYYY Author: Name Here 
  * Description of change. Also add //Name: comments above your change within the code.
  ********************************************************************************************/
- 	include('Header.php');
-	include('TableRowHelper.php');
+ 	include('includes/Header.php');
+	include('includes/TableRowHelper.php');
 	require('../DbConnector.php');
 	
 	$currentDate = date("Y-m-d");
-	$query = "SELECT AnnouncementId, Subject, Body FROM announcement WHERE IsActive = 1 AND START_DATE < '{$currentDate}' 
+	$query = "SELECT AnnouncementId, Subject, Body FROM Announcement WHERE IsActive = 1 AND START_DATE < '{$currentDate}' 
 		AND END_DATE > '{$currentDate}';";
 	
 	// Stole from Shane Workman's Register code
@@ -40,5 +40,5 @@
 	
 	
 <?php
-	include('Footer.php');
+	include('includes/Footer.php');
 ?>
