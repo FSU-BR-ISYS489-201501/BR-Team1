@@ -13,7 +13,7 @@
  * Description of change. Also add //Name: comments above your change within the code.
  ********************************************************************************************/
  	include('Header.php');
-	include('TableRowHelper.php');
+	include('includes/TableRowHelper.php');
 	require('../DbConnector.php');
 	
 	$currentDate = date("Y-m-d");
