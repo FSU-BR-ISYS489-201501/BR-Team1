@@ -90,6 +90,38 @@
 		return $tableBody;
 	}
 	
+	function tableRowGeneratorWithRadioButtons($dbc, $selectQuery, $radioButton, $headerCounter, $ids) {
+		$tableBody = '';
+		$rowCounter = 0;
+		// This block will retrieve an array from the database, which will be used to assign values
+		// to an HTML table.
+		while ($row = mysqli_fetch_array($selectQuery, MYSQLI_NUM)) {
+			$tableBody = $tableBody . "<tr id = '{$ids[$rowCounter][0]}'>";
+			$rowCounter++;
+			// This block will add individual field values to the table.
+			for($a = 0;$a < $headerCounter;$a++) {
+				$tableBody = $tableBody . "<td>{$row[$a]}</td>";
+			}
+			// This block will add an edit button, an activate button, and a deactivate button 
+			// to the table.
+			$tableBody = $tableBody . $radioButton;
+			$tableBody = $tableBody . "</tr>";
+		}
+		return $tableBody;
+	}
+	
+	function tableRowRadioButtonGenerator($dbc, $editorQuery) {
+		$button = "<td><select>";
+			// The idea for this code was inspired by xdazz.
+		while ($editors = mysqli_fetch_array($editorQuery, MYSQLI_NUM)){			
+			for($a = 0;$a < count($editors);$a++) {
+				$button = $button . '<option value=' . $editors[$a] . '>' . $editors[$a] . '</option>';
+			}
+		}
+		$button = $button . '</select></td>';
+		return $button;
+	}
+	
 	function tableRowLinkGenerator($dbc, $idSelectQuery) {
 		$editButton = array();
 		while ($ids = mysqli_fetch_array($idSelectQuery, MYSQLI_NUM)) {
