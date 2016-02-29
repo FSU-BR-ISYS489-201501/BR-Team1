@@ -13,7 +13,8 @@
  ********************************************************************************************/
 include ("includes/Header.php");
 $page_title = 'Search Article';
-require ('mysqli_connect.php');
+require ('../DbConnector.php');
+//require ('mysqli_connect.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
@@ -21,31 +22,59 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
  	$err = array(); 
 	
 	//Written by Shane Workman
+	//Checks to see what criteria we are searching for.
+	if (($_POST['field']) == "Title") {
+		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
+	} elseif (($_POST['field']) == "PublicationYear") {
+		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
+	} elseif (($_POST['field']) == "UserId") {
+		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
+	} else {
+		$err[] = 'SELECT field is bugged.';
+	}
+	
+	//Written by Shane Workman
+	//Checks to make sure the user entered some data into the criteria text box.
+	if (empty($_POST['criteria'])) {
+		$err[] = 'You did not enter anything in the criteria field to search for.';
+	} else {
+		$criteria = mysqli_real_escape_string($dbc, trim($_POST['criteria']));
+	}
+	
+	//Written by Shane Workman, edited by Ben Brackett
 	//Check to see if any errors occurred during validation.
 	if (empty($err)) {
 		// Create and run the query based of the given criteria.
-		if ($search == "Title") {
 			if($field == "Title")	{
-				$query = "	SELECT CriticalIncidentId, criticalincident.Title, UserId, CONCAT(users.Fname, users.Lname) As name
-						FROM users LEFT JOIN criticalincident ON users.USERID = criticalincident.UserId
-						Where criticalincident.Title = $criteria;";
+				$query = "	SELECT PublicationYear, CriticalIncidentId.criticalincidents, Title.criticalincidents, UserId, CONCAT(users.FName, users.LName) As name
+						FROM users LEFT JOIN criticalincidents ON Title.users = Title.criticalincidents
+						LEFT JOIN journalofcriticalincidents on CriticalIncidentId.journalofcriticalincidents
+						Where Title.criticalincidents = $criteria;";
 			} elseif ($field == "PublicationYear") {
-				$query = "	SELECT PublicationYear
-						FROM journalofcriticalincidents
+				$query = "	SELECT PublicationYear, CriticalIncidentId.criticalincidents, Title.criticalincidents, UserId, CONCAT(users.FName, users.LName) As name
+						FROM users LEFT JOIN criticalincidents ON Title.users = Title.criticalincidents
+						LEFT JOIN journalofcriticalincidents on CriticalIncidentId.journalofcriticalincidents
 						Where PublicationYear = $criteria;";
 			} elseif ($field == "UserId") {
-				$query = "	SELECT CONCAT(users.Fname, users.Lname) As name, criticalincident.Title
-						FROM users LEFT JOIN criticalincident ON users.USERID = criticalincident.UserId
-						Where users.name = $criteria;";
+				$query = "	SELECT PublicationYear, CriticalIncidentId.criticalincidents, Title.criticalincidents, UserId, CONCAT(users.FName, users.LName) As name
+						FROM users LEFT JOIN criticalincidents ON Title.users = Title.criticalincidents
+						LEFT JOIN journalofcriticalincidents on CriticalIncidentId.journalofcriticalincidents
+						Where name = $criteria;";
 			} else {
 				echo 'This Error should never be print; if it does, query is bugged.';
 			}
 			$results = @mysqli_query($dbc, $query);
-		} else {
-			// add more $search criteria at some point.
-		}
 
+ 			if (!empty($err)) {
+ 			//List each Error msg that is stored in the array.
+			Foreach($err as $m)
+			{
+				echo " $m <br />";
+			} echo "Please correct the errors.";
+			}
 	}
+}
+
 	/**if(isset($_GET['submit'])){
 		if(preg_match("/^[  a-zA-Z]+/", $_POST['result'])){
 			$result=$_POST['result'];
@@ -71,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 		echo  "<p>Please enter a search query</p>";
 		}
 	}*/
-}
+
 ?>
 <!--Edited, but orginally written by Shane Workman-->
 <h3>Search  Articles</h3>
@@ -84,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 			<option <?php if(isset($_POST['field'])=="UserId") echo'selected="selected"'; ?> value="UserId">Primary Author</option>
 		</select>
 		<input type="text" name="result" size="15" maxlength="50" value="<?php if (isset($_POST['criteria'])) echo $_POST['criteria']; ?>" /></p>
-		<input type="submit" name="submit" value="Search"/></p>
+		<p><input type="submit" name="submit" value="field"/></p>
      </fieldset>
 </form>
 
