@@ -13,7 +13,7 @@
 	include ("includes/Header.php");
 	require ('../DbConnector.php');
 	// value of a variable	
-	$getId = $_GET['id'];
+	$getId = $_GET['AnnouncementId'];
 	$title = $_POST['Subject']; 
 	$body = $_POST['Body'];
 	$startDate = $_POST['StartDate'];
@@ -37,13 +37,13 @@
 			}
 		// stole from Shane announcement code 
 		//Check if the first name text box has a value.
-		if (empty($_POST['endDate'])) {
+		if (empty($_POST['EndDate'])) {
 			$err[] = 'You forgot to enter a date that the announcement expires.';
 		} elseif (!preg_match("/[0-9]{2}\/[0-9]{2}\/[0-9]{4}/", ($_POST['EndDate']))) {
 			$err[] = 'You did not enter the date in the MM/DD/YYYY format..';
-		} elseif (!isDate($_POST['endDate'])) {
+		} elseif (!isDate($_POST['EndDate'])) {
 			$err[] = 'You did not enter a valid date.';
-		} elseif (isset($_POST['endDate']) < ($_POST['$startDate'])) {
+		} elseif (isset($_POST['EndDate']) < ($_POST['$startDate'])) {
 			$err[] = 'The date you enterd passed, please try again.';
 		}
 		else {
@@ -53,7 +53,7 @@
 		
 		if(empty($err)) {
 			//Creat the query that dumps info into the DB.
-			$update = mysql_query("UPDATE Announcement SET Subject='$title', Body='$body', StartDate='$startDate', EndDate='$endDate' WHERE id='$getid'");
+			$update = mysql_query("UPDATE Announcement SET Subject='$title', Body='$body', StartDate='$startDate', EndDate='$endDate' WHERE AnnouncementId='$getid'");
 		
 			//Run update query
 			$run = @mysqli_query($dbc, $update)or die("We could not update, please try again.".mysqli_error($dbc));
