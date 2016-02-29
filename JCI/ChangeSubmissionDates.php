@@ -18,8 +18,8 @@
   * Description of change. Also add //Name: comments above your change within the code.
   ********************************************************************************************/
   
-   include ("includes/Header.php");
- $page_title = 'ChangeSubmissionDates';
+include ("includes/Header.php");
+$page_title = 'ChangeSubmissionDates';
  
  //Grab the db connector.
  require ('../DbConnector.php');
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	If(empty($err)) {
 	
 		//Creat the query that dumps info into the DB.
-		$query = "INSERT INTO submission (StartDate, EndDate)
+		$query = "INSERT INTO submissions (StartDate, EndDate)
 				VALUES ('$StartDate', '$EndDate');";
 				
 		//Run the query...
