@@ -39,11 +39,9 @@
  
  	function countNumberOfFields($dbc, $selectQuery) {
  		$headerCounter = 0;
-		$tableHeader = '';
 		// This block will retrieve an array from the database, which will be counted in order
 		// to determine how many fields were returned in the query.
 		while($column = mysqli_fetch_field($selectQuery)) {
-			$tableHeader = $tableHeader . "<th>{$column->name}</th>";
 			$headerCounter = $headerCounter + 1;
 		}
 		return $headerCounter;	
