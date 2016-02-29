@@ -23,6 +23,8 @@
  
  //Grab the db connector.
  require ('../DbConnector.php');
+ //require ('mysqli_connect.php');
+ 
 
 //Begin Validation... 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
