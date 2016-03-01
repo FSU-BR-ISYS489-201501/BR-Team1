@@ -8,6 +8,7 @@
   * Purpose: this page is used for making changes in announcement when an editors click on edit button from manage announcement page
   *Credits: www.W3schools.com
   * www.php.net
+  *Revision1.1: 32/01/2016 Author: Faisal Alfadhli: edited the sql command
   ********************************************************************************************/
 
 	include ("includes/Header.php");
@@ -18,11 +19,12 @@
 	$body = $_POST['Body'];
 	$startDate = $_POST['StartDate'];
 	$endDate = $_POST['EndDate'];
-	//Set up as an arrary for errors
-	$err= array();
+	
 	// if a user click save button the changes will be updated into announcement table in db.
-	if ($_SERVER["REQUEST_METHOD"] == "POST") { 
-		  
+	if ($_SERVER["REQUEST_METHOD"] == "POST") {
+		 
+		//Set up as an arrary for errors
+		$err= array();
 		// check if all field has values or not 
 		if (empty($_POST['Subject'])) {
 			$err[] = 'Failed You did not enter the Subject.';
@@ -53,7 +55,7 @@
 		
 		if(empty($err)) {
 			//Creat the query that dumps info into the DB.
-			$update = mysql_query("UPDATE Announcement SET Subject='$title', Body='$body', StartDate='$startDate', EndDate='$endDate' WHERE AnnouncementId='$getid'");
+			$update = mysql_query("UPDATE Announcements SET Subject='$title', Body='$body', StartDate='$startDate', EndDate='$endDate' WHERE AnnouncementId='$getid'");
 		
 			//Run update query
 			$run = @mysqli_query($dbc, $update)or die("We could not update, please try again.".mysqli_error($dbc));
