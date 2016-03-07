@@ -11,7 +11,7 @@
 include ("includes/Header.php");
 $page_title = 'Search Staff';
 //require ('../DbConnector.php');
-require ('../mysqli_connect.php');
+require ('../DbConnector.php');
  
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {

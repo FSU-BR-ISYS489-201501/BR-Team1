@@ -32,6 +32,7 @@
 		<table>
 			<tr>
 				<th>Announcement Number</th>
+				<th>Subject</th>
 				<th>Announcement</th>
 			</tr>
 			<?php echo $tableBody; ?>

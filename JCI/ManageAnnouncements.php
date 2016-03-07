@@ -33,6 +33,7 @@
 		$announcementDeactivateQuery = "UPDATE announcement SET IsActive = 0 WHERE AnnouncementId = {$_GET['deleteId']};";
 		$deactivateQuery = @mysqli_query($dbc, $announcementDeactivateQuery);
 		if($deactivateQuery){
+			header('Location: http://localhost:8081/jci/ManageAnnouncements.php');
 		}
 	}
 	
@@ -43,6 +44,7 @@
 		$announcementActivateQuery = "UPDATE announcement SET IsActive = 1 WHERE AnnouncementId = {$_GET['activateId']};";
 		$activateQuery = @mysqli_query($dbc, $announcementActivateQuery);
 		if($activateQuery){
+			header('Location: http://localhost:8081/jci/ManageAnnouncements.php');
 		}
 	}
 	
@@ -55,6 +57,7 @@
 		<table>
 			<tr>
 				<th>Announcement Number</th>
+				<th>Subject</th>
 				<th>Announcement</th>
 			</tr>
 			<?php echo $tableBody; ?>

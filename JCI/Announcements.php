@@ -62,8 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	//Check to see if any errors exist in the validation array.
 	if(empty($err)) {
 		//Creat the query that dumps info into the DB.
-		$query = "INSERT INTO Announcement (AnnouncementBoardId, Subject, Body, StartDate, EndDate, IsActive)
-				  VALUES ('$board', '$title', '$announcement', 'NOW()', '$endDate', 1);";
+		$query = "INSERT INTO announcement (Subject, Body, StartDate, EndDate, IsActive)
+				  VALUES ('$title', '$announcement', 'NOW()', '$endDate', 1);";
 				
 		//Run the query...
 		$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
