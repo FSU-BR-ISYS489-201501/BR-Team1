@@ -37,17 +37,7 @@
  * Description of change. Also add //Name: comments above your change within the code.
  ********************************************************************************************/
  
- 	function countNumberOfFields($dbc, $selectQuery) {
- 		$headerCounter = 0;
-		// This block will retrieve an array from the database, which will be counted in order
-		// to determine how many fields were returned in the query.
-		while($column = mysqli_fetch_field($selectQuery)) {
-			$headerCounter = $headerCounter + 1;
-		}
-		return $headerCounter;	
-	}
-	
-	function tableRowGenerator($dbc, $selectQuery, $headerCounter) {
+	function tableRowGenerator($selectQuery, $headerCounter) {
 		$tableBody = '';
 		// This block will retrieve an array from the database, which will be used to assign values
 		// to an HTML table.
@@ -62,7 +52,7 @@
 		return $tableBody;
 	}
 	
-	function tableRowGeneratorWithButtons($dbc, $selectQuery, $editButton, $headerCounter) {
+	function tableRowGeneratorWithButtons($selectQuery, $editButton, $headerCounter) {
 		$tableBody = '';
 		$idCounter = 0;
 		// This block will retrieve an array from the database, which will be used to assign values
@@ -88,7 +78,7 @@
 		return $tableBody;
 	}
 	
-	function tableRowGeneratorWithRadioButtons($dbc, $selectQuery, $radioButton, $headerCounter, $ids) {
+	function tableRowGeneratorWithRadioButtons($selectQuery, $radioButton, $headerCounter, $ids) {
 		$tableBody = '';
 		$rowCounter = 0;
 		// This block will retrieve an array from the database, which will be used to assign values
@@ -108,7 +98,7 @@
 		return $tableBody;
 	}
 	
-	function tableRowRadioButtonGenerator($dbc, $editorQuery) {
+	function tableRowRadioButtonGenerator($editorQuery) {
 		$button = "<td><select>";
 			// The idea for this code was inspired by xdazz.
 		while ($editors = mysqli_fetch_array($editorQuery, MYSQLI_NUM)){			
@@ -120,7 +110,7 @@
 		return $button;
 	}
 	
-	function tableRowLinkGenerator($dbc, $idSelectQuery) {
+	function tableRowLinkGenerator($idSelectQuery) {
 		$editButton = array();
 		while ($ids = mysqli_fetch_array($idSelectQuery, MYSQLI_NUM)) {
 			for($a = 0;$a < count($ids);$a++) {
