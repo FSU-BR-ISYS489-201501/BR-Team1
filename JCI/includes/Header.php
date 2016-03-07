@@ -22,12 +22,15 @@
 <!--Ben Brackett: changed logout link-->
 <!-- <<<<<<< HEAD -->
 			<li><a href="Index.php">Home Page</a></li>
-			<li><a href="Announcements.php">Announcements</a></li>
+			<li><a href="ReadAnnouncements.php">Read Announcements</a></li>
+			<li><a href="ManageAnnouncements.php">Manage Announcements</a></li>
+			<li><a href="PostNewAnnouncement.php">Create New Announcement</a></li>
 			<li><a href="Register.php">Register</a></li>
-			<li><a href="LoginPage.php">Login</a></li>
-			<li><a href="Logout.php">Logout</a></li>
 			<li><a href="SubmitCase.php">Submit a Case</a></li>
 			<li><a href="SearchStaff.php">Search Staff</a></li>
+			<li><a href="SearchArticle.php">Search an Article</a></li>
+			<li><a href="LoginPage.php">Login</a></li>
+			<li><a href="Logout.php">Logout</a></li>
 			<!--
 =======
 			<li><a href="index.php">Home Page</a></li>
