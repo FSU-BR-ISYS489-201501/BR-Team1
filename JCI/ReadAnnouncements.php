@@ -23,8 +23,8 @@
 	// Stole from Shane Workman's Register code
 	$selectQuery = @mysqli_query($dbc, $query);
 	
-	$headerCounter = countNumberOfFields($dbc, $selectQuery);
-	$tableBody = tableRowGenerator($dbc, $selectQuery, $headerCounter);
+	$headerCounter = mysqli_num_fields($selectQuery);
+	$tableBody = tableRowGenerator($selectQuery, $headerCounter);
 ?>
 
 

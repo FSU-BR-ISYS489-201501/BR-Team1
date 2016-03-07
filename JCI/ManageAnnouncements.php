@@ -48,9 +48,9 @@
 		}
 	}
 	
-	$headerCounter = countNumberOfFields($dbc, $selectQuery);
-	$editButton = tableRowLinkGenerator($dbc, $idSelectQuery);
-	$tableBody = tableRowGeneratorWithButtons($dbc, $selectQuery, $editButton, $headerCounter);
+	$headerCounter = mysqli_num_fields($selectQuery);
+	$editButton = tableRowLinkGenerator($idSelectQuery);
+	$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, $headerCounter);
 ?>
 
 	<div id = 'announcementViewer'>
