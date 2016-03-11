@@ -43,7 +43,7 @@
 	}
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		// this block will update the select vallue to db
+		// this block will update the select value to db
 		$insertQuery ='insert into CriticalIncidents(Editor) VALUES(_POST("$editors[a]"))';
 		$run = mysqli_query($dbc, $insertQuery);
 	}
