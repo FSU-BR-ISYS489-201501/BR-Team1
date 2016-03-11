@@ -8,7 +8,8 @@
   * Purpose: this page is used for making changes in announcement when an editors click on edit button from manage announcement page
   *Credits: www.W3schools.com
   * www.php.net
-  *Revision1.1: 32/01/2016 Author: Faisal Alfadhli: edited the sql command
+  *Revision1.1: 03/01/2016 Author: Faisal Alfadhli: edited the sql command
+ * *Revision1.2: 03/11/2016 Author: Faisal Alfadhli: edited tables names 
   ********************************************************************************************/
 
 	include ("includes/Header.php");
@@ -45,7 +46,7 @@
 			$err[] = 'You did not enter the date in the MM/DD/YYYY format..';
 		} elseif (!isDate($_POST['EndDate'])) {
 			$err[] = 'You did not enter a valid date.';
-		} elseif (isset($_POST['EndDate']) < ($_POST['$startDate'])) {
+		} elseif (isset($_POST['EndDate']) < ($_POST['StartDate'])) {
 			$err[] = 'The date you enterd passed, please try again.';
 		}
 		else {
@@ -55,7 +56,7 @@
 		
 		if(empty($err)) {
 			//Creat the query that dumps info into the DB.
-			$update = mysql_query("UPDATE Announcements SET Subject='$title', Body='$body', StartDate='$startDate', EndDate='$endDate' WHERE AnnouncementId='$getid'");
+			$update = mysql_query("UPDATE announcements SET Subject='$title', Body='$body', StartDate='$startDate', EndDate='$endDate' WHERE AnnouncementId='$getid'");
 		
 			//Run update query
 			$run = @mysqli_query($dbc, $update)or die("We could not update, please try again.".mysqli_error($dbc));

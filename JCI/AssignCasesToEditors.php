@@ -10,17 +10,18 @@
   * www.php.net 
   * HTMLBook.pdf from ISYS 288 class
   * used Larry Uldman's PHP book
+ *  *Revision1.0: 03/11/2016 Author: Faisal Alfadhli: edited tables names
   ********************************************************************************************/
 	include ('includes/Header.php');
 	require ('../DbConnector.php');
 	include('includes/TableRowHelper.php');
 	
 	
-	$submissionQuery= "Select submission.SubmissionId, users.USERID, users.Fname, users.Lname, submission.SubmissionDate 
-		from submission JOIN users on submission.USERID = users.USERID;";
-	$editorName= "SELECT Lname from users U JOIN User_Type T on U.USERID = T.USERID
-		WHERE type = 'Editor';";	
-	$idQuery = "SELECT SubmissionId FROM submission;";
+	$submissionQuery= "Select submissions.SubmissionId, users.UserId, users.FName, users.LName, submissions.SubmissionDate 
+		from submissions JOIN users on submissions.UserId = users.UserId;";
+	$editorName= "SELECT LName from users U JOIN usertypes T on U.UserId = T.UserId
+		WHERE Type = 'Editor';";	
+	$idQuery = "SELECT SubmissionId FROM submissions;";
 	//$UpdateEditorTable= "UPDATE Critical_Incident SET ";
 	
 	$idSelectQuery = @mysqli_query($dbc, $idQuery);
@@ -34,13 +35,21 @@
 		array_push($ids, $row);
 	}
 	if (!empty($ids)){
+		// to determine how many fields were returned in the query.
 		$headerCounter = countNumberOfFields($dbc, $submissionSelectQuery);
+		// to list editors names in dropdown list.
 		$radioButton = tableRowRadioButtonGenerator($dbc, $editorSelectQuery, $ids);
 		$tableBody = tableRowGeneratorWithRadioButtons($dbc, $submissionSelectQuery, $radioButton, $headerCounter, $ids);
 	}
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		echo 'Doing stuff';
+		// this block will update the select vallue to db
+		$insertQuery ='insert into CriticalIncidents(Editor) VALUES(_POST("$editors[a]"))';
+		$run = mysqli_query($dbc, $insertQuery);
+	}
+	else{
+		echo 'Soerry, there is an error, try again please!';
+		
 	}
 		
 		// //Set up Error msg array.
@@ -102,8 +111,11 @@
 	<form id = 'assignCasesToEditors' method = 'POST' action = "<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
 		<table>
 			<tr>
-				<th>Announcement Number</th>
-				<th>Announcement</th>
+				<th>Submiision ID</th>
+				<th>Author ID</th>
+				<th>Author Name</th>
+				<th>Submission Date</th>
+				<th>Editor Name</th>
 			</tr>
 			<?php echo $tableBody; ?>
 		</table>
