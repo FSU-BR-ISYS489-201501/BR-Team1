@@ -17,9 +17,9 @@
 	include('includes/TableRowHelper.php');
 	
 	
-	$submissionQuery= "Select submissions.SubmissionId, users.UserId, users.FName, users.LName, submissions.SubmissionDate 
-		from submissions JOIN users on submissions.UserId = users.UserId;";
-	$editorName= "SELECT LName from users U JOIN usertypes T on U.UserId = T.UserId
+	$submissionQuery= "SELECT submissions.SubmissionId, users.UserId, users.FName, users.LName, submissions.SubmissionDate 
+		FROM submissions JOIN users ON submissions.UserId = users.UserId;";
+	$editorName= "SELECT LName FROM users U JOIN usertypes T on U.UserId = T.UserId
 		WHERE Type = 'Editor';";	
 	$idQuery = "SELECT SubmissionId FROM submissions;";
 	//$UpdateEditorTable= "UPDATE Critical_Incident SET ";
@@ -35,20 +35,20 @@
 		array_push($ids, $row);
 	}
 	if (!empty($ids)){
-		// to determine how many fields were returned in the query.
+		//To determine how many fields were returned in the query.
 		$headerCounter = countNumberOfFields($dbc, $submissionSelectQuery);
-		// to list editors names in dropdown list.
+		//To list editors names in dropdown list.
 		$radioButton = tableRowRadioButtonGenerator($dbc, $editorSelectQuery, $ids);
 		$tableBody = tableRowGeneratorWithRadioButtons($dbc, $submissionSelectQuery, $radioButton, $headerCounter, $ids);
 	}
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		// this block will update the select value to db
-		$insertQuery ='insert into CriticalIncidents(Editor) VALUES(_POST("$editors[a]"))';
+		//This block will update the select value to db
+		$insertQuery ='INSERT INTO criticalincidents(Editor) VALUES(_POST("$editors[a]"))';
 		$run = mysqli_query($dbc, $insertQuery);
 	}
 	else{
-		echo 'Soerry, there is an error, try again please!';
+		echo 'Sorry, there is an error, try again please!';
 		
 	}
 		

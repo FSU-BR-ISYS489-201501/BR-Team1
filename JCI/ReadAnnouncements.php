@@ -17,7 +17,7 @@
 	require('../DbConnector.php');
 	
 	$currentDate = date("Y-m-d");
-	$query = "SELECT AnnouncementId, Subject, Body FROM announcement WHERE IsActive = 1 AND StartDate < '{$currentDate}' 
+	$query = "SELECT AnnouncementId, Subject, Body FROM announcements WHERE IsActive = 1 AND StartDate < '{$currentDate}' 
 		AND EndDate > '{$currentDate}';";
 	
 	// Stole from Shane Workman's Register code

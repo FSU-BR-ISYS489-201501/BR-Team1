@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	//Check to see if any errors exist in the validation array.
 	if(empty($err)) {
 		//Creat the query that dumps info into the DB.
-		$query = "INSERT INTO announcement (Subject, Body, StartDate, EndDate, IsActive)
+		$query = "INSERT INTO announcements (Subject, Body, StartDate, EndDate, IsActive)
 				  VALUES ('$title', '$announcement', 'NOW()', '$endDate', 1);";
 				
 		//Run the query...

@@ -14,14 +14,14 @@
 
 	include ("includes/Header.php");
 	require ('../DbConnector.php');
-	// value of a variable	
+	//Value of a variable	
 	$getId = $_GET['AnnouncementId'];
 	$title = $_POST['Subject']; 
 	$body = $_POST['Body'];
 	$startDate = $_POST['StartDate'];
 	$endDate = $_POST['EndDate'];
 	
-	// if a user click save button the changes will be updated into announcement table in db.
+	//If a user click save button the changes will be updated into announcements table in db.
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		 
 		//Set up as an arrary for errors
@@ -38,7 +38,7 @@
 		} 	else {
 				$body= mysqli_real_escape_string($dbc, trim($_POST['Body']));
 			}
-		// stole from Shane announcement code 
+		//Stole from Shane announcement code 
 		//Check if the first name text box has a value.
 		if (empty($_POST['EndDate'])) {
 			$err[] = 'You forgot to enter a date that the announcement expires.';
@@ -55,13 +55,13 @@
 		
 		
 		if(empty($err)) {
-			//Creat the query that dumps info into the DB.
+			//Create the query that dumps info into the DB.
 			$update = mysql_query("UPDATE announcements SET Subject='$title', Body='$body', StartDate='$startDate', EndDate='$endDate' WHERE AnnouncementId='$getid'");
 		
 			//Run update query
 			$run = @mysqli_query($dbc, $update)or die("We could not update, please try again.".mysqli_error($dbc));
 			
-			// this block is taken from Shane code.
+			//This block is taken from Shane code.
 			If (!$run)
 			{
 				echo 'There was an error when updating the announcement. Please try again!';

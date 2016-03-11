@@ -61,7 +61,7 @@
 			// for the uploaded file and the location it is going to be saved to.
 			$tempUploadedFileName = $_FILES["$htmlElement"]['tmp_name'][$i];
 			$uploadedFileNameSaveLocation = $fileStorageLocation . "{$_FILES["$htmlElement"]['name']["$i"]}";
-			$insertFileLocationSqlQuery = "INSERT INTO Files (File_Location, File_Des)
+			$insertFileLocationSqlQuery = "INSERT INTO files (File_Location, File_Des)
 				VALUES ('$tempUploadedFileName', '$uploadedFileNameSaveLocation')";
 			// This block checks if a file has been submitted with the HTML form.
 			if(file_exists($tempUploadedFileName)) {
@@ -112,7 +112,7 @@
 	function downloadFile($dbc, $fileId) {
 		
 		$successMessage = 0;
-		$selectFileLocationSqlQuery = "SELECT File_Des FROM Files WHERE FileID = ?;";
+		$selectFileLocationSqlQuery = "SELECT File_Des FROM files WHERE FileID = ?;";
 		
 		
 		// This code was retrived from http://php.net/manual/en/mysqli.prepare.php.

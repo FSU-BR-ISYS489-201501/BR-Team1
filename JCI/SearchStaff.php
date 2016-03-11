@@ -50,17 +50,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		// Create and run the query based of the given criteria.
 		if ($search == "Authored by") {
 			if($field == "First Name")	{
-				$query = "	SELECT CONCAT(users.Fname, users.Lname) As name, users.email, Critical_Incidents.Title
-						FROM users LEFT JOIN Critical_Incidents ON users.USERID = Critical_Incidents.USERID
-						Where user.Fname = $criteria;";
+				$query = "	SELECT CONCAT(users.FName, users.LName) As name, users.Email, criticalincidents.Title
+						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
+						WHERE users.FName = $criteria;";
 			} elseif ($search == "Last Name") {
-				$query = "	SELECT CONCAT(users.Fname, users.Lname) As name, users.email, Critical_Incidents.Title
-						FROM users LEFT JOIN Critical_Incidents ON users.USERID = Critical_Incidents.USERID
-						Where user.Lname = $criteria;";
+				$query = "	SELECT CONCAT(users.Fname, users.Lname) As name, users.Email, criticalincidents.Title
+						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
+						WHERE user.LName = $criteria;";
 			} elseif ($search == "Email") {
-				$query = "	SELECT CONCAT(users.Fname, users.Lname) As name, users.email, Critical_Incidents.Title
-						FROM users LEFT JOIN Critical_Incidents ON users.USERID = Critical_Incidents.USERID
-						Where user.email = $criteria;";
+				$query = "	SELECT CONCAT(users.FName, users.LName) As name, users.Email, criticalincidents.Title
+						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
+						WHERE user.Email = $criteria;";
 			} else {
 				echo 'This Error should never be print; if it does, query is bugged.';
 			}

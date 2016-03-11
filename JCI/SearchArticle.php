@@ -46,20 +46,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 	if (empty($err)) {
 		// Create and run the query based of the given criteria.
 			if($field == "Title")	{
-				$query = "	SELECT PublicationYear, CriticalIncidentId.criticalincidents, Title.criticalincidents, UserId, CONCAT(users.FName, users.LName) As name
+				$query = "	SELECT PublicationYear, CriticalIncidentId.criticalincidents, Title.criticalincidents, UserId, CONCAT(users.FName, users.LName) AS name
 						FROM users LEFT JOIN criticalincidents ON Title.users = Title.criticalincidents
 						LEFT JOIN journalofcriticalincidents on CriticalIncidentId.journalofcriticalincidents
-						Where Title.criticalincidents = $criteria;";
+						WHERE Title.criticalincidents = $criteria;";
 			} elseif ($field == "PublicationYear") {
-				$query = "	SELECT PublicationYear, CriticalIncidentId.criticalincidents, Title.criticalincidents, UserId, CONCAT(users.FName, users.LName) As name
+				$query = "	SELECT PublicationYear, CriticalIncidentId.criticalincidents, Title.criticalincidents, UserId, CONCAT(users.FName, users.LName) AS name
 						FROM users LEFT JOIN criticalincidents ON Title.users = Title.criticalincidents
 						LEFT JOIN journalofcriticalincidents on CriticalIncidentId.journalofcriticalincidents
-						Where PublicationYear = $criteria;";
+						WHERE PublicationYear = $criteria;";
 			} elseif ($field == "UserId") {
-				$query = "	SELECT PublicationYear, CriticalIncidentId.criticalincidents, Title.criticalincidents, UserId, CONCAT(users.FName, users.LName) As name
+				$query = "	SELECT PublicationYear, CriticalIncidentId.criticalincidents, Title.criticalincidents, UserId, CONCAT(users.FName, users.LName) AS name
 						FROM users LEFT JOIN criticalincidents ON Title.users = Title.criticalincidents
 						LEFT JOIN journalofcriticalincidents on CriticalIncidentId.journalofcriticalincidents
-						Where name = $criteria;";
+						WHERE name = $criteria;";
 			} else {
 				echo 'This Error should never be print; if it does, query is bugged.';
 			}
