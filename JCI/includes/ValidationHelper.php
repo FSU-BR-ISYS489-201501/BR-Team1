@@ -70,4 +70,3 @@
 		return checkdate( $month, $day, $year );
 	}
 ?>
-?>

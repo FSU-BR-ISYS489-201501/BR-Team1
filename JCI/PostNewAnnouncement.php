@@ -12,7 +12,7 @@
   * Tweaked the SQL statement to reflect the database. Few other minor tweaks.
   ********************************************************************************************/
  include ("includes/Header.php");
- include ("includes/IsDate.php");
+ include ("includes/ValidationHelper.php");
  $page_title = 'Announcements';
  
  //Grab the db connector.

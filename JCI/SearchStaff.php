@@ -54,13 +54,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
 						WHERE users.FName = $criteria;";
 			} elseif ($search == "Last Name") {
-				$query = "	SELECT CONCAT(users.Fname, users.Lname) As name, users.Email, criticalincidents.Title
+				$query = "	SELECT CONCAT(users.FName, users.LName) As name, users.Email, criticalincidents.Title
 						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
-						WHERE user.LName = $criteria;";
+						WHERE users.LName = $criteria;";
 			} elseif ($search == "Email") {
 				$query = "	SELECT CONCAT(users.FName, users.LName) As name, users.Email, criticalincidents.Title
 						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
-						WHERE user.Email = $criteria;";
+						WHERE users.Email = $criteria;";
 			} else {
 				echo 'This Error should never be print; if it does, query is bugged.';
 			}

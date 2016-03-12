@@ -27,12 +27,12 @@
  ********************************************************************************************/
 	//Ben Brackett: Call checkLogin function
 	include ("includes/LoginHelper.php");
-	
+	include ("includes/ValidationHelper.php");
 	include ("includes/Header.php");
 	//include("includes/CheckEmail.php");
-	include("includes/CheckEmail.php");
-	// Call checkFile function 
-	include ("includes/CheckFile.php");
+	//include("includes/CheckEmail.php");
+	//Call checkFile function 
+	//include ("includes/CheckFile.php");
 	
 	include("includes/FileHelper.php");
 	//Grab the db connector.

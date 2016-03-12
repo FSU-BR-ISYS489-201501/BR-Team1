@@ -29,8 +29,7 @@
   * Added the CheckEmail.php funciton to the validation. Spelled out a few variables that were abbriviated.
   ********************************************************************************************/
  include ("includes/Header.php");
- include ("includes/CheckPsw.php");
- include ("includes/CheckEmail.php");
+ include ("includes/ValidationHelper.php");
  $page_title = 'Register';
  
  //Grab the db connector.
@@ -117,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	//Check if the array is empty, no ERRORS?
 	If(empty($err)) {
 		//Creat the query that dumps info into the DB.
-		$query = "INSERT INTO users (prefix, Fname, Lname, suffix, email, employer, title, membercode, regdate, password_hash, password_salt)
+		$query = "INSERT INTO users (Prefix, FName, LName, Suffix, Email, Employer, Title, MemberCode, Regdate, PasswordHash, PasswordSalt)
 				VALUES ('$prefix', '$fName', '$lName', '$suffix', '$email', '$university', '$title', '$member', NOW(), '$pass', '$pass');";
 				
 		//Run the query...
