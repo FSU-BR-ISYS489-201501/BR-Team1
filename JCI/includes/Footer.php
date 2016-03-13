@@ -6,12 +6,16 @@
 
 
 	<!-- End of the page-specific content. -->
-	</div>
+	
 	<!-- Shane added the following line. -->
+	<!--&#169; 2016 JCI Website | Ferris State University | Team 1  -->
+</div>
+</div>
+</div>
+	<footer>
+	<div class="container">
 	&#169; 2016 JCI Website | Ferris State University | Team 1 
-	
-	
-	<div id="footer">
-	</div>
+</div>
+</footer>
 </body>
 </html>
