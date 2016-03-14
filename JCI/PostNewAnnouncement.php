@@ -51,8 +51,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
  	//Check if the first name text box has a value.
 	if (empty($_POST['endDate'])) {
 			$err[] = 'You forgot to enter a date that the announcement expires.';
-		} elseif (!preg_match("/[0-9]{2}\/[0-9]{2}\/[0-9]{4}/", ($_POST['endDate']))) {
-			$err[] = 'You did not enter the date in the MM/DD/YYYY format..';
+		} elseif (!preg_match("/[0-9]{4}-[0-9]{2}-[0-9]{2}/", ($_POST['endDate']))) {
+			$err[] = 'You did not enter the date in the YYYY-MM-DD format..';
 		} elseif (!isDate($_POST['endDate'])) {
 			$err[] = 'You did not enter a valid date.';
 		} else {
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	if(empty($err)) {
 		//Creat the query that dumps info into the DB.
 		$query = "INSERT INTO announcements (Subject, Body, StartDate, EndDate, IsActive)
-				  VALUES ('$title', '$announcement', 'NOW()', '$endDate', 1);";
+				  VALUES ('$title', '$announcement', CURDATE(), '$endDate', 1);";
 				
 		//Run the query...
 		$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		<p>Title: <input type="text" name="title" size="15" maxlength="50" value="<?php if (isset($_POST['title'])) echo $_POST['title']; ?>" /></p>
 		<p>Announcement: <br/><textarea name="announcement" style="width:250px;height:150px;" value="<?php if (isset($_POST['announcement'])) 
 				echo $_POST['announcement']; ?>"></textarea><br />
-		<p>End Date(MM/DD/YYYY): <input type="text" name="endDate" size="10" maxlength="10" value="<?php if (isset($_POST['endDate'])) echo $_POST['endDate']; ?>" /></p>
+		<p>End Date(YYYY-MM-DD): <input type="text" name="endDate" size="10" maxlength="10" value="<?php if (isset($_POST['endDate'])) echo $_POST['endDate']; ?>" /></p>
 		<p><input type="submit" value="Submit" /></p>
 	</fieldset>
 </form>
