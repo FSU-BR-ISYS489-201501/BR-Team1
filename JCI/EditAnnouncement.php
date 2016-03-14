@@ -76,49 +76,53 @@
 				} echo "Please correct the errors.";
 			
 			}	
-	}
-	// it will get id value from edit link and when we hit sibmit it will post it in the board 
-	// this code was inspired by Wiiliam
-	//Value of a variable
-	If (isset($_GET['id']) ) {
-		$announcementId = $_GET['id'];
-	} Else {
-		$announcementId = $_POST['id'];
-	}
-    	
-	$announcementQuery = "SELECT AnnouncementId, Subject, Body, StartDate, Type, EndDate, IsActive FROM announcements WHERE AnnouncementId = $announcementId;";
-	$selectQuery = @mysqli_query($dbc, $announcementQuery);	
-	$headerCounter = mysqli_num_fields($selectQuery);
-	$row = mysqli_fetch_array($selectQuery, MYSQLI_NUM);
-	//The following variable set the starting column from our query array $row.
-    $a = 1;
-	//this code was inspired by Wiiliam
-	//The previous variable is increased in value to assign the appropriate values from our query array to each variable.
-	$title = "{$row[$a]}";
-	$body = "{$row[$a+1]}";
-	$startDate = "{$row[$a+2]}";
-	$type = "{$row[$a+3]}";
-	$endDate = "{$row[$a+4]}";
+		}
+		// it will get id value from edit link and when we hit sibmit it will post it in the board 
+		// this code was inspired by Wiiliam
+		//Value of a variable
+		If (isset($_GET['id']) ) {
+			$announcementId = $_GET['id'];
+		} Else {
+			$announcementId = $_POST['id'];
+		}
+	
+		// from Mike code	
+		$announcementQuery = "SELECT AnnouncementId, Subject, Body, StartDate, Type, EndDate, IsActive FROM announcements WHERE AnnouncementId = $announcementId;";
+		$selectQuery = @mysqli_query($dbc, $announcementQuery);	
+		$headerCounter = mysqli_num_fields($selectQuery);
+		$row = mysqli_fetch_array($selectQuery, MYSQLI_NUM);
 		
-    ?>
-       <!--Takes information to create a new announcement in the db.-->
-       <h1>Edit Announcement</h1>
-       <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" id="editannouncement" method="post">
-	     <fieldset>
-		 <input type="hidden" value="<?php if (isset($announcementId)) echo $announcementId; ?>" name="id" />
-		  <p>Who will view this Announcement?:
-		  <select name="board">
-			<option <?php if(isset($type)=="Public") echo'selected="selected"'; ?>    value="Public">Public</option>
-			<option <?php if(isset($type)=="Private") echo'selected="selected"'; ?>    value="Private">Private</option>
-		  </select></p>	
-		  <p>Title: <input type="text" name="title" size="15" maxlength="50" value="<?php echo $title; ?>" </input></p>
-		  <p>Announcement: <br/><textarea name="announcement" style="width:250px;height:150px;" value=""><?php echo $body;?></textarea><br />
-		  <p>End Date(MM/DD/YYYY): <input type="text" name="endDate" size="10" maxlength="10" value="<?php echo $endDate; ?>" /></p>
-		  <p><input type="submit" value="Submit" /></p>
-	    </fieldset>
-     </form>
-   <?php
-	include ("includes/Footer.php");
-?>	
+		//The following variable set the starting column from our query array $row.
+		$a = 1;
+		//this code was inspired by Wiiliam
+		//The previous variable is increased in value to assign the appropriate values from our query array to each variable.
+		$title = "{$row[$a]}";
+		$body = "{$row[$a+1]}";
+		$startDate = "{$row[$a+2]}";
+		$type = "{$row[$a+3]}";
+		$endDate = "{$row[$a+4]}";
+		
+?>
+			
+	<!--Takes information to create a new announcement in the db.-->
+	<h1>Edit Announcement</h1>
+		<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" id="editannouncement" method="post">
+			<fieldset>
+				<input type="hidden" value="<?php if (isset($announcementId)) echo $announcementId; ?>" name="id" />
+			  	<p>Who will view this Announcement?:
+					<select name="board">
+						<option <?php if(isset($type)=="Public") echo'selected="selected"'; ?>    value="Public">Public</option>
+						<option <?php if(isset($type)=="Private") echo'selected="selected"'; ?>    value="Private">Private</option>
+					</select>
+				</p>	
+				<p>Title: <input type="text" name="title" size="15" maxlength="50" value="<?php echo $title; ?>" </input></p>
+				<p>Announcement: <br/><textarea name="announcement" style="width:250px;height:150px;" value=""><?php echo $body;?></textarea><br />
+				<p>End Date(MM/DD/YYYY): <input type="text" name="endDate" size="10" maxlength="10" value="<?php echo $endDate; ?>" /></p>
+				<p><input type="submit" value="Submit" /></p>
+			</fieldset>
+		</form>
+	<?php
+		include ("includes/Footer.php");
+	?>	
 	
 	
