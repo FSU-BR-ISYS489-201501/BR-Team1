@@ -19,7 +19,7 @@
 	include('includes/TableRowHelper.php');
 	require('../DbConnector.php');
 	
-	$announcementQuery = "SELECT AnnouncementId, Subject, Body, StartDate, Type, EndDate, IsActive FROM announcements;";
+	$announcementQuery = "SELECT AnnouncementId, Subject, Body, StartDate, EndDate, Type, IsActive FROM announcements;";
 	$announcementIdQuery = "SELECT AnnouncementId FROM announcements;";
 	
 	// Written by Shane Workman.
@@ -56,9 +56,13 @@
 	<div id = 'announcementViewer'>
 		<table>
 			<tr>
-				<th>Announcement Number</th>
+				<th>Number</th>
 				<th>Subject</th>
 				<th>Announcement</th>
+				<th>Start Date</th>
+				<th>End Date</th>
+				<th>Type</th>
+				<th>Active</th>
 			</tr>
 			<?php echo $tableBody; ?>
 		</table>
