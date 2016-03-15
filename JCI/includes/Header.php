@@ -55,7 +55,7 @@
 			<li><a href="ReadAnnouncements.php">Read Announcements</a></li>
 			<li><a href="ManageAnnouncements.php">Manage Announcements</a></li>
 			<li><a href="PostNewAnnouncement.php">Create New Announcement</a></li>
-			
+			<li><a href="FileManagement.php">File Management</a></li>
 			<li><a href="SubmitCase.php">Submit a Case</a></li>
 			<li><a href="SearchStaff.php">Search Staff</a></li>
 			<li><a href="SearchArticle.php">Search an Article</a></li>
