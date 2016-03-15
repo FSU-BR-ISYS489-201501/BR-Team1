@@ -10,6 +10,8 @@
   * 
   * Revision1.1 Author:Shane Workman
   * Tweaked the SQL statement to reflect the database. Few other minor tweaks.
+  * Revision1.2 Author:Shane Workman
+  * Added a start date to the form/sql insert statement.
   ********************************************************************************************/
  include ("includes/Header.php");
  include ("includes/ValidationHelper.php");
@@ -58,12 +60,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		} else {
 				$endDate = mysqli_real_escape_string($dbc, trim($_POST['endDate']));
 		}
+	
+	//Check if the Start date has a value and that it is correct.
+	if (empty($_POST['startDate'])) {
+			$err[] = 'You forgot to enter a date that the announcement can begin.';
+		} elseif (!preg_match("/[0-9]{4}-[0-9]{2}-[0-9]{2}/", ($_POST['startDate']))) {
+			$err[] = 'You did not enter the date in the YYYY-MM-DD format..';
+		} elseif (!isDate($_POST['startDate'])) {
+			$err[] = 'You did not enter a valid date.';
+		} else {
+				$startDate = mysqli_real_escape_string($dbc, trim($_POST['startDate']));
+		}
 
 	//Check to see if any errors exist in the validation array.
 	if(empty($err)) {
 		//Creat the query that dumps info into the DB.
 		$query = "INSERT INTO announcements (Subject, Body, StartDate, EndDate, IsActive)
-				  VALUES ('$title', '$announcement', CURDATE(), '$endDate', 1);";
+				  VALUES ('$title', '$announcement', $startDate, '$endDate', 1);";
 				
 		//Run the query...
 		$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
@@ -97,6 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		<p>Title: <input type="text" name="title" size="15" maxlength="50" value="<?php if (isset($_POST['title'])) echo $_POST['title']; ?>" /></p>
 		<p>Announcement: <br/><textarea name="announcement" style="width:250px;height:150px;" value="<?php if (isset($_POST['announcement'])) 
 				echo $_POST['announcement']; ?>"></textarea><br />
+		<p>Start Date(YYYY-MM-DD): <input type="text" name="startDate" size="10" maxlength="10" value="<?php if (isset($_POST['startDate'])) echo $_POST['startDate']; ?>" /></p>
 		<p>End Date(YYYY-MM-DD): <input type="text" name="endDate" size="10" maxlength="10" value="<?php if (isset($_POST['endDate'])) echo $_POST['endDate']; ?>" /></p>
 		<p><input type="submit" value="Submit" /></p>
 	</fieldset>
