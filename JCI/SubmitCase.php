@@ -156,7 +156,7 @@
 		}
 		else {
 			for($i = 0; $i < count($err); $i++) {
-				echo '$err[$i] <br />';
+				echo "$err[$i] <br />";
 			}
 		}
 	}
