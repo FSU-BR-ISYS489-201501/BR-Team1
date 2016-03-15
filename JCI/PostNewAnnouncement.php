@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	if(empty($err)) {
 		//Creat the query that dumps info into the DB.
 		$query = "INSERT INTO announcements (Subject, Body, StartDate, Type, EndDate, IsActive)
-				  VALUES ('$title', '$announcement', $startDate, $board, '$endDate', 1);";
+				  VALUES ('$title', '$announcement', '$startDate', $board, '$endDate', 1);";
 				
 		//Run the query...
 		$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
