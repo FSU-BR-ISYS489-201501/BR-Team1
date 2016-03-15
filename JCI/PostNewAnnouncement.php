@@ -49,6 +49,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			// All visitors
 			$board = mysqli_real_escape_string($dbc, 2);
 		}
+
+	//Check if the Start date has a value and that it is correct.
+	if (empty($_POST['startDate'])) {
+			$err[] = 'You forgot to enter a date that the announcement can begin.';
+		} elseif (!preg_match("/[0-9]{4}-[0-9]{2}-[0-9]{2}/", ($_POST['startDate']))) {
+			$err[] = 'You did not enter the date in the YYYY-MM-DD format..';
+		} elseif (!isDate($_POST['startDate'])) {
+			$err[] = 'You did not enter a valid date.';
+		} else {
+				$startDate = mysqli_real_escape_string($dbc, trim($_POST['startDate']));
+		}
 		
  	//Check if the first name text box has a value.
 	if (empty($_POST['endDate'])) {
@@ -61,22 +72,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				$endDate = mysqli_real_escape_string($dbc, trim($_POST['endDate']));
 		}
 	
-	//Check if the Start date has a value and that it is correct.
-	if (empty($_POST['startDate'])) {
-			$err[] = 'You forgot to enter a date that the announcement can begin.';
-		} elseif (!preg_match("/[0-9]{4}-[0-9]{2}-[0-9]{2}/", ($_POST['startDate']))) {
-			$err[] = 'You did not enter the date in the YYYY-MM-DD format..';
-		} elseif (!isDate($_POST['startDate'])) {
-			$err[] = 'You did not enter a valid date.';
-		} else {
-				$startDate = mysqli_real_escape_string($dbc, trim($_POST['startDate']));
-		}
 
 	//Check to see if any errors exist in the validation array.
 	if(empty($err)) {
 		//Creat the query that dumps info into the DB.
-		$query = "INSERT INTO announcements (Subject, Body, StartDate, EndDate, IsActive)
-				  VALUES ('$title', '$announcement', $startDate, '$endDate', 1);";
+		$query = "INSERT INTO announcements (Subject, Body, StartDate, Type, EndDate, IsActive)
+				  VALUES ('$title', '$announcement', $startDate, $board, '$endDate', 1);";
 				
 		//Run the query...
 		$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
