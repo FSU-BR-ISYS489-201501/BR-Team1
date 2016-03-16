@@ -51,7 +51,7 @@ if(isset($_POST['search'])) {
 			LEFT JOIN reviewers ON ReviewerId.ci=ReviewerId.r 
 			LEFT JOIN users ON UserId.us=UserId.r WHERE Active = $criteria;") or die("could not access critical incidents.");
 	}	
-	$count = mysql_num_rows($query);
+	$count = mysqli_num_rows($query);
 			if ($count == 0) {
 				$output = 'There were no search results!';
 			}else{
