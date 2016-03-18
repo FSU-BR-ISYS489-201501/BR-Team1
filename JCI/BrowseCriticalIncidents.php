@@ -9,9 +9,9 @@
  * 			revision round, etc. 
  * 			Search Criteria (May be all active CIs, CIs in a particular round, etc. 
  * 			Does not search on Keywords, Title, or other standard criteria)
- * Credit: Give any attributation to code used within, not created by you.
+ * Credit: https://www.youtube.com/watch?v=PBLuP2JZcEg
  *
- * Function:  functionName($myVar, $varTwo)
+ * Function: functionName($myVar, $varTwo)
  * Purpose: This is the description of what the function does.
  * Variable: $myVar - Description of variable.
  * Variable: $varTwo - Another description.
