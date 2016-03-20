@@ -6,7 +6,8 @@
   * Page created for use in the JCI Project.
   * Project work is done as part of a Capstone class ISYS489: Ferris State University.
   * Purpose: this page is used to let Editor be able to assign reviewers to specific Critical Incident
-  *Credits: www.W3schools.com
+  *Credits:  to William 
+ *  www.W3schools.com
   * www.php.net 
   * HTMLBook.pdf from ISYS 288 class
   * used Larry Uldman's PHP book

@@ -6,7 +6,8 @@
   * Page created for use in the JCI Project.
   * Project work is done as part of a Capstone class ISYS489: Ferris State University.
   * Purpose: this page is used to let Editor be able to assign reviewers to specific Critical Incident
-  *Credits: www.W3schools.com
+  *Credits: to William 
+ *  www.W3schools.com
   * www.php.net 
   * HTMLBook.pdf from ISYS 288 class
   * used Larry Uldman's PHP book
@@ -29,6 +30,7 @@
 	$headerCounter = mysqli_num_fields($selectQuery);
 	$checkBox = tableRowCheckboxGenerator($selectQuery, $idSelectQuery);
 	// it will add one check box in every row 
+	// it was inspired by William
 	$checkBoxCounter = count($checkBox)/count($checkBox);
 	$tableBody = tableRowGeneratorWithButtons($selectQuery, $checkBox, $checkBoxCounter, $headerCounter);
 	// If $_GET or $_POST are set then assign the value to a variable.

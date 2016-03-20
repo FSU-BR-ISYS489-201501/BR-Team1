@@ -6,7 +6,8 @@
   * Page created for use in the JCI Project.
   * Project work is done as part of a Capstone class ISYS489: Ferris State University.
   * Purpose: this page is used for making changes in announcement when an editors click on edit button from manage announcement page
-  *Credits: www.W3schools.com
+  *Credits:  to William 
+ * www.W3schools.com
   * www.php.net
   *Revision1.1: 03/01/2016 Author: Faisal Alfadhli: edited the sql command
   *Revision1.2: 03/11/2016 Author: Faisal Alfadhli: edited tables names 
@@ -56,7 +57,7 @@
 			$type = mysqli_real_escape_string($dbc, 2);
 		}
 
-		//Check if the Start date has a value and that it is correct.
+			//Check if the Start date has a value and that it is correct.
 		if (empty($_POST['startDate'])) {
 			$err[] = 'You forgot to enter a date that the announcement can begin.';
 		} elseif (!preg_match("/[0-9]{4}-[0-9]{2}-[0-9]{2}/", ($_POST['startDate']))) {
@@ -64,7 +65,13 @@
 		} elseif (!isDate($_POST['startDate'])) {
 			$err[] = 'You did not enter a valid date.';
 		} else {
+			$date = new DateTime(mysqli_real_escape_string($dbc, trim($_POST['startDate'])));
+			$now = new DateTime();
+			if($date < $now) {
+				$err[] = 'Date cannot be in the past';
+			} else {
 				$startDate = mysqli_real_escape_string($dbc, trim($_POST['startDate']));
+			}
 		}
 			
 		//Check if the first name text box has a value.
@@ -75,9 +82,15 @@
 			} elseif (!isDate($_POST['endDate'])) {
 				$err[] = 'You did not enter a valid date.';
 			} else {
+				$date = new DateTime(mysqli_real_escape_string($dbc, trim($_POST['endDate'])));
+				$start = new DateTime(mysqli_real_escape_string($dbc, trim($_POST['startDate'])));
+				if($date < $start) {
+					$err[] = 'End date cannot be before start date.';
+				} else {
 					$endDate = mysqli_real_escape_string($dbc, trim($_POST['endDate']));
+				}
 			}
-
+			
 		//Check to see if any errors exist in the validation array.
 		if(empty($err)) {
 			//Creat the query that dumps info into the DB.
