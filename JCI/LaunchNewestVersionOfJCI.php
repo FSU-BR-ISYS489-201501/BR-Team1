@@ -76,7 +76,6 @@
 			while ($row = mysqli_fetch_row($fileLocationSelectQuery)) {
 				if ($criticalIncidentIds[$a] == "$row[0]") {
 					$fileCounter++;
-					echo $row[0];
 					break;
 				}
 			}
