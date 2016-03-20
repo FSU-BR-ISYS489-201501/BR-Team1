@@ -33,7 +33,6 @@
 	$missingFiles = array();
 	$criticalIncidentsWithFiles = array();
 	$criticalIncidentIds = array();
-	$publishable = false;
  	$latest = 7;
 	$fileCounter = 0;
  	$approvedSubmissionQuery = 	"SELECT CriticalIncidentId
@@ -73,18 +72,11 @@
 		
 		$rowCounter = mysqli_num_rows($fileLocationSelectQuery);
 		
-		while ($row = mysqli_fetch_row($fileLocationSelectQuery)) {
-			for($a = 0; $a < count($criticalIncidentIds); $a++) {
-				if ($criticalIncidentIds[$a] == $row[0]) {
-					$newData = array("$row[0]", "$row[1]");
-					array_push($criticalIncidentsWithFiles, $newData);
-				}
-			}
-		}
 		for($a = 0; $a < count($criticalIncidentIds); $a++) {
-			for($b = 0; $b < count($criticalIncidentsWithFiles); $b++) {
-				if($criticalIncidentIds[$a] == $criticalIncidentsWithFiles[$b][0]) {
+			while ($row = mysqli_fetch_row($fileLocationSelectQuery)) {
+				if ($criticalIncidentIds[$a] == "$row[0]") {
 					$fileCounter++;
+					echo $row[0];
 					break;
 				}
 			}
