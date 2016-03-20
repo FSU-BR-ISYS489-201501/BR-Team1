@@ -22,9 +22,9 @@
 	$selectQuery = @mysqli_query($dbc, $query);
 	$headerCounter = mysqli_num_fields($selectQuery);
 	$downloadButton = tableRowLinkGeneratorFileManagement($idSelectQuery);
-	$tableBody = tableRowGeneratorWithButtonsFileManagement($selectQuery, $downloadButton, $headerCounter);
+	$tableBody = tableRowGeneratorWithButtons($selectQuery, $downloadButton, 1, $headerCounter);
 	?>
-	
+	 <a href="UploadFile.php">Upload a file</a> 
 <div id = 'fileViewer'>
 		<table>
 			<tr>

@@ -39,7 +39,7 @@
 		$headerCounter = countNumberOfFields($dbc, $submissionSelectQuery);
 		//To list editors names in dropdown list.
 		$radioButton = tableRowRadioButtonGenerator($dbc, $editorSelectQuery, $ids);
-		$tableBody = tableRowGeneratorWithRadioButtons($dbc, $submissionSelectQuery, $radioButton, $headerCounter, $ids);
+		$tableBody = tableRowGeneratorWithRadioButtons($submissionSelectQuery, $radioButton, $headerCounter, $ids);
 	}
 
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {

@@ -39,6 +39,7 @@
 	<div class="mainmenu">
 		<a href='Index.php' class="button2">HOME</a>
 		<a href='SubmitCase.php' class="button">SUBMIT A CASE</a>
+		<a href='ContactUs.php' class="button">CONTACT US</a>
 		
 	</div>
 	
@@ -59,6 +60,7 @@
 			<li><a href="SubmitCase.php">Submit a Case</a></li>
 			<li><a href="SearchStaff.php">Search Staff</a></li>
 			<li><a href="SearchArticle.php">Search an Article</a></li>
+			<li><a href="BrowseCriticalIncidents.php">Browse Critical Incidents</a></li>
 			
 			<!--
 =======

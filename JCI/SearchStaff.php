@@ -6,11 +6,10 @@
   * Page created for use in the JCI Project.
   * Project work is done as part of a Capstone class ISYS489: Ferris State University.
   * Purpose: The purpose of this page is to allow people search for Users and what they are "linked" too.
-  * Credit: All my own code.
+  * Credit: Mostly all my own code, I did borrow a portion of code from Ben Brackett's browseCI page within the JCI site.
   *********************************************************************************************/
 include ("includes/Header.php");
 $page_title = 'Search Staff';
-//require ('../DbConnector.php');
 require ('../DbConnector.php');
  
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
@@ -46,29 +45,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	}
 	
 	//Check to see if any errors occurred during validation.
-	if (empty($err)) {
+	if (!empty($err)) {
 		// Create and run the query based of the given criteria.
 		if ($search == "Authored by") {
 			if($field == "First Name")	{
-				$query = "	SELECT CONCAT(users.FName, users.LName) As name, users.Email, criticalincidents.Title
-						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
+				$query = "SELECT CONCAT(users.FName, users.LName) As name, users.Email as email, criticalincidents.Title as title
+						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId  
 						WHERE users.FName = $criteria;";
 			} elseif ($search == "Last Name") {
-				$query = "	SELECT CONCAT(users.FName, users.LName) As name, users.Email, criticalincidents.Title
+				$query = "	SELECT CONCAT(users.FName, users.LName) As name, users.Email as email, criticalincidents.Title as title
 						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
 						WHERE users.LName = $criteria;";
 			} elseif ($search == "Email") {
-				$query = "	SELECT CONCAT(users.FName, users.LName) As name, users.Email, criticalincidents.Title
+				$query = "	SELECT CONCAT(users.FName, users.LName) As name, users.Email as email, criticalincidents.Title as title
 						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
 						WHERE users.Email = $criteria;";
 			} else {
 				echo 'This Error should never be print; if it does, query is bugged.';
 			}
-			$results = @mysqli_query($dbc, $query);
 		} else {
 			// add more $search criteria at some point.
 		}
-
+		// Borrowed from Ben. Really like this method.
+		if (!empty(mysqli_num_rows($query))){
+			while ($row = mysqli_fetch_row($query)) {
+				$name = $row['name'];
+				$email = $row['email'];
+				$title = $row['title'];
+				
+				$output .= '<div>'
+							.$name.
+							''
+							.$email.
+							''
+							.$title.
+							'<div>';
+			}
+			
+		} else {
+			$output = "There weren't any search results to display.";
+		}
 	} else {
 		//List each Error msg that is stored in the array.
 		Foreach($err as $m)
@@ -114,13 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		</thead>
 		<tbody>
 			<?php
-			while ($row = mysqli_fetch_row($result)) {
-				echo "<tr>";
-				echo "<td>" . $row['name'] . "</td>";
-				echo "<td>" . $row['email'] . "</td>";
-				echo "<td>" . $row['title'] . "</td>";
-				echo "</tr>\n";		
-			}
+				print("$output");
 			?>
 		</tbody>
 	</table>

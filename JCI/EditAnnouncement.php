@@ -11,6 +11,7 @@
   *Revision1.1: 03/01/2016 Author: Faisal Alfadhli: edited the sql command
   *Revision1.2: 03/11/2016 Author: Faisal Alfadhli: edited tables names 
   *Revision1.3: 03/12/2016 Author: Faisal Alfadhli: fixed bugs and made it functional 
+  *Revision1.4: 03/18/2016 Author: Faisal Alfadhli: fixed bugs added area for start date 
   ********************************************************************************************/
 
 	include ("includes/Header.php");
@@ -22,18 +23,20 @@
 	{
 		//Set up Error msg array.
 		$err = array();
-		//Check if the first name text box has a value.
-		if (empty($_POST['title'])) {
-			$err[] = 'You forgot to put a title for the announcement.';
-		} else {
-			$title = mysqli_real_escape_string($dbc, trim($_POST['title']));
-			}
 		
 		//Check if the first name text box has a value.
 		if (empty($_POST['id'])) {
 			$err[] = 'You forgot to enter an announcement.';
 		} else {
 			$announcementId = mysqli_real_escape_string($dbc, trim($_POST['id']));
+			}
+		
+		
+		//Check if the first name text box has a value.
+		if (empty($_POST['title'])) {
+			$err[] = 'You forgot to put a title for the announcement.';
+		} else {
+			$title = mysqli_real_escape_string($dbc, trim($_POST['title']));
 			}
 			
 		//Check if the first name text box has a value.
@@ -44,10 +47,31 @@
 			}
 			
 		//Check if the first name text box has a value.
+		if (empty($_POST['type'])) {
+			$err[] = 'You forgot to select an announcement type.';
+		} elseif (($_POST['type']) == 'Private') {
+			$type = mysqli_real_escape_string($dbc, 1);
+		} else {
+			// All visitors
+			$type = mysqli_real_escape_string($dbc, 2);
+		}
+
+		//Check if the Start date has a value and that it is correct.
+		if (empty($_POST['startDate'])) {
+			$err[] = 'You forgot to enter a date that the announcement can begin.';
+		} elseif (!preg_match("/[0-9]{4}-[0-9]{2}-[0-9]{2}/", ($_POST['startDate']))) {
+			$err[] = 'You did not enter the date in the YYYY-MM-DD format..';
+		} elseif (!isDate($_POST['startDate'])) {
+			$err[] = 'You did not enter a valid date.';
+		} else {
+				$startDate = mysqli_real_escape_string($dbc, trim($_POST['startDate']));
+		}
+			
+		//Check if the first name text box has a value.
 		if (empty($_POST['endDate'])) {
 				$err[] = 'You forgot to enter a date that the announcement expires.';
-			} elseif (!preg_match("/[0-9]{2}\/[0-9]{2}\/[0-9]{4}/", ($_POST['endDate']))) {
-				$err[] = 'You did not enter the date in the MM/DD/YYYY format..';
+			} elseif (!preg_match("/[0-9]{4}-[0-9]{2}-[0-9]{2}/", ($_POST['endDate']))) {
+				$err[] = 'You did not enter the date in the YYYY-MM-DD format..';
 			} elseif (!isDate($_POST['endDate'])) {
 				$err[] = 'You did not enter a valid date.';
 			} else {
@@ -57,7 +81,7 @@
 		//Check to see if any errors exist in the validation array.
 		if(empty($err)) {
 			//Creat the query that dumps info into the DB.
-			$query = "UPDATE announcements SET Subject='$title', Body='$announcement', EndDate='$endDate' WHERE AnnouncementId = $announcementId;";
+			$query = "UPDATE announcements SET Subject='$title', Body='$announcement', StartDate='$startDate', Type='$type', EndDate='$endDate' WHERE AnnouncementId = $announcementId;";
 					
 			//Run the query...
 			$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
@@ -86,7 +110,7 @@
 			$announcementId = $_POST['id'];
 		}
 	
-		// from Mike code	
+		// from Mark code	
 		$announcementQuery = "SELECT AnnouncementId, Subject, Body, StartDate, Type, EndDate, IsActive FROM announcements WHERE AnnouncementId = $announcementId;";
 		$selectQuery = @mysqli_query($dbc, $announcementQuery);	
 		$headerCounter = mysqli_num_fields($selectQuery);
@@ -102,6 +126,7 @@
 		$type = "{$row[$a+3]}";
 		$endDate = "{$row[$a+4]}";
 		
+		
 ?>
 			
 	<!--Takes information to create a new announcement in the db.-->
@@ -110,19 +135,20 @@
 			<fieldset>
 				<input type="hidden" value="<?php if (isset($announcementId)) echo $announcementId; ?>" name="id" />
 			  	<p>Who will view this Announcement?:
-					<select name="board">
-						<option <?php if(isset($type)=="Public") echo'selected="selected"'; ?>    value="Public">Public</option>
-						<option <?php if(isset($type)=="Private") echo'selected="selected"'; ?>    value="Private">Private</option>
+					<select name="type">
+						<option <?php if(isset($_POST['type'])=="Public") echo'selected="selected"'; ?>    value="Public">Public</option>
+						<option <?php if(isset($_POST['type'])=="Private") echo'selected="selected"'; ?>    value="Private">Private</option>
 					</select>
 				</p>	
 				<p>Title: <input type="text" name="title" size="15" maxlength="50" value="<?php echo $title; ?>" </input></p>
 				<p>Announcement: <br/><textarea name="announcement" style="width:250px;height:150px;" value=""><?php echo $body;?></textarea><br />
-				<p>End Date(MM/DD/YYYY): <input type="text" name="endDate" size="10" maxlength="10" value="<?php echo $endDate; ?>" /></p>
+				<p>Start Date(YYYY-MM-DD): <input type="text" name="startDate" size="10" maxlength="10" value="<?php if (isset($_POST['startDate'])) echo $_POST['startDate']; ?>" /></p>
+				<p>End Date(YYYY-MM-DD): <input type="text" name="endDate" size="10" maxlength="10" value="<?php if (isset($_POST['endDate'])) echo $_POST['endDate']; ?>" /></p>
 				<p><input type="submit" value="Submit" /></p>
 			</fieldset>
 		</form>
-	<?php
-		include ("includes/Footer.php");
-	?>	
+<?php
+	include ("includes/Footer.php");
+?>	
 	
 	
