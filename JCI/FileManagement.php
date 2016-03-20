@@ -24,7 +24,7 @@
 	$downloadButton = tableRowLinkGeneratorFileManagement($idSelectQuery);
 	$tableBody = tableRowGeneratorWithButtons($selectQuery, $downloadButton, 1, $headerCounter);
 	?>
-	
+	 <a href="UploadFile.php">Upload a file</a> 
 <div id = 'fileViewer'>
 		<table>
 			<tr>
