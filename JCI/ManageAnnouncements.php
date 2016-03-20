@@ -50,7 +50,7 @@
 	
 	$headerCounter = mysqli_num_fields($selectQuery);
 	$editButton = tableRowLinkGenerator($idSelectQuery);
-	$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, $headerCounter);
+	$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 3, $headerCounter);
 ?>
 
 	<div id = 'announcementViewer'>

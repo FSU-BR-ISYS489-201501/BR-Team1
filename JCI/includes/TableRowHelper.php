@@ -64,7 +64,7 @@
 		return $tableBody;
 	}
 	
-	function tableRowGeneratorWithButtons($selectQuery, $editButton, $headerCounter) {
+	function tableRowGeneratorWithButtons($selectQuery, $editButton, $buttonCounter, $headerCounter) {
 		$tableBody = '';
 		$idCounter = 0;
 		// This block will retrieve an array from the database, which will be used to assign values
@@ -77,11 +77,7 @@
 			}
 			// This block will add an edit button, an activate button, and a deactivate button 
 			// to the table.
-			if (!empty($editButton[$idCounter])) {
-				$tableBody = $tableBody . $editButton[$idCounter];
-				$idCounter++;
-				$tableBody = $tableBody . $editButton[$idCounter];
-				$idCounter++;
+			for($a = 0;$a < $buttonCounter;$a++) {
 				$tableBody = $tableBody . $editButton[$idCounter];
 				$idCounter++;
 			}
@@ -157,28 +153,28 @@
 		return $downloadButton;
 	}
 		
-		function tableRowGeneratorWithButtonsFileManagement($selectQuery, $downloadButton, $headerCounter) {
-		$tableBody = '';
-		$idCounter = 0;
-		// This block will retrieve an array from the database, which will be used to assign values
-		// to an HTML table.
-		while ($row = mysqli_fetch_array($selectQuery, MYSQLI_NUM)) {
-			$tableBody = $tableBody . "<tr>";
-			// This block will add individual field values to the table.
-			for($a = 0;$a < $headerCounter;$a++) {
-				$tableBody = $tableBody . "<td>{$row[$a]}</td>";
-			}
-			// This block will add an download button
-			// to the table.
-			if (!empty($downloadButton[$idCounter])) {
-				$tableBody = $tableBody . $downloadButton[$idCounter];
-				$idCounter++;
-				
-			}
-			$tableBody = $tableBody . "</tr>";
-		}
-		return $tableBody;
-	}
+		// function tableRowGeneratorWithButtonsFileManagement($selectQuery, $downloadButton, $headerCounter) {
+		// $tableBody = '';
+		// $idCounter = 0;
+		// // This block will retrieve an array from the database, which will be used to assign values
+		// // to an HTML table.
+		// while ($row = mysqli_fetch_array($selectQuery, MYSQLI_NUM)) {
+			// $tableBody = $tableBody . "<tr>";
+			// // This block will add individual field values to the table.
+			// for($a = 0;$a < $headerCounter;$a++) {
+				// $tableBody = $tableBody . "<td>{$row[$a]}</td>";
+			// }
+			// // This block will add an download button
+			// // to the table.
+			// if (!empty($downloadButton[$idCounter])) {
+				// $tableBody = $tableBody . $downloadButton[$idCounter];
+				// $idCounter++;
+// 				
+			// }
+			// $tableBody = $tableBody . "</tr>";
+		// }
+		// return $tableBody;
+	// }
 	
 		// the idea from Mark's code 
 		function tableRowGeneratorWithCheckbox($selectQuery, $editButton, $headerCounter) {
