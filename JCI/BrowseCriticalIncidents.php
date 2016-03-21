@@ -31,6 +31,8 @@ $page_title = 'Browse Critical Incidents';
 $output = '';
 $search = '';
 $query = '';
+$editButton = array();
+$button = "<td><select>";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 
@@ -134,7 +136,13 @@ if(isset($_POST['search'])) {
 			</tr>
 		</thead>
 		<tbody>
-			<?php print("$output");?>
+			<?php 
+			echo $output;
+			for($a = 0; $a < count($editButton); $a++) {
+				echo $editButton[$a];
+			}
+			?>
+			
 		</tbody>
 	</table>
 </fieldset>
