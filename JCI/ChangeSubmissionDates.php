@@ -17,9 +17,9 @@
   * Revision1.1: MM/DD/YYYY Author: Name Here 
   * Description of change. Also add //Name: comments above your change within the code.
   ********************************************************************************************/
-  
+$page_title = 'ChangeSubmissionDates'; 
 include ("includes/Header.php");
-$page_title = 'ChangeSubmissionDates';
+
  
  //Grab the db connector.
  require ('../DbConnector.php');
@@ -47,6 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	If(empty($err)) {
 	
 		//Creat the query that dumps info into the DB.
+		//use where and change table to Critical incidents table or w/e
 		$query = "INSERT INTO submissions (StartDate, EndDate)
 				VALUES ('$StartDate', '$EndDate');";
 				
