@@ -23,11 +23,12 @@
  * Revision1.1: MM/DD/YYYY Author: Name Here 
  * Description of change. Also add //Name: comments above your change within the code.
  ********************************************************************************************/
+$page_title = 'Browse Critical Incidents';
 include('includes/Header.php');
 include('includes/TableRowHelper.php');
 require('mysqli_connect.php');
 //require('../DbConnector.php');
-$page_title = 'Browse Critical Incidents';
+
 $output = '';
 $search = '';
 $query = '';
