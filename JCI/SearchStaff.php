@@ -8,8 +8,8 @@
   * Purpose: The purpose of this page is to allow people search for Users and what they are "linked" too.
   * Credit: Mostly all my own code, I did borrow a portion of code from Ben Brackett's browseCI page within the JCI site.
   *********************************************************************************************/
-include ("includes/Header.php");
 $page_title = 'Search Staff';
+include ("includes/Header.php");
 require ('../DbConnector.php');
  
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 

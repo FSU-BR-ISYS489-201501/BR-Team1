@@ -8,9 +8,9 @@
  * Project work is done as part of a Capstone class ISYS489: Ferris State University.
  * Purpose of Page: This is the index.php and will serve as the home page content of the site.
  ********************************************************************************************/
-
-include ('includes/Header.php');
 $page_title = 'Home';
+include ('includes/Header.php');
+
 ?>
 <H1>Welcome to JCI</H1>
 <!--Lorem Ipsum coped from http://lorem-ipsum.perbang.dk/ -->
