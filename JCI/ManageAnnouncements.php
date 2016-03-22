@@ -49,8 +49,12 @@
 		}
 	}
 	
+	$pageNames = array('EditAnnouncement.php', 'ManageAnnouncements.php', 'ManageAnnouncements.php');
+	$variableNames = array('id', 'deleteId', 'activateId');
+	$titles = array('Edit', 'Deactivate', 'Activate');
+	
 	$headerCounter = mysqli_num_fields($selectQuery);
-	$editButton = tableRowLinkGenerator($idSelectQuery);
+	$editButton = tableRowLinkGenerator($idSelectQuery, $pageNames, $variableNames, $titles);
 	$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 3, $headerCounter);
 ?>
 
