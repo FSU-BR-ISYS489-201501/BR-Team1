@@ -13,6 +13,7 @@
   * Revision1.2 Author:Shane Workman
   * Added a start date to the form/sql insert statement.
   ********************************************************************************************/
+ $page_title = 'Post New Announcement';
  include ("includes/Header.php");
  include ("includes/ValidationHelper.php");
  $page_title = 'Announcements';

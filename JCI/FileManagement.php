@@ -8,7 +8,8 @@
   * Purpose: The purpose of this page is to collect data for file management.
   * Credit: http://php.net/manual/en/index.php
   ********************************************************************************************/
-	//include ("includes/LoginHelper.php");
+  	$page_title = 'File Management';
+	include ("includes/LoginHelper.php");
 	include ("includes/ValidationHelper.php");
 	include ("includes/Header.php");
 	//include("includes/FileHelper.php");
@@ -16,7 +17,7 @@
 	include('includes/TableRowHelper.php');
 	require ('../DbConnector.php');
 	// Borrowed idea from Mark's ManageAnnouncements
-	$query = "SELECT FileID, SubmissionId, FileDes FROM files";
+	$query = "SELECT FileID, CriticalIncidentId, FileDes FROM files WHERE CriticalIncidentId = 1";
 	$IdQuery = "SELECT FileId FROM files;";
 	$idSelectQuery = @mysqli_query($dbc, $IdQuery);
 	$selectQuery = @mysqli_query($dbc, $query);
@@ -29,7 +30,7 @@
 		<table>
 			<tr>
 				<th>FileId</th>
-				<th>SubmissionId</th>
+				<th>CriticalIncidentId</th>
 				<th>FileDes</th>
 			</tr>
 			<?php echo $tableBody;
@@ -37,6 +38,7 @@
 			?>
 		</table>
 	</div>
+	
 	
 	
 <?php
