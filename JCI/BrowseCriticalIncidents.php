@@ -34,6 +34,11 @@ $search = '';
 $query = '';
 $editButton = array();
 $button = "<td><select>";
+$selectQuery = '';
+$idSelectQuery = '';
+$editors = '';
+$headerCounter = '';
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 
@@ -41,24 +46,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
  	$err = array(); 
 
 //collect
+/**
 if(isset($_POST['search'])) {
-	if ($search == "All Reviewers") {
-		$query = mysql_query("SELECT* from criticalincidents LEFT JOIN reviewers ON ReviewerId.ci=ReviewerId.r 
-			LEFT JOIN users ON UserId.us=UserId.r WHERE ReviewerId = $criteria;") or die("could not access critical incidents.");
-	} elseif ($search == "Active Reviewers") {
+	if ($search == "ApprovedPublish") {
 		$query = mysql_query("SELECT* from criticalincidents 
-			LEFT JOIN reviewers ON ReviewerId.ci=ReviewerId.r 
-			LEFT JOIN users ON UserId.us=UserId.r WHERE Active = $criteria;") or die("could not access critical incidents.");
-	}elseif ($search == "Inactive Reviewers") {
+			LEFT JOIN (files) ON (CriticalIncidentId.ci=CriticalIncidentId.f) WHERE ApprovedPublish = $criteria ORDER BY CriticalIncidentId;") or die("could not access critical incidents.");
+	} elseif ($search == "ApprovedReview") {
 		$query = mysql_query("SELECT* from criticalincidents 
-			LEFT JOIN reviewers ON ReviewerId.ci=ReviewerId.r 
-			LEFT JOIN users ON UserId.us=UserId.r WHERE Active = $criteria;") or die("could not access critical incidents.");
-	}	
-	$count = mysqli_num_rows($query);
+			LEFT JOIN (files) ON (CriticalIncidentId.ci=CriticalIncidentId.f) WHERE ApprovedReview = $criteria ORDER BY CriticalIncidentId;") or die("could not access critical incidents.");
+	}**/
+// Collect
+if(isset($_POST['search'])) {
+	$criticalIncidentQuery = "SELECT* FROM criticalincidents 
+			LEFT JOIN (files) ON (criticalincidents.CriticalIncidentId=files.CriticalIncidentId) ORDER BY CriticalIncidentId;" or die("could not access critical incidents.");
+	$criticalIncidentIdQuery = "SELECT CriticalIncidentId FROM criticalincidents;";
+	
+	// Written by Shane Workman.
+	$selectQuery = @mysqli_query($dbc, $criticalIncidentQuery);
+	$idSelectQuery = @mysqli_query($dbc, $criticalIncidentIdQuery);	
+	
+	$count = mysqli_num_rows($selectQuery);
 			if ($count == 0) {
 				$output = 'There were no search results!';
 			}else{
-				while ($row = mysqli_fetch_row($query)) {
+				while ($row = mysqli_fetch_row($selectQuery)) {
 					$CriticalIncidentId = $row['CriticalIncidentId'];
 					$Title = $row['Title'];
 					$ReviewerId = $row['ReviewerId'];
@@ -93,17 +104,27 @@ if(isset($_POST['search'])) {
 				}
 				
 }
+	$pageNames = array('ViewCriticalIncidents.php');
+	$variableNames = array('CriticalIncidentId');
+	$titles = array('View');
+	
+	for($a = 0; $a < count($editButton); $a++) {
+			echo $editButton[$a];
+			}
+	
+	$headerCounter = mysqli_num_fields($selectQuery);
+	$editButton = tableRowLinkGenerator($idSelectQuery, $pageNames, $variableNames, $titles);
+	$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 1, $headerCounter);
 ?>		
 
 <h1>Critical Incidents</h1>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
 	<fieldset>
-		<p>Criteria:
+		<!--<p>Criteria:
 		<select name="search">
-			<option <?php if(isset($_POST['search'])=="All Reviewers") echo'selected="selected"'; ?>    value="All Reviewers">All Reviewers</option>
-			<option <?php if(isset($_POST['search'])=="Active Reviewers") echo'selected="selected"'; ?>    value="Active Reviewers">Active Reviewers</option>
-			<option <?php if(isset($_POST['search'])=="Inactive Reviewers") echo'selected="selected"'; ?>    value="Inactive Reviewers">Inactive Reviewers</option>
-			<!-- temp unused. Will add more search on data as presented.
+			<option <?php if(isset($_POST['search'])=="ApprovedPublish") echo'selected="selected"'; ?>    value="ApprovedPublish">ApprovedPublish</option>
+			 <option <?php if(isset($_POST['search'])=="ApprovedReview") echo'selected="selected"'; ?>    value="ApprovedReview">ApprovedReview</option>
+			temp unused. Will add more search on data as presented.
 			<option <?php if(isset($_POST['search'])=="Journals Reviewed") echo'selected="selected"'; ?>    value="Journals Reviewed">Journals Reviewed</option>
 			<option <?php if(isset($_POST['search'])=="Journals Reviewed") echo'selected="selected"'; ?>    value="Journals Reviewed">Journals Reviewed</option>
 			<option <?php if(isset($_POST['search'])=="Journals Reviewed") echo'selected="selected"'; ?>    value="Journals Reviewed">Journals Reviewed</option>
@@ -138,10 +159,7 @@ if(isset($_POST['search'])) {
 		</thead>
 		<tbody>
 			<?php 
-			echo $output;
-			for($a = 0; $a < count($editButton); $a++) {
-				echo $editButton[$a];
-			}
+			echo $tableBody;
 			?>
 			
 		</tbody>
