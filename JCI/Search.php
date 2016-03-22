@@ -81,8 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			} 
 	//Diplay search resualts.
 	$run = mysqli_query($dbc, $query);
-	$headerCounter = mysqli_num_fields($query);
-	$tableBody = tableRowGenerator($query, $headerCounter);
+	$headerCounter = mysqli_num_fields($run);
+	$tableBody = tableRowGenerator($run, $headerCounter);
 	
 	} else {
 		//List each Error msg that is stored in the array.
