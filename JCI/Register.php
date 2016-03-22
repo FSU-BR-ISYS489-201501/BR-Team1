@@ -83,9 +83,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		} elseif (checkEmail($_POST['email']) == 0) {
 			$err[] = 'The email submitted doesnt have the correct syntax.';
 		} else {
+			
 			$email = mysqli_real_escape_string($dbc, trim($_POST['email']));
 		}
-
+		$testQ = "SELECT Email FROM Users WHERE Email = '$email';";
+		$result = mysqli_query($dbc, $testQ);
+		if (mysqli_num_rows($result)== true){
+			$err[] = 'This email is already registered!';
+		}
+	
  	//Check if university text box has a value or set it to null.
  	if (empty($_POST['university'])) {
 		$university = 'NULL';
