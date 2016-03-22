@@ -7,8 +7,7 @@
   * Project work is done as part of a Capstone class ISYS489: Ferris State University.
   * Purpose: The purpose of this page is to allow people search for Users and what they are "linked" too.
   * Credit: Mostly all my own code, I did borrow a portion of code from Ben Brackett's browseCI page within the JCI site.
-  * 
-  * 
+  *  
   * Revision1.1: 03/22/2016 Author: Shane Workman 
   * Combined Ben's search page with mine. Updated the diplay. 
   *********************************************************************************************/
@@ -52,30 +51,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			if($field == "First Name")	{
 				$query = "SELECT CONCAT(users.FName, users.LName) As name, users.Email as email, criticalincidents.Title as title
 						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId  
-						WHERE users.FName = $criteria;";
-			} elseif ($search == "Last Name") {
+						WHERE users.FName = '$criteria';";
+			} elseif ($field == "Last Name") {
 				$query = "	SELECT CONCAT(users.FName, users.LName) As name, users.Email as email, criticalincidents.Title as title
 						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
-						WHERE users.LName = $criteria;";
-			} elseif ($search == "Email") {
+						WHERE users.LName = '$criteria';";
+			} elseif ($field == "Email") {
 				$query = "	SELECT CONCAT(users.FName, users.LName) As name, users.Email as email, criticalincidents.Title as title
 						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
-						WHERE users.Email = $criteria;";
+						WHERE users.Email = '$criteria';";
 			} elseif($field == "Title")	{
 				$query = "SELECT PublicationYear, CriticalIncidentId.criticalincidents, Title.criticalincidents, UserId, CONCAT(users.FName, users.LName) AS name
 						FROM users LEFT JOIN criticalincidents ON Title.users = Title.criticalincidents
 						LEFT JOIN journalofcriticalincidents on CriticalIncidentId.journalofcriticalincidents
-						WHERE Title.criticalincidents = $criteria;";
+						WHERE Title.criticalincidents = '$criteria';";
 			} elseif ($field == "PublicationYear") {
 				$query = "	SELECT PublicationYear, CriticalIncidentId.criticalincidents, Title.criticalincidents, UserId, CONCAT(users.FName, users.LName) AS name
 						FROM users LEFT JOIN criticalincidents ON Title.users = Title.criticalincidents
 						LEFT JOIN journalofcriticalincidents on CriticalIncidentId.journalofcriticalincidents
-						WHERE PublicationYear = $criteria;";
+						WHERE PublicationYear = '$criteria';";
 			} elseif ($field == "UserId") {
 				$query = "	SELECT PublicationYear, CriticalIncidentId.criticalincidents, Title.criticalincidents, UserId, CONCAT(users.FName, users.LName) AS name
 						FROM users LEFT JOIN criticalincidents ON Title.users = Title.criticalincidents
 						LEFT JOIN journalofcriticalincidents on CriticalIncidentId.journalofcriticalincidents
-						WHERE name = $criteria;";
+						WHERE name = '$criteria';";
 			} else {
 				// nothing.
 			} 
