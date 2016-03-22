@@ -28,9 +28,10 @@
   * Revision1.5: 02/22/2016 Author: Shane Workman
   * Added the CheckEmail.php funciton to the validation. Spelled out a few variables that were abbriviated.
   ********************************************************************************************/
+ $page_title = 'Register';
  include ("includes/Header.php");
  include ("includes/ValidationHelper.php");
- $page_title = 'Register';
+
  
  //Grab the db connector.
  //require ('../mysqli_connect.php');

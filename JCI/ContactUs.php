@@ -8,8 +8,8 @@
   * Purpose: The purpose of this page is to allow people to send an email to the editor.
   * Credit: my own code, from my Final project in ISYS288.
   *********************************************************************************************/
-include ("includes/Header.php");
 $page_title = 'Contact an Editor';
+include ("includes/Header.php");
 require ('../DbConnector.php');
  ?>
 <form name="contactform" method="post" action="sendFormEmail.php">

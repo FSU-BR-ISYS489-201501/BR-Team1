@@ -11,8 +11,8 @@
  * Revision1.1: MM/DD/YYYY Author: Name Here 
  * Description of change. Also add //Name: comments above your change within the code.
  ********************************************************************************************/
-include ("includes/Header.php");
 $page_title = 'Search Article';
+include ("includes/Header.php");
 require ('../DbConnector.php');
 //require ('mysqli_connect.php');
 
