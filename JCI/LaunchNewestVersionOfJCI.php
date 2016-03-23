@@ -1,11 +1,18 @@
 <?php
 /*********************************************************************************************
- * Original Author: Name Here
- * Date of origination: MM/DD/YYYY
+ * Original Author: Mark Bowman
+ * Date of origination: 03/28/2016
  *
  * Page created for use in the JCI Project.
  * Project work is done as part of a Capstone class ISYS489: Ferris State University.
- * Purpose: Include a overview of the page: Such as. This is the index.php and will serve as the home page content of the site.\
+ * Purpose: The purpose of this file is to check the database in order to verify that all 
+ * approved for publish Critical Inicidents have at least one file associated with it in the
+ * files table. If all approved Critical Incidents have at least one file associated with it, 
+ * a submit button is generated. If all approved Critical Incidents do not have at least one
+ * file associated with it, an error message is displayed.
+ * 
+ * Currently, pushing the submit button does nothing.
+ * 
  * Credit: Give any attributation to code used within, not created by you.
  *
  * Function:  functionName($myVar, $varTwo)
@@ -21,7 +28,7 @@
  * Description of change. Also add //Name: comments above your change within the code.
  ********************************************************************************************/
  
- 	$page_title = 'Launch Latest Version of JCI';
+ 	$page_title = 'Launch Latest Volume of JCI';
  	include('includes/Header.php');
 	include('includes/TableRowHelper.php');
 	include('../DbConnector.php');
@@ -30,23 +37,28 @@
 		//Update the current JCI volume.
 	}
 	
+	// Declaring variables for future use.
  	$err = array();
-	$missingFiles = array();
 	$criticalIncidentsWithFiles = array();
 	$criticalIncidentIds = array();
  	$latest = 7;
 	$fileCounter = 0;
+	$fileLocationQuery = '';
+	$tableBody = '';
+	
  	$approvedSubmissionQuery = 	"SELECT CriticalIncidentId
 					 			FROM criticalincidents 
 					 			WHERE ApprovedPublish = 1 AND JournalId = {$latest};";
-	$fileLocationQuery = '';
-	$tableBody = '';
+	
 	
 	// Stole from Shane Workman's Register code
 	if ($selectQuery = @mysqli_query($dbc, $approvedSubmissionQuery)) {
 		
 		if ($row = mysqli_fetch_row($selectQuery)) {
 			array_push($criticalIncidentIds, $row[0]);
+			
+			// Creating the query to verify if Critical Incidents have files
+			// associated with them.
 			$fileLocationQuery = 	"SELECT CriticalIncidentId, FileLocation
 									FROM files
 									WHERE CriticalIncidentId = {$row[0]}";
@@ -64,6 +76,7 @@
 		$err[] = 'There was an error connecting to the database.';
 	}
 	
+	// This command executes the auto-generated SQL query.
 	if ($fileLocationSelectQuery = @mysqli_query($dbc, $fileLocationQuery)) {
 		// $headerCounter = mysqli_num_fields($fileLocationSelectQuery);
 		// $tableBody = tableRowGenerator($fileLocationSelectQuery, $headerCounter);
@@ -73,6 +86,8 @@
 		
 		$rowCounter = mysqli_num_rows($fileLocationSelectQuery);
 		
+		// This loop determines if each record contains a file that is associated
+		// with a Critical Incident in the initial query.
 		for($a = 0; $a < count($criticalIncidentIds); $a++) {
 			while ($row = mysqli_fetch_row($fileLocationSelectQuery)) {
 				if ($criticalIncidentIds[$a] == "$row[0]") {
@@ -81,7 +96,8 @@
 				}
 			}
 		}
-			
+		
+		// Generates the submit button.	
 		if ($fileCounter == count($criticalIncidentIds)) {
 			echo '<form action="LaunchNewestVersionOfJCI.php" method = "POST"><input type="submit" value="Launch the Latest Volume"></form>';
 		}
@@ -89,6 +105,8 @@
 			$err[] = 'Not all PDFs have been uploaded.';
 		}
 	}
+
+	// Generates any error messages.
 	for($i = 0; $i < count($err); $i++) {
 			echo "{$err[$i]} <br />";
 	}
