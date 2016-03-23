@@ -7,12 +7,14 @@
   * Project work is done as part of a Capstone class ISYS489: Ferris State University.
   * Purpose: this page is used to let Editor be able to assign reviewers to specific Critical Incident
   *Credits: to William 
- *  www.W3schools.com
+  *  www.W3schools.com
   * www.php.net 
   * HTMLBook.pdf from ISYS 288 class
   * used Larry Uldman's PHP book
   * http://stackoverflow.com
   * www.php.net
+  * Revision 1.1: 03/22/2016 authors: Faisal Alfadhli 
+  * Edited database queries and some changes 
   ********************************************************************************************/
 
 	include('includes/Header.php');
@@ -20,8 +22,9 @@
 	include('includes/TableRowHelper.php');
 	
 	// this block is to pull the users info from the db 
-	$reviewerQuery = "SELECT UserId, FName, LName FROM users;";
-	$reviewerIdQuery = "SELECT UserId FROM users;";
+	$reviewerQuery = "SELECT users.UserId, users.FName, users.LName FROM users INNER JOIN usertypes ON users.UserId=usertypes.UserId INNER JOIN reviewers
+		ON users.UserId=reviewers.UserId WHERE usertypes.Type='Reviewer' AND reviewers.Active='1';";
+	$reviewerIdQuery = "SELECT reviewers.ReviewerId FROM reviewers INNER JOIN users ON reviewers.UserId=users.UserId WHERE reviewers.Active='1';";
 	
 	// Written by Shane Workman.
 	$selectQuery = @mysqli_query($dbc, $reviewerQuery);
@@ -68,34 +71,29 @@
 			//Loop to store and display values of individual checked checkbox
 			foreach($_POST['checkList'] as $selected) {
 				// Assign the selected checkbox value to a variable.
-				$uID = $selected;	
-				// append selected user id to the array.		
-				array_push($userIdArr, $uID);	
-				
+				$reviewerID = $selected;
 				// idea from http://stackoverflow.com/questions/10119665/checking-if-data-exists-in-database
 				// Count the number of rows returned from our query to help us determine
 				// the user is already assigned to the incident.				
-				$query = "SELECT COUNT(UserId) AS numberOfRows FROM reviewers WHERE CriticalIncidentId = $incidentId AND UserId = $uID";
+				$query = "SELECT COUNT(ReviewerId) AS numberOfRows FROM reviewcis WHERE CriticalIncidentId=$incidentId AND ReviewerId=$reviewerID;";
 				// Assign the results of the query to a variable.
 				$result = mysqli_query($dbc, $query);
 				// get the array and assign it to a variable
 				$row = mysqli_fetch_array($result);
 				// Check to see if the number of rows returned is greater than 0.
 				if ( $row['numberOfRows'] > 0) {
-					$query = "SELECT Active FROM reviewers WHERE CriticalIncidentId = $incidentId AND UserId = $uID";
-					$result = mysqli_query($dbc, $query);
-					$row = mysqli_fetch_array($result);
-				    if ($row['Active'] == 0){
-						echo "User was assigned to this case at one time, but is currently not Active.<br/>";
-					}
+					echo "User is already assigned to this case.<br/>";
 					// If it is greater than 0 add an error count to the error count variable.
 					$assErr = $assErr + 1;
 					// Set the Update Success variable to false.
 					$updateSuccess = "false";
-				} else {
+				} else {					
+				
+					// append selected user id to the array.		
+					array_push($userIdArr, $reviewerID);
 					// If the number of rows returned is not greater than 0 than run the Insert
 					// Query to assign the user as a reviewer.
-					$query = "INSERT INTO reviewers (UserId, CriticalIncidentId, Active) VALUES ($uID,$incidentId, 1);";
+					$query = "INSERT INTO reviewcis (ReviewerId, CriticalIncidentId) VALUES ($reviewerID,$incidentId);";
 					//Run the query...
 					$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
 					If (!$run) {
@@ -106,16 +104,11 @@
 						$updateSuccess = "true";
 					}
 				}
-			}
-			// If the update success flag is set to true ...
-			if ($updateSuccess == "true"){
-				// Then tell the user it worked.
-				echo "Your Incident has been assigned!<br/>";
-			}
-			// If the assign error value is greater than 0 ...
-			if ($assErr > 0) {
-				// Inform the user how many of the selected users were already assigned.
-				echo $assErr . " user(s) already assigned to the incident!<br/>";
+				// If the update success flag is set to true ...
+				if ($updateSuccess == "true"){
+					// Then tell the user it worked.
+					echo "Your Incident has been assigned!<br/>";
+				}
 			}
 		// If no checkboxes are selected then tell the user to make sure they select one. 
 		} elseif (empty($_POST['checkList'])) {
