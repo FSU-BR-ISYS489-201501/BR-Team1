@@ -40,6 +40,7 @@
 		<a href='Index.php' class="button2">HOME</a>
 		<a href='SubmitCase.php' class="button">SUBMIT A CASE</a>
 		<a href='ContactUs.php' class="button">CONTACT US</a>
+		<a href='Search.php' class="button">Search</a>
 		
 	</div>
 	
@@ -61,7 +62,7 @@
 			<li><a href="SearchStaff.php">Search Staff</a></li>
 			<li><a href="SearchArticle.php">Search an Article</a></li>
 			<li><a href="BrowseCriticalIncidents.php">Browse Critical Incidents</a></li>
-			
+			<li><a href="CriticalIncidents.php">Critical Incidents</a></li>
 			<!--
 =======
 			<li><a href="index.php">Home Page</a></li>

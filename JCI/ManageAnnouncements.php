@@ -20,42 +20,48 @@
 	include('includes/TableRowHelper.php');
 	require('../DbConnector.php');
 	
-	$announcementQuery = "SELECT AnnouncementId, Subject, Body, StartDate, EndDate, Type, IsActive FROM announcements;";
-	$announcementIdQuery = "SELECT AnnouncementId FROM announcements;";
+	if($_GET[$_SESSION['Type']] == 'Editor' || $_GET[$_SESSION['Type']] == 'editor') {
 	
-	// Written by Shane Workman.
-	$selectQuery = @mysqli_query($dbc, $announcementQuery);
-	$idSelectQuery = @mysqli_query($dbc, $announcementIdQuery);
-	
-	
-	// The idea for this code was inspired by Michael J. Calkins.
-	// This block will check if 'deleteId' is set in the url. It will set the announcement with that value to inactive.
-	if (isset($_GET['deleteId'])) {
-		$announcementDeactivateQuery = "UPDATE announcements SET IsActive = 0 WHERE AnnouncementId = {$_GET['deleteId']};";
-		$deactivateQuery = @mysqli_query($dbc, $announcementDeactivateQuery);
-		if($deactivateQuery){
-			header('Location: http://localhost/jci/ManageAnnouncements.php');
+		$announcementQuery = "SELECT AnnouncementId, Subject, Body, StartDate, EndDate, Type, IsActive FROM announcements;";
+		$announcementIdQuery = "SELECT AnnouncementId FROM announcements;";
+		
+		// Written by Shane Workman.
+		$selectQuery = @mysqli_query($dbc, $announcementQuery);
+		$idSelectQuery = @mysqli_query($dbc, $announcementIdQuery);
+		
+		
+		// The idea for this code was inspired by Michael J. Calkins.
+		// This block will check if 'deleteId' is set in the url. It will set the announcement with that value to inactive.
+		if (isset($_GET['deleteId'])) {
+			$announcementDeactivateQuery = "UPDATE announcements SET IsActive = 0 WHERE AnnouncementId = {$_GET['deleteId']};";
+			$deactivateQuery = @mysqli_query($dbc, $announcementDeactivateQuery);
+			if($deactivateQuery){
+				header('Location: http://localhost/jci/ManageAnnouncements.php');
+			}
 		}
-	}
-	
-	
-	// The idea for this code was inspired by Michael J. Calkins.
-	// This block will check if 'activateId' is set in the url. It will set the announcement with that value to active.
-	if (isset($_GET['activateId'])) {
-		$announcementActivateQuery = "UPDATE announcements SET IsActive = 1 WHERE AnnouncementId = {$_GET['activateId']};";
-		$activateQuery = @mysqli_query($dbc, $announcementActivateQuery);
-		if($activateQuery){
-			header('Location: http://localhost/jci/ManageAnnouncements.php');
+		
+		
+		// The idea for this code was inspired by Michael J. Calkins.
+		// This block will check if 'activateId' is set in the url. It will set the announcement with that value to active.
+		if (isset($_GET['activateId'])) {
+			$announcementActivateQuery = "UPDATE announcements SET IsActive = 1 WHERE AnnouncementId = {$_GET['activateId']};";
+			$activateQuery = @mysqli_query($dbc, $announcementActivateQuery);
+			if($activateQuery){
+				header('Location: http://localhost/jci/ManageAnnouncements.php');
+			}
 		}
+		
+		$pageNames = array('EditAnnouncement.php', 'ManageAnnouncements.php', 'ManageAnnouncements.php');
+		$variableNames = array('id', 'deleteId', 'activateId');
+		$titles = array('Edit', 'Deactivate', 'Activate');
+		
+		$headerCounter = mysqli_num_fields($selectQuery);
+		$editButton = tableRowLinkGenerator($idSelectQuery, $pageNames, $variableNames, $titles);
+		$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 3, $headerCounter);
 	}
-	
-	$pageNames = array('EditAnnouncement.php', 'ManageAnnouncements.php', 'ManageAnnouncements.php');
-	$variableNames = array('id', 'deleteId', 'activateId');
-	$titles = array('Edit', 'Deactivate', 'Activate');
-	
-	$headerCounter = mysqli_num_fields($selectQuery);
-	$editButton = tableRowLinkGenerator($idSelectQuery, $pageNames, $variableNames, $titles);
-	$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 3, $headerCounter);
+	else {
+		header('Location: http://localhost/jci/Index.php');
+	}
 ?>
 
 	<div id = 'announcementViewer'>
