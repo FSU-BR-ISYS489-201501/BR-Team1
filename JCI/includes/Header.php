@@ -62,7 +62,7 @@
 			<li><a href="SearchStaff.php">Search Staff</a></li>
 			<li><a href="SearchArticle.php">Search an Article</a></li>
 			<li><a href="BrowseCriticalIncidents.php">Browse Critical Incidents</a></li>
-			
+			<li><a href="CriticalIncidents.php">Critical Incidents</a></li>
 			<!--
 =======
 			<li><a href="index.php">Home Page</a></li>
