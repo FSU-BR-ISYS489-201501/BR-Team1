@@ -42,7 +42,7 @@ $headerCounter = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 
-	//Set up Error msg array.
+	//Set up Error msg array.s
  	$err = array(); 
 
 //collect
