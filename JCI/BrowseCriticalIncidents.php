@@ -26,8 +26,8 @@
 $page_title = 'Browse Critical Incidents';
 include('includes/Header.php');
 include('includes/TableRowHelper.php');
-require('mysqli_connect.php');
-//require('../DbConnector.php');
+// require('mysqli_connect.php');
+require('../DbConnector.php');
 
 $output = '';
 $search = '';
@@ -38,6 +38,7 @@ $selectQuery = '';
 $idSelectQuery = '';
 $editors = '';
 $headerCounter = '';
+$tableBody = '';
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
@@ -56,65 +57,65 @@ if(isset($_POST['search'])) {
 			LEFT JOIN (files) ON (CriticalIncidentId.ci=CriticalIncidentId.f) WHERE ApprovedReview = $criteria ORDER BY CriticalIncidentId;") or die("could not access critical incidents.");
 	}**/
 // Collect
-if(isset($_POST['search'])) {
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$criticalIncidentQuery = "SELECT* FROM criticalincidents 
-			LEFT JOIN (files) ON (criticalincidents.CriticalIncidentId=files.CriticalIncidentId) ORDER BY CriticalIncidentId;" or die("could not access critical incidents.");
+			LEFT JOIN (files) ON (criticalincidents.CriticalIncidentId=files.CriticalIncidentId) ORDER BY criticalincidents.CriticalIncidentId;";
 	$criticalIncidentIdQuery = "SELECT CriticalIncidentId FROM criticalincidents;";
 	
 	// Written by Shane Workman.
 	$selectQuery = @mysqli_query($dbc, $criticalIncidentQuery);
 	$idSelectQuery = @mysqli_query($dbc, $criticalIncidentIdQuery);	
 	
-	$count = mysqli_num_rows($selectQuery);
-			if ($count == 0) {
-				$output = 'There were no search results!';
-			}else{
-				while ($row = mysqli_fetch_row($selectQuery)) {
-					$CriticalIncidentId = $row['CriticalIncidentId'];
-					$Title = $row['Title'];
-					$ReviewerId = $row['ReviewerId'];
-					$MemoLocation = $row['MemoLocation'];
-					$CoverPageLocation = $row['CoverPageLocation'];
-					$LetterToEditorLocation = $row['LetterToEditorLocation'];
-					$Category = $row['Category'];
-					$Active = $row['Active'];
-					$ApprovedReview = $row['ApprovedReview'];
-					$ApprovedPublish = $row['ApprovedPublish'];
-					
-				$output .= '<div>'
-							.$Title.
-							''
-							.$ReviewerId.
-							''
-							.$MemoLocation.
-							''
-							.$CoverPageLocation.
-							''
-							.$LetterToEditorLocation.
-							''
-							.$Category.
-							''
-							.$Active.
-							''
-							.$ApprovedReview.
-							''
-							.$ApprovedPublish.
-							'<div>';
-				}	
-				}
+	// $count = mysqli_num_rows($selectQuery);
+			// if ($count == 0) {
+				// $output = 'There were no search results!';
+			// }else{
+				// while ($row = mysqli_fetch_row($selectQuery)) {
+					// $CriticalIncidentId = $row['CriticalIncidentId'];
+					// $Title = $row['Title'];
+					// $ReviewerId = $row['ReviewerId'];
+					// $MemoLocation = $row['MemoLocation'];
+					// $CoverPageLocation = $row['CoverPageLocation'];
+					// $LetterToEditorLocation = $row['LetterToEditorLocation'];
+					// $Category = $row['Category'];
+					// $Active = $row['Active'];
+					// $ApprovedReview = $row['ApprovedReview'];
+					// $ApprovedPublish = $row['ApprovedPublish'];
+// 					
+				// $output .= '<div>'
+							// .$Title.
+							// ''
+							// .$ReviewerId.
+							// ''
+							// .$MemoLocation.
+							// ''
+							// .$CoverPageLocation.
+							// ''
+							// .$LetterToEditorLocation.
+							// ''
+							// .$Category.
+							// ''
+							// .$Active.
+							// ''
+							// .$ApprovedReview.
+							// ''
+							// .$ApprovedPublish.
+							// '<div>';
+				// }	
+				// }
 				
-}
 	$pageNames = array('ViewCriticalIncidents.php');
 	$variableNames = array('CriticalIncidentId');
 	$titles = array('View');
 	
-	for($a = 0; $a < count($editButton); $a++) {
-			echo $editButton[$a];
-			}
+	// for($a = 0; $a < count($editButton); $a++) {
+			// echo $editButton[$a];
+			// }
 	
 	$headerCounter = mysqli_num_fields($selectQuery);
 	$editButton = tableRowLinkGenerator($idSelectQuery, $pageNames, $variableNames, $titles);
 	$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 1, $headerCounter);
+}
 ?>		
 
 <h1>Critical Incidents</h1>
