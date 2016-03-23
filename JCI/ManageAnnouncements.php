@@ -15,6 +15,7 @@
  * Revision1.1: MM/DD/YYYY Author: Name Here 
  * Description of change. Also add //Name: comments above your change within the code.
  ********************************************************************************************/
+	$page_title = 'Manage Announcements';
 	include('includes/Header.php');
 	include('includes/TableRowHelper.php');
 	require('../DbConnector.php');
@@ -33,7 +34,7 @@
 		$announcementDeactivateQuery = "UPDATE announcements SET IsActive = 0 WHERE AnnouncementId = {$_GET['deleteId']};";
 		$deactivateQuery = @mysqli_query($dbc, $announcementDeactivateQuery);
 		if($deactivateQuery){
-			header('Location: http://localhost:8081/jci/ManageAnnouncements.php');
+			header('Location: http://localhost/jci/ManageAnnouncements.php');
 		}
 	}
 	
@@ -44,12 +45,16 @@
 		$announcementActivateQuery = "UPDATE announcements SET IsActive = 1 WHERE AnnouncementId = {$_GET['activateId']};";
 		$activateQuery = @mysqli_query($dbc, $announcementActivateQuery);
 		if($activateQuery){
-			header('Location: http://localhost:8081/jci/ManageAnnouncements.php');
+			header('Location: http://localhost/jci/ManageAnnouncements.php');
 		}
 	}
 	
+	$pageNames = array('EditAnnouncement.php', 'ManageAnnouncements.php', 'ManageAnnouncements.php');
+	$variableNames = array('id', 'deleteId', 'activateId');
+	$titles = array('Edit', 'Deactivate', 'Activate');
+	
 	$headerCounter = mysqli_num_fields($selectQuery);
-	$editButton = tableRowLinkGenerator($idSelectQuery);
+	$editButton = tableRowLinkGenerator($idSelectQuery, $pageNames, $variableNames, $titles);
 	$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 3, $headerCounter);
 ?>
 

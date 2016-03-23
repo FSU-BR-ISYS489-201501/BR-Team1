@@ -28,9 +28,10 @@
   * Revision1.5: 02/22/2016 Author: Shane Workman
   * Added the CheckEmail.php funciton to the validation. Spelled out a few variables that were abbriviated.
   ********************************************************************************************/
+ $page_title = 'Register';
  include ("includes/Header.php");
  include ("includes/ValidationHelper.php");
- $page_title = 'Register';
+
  
  //Grab the db connector.
  //require ('../mysqli_connect.php');
@@ -82,9 +83,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		} elseif (checkEmail($_POST['email']) == 0) {
 			$err[] = 'The email submitted doesnt have the correct syntax.';
 		} else {
+			
 			$email = mysqli_real_escape_string($dbc, trim($_POST['email']));
 		}
-
+		$testQ = "SELECT Email FROM Users WHERE Email = '$email';";
+		$result = mysqli_query($dbc, $testQ);
+		if (mysqli_num_rows($result)== true){
+			$err[] = 'This email is already registered!';
+		}
+	
  	//Check if university text box has a value or set it to null.
  	if (empty($_POST['university'])) {
 		$university = 'NULL';

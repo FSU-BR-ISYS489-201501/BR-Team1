@@ -12,11 +12,6 @@
  * I used code written by Bart S. This code was obtained from 
  * //http://stackoverflow.com/questions/676677/how-to-add-elements-to-an-empty-array-in-php
  *
- * Function:  countNumberOfFields($dbc, $selectQuery)
- * Purpose: This function does a database query and returns the number of fields being returned.
- * Variable: $dbc - This is the database connection.
- * Variable: $selectQuery - This is a string representation of a database query.
- *
  * Function:  tableRowGenerator($dbc, $selectQuery, $headerCounter)
  * Purpose: This function creates table rows that will contain the information retrieved from 
  * the database query. The number of rows will represent the number of returned records, and
@@ -86,6 +81,21 @@
 		return $tableBody;
 	}
 	
+	function tableRowLinkGenerator($idSelectQuery, $pageName, $variableName, $title) {
+		$editButton = array();
+		while ($ids = mysqli_fetch_array($idSelectQuery, MYSQLI_NUM)) {
+			for($a = 0;$a < count($ids);$a++) {
+				for($a = 0;$a < count($variableName);$a++) {
+					// The idea for this code was inspired by xdazz.
+					$button = '<td><a href=' . $pageName[$a] . '?' . $variableName[$a] . '=' . $ids[$a] . '>' . $title[$a] . '</a></td>';
+					// The idea for this code was inspired by Bart S.
+					array_push($editButton, $button);
+				}
+			}
+		}
+		return $editButton;
+	}
+	
 	function tableRowGeneratorWithRadioButtons($selectQuery, $radioButton, $headerCounter, $ids) {
 		$tableBody = '';
 		$rowCounter = 0;
@@ -116,28 +126,6 @@
 		}
 		$button = $button . '</select></td>';
 		return $button;
-	}
-	
-	function tableRowLinkGenerator($idSelectQuery) {
-		$editButton = array();
-		while ($ids = mysqli_fetch_array($idSelectQuery, MYSQLI_NUM)) {
-			for($a = 0;$a < count($ids);$a++) {
-				// The idea for this code was inspired by xdazz.
-				$button = '<td><a href="EditAnnouncement.php?id='.$ids[$a].'">Edit</a></td>';
-				// The idea for this code was inspired by Bart S.
-				array_push($editButton, $button);
-				// The idea for this code was inspired by xdazz.
-				$button = '<td><a href="ManageAnnouncements.php?deleteId='.$ids[$a].'">Deactivate</a></td>';
-				// The idea for this code was inspired by Bart S.
-				array_push($editButton, $button);
-				// The idea for this code was inspired by xdazz.
-				$button = '<td><a href="ManageAnnouncements.php?activateId='.$ids[$a].'">Activate</a></td>';
-				// The idea for this code was inspired by Bart S.
-				array_push($editButton, $button);
-				
-			}
-		}
-		return $editButton;
 	}
 	
 	function tableRowLinkGeneratorFileManagement($idSelectQuery) {

@@ -21,6 +21,7 @@
  * Description of change. Also add //Name: comments above your change within the code.
  ********************************************************************************************/
  
+ 	$page_title = 'Launch Latest Version of JCI';
  	include('includes/Header.php');
 	include('includes/TableRowHelper.php');
 	include('../DbConnector.php');
@@ -85,8 +86,11 @@
 			echo '<form action="LaunchNewestVersionOfJCI.php" method = "POST"><input type="submit" value="Launch the Latest Volume"></form>';
 		}
 		else {
-			echo 'Not all PDFs have been uploaded.';
+			$err[] = 'Not all PDFs have been uploaded.';
 		}
+	}
+	for($i = 0; $i < count($err); $i++) {
+			echo "{$err[$i]} <br />";
 	}
 ?>
 

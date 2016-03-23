@@ -25,6 +25,7 @@
  * Revision 1.4: 02/20/2016 Author: Ben Brackett
  * Description of change: added checkLogin function and included LoginHelper.php
  ********************************************************************************************/
+ 	$page_title = 'Submit Case';
 	//Ben Brackett: Call checkLogin function
 	include ("includes/LoginHelper.php");
 	include ("includes/ValidationHelper.php");

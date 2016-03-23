@@ -12,6 +12,7 @@
  * Revision1.1: MM/DD/YYYY Author: Name Here 
  * Description of change. Also add //Name: comments above your change within the code.
  ********************************************************************************************/
+ 	$page_title = 'Announcements';
  	include('includes/Header.php');
 	include('includes/TableRowHelper.php');
 	require('../DbConnector.php');
