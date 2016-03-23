@@ -33,82 +33,88 @@
 	include('includes/TableRowHelper.php');
 	include('../DbConnector.php');
  	
-	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		//Update the current JCI volume.
-	}
+	if($_GET[$_SESSION['Type']] == 'Editor' || $_GET[$_SESSION['Type']] == 'editor') {
 	
-	// Declaring variables for future use.
- 	$err = array();
-	$criticalIncidentsWithFiles = array();
-	$criticalIncidentIds = array();
- 	$latest = 7;
-	$fileCounter = 0;
-	$fileLocationQuery = '';
-	$tableBody = '';
-	
- 	$approvedSubmissionQuery = 	"SELECT CriticalIncidentId
-					 			FROM criticalincidents 
-					 			WHERE ApprovedPublish = 1 AND JournalId = {$latest};";
-	
-	
-	// Stole from Shane Workman's Register code
-	if ($selectQuery = @mysqli_query($dbc, $approvedSubmissionQuery)) {
+		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			//Update the current JCI volume.
+		}
 		
-		if ($row = mysqli_fetch_row($selectQuery)) {
-			array_push($criticalIncidentIds, $row[0]);
+		// Declaring variables for future use.
+	 	$err = array();
+		$criticalIncidentsWithFiles = array();
+		$criticalIncidentIds = array();
+	 	$latest = 7;
+		$fileCounter = 0;
+		$fileLocationQuery = '';
+		$tableBody = '';
+		
+	 	$approvedSubmissionQuery = 	"SELECT CriticalIncidentId
+						 			FROM criticalincidents 
+						 			WHERE ApprovedPublish = 1 AND JournalId = {$latest};";
+		
+		
+		// Stole from Shane Workman's Register code
+		if ($selectQuery = @mysqli_query($dbc, $approvedSubmissionQuery)) {
 			
-			// Creating the query to verify if Critical Incidents have files
-			// associated with them.
-			$fileLocationQuery = 	"SELECT CriticalIncidentId, FileLocation
-									FROM files
-									WHERE CriticalIncidentId = {$row[0]}";
-			while ($row = mysqli_fetch_row($selectQuery)) {
+			if ($row = mysqli_fetch_row($selectQuery)) {
 				array_push($criticalIncidentIds, $row[0]);
-				$fileLocationQuery = $fileLocationQuery . " OR CriticalIncidentId = {$row[0]}";
+				
+				// Creating the query to verify if Critical Incidents have files
+				// associated with them.
+				$fileLocationQuery = 	"SELECT CriticalIncidentId, FileLocation
+										FROM files
+										WHERE CriticalIncidentId = {$row[0]}";
+				while ($row = mysqli_fetch_row($selectQuery)) {
+					array_push($criticalIncidentIds, $row[0]);
+					$fileLocationQuery = $fileLocationQuery . " OR CriticalIncidentId = {$row[0]}";
+				}
+				$fileLocationQuery = $fileLocationQuery . " ORDER BY CriticalIncidentId;";
 			}
-			$fileLocationQuery = $fileLocationQuery . " ORDER BY CriticalIncidentId;";
+			else {
+				$err[] = 'There were no approved Critical Incidents for the current JCI volume.';
+			}
 		}
 		else {
-			$err[] = 'There were no approved Critical Incidents for the current JCI volume.';
+			$err[] = 'There was an error connecting to the database.';
+		}
+		
+		// This command executes the auto-generated SQL query.
+		if ($fileLocationSelectQuery = @mysqli_query($dbc, $fileLocationQuery)) {
+			// $headerCounter = mysqli_num_fields($fileLocationSelectQuery);
+			// $tableBody = tableRowGenerator($fileLocationSelectQuery, $headerCounter);
+			
+			//This function resets the resultset to 0. Shef @ http://stackoverflow.com/questions/6439230/how-to-go-through-mysql-result-twice
+			// mysqli_data_seek($fileLocationSelectQuery, 0);
+			
+			$rowCounter = mysqli_num_rows($fileLocationSelectQuery);
+			
+			// This loop determines if each record contains a file that is associated
+			// with a Critical Incident in the initial query.
+			for($a = 0; $a < count($criticalIncidentIds); $a++) {
+				while ($row = mysqli_fetch_row($fileLocationSelectQuery)) {
+					if ($criticalIncidentIds[$a] == "$row[0]") {
+						$fileCounter++;
+						break;
+					}
+				}
+			}
+			
+			// Generates the submit button.	
+			if ($fileCounter == count($criticalIncidentIds)) {
+				echo '<form action="LaunchNewestVersionOfJCI.php" method = "POST"><input type="submit" value="Launch the Latest Volume"></form>';
+			}
+			else {
+				$err[] = 'Not all PDFs have been uploaded.';
+			}
+		}
+	
+		// Generates any error messages.
+		for($i = 0; $i < count($err); $i++) {
+				echo "{$err[$i]} <br />";
 		}
 	}
 	else {
-		$err[] = 'There was an error connecting to the database.';
-	}
-	
-	// This command executes the auto-generated SQL query.
-	if ($fileLocationSelectQuery = @mysqli_query($dbc, $fileLocationQuery)) {
-		// $headerCounter = mysqli_num_fields($fileLocationSelectQuery);
-		// $tableBody = tableRowGenerator($fileLocationSelectQuery, $headerCounter);
-		
-		//This function resets the resultset to 0. Shef @ http://stackoverflow.com/questions/6439230/how-to-go-through-mysql-result-twice
-		// mysqli_data_seek($fileLocationSelectQuery, 0);
-		
-		$rowCounter = mysqli_num_rows($fileLocationSelectQuery);
-		
-		// This loop determines if each record contains a file that is associated
-		// with a Critical Incident in the initial query.
-		for($a = 0; $a < count($criticalIncidentIds); $a++) {
-			while ($row = mysqli_fetch_row($fileLocationSelectQuery)) {
-				if ($criticalIncidentIds[$a] == "$row[0]") {
-					$fileCounter++;
-					break;
-				}
-			}
-		}
-		
-		// Generates the submit button.	
-		if ($fileCounter == count($criticalIncidentIds)) {
-			echo '<form action="LaunchNewestVersionOfJCI.php" method = "POST"><input type="submit" value="Launch the Latest Volume"></form>';
-		}
-		else {
-			$err[] = 'Not all PDFs have been uploaded.';
-		}
-	}
-
-	// Generates any error messages.
-	for($i = 0; $i < count($err); $i++) {
-			echo "{$err[$i]} <br />";
+		header('Location: http://localhost/jci/Index.php');
 	}
 ?>
 
