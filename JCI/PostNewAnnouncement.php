@@ -88,6 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			echo 'There was an error when creating the announcement. Please try again!';
 		} else {
 			echo "Thank you for your Announcement!";
+			header('Location: http://localhost/jci/ManageAnnouncements.php');
 		}
 	} else {
 			//List each Error msg that is stored in the array.

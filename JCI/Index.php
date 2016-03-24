@@ -8,13 +8,35 @@
  * Project work is done as part of a Capstone class ISYS489: Ferris State University.
  * Purpose of Page: This is the index.php and will serve as the home page content of the site.
  ********************************************************************************************/
-$page_title = 'Home';
-include ('includes/Header.php');
-
+	$page_title = 'Home';
+	include ('includes/Header.php');
+	include('includes/TableRowHelper.php');
+	require('../DbConnector.php');
+	
+	$currentDate = date("Y-m-d");
+	$query = "SELECT AnnouncementId, Subject, Body FROM announcements WHERE IsActive = 1 AND StartDate < '{$currentDate}' 
+		AND EndDate > '{$currentDate}';";
+	
+	// Stole from Shane Workman's Register code
+	$selectQuery = @mysqli_query($dbc, $query);
+	
+	$headerCounter = mysqli_num_fields($selectQuery);
+	$tableBody = tableRowGenerator($selectQuery, $headerCounter);
 ?>
 
-
 <H1>Welcome to JCI</H1>
+<br>
+<div id = 'announcementViewer'>
+	<table>
+		<tr>
+			<th></th>
+			<th>Subject</th>
+			<th>Announcement</th>
+		</tr>
+		<?php echo $tableBody; ?>
+	</table>
+</div>
+<br>
 <!--Lorem Ipsum coped from http://lorem-ipsum.perbang.dk/ -->
 <h2>Enjoy some Lorem Ipsum while we finish developement!</h2>
 <p>Lorem ipsum dolor sit amet, dolor quam vivamus arcu augue, scelerisque in pharetra nisl, sed convallis odio in blandit nulla ullamcorper, accumsan dapibus urna sodales sed, luctus nunc. Arcu lobortis vitae. Duis est arcu pellentesque, ut ac ut vestibulum vulputate gravida, donec libero et at dictum ut, a dapibus hendrerit in pellentesque tempus cum, diam ut at aliquam ultricies fringilla. Amet mattis mattis mauris, elit sagittis cum curae nam non. Faucibus phasellus quis nulla sed nec, varius in aliquam at pellentesque amet, sit vestibulum nec eget, dui platea diam erat non augue tincidunt, et maecenas cursus suscipit varius. Et eget tincidunt, sit augue ullamcorper integer, wisi sagittis, a maecenas pharetra. Ante id, vivamus diam urna. Amet eros tincidunt eros volutpat nam a. Quisque orci elementum nec sem. Quisque laoreet quisque, mi fringilla et gravida suspendisse a, fusce ipsum leo metus nonummy eget amet, duis aliquam ornare tempus dictum, pulvinar sed massa urna faucibus consequat lobortis.

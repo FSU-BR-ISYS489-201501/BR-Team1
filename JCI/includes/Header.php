@@ -54,13 +54,8 @@
 <!--Ben Brackett: changed a spelling mistake for logout
 <!--Ben Brackett: changed logout link-->
 <!-- <<<<<<< HEAD -->
-			<li><a href="ReadAnnouncements.php">Read Announcements</a></li>
 			<li><a href="ManageAnnouncements.php">Manage Announcements</a></li>
-			<li><a href="PostNewAnnouncement.php">Create New Announcement</a></li>
 			<li><a href="FileManagement.php">File Management</a></li>
-			<li><a href="SubmitCase.php">Submit a Case</a></li>
-			<li><a href="SearchStaff.php">Search Staff</a></li>
-			<li><a href="SearchArticle.php">Search an Article</a></li>
 			<li><a href="BrowseCriticalIncidents.php">Browse Critical Incidents</a></li>
 			<li><a href="CriticalIncidents.php">Critical Incidents</a></li>
 			<!--
