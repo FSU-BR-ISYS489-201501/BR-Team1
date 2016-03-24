@@ -85,9 +85,9 @@
 		$editButton = array();
 		while ($ids = mysqli_fetch_array($idSelectQuery, MYSQLI_NUM)) {
 			for($a = 0;$a < count($ids);$a++) {
-				for($a = 0;$a < count($variableName);$a++) {
+				for($b = 0;$b < count($variableName);$b++) {
 					// The idea for this code was inspired by xdazz.
-					$button = '<td><a href=' . $pageName[$a] . '?' . $variableName[$a] . '=' . $ids[$a] . '>' . $title[$a] . '</a></td>';
+					$button = '<td><a href=' . $pageName[$b] . '?' . $variableName[$b] . '=' . $ids[$a] . '>' . $title[$b] . '</a></td>';
 					// The idea for this code was inspired by Bart S.
 					array_push($editButton, $button);
 				}

@@ -19,8 +19,9 @@
 	include('includes/Header.php');
 	include('includes/TableRowHelper.php');
 	require('../DbConnector.php');
+	session_start();
 	
-	if($_GET[$_SESSION['Type']] == 'Editor' || $_GET[$_SESSION['Type']] == 'editor') {
+	if($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
 	
 		$announcementQuery = "SELECT AnnouncementId, Subject, Body, StartDate, EndDate, Type, IsActive FROM announcements;";
 		$announcementIdQuery = "SELECT AnnouncementId FROM announcements;";

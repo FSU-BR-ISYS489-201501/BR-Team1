@@ -11,7 +11,16 @@
 $page_title = 'Home';
 include ('includes/Header.php');
 
+session_start();
+
+echo $_SESSION['UserId'];
+echo $_SESSION['FName'];
+echo $_SESSION['LName'];
+echo $_SESSION['Type'];
+echo $_SESSION['Email'];
 ?>
+
+
 <H1>Welcome to JCI</H1>
 <!--Lorem Ipsum coped from http://lorem-ipsum.perbang.dk/ -->
 <h2>Enjoy some Lorem Ipsum while we finish developement!</h2>

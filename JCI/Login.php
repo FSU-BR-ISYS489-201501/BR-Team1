@@ -18,8 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 	// Need two helper files:
 	require ('includes/LoginFunction.php');
-	//require ('../DbConnector.php');
-	require ('mysqli_connect.php');
+	require ('../DbConnector.php');
+	// require ('mysqli_connect.php');
 		
 	// Check the login:
 	list ($check, $data) = checkLoginFields($dbc, $_POST['email'], $_POST['pass']);
@@ -43,7 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		
 		// Store the HTTP_USER_AGENT:
 		$_SESSION['agent'] = md5($_SERVER['HTTP_USER_AGENT']);
-
+		
+		SESSION_WRITE_CLOSE();
+		
 		// Redirect:
 		redirect_user('Index.php');
 			
