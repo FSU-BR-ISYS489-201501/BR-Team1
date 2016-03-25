@@ -16,12 +16,14 @@
 
 	
 ?>
+
 <H1>ABOUT THE JOURNAL</H1>
 
 <!--Lorem Ipsum coped from http://lorem-ipsum.perbang.dk/ -->
 <h2>PEOPLE</h2>
 <p>Send us a message on our <a href="ContactUs.php" class="action">Contact Us</a> page.</p>
-<h4>Meet the Editors</h4>
+<h4 class="secondary">Meet the Editors</h4>
+<img src="Editors">
 <p>Dr. and Dr. pose above at the  </p>
 <h2>POLICIES</h2>
 <p>Go to our <a href="Policies.php" class="action">Policies</a> page if you would like to cover areas like the critical incident format, review process, and publication ethics policy.</p>
