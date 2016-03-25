@@ -40,6 +40,7 @@
 		<a href='Index.php' class="button2">HOME</a>
 		<a href='SubmitCase.php' class="button">SUBMIT A CASE</a>
 		<a href='ContactUs.php' class="button">CONTACT US</a>
+		<a href='AboutUs.php' class="button">About Us</a>
 		<a href='Search.php' class="button">Search</a>
 		
 	</div>
