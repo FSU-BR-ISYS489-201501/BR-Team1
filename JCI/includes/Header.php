@@ -26,11 +26,29 @@
 							
 		<?php
 			session_start();
-			if(!isset($_SESSION['Type'])) {
+			if(!isset($_SESSION['FName'])) {
+				echo "
+									<div class='login'>
+										<a href='Login.php' class='login'>LOGIN</a>
+										<a href='Register.php' class='login'>REGISTER</a>
+									</div>
+								</div>
+								<br>
+								<div class='mainmenu'>
+									<a href='Index.php' class='button2'>Home</a>
+									<a href='Search.php' class='button2'>Search</a>
+									<a href='AboutUs.php' class='button2'>About Us</a>
+									<a href='ContactUs.php' class='button2'>Contact Us</a>
+								</div>
+							</div>
+						</div>
+					";
+			}
+			else if(!isset($_SESSION['Type'])) {
 				echo "
 								<div class='login'>
-									<a href='Login.php' class='login'>LOGIN</a>
-									<a href='Register.php' class='login'>REGISTER</a>
+									Hello, {$_SESSION['FName']}!
+									<a href='Logout.php' class='button4'>LOGOUT</a>
 								</div>
 							</div>
 							<br>
@@ -44,10 +62,11 @@
 					</div>
 				";
 			}
+					
 			else {
 				if ($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
 					echo "
-								<div class='login'>
+									<div class='login'>
 										Hello, {$_SESSION['FName']}!
 										<a href='Logout.php' class='button4'>LOGOUT</a>
 									</div>
