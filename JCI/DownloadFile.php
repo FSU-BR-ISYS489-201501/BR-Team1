@@ -12,11 +12,11 @@
 include ("includes/FileHelper.php");
 require ('../DbConnector.php');
 // Borrowed this code from Faisal's Edit Announcement
+
 If (isset($_GET['id']) ) {
 			$fileId = $_GET['id'];
 		} Else {
 			$fileId = $_POST['id'];
 		}
-// Call the downloadFile function
 downloadFile($dbc, $fileId);
 ?>

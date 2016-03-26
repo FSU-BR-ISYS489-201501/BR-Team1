@@ -16,6 +16,9 @@
 	//include("includes/FileManagementHelper.php");
 	include('includes/TableRowHelper.php');
 	require ('../DbConnector.php');
+	session_start();
+	
+	if($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
 	// Borrowed idea from Mark's ManageAnnouncements
 	$query = "SELECT FileID, CriticalIncidentId, FileDes FROM files WHERE CriticalIncidentId = 1";
 	$IdQuery = "SELECT FileId FROM files;";
@@ -24,6 +27,10 @@
 	$headerCounter = mysqli_num_fields($selectQuery);
 	$downloadButton = tableRowLinkGeneratorFileManagement($idSelectQuery);
 	$tableBody = tableRowGeneratorWithButtons($selectQuery, $downloadButton, 1, $headerCounter);
+	}
+	else {
+		header('Location: http://localhost/jci/Index.php');
+	}
 	?>
 	 <a href="UploadFile.php">Upload a file</a> 
 <div id = 'fileViewer'>
@@ -38,7 +45,6 @@
 			?>
 		</table>
 	</div>
-	
 	
 	
 <?php

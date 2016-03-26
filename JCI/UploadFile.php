@@ -20,6 +20,8 @@ uploadFile($dbc, "uploadedFile", "../uploads/");
 ?>
 <form method="post" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" multiple = "multiple">
 <input type="file" name="uploadedFile[]" />
+<br><br>
+Critical Incident ID:<input type="text" name="criticalincidentid" />
 		<br><br>
 		<input type="submit" value="Submit" name="uploadedFile" />
 	</form>
