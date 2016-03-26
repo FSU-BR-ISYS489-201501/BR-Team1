@@ -48,7 +48,8 @@
 				if ($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
 					echo "
 							<div class='login'>
-									<a href='Logout.php' class='login'>LOGOUT</a>
+									Hello, {$_SESSION['FName']}!
+									<a href='Logout.php' class='button4'>LOGOUT</a>
 								</div>
 							</div>
 						</div>
@@ -71,7 +72,8 @@
 				else if ($_SESSION['Type'] == 'Author' || $_SESSION['Type'] == 'author') {
 					echo "
 								<div class='login'>
-									<a href='Logout.php' class='login'>LOGOUT</a>
+									Hello, {$_SESSION['FName']}!
+									<a href='Logout.php' class='button4'>LOGOUT</a>
 								</div>
 							</div>
 						</div>
