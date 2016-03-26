@@ -22,7 +22,7 @@
 					<div class='container'>
 						<div class='logo'>
 							<img src='styles/images/icon_logo_opt.png' alt='Logo' class='icon'>
-							<h3 class='tertiary' id='jci'>Journal of Critical Incidents</h3>
+							
 							
 		<?php
 			session_start();
