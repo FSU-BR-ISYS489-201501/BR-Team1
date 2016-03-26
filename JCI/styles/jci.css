@@ -352,7 +352,7 @@ h2{font-family: 'Noto Sans', sans-serif;
 
 h3{ font-family: 'Noto Sans', sans-serif;
 	font-weight: 400;
-	color: white;
+	color: #273E8F;
 	font-size: 18px;
 }
 	
@@ -434,7 +434,7 @@ p{font-family: 'Noto Sans', sans-serif;
 
 .login{font-family: 'Noto Sans', sans-serif;
 	font-weight:400;
-	color: white;
+	color: #273E8F;
 	text-decoration: none;
 	font-size: 12px;
 }
@@ -576,8 +576,6 @@ input, textarea {
 				display: inline;
 				font-family: 'Noto Sans', sans-serif;
 				font-weight:400;
-				color: white;
-				background-color: #00aaad;
 
 			}
 
@@ -1009,7 +1007,7 @@ input, textarea {
 	
 			}
 			footer {
-				background-image: url('images/footer.png');
+				background-color: #D1E5C9;
 				background-size: 100%;
 				background-repeat: no-repeat;
 				position: relative;
@@ -1026,7 +1024,7 @@ input, textarea {
 				text-align: center;
 			}
 			.header {
-				background-image: url('images/header_background.png');
+				background-color: #D1E5C9;
 				background-size: 100%;
 				background-repeat: no-repeat;
 				padding: 20px;

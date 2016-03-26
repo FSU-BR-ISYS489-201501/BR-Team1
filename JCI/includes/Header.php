@@ -38,10 +38,10 @@
 	<br>
 	<div class="mainmenu">
 		<a href='Index.php' class="button2">HOME</a>
-		<a href='SubmitCase.php' class="button">SUBMIT A CASE</a>
-		<a href='ContactUs.php' class="button">CONTACT US</a>
-		<a href='AboutUs.php' class="button">About Us</a>
-		<a href='Search.php' class="button">Search</a>
+		<a href='SubmitCase.php' class="button2">SUBMIT A CASE</a>
+		<a href='ContactUs.php' class="button2">CONTACT US</a>
+		<a href='AboutUs.php' class="button2">About Us</a>
+		<a href='Search.php' class="button2">Search</a>
 		
 	</div>
 	
@@ -69,4 +69,6 @@
 >>>>>>> ac3072db73b496b2e4cccd03501441faf0b1e589 -->
 		</ul>
 	</div>
+</div>
+</div>
 	<div id="content"><!-- Start of the page-specific content. -->
