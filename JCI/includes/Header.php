@@ -87,5 +87,6 @@
 					";
 				}
 			}
+			session_write_close();
 		?>
 		<div id='content'><!-- Start of the page-specific content. -->
