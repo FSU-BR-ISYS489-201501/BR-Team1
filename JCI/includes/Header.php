@@ -26,6 +26,7 @@
 							
 		<?php
 			session_start();
+			// Cite Anas http://stackoverflow.com/questions/10855972/determine-if-session-superglobal-exists-in-php
 			if(!isset($_SESSION['FName'])) {
 				echo "
 									<div class='login'>
