@@ -59,9 +59,11 @@
 							<a href='AboutUs.php' class='button2'>About Us</a>
 							<a href='ContactUs.php' class='button2'>Contact Us</a>
 							<a href='SubmitCase.php' class='button2'>Submit a Case</a>
-							<a href='BrowseCriticalIncidents.php' class = 'button2'>Browse Critical Incidents</a>
-							<a href='ManageAnnouncements.php' class = 'button2'>Manage Announcements</a>
-							<a href='CriticalIncidents.php' class = 'button2'>Reviewer Management</a>
+							<br>
+							<br>
+							<a href='BrowseCriticalIncidents.php' class = 'button4'>Browse</a>
+							<a href='ManageAnnouncements.php' class = 'button4'>Manage Announcements</a>
+							<a href='CriticalIncidents.php' class = 'button4'>Manage Reviewers</a>
 						</div>
 					</div>
 					";
