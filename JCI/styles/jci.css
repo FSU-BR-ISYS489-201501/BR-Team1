@@ -57,7 +57,7 @@ img#small.icon {
 
 .button2 {
 	opacity:1;
-	background:#3d4f5a;
+	background:#283F8E;
 	color: white;
 	font-family: 'Noto Sans', sans-serif;
 	font-weight: 400;
@@ -85,8 +85,8 @@ img#small.icon {
 }
 
 .button4 {
-	background:#ffbf2d;
-	color: white;
+	background:#FEF200;
+	color: #283F8E;
 	font-family: 'Noto Sans', sans-serif;
 	font-weight: 400;
 	padding: 3px 25px;
