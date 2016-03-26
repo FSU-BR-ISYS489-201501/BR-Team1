@@ -28,67 +28,68 @@
 			session_start();
 			if(!isset($_SESSION['Type'])) {
 				echo "
-							<div class='login'>
-								<a href='Login.php' class='login'>LOGIN</a>
-								<a href='Register.php' class='login'>REGISTER</a>
+								<div class='login'>
+									<a href='Login.php' class='login'>LOGIN</a>
+									<a href='Register.php' class='login'>REGISTER</a>
+								</div>
+							</div>
+							<br>
+							<div class='mainmenu'>
+								<a href='Index.php' class='button2'>Home</a>
+								<a href='Search.php' class='button2'>Search</a>
+								<a href='AboutUs.php' class='button2'>About Us</a>
+								<a href='ContactUs.php' class='button2'>Contact Us</a>
 							</div>
 						</div>
 					</div>
-					<br>
-					<div class='mainmenu'>
-						<a href='Index.php' class='button2'>Home</a>
-						<a href='Search.php' class='button2'>Search</a>
-						<a href='AboutUs.php' class='button2'>About Us</a>
-						<a href='ContactUs.php' class='button2'>Contact Us</a>
-					</div>
-				</div>
 				";
 			}
 			else {
 				if ($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
 					echo "
-							<div class='login'>
-									Hello, {$_SESSION['FName']}!
-									<a href='Logout.php' class='button4'>LOGOUT</a>
+								<div class='login'>
+										Hello, {$_SESSION['FName']}!
+										<a href='Logout.php' class='button4'>LOGOUT</a>
+									</div>
+								</div>
+								<br>
+								<div class='mainmenu'>
+									<a href='Index.php' class='button2'>Home</a>
+									<a href='Search.php' class='button2'>Search</a>
+									<a href='AboutUs.php' class='button2'>About Us</a>
+									<a href='ContactUs.php' class='button2'>Contact Us</a>
+									<a href='SubmitCase.php' class='button2'>Submit a Case</a>
+									<br>
+									<br>
+									<a href='BrowseCriticalIncidents.php' class = 'button4'>Browse</a>
+									<a href='ManageAnnouncements.php' class = 'button4'>Manage Announcements</a>
+									<a href='CriticalIncidents.php' class = 'button4'>Manage Reviewers</a>
 								</div>
 							</div>
 						</div>
-						<br>
-						<div class='mainmenu'>
-							<a href='Index.php' class='button2'>Home</a>
-							<a href='Search.php' class='button2'>Search</a>
-							<a href='AboutUs.php' class='button2'>About Us</a>
-							<a href='ContactUs.php' class='button2'>Contact Us</a>
-							<a href='SubmitCase.php' class='button2'>Submit a Case</a>
-							<br>
-							<br>
-							<a href='BrowseCriticalIncidents.php' class = 'button4'>Browse</a>
-							<a href='ManageAnnouncements.php' class = 'button4'>Manage Announcements</a>
-							<a href='CriticalIncidents.php' class = 'button4'>Manage Reviewers</a>
-						</div>
-					</div>
 					";
 				}
 				else if ($_SESSION['Type'] == 'Author' || $_SESSION['Type'] == 'author') {
 					echo "
-								<div class='login'>
-									Hello, {$_SESSION['FName']}!
-									<a href='Logout.php' class='button4'>LOGOUT</a>
+									<div class='login'>
+										Hello, {$_SESSION['FName']}!
+										<a href='Logout.php' class='button4'>LOGOUT</a>
+									</div>
+								</div>
+								<br>
+								<div class='mainmenu'>
+									<a href='Index.php' class='button2'>Home</a>
+									<a href='Search.php' class='button2'>Search</a>
+									<a href='AboutUs.php' class='button2'>About Us</a>
+									<a href='ContactUs.php' class='button2'>Contact Us</a>
+									<a href='SubmitCase.php' class='button2'>Submit a Case</a>
 								</div>
 							</div>
 						</div>
-						<br>
-						<div class='mainmenu'>
-							<a href='Index.php' class='button2'>Home</a>
-							<a href='Search.php' class='button2'>Search</a>
-							<a href='AboutUs.php' class='button2'>About Us</a>
-							<a href='ContactUs.php' class='button2'>Contact Us</a>
-							<a href='SubmitCase.php' class='button2'>Submit a Case</a>
-						</div>
-					</div>
 					";
 				}
 			}
 			session_write_close();
 		?>
 		<div id='content'><!-- Start of the page-specific content. -->
+			<div class = 'container'>
