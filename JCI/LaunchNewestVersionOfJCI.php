@@ -33,27 +33,68 @@
 	include('includes/TableRowHelper.php');
 	include('../DbConnector.php');
  	
-	if($_GET[$_SESSION['Type']] == 'Editor' || $_GET[$_SESSION['Type']] == 'editor') {
-	
+	session_start();
+	if($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
+		
+		// Makes the latest volume go live
+		
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			//Update the current JCI volume.
 		}
 		
+		$tableBody = '';
+		$latest = 7;
+	
+		$criticalIncidentQuery = 	"SELECT CriticalIncidentId, Title, JournalId
+						 			FROM criticalincidents 
+						 			WHERE ApprovedPublish = 1 AND JournalId = {$latest} ORDER BY CriticalIncidentId;";
+									
+		$criticalIncidentIdQuery = 	"SELECT CriticalIncidentId
+						 			FROM criticalincidents 
+						 			WHERE ApprovedPublish = 1 AND JournalId = {$latest} ORDER BY CriticalIncidentId;";
+		
+		// Written by Shane Workman.
+		$criticalIncidentSelectQuery = @mysqli_query($dbc, $criticalIncidentQuery);
+		$criticalIncidentIdSelectQuery = @mysqli_query($dbc, $criticalIncidentIdQuery);
+	
+		$pageNames = array('FileManagement.php');
+		$variableNames = array('id');
+		$titles = array('View');
+		
+		$headerCounter = mysqli_num_fields($criticalIncidentSelectQuery);
+		$editButton = tableRowLinkGenerator($criticalIncidentIdSelectQuery, $pageNames, $variableNames, $titles);
+		$tableBody = tableRowGeneratorWithButtons($criticalIncidentSelectQuery, $editButton, 1, $headerCounter);
+	
+		echo "
+			<div id = 'announcementViewer'>
+				<table>
+					<tr>
+						<th>ID</th>
+						<th>Title</th>
+						<th>Volume</th>
+					</tr>
+					$tableBody
+				</table>
+			</div>
+		";
+		
+		
+		// Shows the submit button or an error message.
 		// Declaring variables for future use.
 	 	$err = array();
-		$criticalIncidentsWithFiles = array();
+		$criticalIncidentsWithoutFiles = array();
 		$criticalIncidentIds = array();
-	 	$latest = 7;
 		$fileCounter = 0;
 		$fileLocationQuery = '';
 		$tableBody = '';
 		
 	 	$approvedSubmissionQuery = 	"SELECT CriticalIncidentId
 						 			FROM criticalincidents 
-						 			WHERE ApprovedPublish = 1 AND JournalId = {$latest};";
+						 			WHERE ApprovedPublish = 1 AND JournalId = {$latest}
+									ORDER BY CriticalIncidentId;";
 		
 		
-		// Stole from Shane Workman's Register code
+		// Written by Shane Workman.
 		if ($selectQuery = @mysqli_query($dbc, $approvedSubmissionQuery)) {
 			
 			if ($row = mysqli_fetch_row($selectQuery)) {
@@ -61,14 +102,14 @@
 				
 				// Creating the query to verify if Critical Incidents have files
 				// associated with them.
-				$fileLocationQuery = 	"SELECT CriticalIncidentId, FileLocation
+				$fileLocationQuery = 	"SELECT CriticalIncidentId, FileDes
 										FROM files
 										WHERE CriticalIncidentId = {$row[0]}";
 				while ($row = mysqli_fetch_row($selectQuery)) {
 					array_push($criticalIncidentIds, $row[0]);
 					$fileLocationQuery = $fileLocationQuery . " OR CriticalIncidentId = {$row[0]}";
 				}
-				$fileLocationQuery = $fileLocationQuery . " ORDER BY CriticalIncidentId;";
+				$fileLocationQuery = $fileLocationQuery . " ORDER BY CriticalIncidentId";
 			}
 			else {
 				$err[] = 'There were no approved Critical Incidents for the current JCI volume.';
@@ -80,31 +121,41 @@
 		
 		// This command executes the auto-generated SQL query.
 		if ($fileLocationSelectQuery = @mysqli_query($dbc, $fileLocationQuery)) {
-			// $headerCounter = mysqli_num_fields($fileLocationSelectQuery);
-			// $tableBody = tableRowGenerator($fileLocationSelectQuery, $headerCounter);
 			
-			//This function resets the resultset to 0. Shef @ http://stackoverflow.com/questions/6439230/how-to-go-through-mysql-result-twice
-			// mysqli_data_seek($fileLocationSelectQuery, 0);
-			
-			$rowCounter = mysqli_num_rows($fileLocationSelectQuery);
+			$data = array();
 			
 			// This loop determines if each record contains a file that is associated
 			// with a Critical Incident in the initial query.
 			for($a = 0; $a < count($criticalIncidentIds); $a++) {
+				$currentIdFileCounter = 0;
 				while ($row = mysqli_fetch_row($fileLocationSelectQuery)) {
 					if ($criticalIncidentIds[$a] == "$row[0]") {
-						$fileCounter++;
-						break;
+						$currentIdFileCounter++;
 					}
 				}
+				//This function resets the resultset to 0. Shef @ http://stackoverflow.com/questions/6439230/how-to-go-through-mysql-result-twice
+				mysqli_data_seek($fileLocationSelectQuery, 0);
+				$data[$a] = array($criticalIncidentIds[$a], $currentIdFileCounter);
 			}
 			
 			// Generates the submit button.	
-			if ($fileCounter == count($criticalIncidentIds)) {
-				echo '<form action="LaunchNewestVersionOfJCI.php" method = "POST"><input type="submit" value="Launch the Latest Volume"></form>';
+			
+			// TODO: This is broken. Fix it. Determining what Critical Incident is missing files is proving to be difficult.
+			
+			if (count($data) != 0) {
+				for($a = 0; $a < count($data); $a++) {
+					if (isset($data[$a][1])) {
+						if ($data[$a][1] != 2) {
+							$err[] = "Critical Incident number {$data[$a][0]} has {$data[$a][1]} PDF files.";
+						}
+					}
+				}
+				if (empty($err)) {
+					echo '<form action="LaunchNewestVersionOfJCI.php" method = "POST"><input type="submit" value="Launch the Latest Volume"></form>';
+				}
 			}
 			else {
-				$err[] = 'Not all PDFs have been uploaded.';
+				$err[] = 'No submitted Critical Inicdents have been approved for publication.';
 			}
 		}
 	
