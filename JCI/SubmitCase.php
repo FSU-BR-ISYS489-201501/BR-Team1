@@ -24,26 +24,29 @@
  * 
  * Revision 1.4: 02/20/2016 Author: Ben Brackett
  * Description of change: added checkLogin function and included LoginHelper.php
+ * 
+ * Revision 1.3: 03/27/2016 Author: Faisal
+ * Description of Change: added email fields, and queries to update data into db
  ********************************************************************************************/
- 	$page_title = 'Submit Case';
 	//Ben Brackett: Call checkLogin function
 	include ("includes/LoginHelper.php");
 	include ("includes/ValidationHelper.php");
 	include ("includes/Header.php");
-	//include("includes/CheckEmail.php");
-	//include("includes/CheckEmail.php");
-	//Call checkFile function 
-	//include ("includes/CheckFile.php");
-	
 	include("includes/FileHelper.php");
+	
 	//Grab the db connector.
  	require ('../DbConnector.php');
+	
 	//Set up as an arrary for errors
 	$err = array();
 	// define variables
-	$author; 
-	$title;
+	$userid = array();
+	$critIncidentId;
+	$authorFname; 
+	$authorLname;
 	$email;
+	$title;
+	$keywords;
 	
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		// make this check all of the authors names being submitted.
@@ -51,12 +54,37 @@
 		for($i = 0; $i < 4; $i++) {
 			//$i > means at least 1 author is input.
 			// Mark Bowman: Changed authors[] to author[]
-			if (empty($_POST["author"][$i]) && ($i==0)) {
+			
+			if (empty($_POST["authorFname"][$i]) && ($i==0)) {
                             $err[]= 'Failed, at least one name is required';
 			}
 			// check if name only contains letters and whitespace
-			else if (!preg_match("/^[a-zA-Z ]*$/", $_POST["author"][$i])) {
+			else if (!preg_match("/^[a-zA-Z ]*$/", $_POST["authorFname"][$i])) {
                             $err[]= 'Only letters and white space are allowed';	
+			}
+		} 
+		for($i = 0; $i < 4; $i++) {
+			//$i > means at least 1 author is input.
+			// Mark Bowman: Changed authors[] to author[]
+			
+			if (empty($_POST["authorLname"][$i]) && ($i==0)) {
+                            $err[]= 'Failed, at least one name is required';
+			}
+			// check if name only contains letters and whitespace
+			else if (!preg_match("/^[a-zA-Z ]*$/", $_POST["authorLname"][$i])) {
+                            $err[]= 'Only letters and white space are allowed';	
+			}
+		} 
+		
+		for($i = 0; $i < 4; $i++) {
+			//$i > means at least 1 author is input.
+			// Mark Bowman: Changed authors[] to author[]
+			if (empty($_POST["email"][$i]) && ($i==0)) {
+                $err[]= 'Type your email, please..!';
+			}
+			// check if email not empty and is email
+			else if(!empty($_POST["email"][$i]) && !checkEmail($_POST["email"][$i])){
+				$err[]= 'Type a valid email address..!';
 			}
 		} 
 
@@ -72,25 +100,13 @@
 				$err[]= 'Type the keywords, please..!';
 			}
 		}
-		
-		// ceck if the text has no value
-		if(empty($_POST["email"])) {
-			$err[]= 'Type your email, please..!';
-		}
-		else{
-			// call the checkEmail function
-			if(!checkEmail($_POST["email"])){
-				$err[]= 'Type a valid email address..!';
-			}
-		}
 	
 		// make this check all of the files being uploaded.
 		// Mark Bowman: Changed fileDoc[] to uploadedFile[].
 		for($i = 0; $i < 5; $i++) {
 			if (!file_exists($_FILES["uploadedFile"]['tmp_name'][$i])) {
 				$err[]= 'Failed, you must upload five files';
-			}
-			else {
+			} else {
 				// call checkFile function
 				if (checkFile(($_FILES["uploadedFile"]["type"][$i]), 
 					$_FILES['uploadedFile']['size'][$i]) == 0) {
@@ -101,31 +117,133 @@
 			}
 		}
 		//Ben Brackett: Call checkLogin function
-		if (!isset($_SESSION['USERID'])) {
+		if (!isset($_SESSION['UserId'])) {
 				$err[]= 'User is not logged in..!';
 			}
+					
 		// Mark Bowman: This block of code checks to see if the $err array has any contents.
 		// If it does not, it uploads the files to the database and file server. It then sends
 		// a confirmation email to the submitting author and the editor on file and then displays
 		// a message on the page. If the $err array contains errors, it prints them on the screen.
 		if (empty($err)) {
+		    // Faisal Alfadhli: i add code lines 126-203 for insert database the user input for submit case.
+			for($i = 0; $i < 4; $i++) {
+				//get first name with current index value of $i
+				$authorFname = $_POST["authorFname"][$i];
+				//get last name with current index value of $i
+				$authorLname = $_POST["authorLname"][$i];
+				//get email address with current index value of $i
+				$email = $_POST["email"][$i];
+				//see if any user in database has the current email address
+				$query = "SELECT UserId FROM users WHERE Email = '$email';";
+				//Run the query...
+				$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
+				//set results of query to $row variable
+				$row = mysqli_fetch_array($run, MYSQLI_NUM);
+				//if query unsuccessful ...
+				If (!$run){
+					//tell user ...
+					echo 'There was an error selecting a user by email. Please try again!';
+				//if query successful ...
+				} else {
+					//and current array index of authorFname is not empty ...
+					if(!empty($_POST["authorFname"][$i])) {
+						//and $row is empty ...
+						If (empty($row)){
+							//build insert query for user data ...
+							$query = "INSERT INTO users (FName, LName, Email)
+									  VALUES ('$authorFname', '$authorLname', '$email');";
+							//Run the query...
+							$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
+							//if query not successful ...
+							If (!$run){
+								//tell user ...
+								echo 'There was an error inserting a user. Please try again!';
+							//if query successful ...
+							} else{
+								//append inserted users userid from database to userid array with mysqli_insert_id function
+								array_push($userid, mysqli_insert_id($dbc));
+							}
+						// if $row is not empty
+						} else {
+							//append userid from $row to $userid array
+							array_push($userid, $row[$i]);
+						}
+					}					
+				}
+			}
+			//set $title
+			$title = $_POST["title"];
+			//build insert query
+			$query = "INSERT INTO criticalincidents (Title)
+						 VALUES ('$title');";
+			//Run the query...
+			$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
+			//use mysqli_insert_id function to set $critIncidentId variable
+			$critIncidentId = mysqli_insert_id($dbc);
+			//if query not successful ...
+			If (!$run){
+				//tell user ...
+				echo 'There was an error with the submission. Please try again!';
+			}
+			//Loop through keywords ...
+			for($i = 0; $i < 5; $i++) {
+				//if current keyword of index $i is not empty ...
+				if (!empty($_POST["keyword"][$i])) {
+					//set $keywords variable ...
+					$keywords = $_POST['keyword'][$i];
+					// build insert query ...
+					$query = "INSERT INTO keywords (CriticalIncidentId, CIKeyword)
+							  VALUES ('$critIncidentId', '$keywords');";
+					//Run the query...
+					$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
+					//if query unsuccessful ...
+					If (!$run){
+						//tell user ...
+						echo 'There was an error with the submission. Please try again!';
+					}
+				}
+			} 
+			
 			switch (uploadFile($dbc, "uploadedFile", "../uploads/")) {
 				case 0:
 					echo 'Upload failed. Contact the system administrator.';
 					break;
 				case 1:
 						{
-							// Dr. Herrington helped me with this block 
-							$userMsg = "Author: {$_POST['author'][$i]}.Thank you for your submission! You will be contacted shortly.";
-
-							// a message to be sent to editor			
-							$editorMsg = "Authors: {$_POST['author'][$i]}. made a new submission.";
-
+							// Dr. Herrington helped me with this block	
+							// loop authers Fname and LName to post them in usermessage and editorMsg.
+							$userMsg = "Authors: ";
+							for($i = 0; $i < 4; $i++) {
+								// this code was inspired by William.
+								if ($i=3){
+									$userMsg = $userMsg . $_POST['authorFname'][$i] . " ";
+								} else {
+									$userMsg = $userMsg . $_POST['authorFname'][$i] . ", ";
+								}							   
+                            }
+							$userMsg = $userMsg . ".Thank you for your submission! You will be contacted shortly.";
+							
+							// a message to be sent to editor
+							$editorMsg = "Authors: ";
+							for($i = 0; $i < 4; $i++) {
+								if ($i=3){
+									$editorMsg = $editorMsg . $_POST['authorFname'][$i] . " ";
+								} else {
+									$editorMsg = $editorMsg . $_POST['authorFname'][$i] . ", ";
+								}							   
+                            }
+							$editorMsg = $editorMsg . " made a new submission.";
+							
 							// email header
 							$header = "do-not-reply@jci.com\r\n";
 
-							// send email notification to an author 
-							$rtnVal = mail($_POST['email'], "File uploaded, thank you..!" ,$userMsg, $header); 
+							// send email notification to an author
+							for($i = 0; $i < 4; $i++) {
+								if(!empty($_POST["email"][$i])) {
+							       $rtnVal = mail($_POST['email'][$i], "File uploaded, thank you..!" ,$userMsg, $header);
+							    }
+							}
 
 							if ($rtnVal == true) {
 								// send email notification to editor
@@ -140,7 +258,7 @@
 							} else {
 								echo "ERROR: Messages not sent.";
 							}
-					echo 'Upload Successful.';
+							echo 'Upload Successful.';
 						}
 					break;
 					
@@ -154,8 +272,7 @@
 					echo 'Upload failed. No files were attached.';
 					break;
 			}
-		}
-		else {
+		} else {
 			for($i = 0; $i < count($err); $i++) {
 				echo "$err[$i] <br />";
 			}
@@ -168,13 +285,34 @@
 	<h2>Fill The Form</h2>
 	
 	<form method="post" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" multiple = "multiple">
-	 
-		Authors: <input type="text" name="author[]">,
-		<input type="text" name="author[]">,
-		<input type="text" name="author[]">,
-		<input type="text" name="author[]">
-		<br><br>
-		Email: <input type="text" name="email">
+		<h3>Author(s):</h3>
+		<table>
+			<tr>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Email</th>
+			</tr>
+			<tr>
+				<td><input type="text" name="authorFname[]"></td>
+				<td><input type="text" name="authorLname[]"></td>
+				<td><input type="text" name="email[]"></td>
+			</tr>
+			<tr>
+				<td><input type="text" name="authorFname[]"></td>
+				<td><input type="text" name="authorLname[]"></td>
+				<td><input type="text" name="email[]"></td>
+			</tr> 
+			<tr>
+				<td><input type="text" name="authorFname[]"></td>
+				<td><input type="text" name="authorLname[]"></td>
+				<td><input type="text" name="email[]"></td>
+			</tr>
+			<tr>
+				<td><input type="text" name="authorFname[]"></td>
+				<td><input type="text" name="authorLname[]"></td>
+				<td><input type="text" name="email[]"></td>
+			</tr>
+		</table>
 		<br><br>
 		Title: <input type="text" name="title">
 		<br><br>
@@ -209,4 +347,3 @@
 <?php
 	include ("includes/Footer.php");
 ?>
-
