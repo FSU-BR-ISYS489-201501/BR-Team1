@@ -23,10 +23,10 @@
 <h2>PEOPLE</h2>
 <p>Send us a message on our <a href="ContactUs.php" class="action">Contact Us</a> page.</p>
 <h4 class="secondary">Meet the Editors</h4>
-<img src="Editors">
+<img src="images/Editors.JPG">
 <p>Dr. and Dr. pose above at the  </p>
 <h2>POLICIES</h2>
-<p>Go to our <a href="Policies.php" class="action">Policies</a> page if you would like to cover areas like the critical incident format, review process, and publication ethics policy.</p>
+<p>Go to our <a href="EditorialPolicy.php" class="action">Policies</a> page if you would like to cover areas like the critical incident format, review process, and publication ethics policy.</p>
 <h2>JCI PHILOSOPHY</h2>
 <p>Lorem ipsum dolor sit amet, dolor quam vivamus arcu augue, scelerisque in pharetra nisl, sed convallis odio in blandit nulla ullamcorper, accumsan dapibus urna sodales sed, luctus nunc. Arcu lobortis vitae. Duis est arcu pellentesque, ut ac ut vestibulum vulputate gravida, donec libero et at dictum ut, a dapibus hendrerit in pellentesque tempus cum, diam ut at aliquam ultricies fringilla. Amet mattis mattis mauris, elit sagittis cum curae nam non. Faucibus phasellus quis nulla sed nec, varius in aliquam at pellentesque amet, sit vestibulum nec eget, dui platea diam erat non augue tincidunt, et maecenas cursus suscipit varius. Et eget tincidunt, sit augue ullamcorper integer, wisi sagittis, a maecenas pharetra. Ante id, vivamus diam urna. Amet eros tincidunt eros volutpat nam a. Quisque orci elementum nec sem. Quisque laoreet quisque, mi fringilla et gravida suspendisse a, fusce ipsum leo metus nonummy eget amet, duis aliquam ornare tempus dictum, pulvinar sed massa urna faucibus consequat lobortis.
 Semper unde morbi duis, ac magna nonummy leo nulla ut pellentesque, elementum accumsan etiam, a id ullamcorper primis vitae adipisicing dictumst. Tortor at integer ut quis, luctus scelerisque dui cursus in est, sapien erat sed, in pellentesque vitae amet ac nonummy sollicitudin, mi wisi et sit purus. Egestas sed elit ultrices morbi orci vel. Curabitur suscipit. Vestibulum mattis, est ad maecenas vestibulum, placerat in morbi parturient, lobortis duis mi viverra eget nunc dis.
