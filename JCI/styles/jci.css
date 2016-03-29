@@ -572,7 +572,7 @@ input, textarea {
 			}
 
 
-			li{
+			.li{
 				display: inline;
 				font-family: 'Noto Sans', sans-serif;
 				font-weight:400;
