@@ -38,7 +38,7 @@
 </p>
 <h2>Critical Incident Format</h2>
 <p>The following link provides an example of a properly formatted case/critical incident.
-https://www.sfcr.org/docs/SCR_Manuscript_Guidelines_for_Authors.pdf 
+<a href="https://www.sfcr.org/docs/SCR_Manuscript_Guidelines_for_Authors.pdf">https://www.sfcr.org/docs/SCR_Manuscript_Guidelines_for_Authors.pdf</a> 
 Critical incidents and articles submitted for review should be single- spaced, with 12-point font and 1" margins. Published critical incidents are no longer than 3 pages long including exhibits. All critical incidents should be written in the past tense except for quotations that refer to events contemporaneous with the decision focus.
 Begin the critical incident with the following disclaimer statement: This critical incident was prepared by the authors and is intended to be used as a basis for class discussion. The views represented here are those of the authors and do not necessarily reflect the views of the Society for Case Research. The views are based on professional judgment. Copyright © 201x by the Society for Case Research and the authors. No part of this work may be reproduced or used in any form or by any means without the written permission of the Society for Case Research.
 Figures and tables should be embedded in the text and numbered separately. Exhibits should be grouped at the end of the critical incident. Figures, tables, and exhibits should have a number and title as well as a source. Necessary citations of secondary sources (e.g., quotes, data) should be included in endnotes; otherwise, a "Reference List" can be included at the end of the critical incident in APA format. Footnotes may be used for short explanations when including these explanations in the body of the text would significantly disrupt the flow of the critical incident.
@@ -46,7 +46,7 @@ Acknowledgements can be included in a first page footnote after the critical inc
 </p>
 <h2>Teaching Note</h2>
 <p>The following link provides an example of a properly developed teaching note.
-https://www.sfcr.org/docs/SCR_Manuscript_Guidelines_for_Authors.pdf
+<a href="https://www.sfcr.org/docs/SCR_Manuscript_Guidelines_for_Authors.pdf">https://www.sfcr.org/docs/SCR_Manuscript_Guidelines_for_Authors.pdf</a> 
 
 Critical incidents must be accompanied by a comprehensive  Teaching Note that includes at least the following elements:
 1.	Disclaimer – Use the following disclaimer statement: This teaching note was prepared by the authors and is intended to be used as a basis for class discussion. The views represented here are those of the authors and do not necessarily reflect the views of the Society for Case Research. The views are based on professional judgment. Copyright © 201x by the Society for Case Research and the authors. No part of this work may be reproduced or used in any form or by any means without the written permission of the Society for Case Research
@@ -123,7 +123,7 @@ In submitting this critical incident to the <i>Journal of Critical Incidents</i>
 <p>
 	The following link provides an example of a critical incident release form.
 	</p>
-<href= "https://www.sfcr.org/docs/SAMPLE%20RELEASE%20FORMS.pdf">
+<a href="https://www.sfcr.org/docs/SAMPLE%20RELEASE%20FORMS.pdf" target="_blank">https://www.sfcr.org/docs/SAMPLE%20RELEASE%20FORMS.pdf</a>
 <p>
 	It is the author(s)'s responsibility to ensure that they have permission from the protagonist and/or company featured to publish material contained in the critical incident. A critical incident release form will need to be submitted by the author to the journal editor prior to publication.
 	</p>
@@ -132,8 +132,16 @@ In submitting this critical incident to the <i>Journal of Critical Incidents</i>
 	The right to reproduce a critical incident in a commercially available textbook, or instructor-created course pack, is reserved to SCR and the authors, who share copyright for these purposes. After publication, JCI critical incidents are distributed through SCR's distribution partners according to non-exclusive contracts. SCR charges royalty fees for these publication rights and critical incident adoptions in order to fund its operations including publication of the Journal of Critical Incidents. 
 	</p>
 <h2>Manuscript Submission </h2>
-<p>The right to reproduce a critical incident in a commercially available textbook, or instructor-created course pack, is reserved to SCR and the authors, who share copyright for these purposes. After publication, JCI critical incidents are distributed through SCR's distribution partners according to non-exclusive contracts. SCR charges royalty fees for these publication rights and critical incident adoptions in order to fund its operations including publication of the <i> of Critical Incidents.</i></p>
-
+<p>
+Submit the critical incident manuscript and Teaching Notes in one <b>Microsoft Word document via the Society for Case Research</b> https://www.sfcr.org/jci/ No identification of authors or their institutions should appear on either the Critical Incident or the Teaching Notes. All identifying information should be removed from the file properties.  
+A cover page with the critical incident title, names of all authors and their institutions along with contact information for the primary author including email, phone and mailing address should be sent as a separate file.
+All authors must be a member of the Society for Case Research. Membership dues are included in annual registration for the MBAA conference, or may be paid separately at the rate of U.S. $50 per year. See instructions on the SCR site <a></a> https://www.sfcr.org/members/signup.php.
+</p>
+<br />
+<p>For questions, contact the Editor:
+Tim Brotherton
+jci@ferris.edu
+</p>
 </body>
 </html>
 <?php
