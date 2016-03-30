@@ -34,7 +34,7 @@
 </ul>
 If you are interested in joining SCR, publishing in one of the journals or contacting the Officers of the Society, go to www.sfcr.org. To purchase copies of the Critical Incidents or Teaching Notes contact Roy Cook at cook_r@fortlewis.edu
 </p>
-<h2>Publication Information:</h2>
+<h2>Publication Information</h2>
 <p>
 The goals of the Society of Case Research <a href="http://www.sfcr.org">www.sfcr.org</a> are to help authors develop and publish worthy business case studies. The Journal of Critical Incidents (JCI) does not publish does not publish long cases. JCI’s focus is on brief incidents that tell about a real situation in a real organization (similar to end-of-chapter cases in textbooks). The critical incident tells a story about an event, an experience, a blunder, or a success. Unlike a long case, the incident provides only limited historical detail or how the situation developed. Rather, it focuses on a real time snapshot that stimulates student user of their knowledge to arrive at a course of action or analysis.
 </p>
