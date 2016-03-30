@@ -38,7 +38,7 @@
 </p>
 <h2>Critical Incident Format</h2>
 <p>The following link provides an example of a properly formatted case/critical incident.
-<a href="https://www.sfcr.org/docs/SCR_Manuscript_Guidelines_for_Authors.pdf">https://www.sfcr.org/docs/SCR_Manuscript_Guidelines_for_Authors.pdf</a> 
+<a href="https://www.sfcr.org/docs/SCR_Manuscript_Guidelines_for_Authors.pdf">www.sfcr.org/docs/SCR_Manuscript_Guidelines_for_Authors.pdf</a> 
 Critical incidents and articles submitted for review should be single- spaced, with 12-point font and 1" margins. Published critical incidents are no longer than 3 pages long including exhibits. All critical incidents should be written in the past tense except for quotations that refer to events contemporaneous with the decision focus.
 Begin the critical incident with the following disclaimer statement: This critical incident was prepared by the authors and is intended to be used as a basis for class discussion. The views represented here are those of the authors and do not necessarily reflect the views of the Society for Case Research. The views are based on professional judgment. Copyright © 201x by the Society for Case Research and the authors. No part of this work may be reproduced or used in any form or by any means without the written permission of the Society for Case Research.
 Figures and tables should be embedded in the text and numbered separately. Exhibits should be grouped at the end of the critical incident. Figures, tables, and exhibits should have a number and title as well as a source. Necessary citations of secondary sources (e.g., quotes, data) should be included in endnotes; otherwise, a "Reference List" can be included at the end of the critical incident in APA format. Footnotes may be used for short explanations when including these explanations in the body of the text would significantly disrupt the flow of the critical incident.
@@ -46,7 +46,7 @@ Acknowledgements can be included in a first page footnote after the critical inc
 </p>
 <h2>Teaching Note</h2>
 <p>The following link provides an example of a properly developed teaching note.
-<a href="https://www.sfcr.org/docs/SCR_Manuscript_Guidelines_for_Authors.pdf">https://www.sfcr.org/docs/SCR_Manuscript_Guidelines_for_Authors.pdf</a> 
+<a href="https://www.sfcr.org/docs/SCR_Manuscript_Guidelines_for_Authors.pdf">www.sfcr.org/docs/SCR_Manuscript_Guidelines_for_Authors.pdf</a> 
 
 Critical incidents must be accompanied by a comprehensive  Teaching Note that includes at least the following elements:
 1.	Disclaimer – Use the following disclaimer statement: This teaching note was prepared by the authors and is intended to be used as a basis for class discussion. The views represented here are those of the authors and do not necessarily reflect the views of the Society for Case Research. The views are based on professional judgment. Copyright © 201x by the Society for Case Research and the authors. No part of this work may be reproduced or used in any form or by any means without the written permission of the Society for Case Research
@@ -123,7 +123,7 @@ In submitting this critical incident to the <i>Journal of Critical Incidents</i>
 <p>
 	The following link provides an example of a critical incident release form.
 	</p>
-<a href="https://www.sfcr.org/docs/SAMPLE%20RELEASE%20FORMS.pdf" target="_blank">https://www.sfcr.org/docs/SAMPLE%20RELEASE%20FORMS.pdf</a>
+<a href="https://www.sfcr.org/docs/SAMPLE%20RELEASE%20FORMS.pdf" target="_blank">www.sfcr.org/docs/SAMPLE%20RELEASE%20FORMS.pdf</a>
 <p>
 	It is the author(s)'s responsibility to ensure that they have permission from the protagonist and/or company featured to publish material contained in the critical incident. A critical incident release form will need to be submitted by the author to the journal editor prior to publication.
 	</p>
