@@ -1,6 +1,6 @@
 <!-- By Faisal Alfadhli-->
 <!--Email: alfadhf@ferris.edu-->
-<!--This is my own cod I wrote it 2 years ago for ISYS 288  -->
+<!--This is my own code I wrote it 2 years ago for ISYS 288  -->
 <!--02/04/2016 -->
 <!-- header -->
 <!DOCTYPE html>
@@ -37,6 +37,7 @@
 								<br>
 								<div class='mainmenu'>
 									<a href='Index.php' class='button2'>Home</a>
+									<a href='ViewJournalPDF.php' class='button2'>Published Journals</a>
 									<a href='Search.php' class='button2'>Search</a>
 									<a href='AboutUs.php' class='button2'>About Us</a>
 									<a href='ContactUs.php' class='button2'>Contact Us</a>
@@ -55,6 +56,7 @@
 							<br>
 							<div class='mainmenu'>
 								<a href='Index.php' class='button2'>Home</a>
+								<a href='ViewJournalPDF.php' class='button2'>Published Journals</a>
 								<a href='Search.php' class='button2'>Search</a>
 								<a href='AboutUs.php' class='button2'>About Us</a>
 								<a href='ContactUs.php' class='button2'>Contact Us</a>
@@ -75,6 +77,7 @@
 								<br>
 								<div class='mainmenu'>
 									<a href='Index.php' class='button2'>Home</a>
+									<a href='ViewJournalPDF.php' class='button2'>Published Journals</a>
 									<a href='Search.php' class='button2'>Search</a>
 									<a href='AboutUs.php' class='button2'>About Us</a>
 									<a href='ContactUs.php' class='button2'>Contact Us</a>
@@ -99,6 +102,7 @@
 								<br>
 								<div class='mainmenu'>
 									<a href='Index.php' class='button2'>Home</a>
+									<a href='ViewJournalPDF.php' class='button2'>Published Journals</a>
 									<a href='Search.php' class='button2'>Search</a>
 									<a href='AboutUs.php' class='button2'>About Us</a>
 									<a href='ContactUs.php' class='button2'>Contact Us</a>
