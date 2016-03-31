@@ -6,8 +6,8 @@
   * Page created for use in the JCI Project.
   * Project work is done as part of a Capstone class ISYS489: Ferris State University.
   * Purpose: The purpose of this page is to allow people search for Users and what they are "linked" too.
-  * Credit: Mostly all my own code, I did borrow a portion of code from Ben Brackett's browseCI page within the JCI site,
-  * and used marks functions.
+  * Credit: Mostly all my own code, I did borrow a portion of code from Ben Brackett's browseCI page within the JCI site
+  * (which is no longer used on this page) and used marks functions.
   *  
   * Revision1.1: 03/22/2016 Author: Shane Workman 
   * Combined Ben's search page with mine. Updated the diplay. 
