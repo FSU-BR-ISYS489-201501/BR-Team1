@@ -20,7 +20,7 @@
  * Purpose: This is the description of what the function does.
  * Variable: $anotherVar - Description of variable. 
  *
- * Revision1.1: MM/DD/YYYY Author: Name Here 
+ * Revision1.1: MM/DD/YYYY Author: Benjamin Brackett
  * Description of change. Also add //Name: comments above your change within the code.
  ********************************************************************************************/
 $page_title = 'Browse Critical Incidents';
