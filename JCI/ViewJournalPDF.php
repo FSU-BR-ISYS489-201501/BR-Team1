@@ -7,6 +7,7 @@
   * Project work is done as part of a Capstone class ISYS489: Ferris State University.
   * Purpose: The purpose of this page is to allow people to send an email to the editor.
   * Credit: My own code, with inspiration and use of others functions within the project.
+  * http://php.net/ was a resource.
   *********************************************************************************************/
   $page_title = 'Journals';
   require ('../DbConnector.php');
