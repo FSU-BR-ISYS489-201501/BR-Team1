@@ -20,8 +20,8 @@
 <h2>PEOPLE</h2>
 <p>Send us a message on our <a href="ContactUs.php" class="action">Contact Us</a> page.</p>
 <h4 class="secondary">Meet the Editors</h4>
-<img src="styles/images/Editors.JPG" alt="Editors" style="width:304px;height:228;">
-<p>Dr. Timothy Brotherton, Editor and Dr. Timothy Redmer, Associate Editor pose above.</p>
+<img src="styles/images/Editors.JPG" alt="Editors" style="width:380px;height:285;">
+<p>Dr. Timothy Redmer, Associate Editor and Dr. Timothy Brotherton, Editor pose above.</p>
 <h2>POLICIES</h2>
 <p>Go to our <a href="EditorialPolicy.php" class="action">policies</a> page if you would like to cover areas like the critical incident format, review process, and publication ethics policy.</p>
 <h2>Publication Ethics Policy and Malpractice Statement</h2>

@@ -64,17 +64,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			} elseif($field == "Title")	{
 				$query = "SELECT PublicationYear, criticalincidents.CriticalIncidentId, criticalincidents.Title, users.UserId, CONCAT(users.FName, users.LName) AS name
 						FROM users LEFT JOIN (criticalincidents) ON (users.Title=criticalincidents.Title)
-						LEFT JOIN (journalofcriticalincidents) on (criticalincidents.CriticalIncidentId=journalofcriticalincidents.CriticalIncidentId)
+						LEFT JOIN (journalofcriticalincidents) on (criticalincidents.JournalId=journalofcriticalincidents.JournalId)
 						WHERE criticalincidents.Title = '$criteria';";
 			} elseif ($field == "PublicationYear") {
 				$query = "SELECT PublicationYear, criticalincidents.CriticalIncidentId, criticalincidents.Title, users.UserId, CONCAT(users.FName, users.LName) AS name
 						FROM users LEFT JOIN (criticalincidents) ON (users.Title=criticalincidents.Title)
-						LEFT JOIN (journalofcriticalincidents) on (criticalincidents.CriticalIncidentId=journalofcriticalincidents.CriticalIncidentId)
+						LEFT JOIN (journalofcriticalincidents) on (criticalincidents.JournalId=journalofcriticalincidents.JournalId)
 						WHERE PublicationYear = '$criteria';";
 			} elseif ($field == "UserId") {
 				$query = "SELECT PublicationYear, criticalincidents.CriticalIncidentId, criticalincidents.Title, users.UserId, CONCAT(users.FName, users.LName) AS name
 						FROM users LEFT JOIN (criticalincidents) ON (users.Title=criticalincidents.Title)
-						LEFT JOIN (journalofcriticalincidents) on (criticalincidents.CriticalIncidentId=journalofcriticalincidents.CriticalIncidentId)
+						LEFT JOIN (journalofcriticalincidents) on (criticalincidents.JournalId=journalofcriticalincidents.JournalId)
 						WHERE users.UserId = '$criteria';";
 			} else {
 				// nothing.
