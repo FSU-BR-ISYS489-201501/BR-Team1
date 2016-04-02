@@ -41,7 +41,19 @@
 	</table>
 </div>
 <br>
-<!--Lorem Ipsum coped from http://lorem-ipsum.perbang.dk/ -->
+
+<div class="css-slideshow"> 
+  <figure> 
+    <img src="class-header-css3.jpg" width="495" height="370" /> 
+     <figcaption><strong>CSS3:</strong> CSS3 delivers a...</figcaption> 
+  </figure> 
+  <figure> 
+    <img src="class-header-semantics.jpg" width="495" height="370" /> 
+    <figcaption><strong>Semantics:</strong> Giving meaning to...</figcaption> 
+  </figure> 
+  ...more figures... 
+</div>
+
 <p>
 The Journal of Critical Incidents does not publish long cases. JCI's focus is on brief incidents that tell about real situation in a real organization. The incident tells a story about an event, an experience, a blunder, or a success. Unlike a long case, the incident does not provide historical detail or how the situation developed. Rather, it provides a snapshot that stimulates student use of their knowledge to arrive at a course of action or analysis.
 

@@ -20,7 +20,7 @@
 <h2>PEOPLE</h2>
 <p>Send us a message on our <a href="ContactUs.php" class="action">Contact Us</a> page.</p>
 <h4 class="secondary">Meet the Editors</h4>
-<img src="styles/images/Editors.JPG" alt="Editors" style="width:380px;height:285;">
+<img src="styles/images/Editors.JPG" alt="Editors" style="width:400px;height:285;">
 <p>Dr. Timothy Redmer, Associate Editor and Dr. Timothy Brotherton, Editor pose above.</p>
 <h2>POLICIES</h2>
 <p>Go to our <a href="EditorialPolicy.php" class="action">policies</a> page if you would like to cover areas like the critical incident format, review process, and publication ethics policy.</p>
@@ -43,6 +43,7 @@ The goals of the Society of Case Research <a href="http://www.sfcr.org">www.sfcr
 <p> 
 Critical incidents can be based on either field work or library research. The maximum length of the critical incidents is three single-spaced pages. A teaching note must be submitted with the critical incident. The quality of the teaching note is a central factor in the review and acceptance process. Submissions are double-blind, peer reviewed. Formatted copies of acceptable critical requirements. The Journal of Critical Incidents is listed in <a href="http://www.cabells.com/">Cabell’s Directories of Publishing Opportunities</a> and is published annually in the Fall. 
 </p>
+
 
 <?php
 	include ('includes/Footer.php');
