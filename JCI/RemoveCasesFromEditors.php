@@ -1,11 +1,11 @@
 <?php
 /*********************************************************************************************
   * Original Author: Faisal Alfadhli
-  * Date of origination: 02/22/2016
+  * Date of origination: 03/31/2016
   *
   * Page created for use in the JCI Project.
   * Project work is done as part of a Capstone class ISYS489: Ferris State University.
-  * Purpose: this page is used to let Editor be able to split reviews among editors (assign specific cases to specific Editors)
+  * Purpose: this page is used to let Editor be able to remove specific CI from specific Editors
   *Credits: www.W3schools.com
   * www.php.net 
   * HTMLBook.pdf from ISYS 288 class
