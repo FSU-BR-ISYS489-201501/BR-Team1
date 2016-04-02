@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	if (empty($err)) {
 		// Create and run the query based of the given criteria.
 			if($field == "First Name")	{
-				$query = "SELECT CONCAT(users.FName,users.LName) As name, users.Email as email, criticalincidents.Title as title
+				$query = "SELECT CONCAT(users.FName, users.LName) As name, users.Email as email, criticalincidents.Title as title
 						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId  
 						WHERE users.FName = '$criteria';";
 			} elseif ($field == "Last Name") {
