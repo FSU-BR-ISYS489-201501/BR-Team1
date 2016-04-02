@@ -13,6 +13,7 @@
 	include('includes/TableRowHelper.php');
 	require('../DbConnector.php');
 	
+	$success = "<br> Thank you for your submission. You will recieve an email message shortly. <br>";
 	$currentDate = date("Y-m-d");
 	$query = "SELECT AnnouncementId, Subject, Body FROM announcements WHERE IsActive = 1 AND StartDate < '{$currentDate}' 
 		AND EndDate > '{$currentDate}';";
@@ -22,10 +23,13 @@
 	
 	$headerCounter = mysqli_num_fields($selectQuery);
 	$tableBody = tableRowGenerator($selectQuery, $headerCounter);
+	
+	if (isset($_POST['success'])) {
+		$success = "<br>" . $_POST['success'] . "<br>";
+	}
 ?>
-
+<?php echo $success; ?>
 <H1>Welcome to JCI</H1>
-<br>
 <div id = 'announcementViewer'>
 	<table>
 		<tr>
