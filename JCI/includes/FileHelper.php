@@ -46,7 +46,7 @@
 	
 	// This function will upload a file from the host's computer to the server. 
 	// A string is returned that specifies if the upload was successful or not.
-	function uploadFile($dbc, $htmlElement, $fileStorageLocation) {
+	function uploadFile($dbc, $htmlElement, $fileStorageLocation, $ids, $types) {
 		//This is the message that will be returned.
 		$successMessage = 0;
 		
@@ -61,8 +61,15 @@
 			// for the uploaded file and the location it is going to be saved to.
 			$tempUploadedFileName = $_FILES["$htmlElement"]['tmp_name'][$i];
 			$uploadedFileNameSaveLocation = $fileStorageLocation . "{$_FILES["$htmlElement"]['name']["$i"]}";
-			$insertFileLocationSqlQuery = "INSERT INTO files (FileLocation, FileDes)
-				VALUES ('$tempUploadedFileName', '$uploadedFileNameSaveLocation')";
+			if ($types[$i] == 'Word' || $types[$i] == 'Summary' || $types[$i] == 'CriticalIncident') {
+				$insertFileLocationSqlQuery = "INSERT INTO files (CriticalIncidentId, FileLocation, FileType, FileDes)
+					VALUES ($ids[$i], '$uploadedFileNameSaveLocation', '$types[$i]', '{$_FILES["$htmlElement"]['name']["$i"]}')";
+			}
+			else if ($types[$i] == 'Journal') {
+				$insertFileLocationSqlQuery = "INSERT INTO files (JournalId, FileLocation, FileDes)
+					VALUES ('$ids[$i]', $uploadedFileNameSaveLocation, '$types[$i]')";
+			}
+			
 			// This block checks if a file has been submitted with the HTML form.
 			if(file_exists($tempUploadedFileName)) {
 				// This block performs an SQL query to insert file
