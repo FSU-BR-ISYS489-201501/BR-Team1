@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	  		$idSelectRun = mysqli_query($dbc, $idSelectQuery);
 	  		$pageNames = array('SummaryPdfViewer.php', 'CIPdfViewer.php');
 			$titles = array('View Summary', 'View Critical Incidents');
-			$variableName = array('JournalID');
+			$variableName = array('JournalId', 'JournalId');
 			$editButton = tableRowLinkGenerator($idSelectRun, $pageNames, $variableName, $titles);
 			$tableBody = tableRowGeneratorWithButtons($run, $editButton, 2, $headerCounter);
 		} //else { echo "if this prints, display results is bugged"; }
