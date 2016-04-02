@@ -23,7 +23,9 @@
 <img src="styles/images/Editors.JPG" alt="Editors" style="width:304px;height:228;">
 <p>Dr. Timothy Brotherton, Editor and Dr. Timothy Redmer, Associate Editor pose above.</p>
 <h2>POLICIES</h2>
-<p>Go to our <a href="EditorialPolicy.php" class="action">Policies</a> page if you would like to cover areas like the critical incident format, review process, and publication ethics policy.</p>
+<p>Go to our <a href="EditorialPolicy.php" class="action">policies</a> page if you would like to cover areas like the critical incident format, review process, and publication ethics policy.</p>
+<h2>Publication Ethics Policy and Malpractice Statement</h2>
+<p>Go to our page on <a href="Ethics.php" class="action">ethics policy</a> if you would like to know what we expect from the authors, reviewers and editors.</p>
 <h2>SCR Mission and Purpose</h2>
 <p>
 	The Society for Case Research (SCR) facilitates the exchange of ideas leading to the improvement of case research, writing, and teaching; assists in the publication of written cases or case research and other scholarly work; and provides recognition for excellence in case research, writing and teaching. The society publishes three scholarly journals:
