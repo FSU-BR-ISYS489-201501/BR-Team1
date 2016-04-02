@@ -26,7 +26,6 @@
 $page_title = 'Browse Critical Incidents';
 include('includes/Header.php');
 include('includes/TableRowHelper.php');
-// require('mysqli_connect.php');
 require('../DbConnector.php');
 
 $output = '';
@@ -57,9 +56,10 @@ if(isset($_POST['search'])) {
 			LEFT JOIN (files) ON (CriticalIncidentId.ci=CriticalIncidentId.f) WHERE ApprovedReview = $criteria ORDER BY CriticalIncidentId;") or die("could not access critical incidents.");
 	}**/
 // Collect
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
-	$criticalIncidentQuery = "SELECT* FROM criticalincidents 
-			LEFT JOIN (files) ON (criticalincidents.CriticalIncidentId=files.CriticalIncidentId) ORDER BY criticalincidents.CriticalIncidentId;";
+//($_SERVER['REQUEST_METHOD'] == 'POST') 
+//{
+	$criticalIncidentQuery = "SELECT Title, ReviewerId, Category, Editor, ApprovedReview, ApprovedPublish FROM criticalincidents 
+			LEFT JOIN (files) ON (criticalincidents.CriticalIncidentId=files.CriticalIncidentId) ORDER BY 			criticalincidents.CriticalIncidentId;";
 	$criticalIncidentIdQuery = "SELECT CriticalIncidentId FROM criticalincidents;";
 	
 	// Written by Shane Workman.
@@ -115,7 +115,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$headerCounter = mysqli_num_fields($selectQuery);
 	$editButton = tableRowLinkGenerator($idSelectQuery, $pageNames, $variableNames, $titles);
 	$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 1, $headerCounter);
-}
+//}
 ?>		
 
 <h1>Critical Incidents</h1>
@@ -124,17 +124,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 		<!--<p>Criteria:
 		<select name="search">
 			<option <?php if(isset($_POST['search'])=="ApprovedPublish") echo'selected="selected"'; ?>    value="ApprovedPublish">ApprovedPublish</option>
-			 <option <?php if(isset($_POST['search'])=="ApprovedReview") echo'selected="selected"'; ?>    value="ApprovedReview">ApprovedReview</option>
+			<option <?php if(isset($_POST['search'])=="ApprovedReview") echo'selected="selected"'; ?>    value="ApprovedReview">ApprovedReview</option>
 			temp unused. Will add more search on data as presented.
 			<option <?php if(isset($_POST['search'])=="Journals Reviewed") echo'selected="selected"'; ?>    value="Journals Reviewed">Journals Reviewed</option>
 			<option <?php if(isset($_POST['search'])=="Journals Reviewed") echo'selected="selected"'; ?>    value="Journals Reviewed">Journals Reviewed</option>
 			<option <?php if(isset($_POST['search'])=="Journals Reviewed") echo'selected="selected"'; ?>    value="Journals Reviewed">Journals Reviewed</option>
 			<option <?php if(isset($_POST['search'])=="Journals Reviewed") echo'selected="selected"'; ?>    value="Journals Reviewed">Journals Reviewed</option>
 			<option <?php if(isset($_POST['search'])=="Journals Reviewed") echo'selected="selected"'; ?>    value="Journals Reviewed">Journals Reviewed</option>
-			-->
+
 		</select></p>
 		<p><input type="submit" value="search" /></p>
-		<!--<p>On the criteria of:
+		<p>On the criteria of:
 		<select name="field">
 			<option <?php if(isset($_POST['field'])=="First Name") echo'selected="selected"'; ?>    value="First Name">First Name</option>
 			<option <?php if(isset($_POST['field'])=="Last Name") echo'selected="selected"'; ?>    value="Last Name">Last Name</option>
@@ -149,13 +149,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 		<thead>
 			<tr>
 				<th>--Title--</th>
-				<th>--Reviewers Assigned--</th>
-				<th>--Memo--</th>
-				<th>--Cover Page--</th>
-				<th>--Letter to Editor--</th>
+				<th>--Reviewer ID--</th>
 				<th>--Category--</th>
-				<th>--Approved for Review--</th>
-				<th>--Approved for Publication--</th>
+				<th>--Editor--</th>
+				<th>--Approved for Review (1=Yes, 0=No)--</th>
+				<th>--Approved for Publication (1=Yes, 0=No)--</th>
 			</tr>
 		</thead>
 		<tbody>
