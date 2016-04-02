@@ -76,3 +76,7 @@ The author(s) should also be willing to certify to the following statement.
 <p> 
 In submitting this critical incident to the <i>Journal of Critical Incidents</i> for widespread distribution in print and electronic media, I (we) certify that it is original work, based on real events in a real organization. It has not been published and is not under review elsewhere. Copyright holders have given written permission for the use of any material not permitted by the "Fair Use Doctrine." The host organization(s) or individual informant(s) have provided written authorization allowing publication of all information contained in the critical incident that was gathered directly from the organization and/or individual.
 </p>
+<?php
+include ('includes/Footer.php');
+?>
+</p>
