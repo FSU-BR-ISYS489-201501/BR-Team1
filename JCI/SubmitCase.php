@@ -45,6 +45,8 @@
 	$err = array();
 	// define variables
 	$userid = array();
+	$ids = array();
+	$types = array();
 	$critIncidentId;
 	$authorFname; 
 	$authorLname;
@@ -52,13 +54,48 @@
 	$title;
 	$keywords;
 	$fieldcount = 1;
-	
+	$nameCount = 1;
+	$keyWordCount = 1;
+	$authors = "
+		First Name: <input type='text' name='authorFname[0]'><br>
+		Last Name: <input type='text' name='authorLname[0]'><br>
+		Email: <td><input type='text' name='email[0]' ><br>
+		<br>
+	";
+		
+	$keyWords = "
+		Key Word: <input type='text' name='keyword[0]'><br>
+		<br>
+	";
 	
 	if (isset($_GET['fieldcount']) ) {
 		$fieldcount = $_GET['fieldcount'];
 	} elseif (isset($_POST['fieldcount']) ) {
 		$fieldcount = $_POST['fieldcount'];
 	}
+	
+	if (isset($_GET['nameCount'])) {
+		$nameCount = $_GET['nameCount'];
+	}
+	
+	if (isset($_GET['keyWordCount'])) {
+		$keyWordCount = $_GET['keyWordCount'];
+	}
+	
+	for($a = 1;$a < $nameCount;$a++) {
+		$authors = $authors . "
+			First Name: <input type='text' name='authorFname[$a]'><br>
+			Last Name: <input type='text' name='authorLname[$a]'><br>
+			Email: <td><input type='text' name='email[$a]' ><br>
+		";
+	}
+	
+	for($a = 1;$a < $keyWordCount;$a++) {
+		$keyWords = $keyWords . "
+			Key Word: <input type='text' name='keyword[$a]'><br>
+		";
+	}
+	
 	// Only do this stuff if the submitCase button was clicked
 	if(isset($_POST['submitCase'])){
 		if ($_SERVER["REQUEST_METHOD"] == "POST" ) {
@@ -110,7 +147,7 @@
 			}
 			// make this check all of the files being uploaded.
 			// Mark Bowman: Changed fileDoc[] to uploadedFile[].
-			for($i = 0; $i < 5; $i++) {
+			for($i = 0; $i < ($fieldcount - 1); $i++) {
 				if (!file_exists($_FILES["uploadedFile"]['tmp_name'][$i]) && ($i==0) ) {
 					$err[]= 'Failed, you must upload at least one file';
 				} else {
@@ -172,7 +209,7 @@
 							// if $row is not empty
 							} else {
 								//append userid from $row to $userid array
-								array_push($userid, $row[$i]);
+								array_push($userid, $row[0]);
 							}
 						}					
 					}
@@ -209,7 +246,13 @@
 						}
 					}
 				}
-				switch (uploadFile($dbc, "uploadedFile", "../uploads/")) {
+				
+				for($a = 0;$a < $fieldcount;$a++) {
+					array_push($ids, $critIncidentId);
+					array_push($types, 'Word');
+				}
+				
+				switch (uploadFile($dbc, "uploadedFile", "../uploads/", $ids, $types)) {
 					case 0:
 						echo 'Upload failed. Contact the system administrator.';
 						break;
@@ -255,7 +298,7 @@
 
 								if ($rtnVal == true) {
 									// display Thank you Message
-									echo "Thank you for your submission, you will recieve an email message shortly."; 
+									header("Location: http://localhost/jci/Index.php?success=Y"); 
 								}  else  {
 									echo "ERROR: Message not sent to editor.";
 								}
@@ -291,50 +334,21 @@
 	
 	<form method="post" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" multiple = "multiple">
 		<h3>Author(s):</h3>
-		<table>
-			<tr>
-				<th>First Name</th>
-				<th>Last Name</th>
-				<th>Email</th>
-			</tr>
-			<tr>
-				<td><input type="text" name="authorFname[]" value="<?php if (isset($_GET['authorFname[0]'])) echo $_GET['authorFname[0]']; ?>"></td>
-				<td><input type="text" value="<?php if (isset($_POST['authorLname[0]'])) echo $_POST['authorLname[0]']; ?>"></td>
-				<td><input type="text" value="<?php if (isset($_POST['email[0]'])) echo $_POST['email[0]']; ?>"></td>
-			</tr>
-			<tr>
-				<td><input type="text" name="authorFname[]" value="<?php if (isset($_GET['authorFname[0]'])) echo $_GET['authorFname[0]']; ?>"></td>
-				<td><input type="text" value="<?php if (isset($_POST['authorLname[1]'])) echo $_POST['authorLname[1]']; ?>"></td>
-				<td><input type="text" value="<?php if (isset($_POST['email[1]'])) echo $_POST['email[1]']; ?>"></td>
-			</tr> 
-			<tr>
-				<td><input type="text" value="<?php if (isset($_POST['authorFname[2]'])) echo $_POST['authorFname[2]']; ?>"></td>
-				<td><input type="text" value="<?php if (isset($_POST['authorLname[2]'])) echo $_POST['authorLname[2]']; ?>"></td>
-				<td><input type="text" value="<?php if (isset($_POST['email[2]'])) echo $_POST['email[2]']; ?>"></td>
-			</tr>
-			<tr>
-				<td><input type="text" value="<?php if (isset($_POST['authorFname[3]'])) echo $_POST['authorFname[3]']; ?>"></td>
-				<td><input type="text" value="<?php if (isset($_POST['authorLname[3]'])) echo $_POST['authorLname[3]']; ?>"></td>
-				<td><input type="text" value="<?php if (isset($_POST['email[3]'])) echo $_POST['email[3]']; ?>"></td>
-			</tr>
+			<?php echo $authors ?>
+			<a href='SubmitCase.php?nameCount=<?php echo $nameCount + 1 ?>&keyWordCount=<?php echo $keyWordCount ?>'>Add Author</a>
 		</table>
 		<br><br>
-		Title: <input type="text" name="title">
+		<h3>Critical Incident Title:</h3>
+		Title: <input type="text" name="title" value="<?php if (isset($_POST['title'])) echo $_POST['title']; ?>">
 		<br><br>
-		Keyword1:<input type="text" name="<?php if (isset($_POST['keyword[0]'])) echo $_POST['keyword[0]']; ?>">
-		<br><br>
-		Keyword2:<input type="text" name="<?php if (isset($_POST['keyword[1]'])) echo $_POST['keyword[1]']; ?>">
-		<br><br>
-		Keyword3:<input type="text" name="<?php if (isset($_POST['keyword[2]'])) echo $_POST['keyword[2]']; ?>">
-		<br><br>
-		Keyword4:<input type="text" name="<?php if (isset($_POST['keyword[3]'])) echo $_POST['keyword[3]']; ?>">
-		<br><br>
-		Keyword5:<input type="text" name="<?php if (isset($_POST['keyword[4]'])) echo $_POST['keyword[4]']; ?>">
-		<br><br>
+		<h3>Key Word(s):</h3>
+			<?php echo $keyWords ?>
+			<a href='SubmitCase.php?nameCount=<?php echo $nameCount ?>&keyWordCount=<?php echo $keyWordCount + 1?>'>Add Key Word</a>
 		   
 		
 		<br><br>
 		<!-- use for uploading fils -->
+		<h3>File(s)</h3>
 		<label for='uploadedFile'>Select only Microsoft Word document files to upload:</label>  
 		<br><br>  
 		<!-- loop through results of upfileBody from our uploadfilefields function and display them on webpage -->
@@ -405,7 +419,7 @@
 			$field = "<input type='hidden' value='$fieldcount' name='fieldcount' />";
 			array_push($uff, $field);
 			// and that add file button again 
-			$field = "<input name='addfield' id='add' type='submit' value='Add File'>";
+			$field = "<a href='SubmitCase.php?id='add'>Add File</a>";
 			array_push($uff, $field);
 			// finally warn user they can only upload a maximum of 6 files 
 			$field = "You can only upload a maximum of 6 files per submission.";
