@@ -1010,9 +1010,11 @@ input, textarea {
 				background-color: #D1E5C9;
 				background-size: 100%;
 				background-repeat: no-repeat;
-				position: relative;
+				position: fixed;
 				width: 100%;
 				padding: 9px;
+				bottom: 0px; 
+   				left: 0px;
 	
 			}
 			footer ul {
