@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId  
 						WHERE users.FName = '$criteria';";
 			} elseif ($field == "Last Name") {
-				$query = "	SELECT CONCAT(users.FName, users.LName) As name, users.Email as email, criticalincidents.Title as title
+				$query = "SELECT CONCAT(users.FName, users.LName) As name, users.Email as email, criticalincidents.Title as title
 						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
 						WHERE users.LName = '$criteria';";
 			} elseif ($field == "Email") {
@@ -62,10 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
 						WHERE users.Email = '$criteria';";
 			} elseif($field == "Title")	{
-				$query = "SELECT PublicationYear, criticalincidents.CriticalIncidentId, criticalincidents.Title, users.UserId, CONCAT(users.FName, users.LName) AS name
-						FROM users LEFT JOIN (criticalincidents) ON (users.Title=criticalincidents.Title)
-						LEFT JOIN (journalofcriticalincidents) on (criticalincidents.JournalId=journalofcriticalincidents.JournalId)
-						WHERE criticalincidents.Title = '$criteria';";
+				$query = "SELECT 'Title', 'Category', 'JournalVolume', 'PublicationYear' 
+									FROM criticalincidents  INNER JOIN journalofcriticalincidents 
+									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId
+									WHERE criticalincidents.Title = '$criteria';";
+				$idSelectQuery = "SELECT 'CriticalIncidentId' FROM 'criticalincidents' WHERE 'Title' = '$criteria';";
 			} elseif ($field == "PublicationYear") {
 				$query = "SELECT PublicationYear, criticalincidents.CriticalIncidentId, criticalincidents.Title, users.UserId, CONCAT(users.FName, users.LName) AS name
 						FROM users LEFT JOIN (criticalincidents) ON (users.Title=criticalincidents.Title)
@@ -90,20 +91,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			$headerCounter = mysqli_num_fields($run);
 			$tableBody = tableRowGenerator($run, $headerCounter);
 			
-		} elseif($field == "Publication Year" || $field == "Title"){
-			$query = "";
+		} else { //if($field == "Publication Year" || $field == "Title"){
 			$run = mysqli_query($dbc, $query);
 			$idSelectRun = mysqli_query($dbc, $idSelectQuery);
 	  		$headerCounter = mysqli_num_fields($run);
-	  		$pageNames = array('PdfViewer.php');
-			$titles = array('View');
-			// TODO: JournalID should be changed to CI/SummaryPDFID
+	  		$pageNames = array('SummaryPdfViewer.php', 'CIPdfViewer.php');
+			$titles = array('View Summary', 'View Critical Incidents');
 			$variableName = array('JournalID');
 			$editButton = tableRowLinkGenerator($idSelectRun, $pageNames, $variableName, $titles);
-			$tableBody = tableRowGeneratorWithButtons($run, $editButton, 1, $headerCounter);
-		} else {
-			echo "if this prints, display results is bugged";
-		}
+			$tableBody = tableRowGeneratorWithButtons($run, $editButton, 2, $headerCounter);
+		} //else { echo "if this prints, display results is bugged"; }
 		
 	} else {
 		//List each Error msg that is stored in the array.
