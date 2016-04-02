@@ -93,8 +93,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 		} else { //if($field == "Publication Year" || $field == "Title"){
 			$run = mysqli_query($dbc, $query);
-			$idSelectRun = mysqli_query($dbc, $idSelectQuery);
 	  		$headerCounter = mysqli_num_fields($run);
+	  		$idSelectRun = mysqli_query($dbc, $idSelectQuery);
 	  		$pageNames = array('SummaryPdfViewer.php', 'CIPdfViewer.php');
 			$titles = array('View Summary', 'View Critical Incidents');
 			$variableName = array('JournalID');
