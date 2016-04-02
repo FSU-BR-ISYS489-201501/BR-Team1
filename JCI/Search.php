@@ -17,7 +17,6 @@ include ("includes/Header.php");
 include ("includes/TableRowHelper.php");
 require ('../DbConnector.php');
 $tableBody = "";
-$query = "";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
 	//Set up Error msg array.
