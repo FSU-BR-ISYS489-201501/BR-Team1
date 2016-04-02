@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
 						WHERE users.Email = '$criteria';";
 			} elseif($field == "Title")	{
-				$query = "SELECT 'Title', 'Category', 'JournalVolume', 'PublicationYear' 
+				$query = "SELECT criticalincidents.Title, criticalincidents.Category, journalofcriticalincidents.JournalVolume, journalofcriticalincidents.PublicationYear 
 									FROM criticalincidents  INNER JOIN journalofcriticalincidents 
 									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId
 									WHERE criticalincidents.Title = '$criteria';";
