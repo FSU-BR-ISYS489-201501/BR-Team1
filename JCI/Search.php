@@ -61,16 +61,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
 						WHERE users.Email = '$criteria';";
 			} elseif($field == "Title")	{
-				$query = "SELECT criticalincidents.Title, criticalincidents.Category, journalofcriticalincidents.JournalVolume, journalofcriticalincidents.PublicationYear 
+				$query = "SELECT criticalincidents.Title, criticalincidents.Category, journalofcriticalincidents.JournalVolume, 
+									journalofcriticalincidents.PublicationYear 
 									FROM criticalincidents  INNER JOIN journalofcriticalincidents 
 									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId
 									WHERE criticalincidents.Title = '$criteria';";
-				$idSelectQuery = "SELECT 'CriticalIncidentId' FROM 'criticalincidents' WHERE 'Title' = '$criteria';";
+				$idSelectQuery = "SELECT CriticalIncidentId FROM criticalincidents WHERE Title = '$criteria';";
 			} elseif ($field == "PublicationYear") {
-				$query = "SELECT PublicationYear, criticalincidents.CriticalIncidentId, criticalincidents.Title, users.UserId, CONCAT(users.FName, users.LName) AS name
-						FROM users LEFT JOIN (criticalincidents) ON (users.Title=criticalincidents.Title)
-						LEFT JOIN (journalofcriticalincidents) on (criticalincidents.JournalId=journalofcriticalincidents.JournalId)
-						WHERE PublicationYear = '$criteria';";
+				$query = " ";
 				$idSelectQuery = " ";
 			} elseif ($field == "UserId") {
 				echo "if this prints, something is wrong. No way to pick UserId as a selector.";
