@@ -64,26 +64,47 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			} elseif($field == "Title")	{
 				$query = "SELECT PublicationYear, criticalincidents.CriticalIncidentId, criticalincidents.Title, users.UserId, CONCAT(users.FName, users.LName) AS name
 						FROM users LEFT JOIN (criticalincidents) ON (users.Title=criticalincidents.Title)
-						LEFT JOIN (journalofcriticalincidents) on (criticalincidents.CriticalIncidentId=journalofcriticalincidents.CriticalIncidentId)
+						LEFT JOIN (journalofcriticalincidents) on (criticalincidents.JournalId=journalofcriticalincidents.JournalId)
 						WHERE criticalincidents.Title = '$criteria';";
 			} elseif ($field == "PublicationYear") {
 				$query = "SELECT PublicationYear, criticalincidents.CriticalIncidentId, criticalincidents.Title, users.UserId, CONCAT(users.FName, users.LName) AS name
 						FROM users LEFT JOIN (criticalincidents) ON (users.Title=criticalincidents.Title)
-						LEFT JOIN (journalofcriticalincidents) on (criticalincidents.CriticalIncidentId=journalofcriticalincidents.CriticalIncidentId)
+						LEFT JOIN (journalofcriticalincidents) on (criticalincidents.JournalId=journalofcriticalincidents.JournalId)
 						WHERE PublicationYear = '$criteria';";
+				$idSelectQuery = " ";
 			} elseif ($field == "UserId") {
+				echo "if this prints, something is wrong. No way to pick UserId as a selector.";
+				/*
 				$query = "SELECT PublicationYear, criticalincidents.CriticalIncidentId, criticalincidents.Title, users.UserId, CONCAT(users.FName, users.LName) AS name
 						FROM users LEFT JOIN (criticalincidents) ON (users.Title=criticalincidents.Title)
-						LEFT JOIN (journalofcriticalincidents) on (criticalincidents.CriticalIncidentId=journalofcriticalincidents.CriticalIncidentId)
+						LEFT JOIN (journalofcriticalincidents) on (criticalincidents.JournalId=journalofcriticalincidents.JournalId)
 						WHERE users.UserId = '$criteria';";
+				$idSelectQuery = " ";
+				 */
 			} else {
-				// nothing.
+				echo "If this prints, Selecting which SQL statement is used is bugged!";
 			} 
-	//Diplay search resualts.
-	$run = mysqli_query($dbc, $query);
-	$headerCounter = mysqli_num_fields($run);
-	$tableBody = tableRowGenerator($run, $headerCounter);
-	
+		if($field == "First Name" || $field == "Last Name" || $field == "Email"){
+			//Diplay search resualts.
+			$run = mysqli_query($dbc, $query);
+			$headerCounter = mysqli_num_fields($run);
+			$tableBody = tableRowGenerator($run, $headerCounter);
+			
+		} elseif($field == "Publication Year" || $field == "Title"){
+			$query = "";
+			$run = mysqli_query($dbc, $query);
+			$idSelectRun = mysqli_query($dbc, $idSelectQuery);
+	  		$headerCounter = mysqli_num_fields($run);
+	  		$pageNames = array('PdfViewer.php');
+			$titles = array('View');
+			// TODO: JournalID should be changed to CI/SummaryPDFID
+			$variableName = array('JournalID');
+			$editButton = tableRowLinkGenerator($idSelectRun, $pageNames, $variableName, $titles);
+			$tableBody = tableRowGeneratorWithButtons($run, $editButton, 1, $headerCounter);
+		} else {
+			echo "if this prints, display results is bugged";
+		}
+		
 	} else {
 		//List each Error msg that is stored in the array.
 		Foreach($err as $m)
