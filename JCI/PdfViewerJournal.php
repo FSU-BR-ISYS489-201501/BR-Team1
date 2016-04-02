@@ -14,7 +14,7 @@
   //include ("includes/Header.php");
   //include ("includes/TableRowHelper.php");
   $selectID = $_SERVER['QUERY_STRING'];
-  $query = "SELECT JournalLocation FROM `journalofcriticalincidents` WHERE '$selectID';";
+  $query = "SELECT FileLocation FROM files  WHERE '$selectID' AND files.FileType='PDF';";
   $run = mysqli_query($dbc, $query);
   $file = $run;
   header('Content-type: application/pdf');
