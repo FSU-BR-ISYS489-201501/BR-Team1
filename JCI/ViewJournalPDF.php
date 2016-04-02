@@ -14,8 +14,8 @@
   include ("includes/Header.php");
   include ("includes/TableRowHelper.php");
   //Diplay the journals in the Database.
-  $query = "Select JournalVolume, PublicationYear FROM journalofcriticalincidents;";
-  $idSelectQuery = "SELECT JournalID FROM journalofcriticalincidents;";
+  $query = "Select JournalVolume, PublicationYear FROM journalofcriticalincidents ORDER BY JournalID;";
+  $idSelectQuery = "SELECT JournalID FROM journalofcriticalincidents ORDER BY JournalID;";
   $run = mysqli_query($dbc, $query);
   $idSelectRun = mysqli_query($dbc, $idSelectQuery);
   $headerCounter = mysqli_num_fields($run);
