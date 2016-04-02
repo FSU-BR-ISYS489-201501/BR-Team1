@@ -164,3 +164,6 @@ if(isset($_POST['search'])) {
 		</tbody>
 	</table>
 </fieldset>
+<?php
+include ("includes/Footer.php");
+?>

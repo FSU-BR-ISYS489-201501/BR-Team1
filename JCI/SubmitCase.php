@@ -429,3 +429,6 @@
 		return $uff;
 	}
 ?>
+<?php
+include ("includes/Footer.php");
+?>
