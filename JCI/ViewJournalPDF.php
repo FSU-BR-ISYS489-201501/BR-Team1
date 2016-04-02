@@ -20,9 +20,9 @@
   $idSelectRun = mysqli_query($dbc, $idSelectQuery);
   $headerCounter = mysqli_num_fields($run);
   
-  $pageNames = array('PdfViewer.php');
+  $pageNames = array('PdfViewerJournal.php');
   $titles = array('View');
-  $variableName = array('JournalID');
+  $variableName = array('JournalId');
   $editButton = tableRowLinkGenerator($idSelectRun, $pageNames, $variableName, $titles);
   $tableBody = tableRowGeneratorWithButtons($run, $editButton, 1, $headerCounter);
   
