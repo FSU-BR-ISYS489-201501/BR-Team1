@@ -64,7 +64,7 @@
 		header('Location: http://localhost/jci/Index.php');
 	}
 ?>
-
+<h1>Manage Announcements</h1>
 	<div id = 'announcementViewer'>
 		<table>
 			<tr>
