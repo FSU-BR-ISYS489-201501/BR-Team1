@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			$run = mysqli_query($dbc, $query);
 	  		$headerCounter = mysqli_num_fields($run);
 	  		$idSelectRun = mysqli_query($dbc, $idSelectQuery);
-	  		$pageNames = array('SummaryPdfViewer.php', 'CIPdfViewer.php');
+	  		$pageNames = array('PdfViewerSummary.php', 'PdfViewerCI.php');
 			$titles = array('View Summary', 'View Critical Incidents');
 			$variableName = array('JournalId', 'JournalId');
 			$editButton = tableRowLinkGenerator($idSelectRun, $pageNames, $variableName, $titles);
