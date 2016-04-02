@@ -63,18 +63,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 						WHERE users.Email = '$criteria';";
 			} elseif($field == "Title")	{
 				$query = "SELECT PublicationYear, criticalincidents.CriticalIncidentId, criticalincidents.Title, users.UserId, CONCAT(users.FName, users.LName) AS name
-						FROM users LEFT JOIN criticalincidents ON users.Title=criticalincidents.Title
-						LEFT JOIN journalofcriticalincidents on criticalincidents.CriticalIncidentId=journalofcriticalincidents.CriticalIncidentId
+						FROM users LEFT JOIN (criticalincidents) ON (users.Title=criticalincidents.Title)
+						LEFT JOIN (journalofcriticalincidents) on (criticalincidents.CriticalIncidentId=journalofcriticalincidents.CriticalIncidentId)
 						WHERE criticalincidents.Title = '$criteria';";
 			} elseif ($field == "PublicationYear") {
 				$query = "SELECT PublicationYear, criticalincidents.CriticalIncidentId, criticalincidents.Title, users.UserId, CONCAT(users.FName, users.LName) AS name
-						FROM users LEFT JOIN criticalincidents ON users.Title=criticalincidents.Title
-						LEFT JOIN journalofcriticalincidents on criticalincidents.CriticalIncidentId=journalofcriticalincidents.CriticalIncidentId
+						FROM users LEFT JOIN (criticalincidents) ON (users.Title=criticalincidents.Title)
+						LEFT JOIN (journalofcriticalincidents) on (criticalincidents.CriticalIncidentId=journalofcriticalincidents.CriticalIncidentId)
 						WHERE PublicationYear = '$criteria';";
 			} elseif ($field == "UserId") {
 				$query = "SELECT PublicationYear, criticalincidents.CriticalIncidentId, criticalincidents.Title, users.UserId, CONCAT(users.FName, users.LName) AS name
-						FROM users LEFT JOIN criticalincidents ON users.Title=criticalincidents.Title
-						LEFT JOIN journalofcriticalincidents on criticalincidents.CriticalIncidentId=journalofcriticalincidents.CriticalIncidentId
+						FROM users LEFT JOIN (criticalincidents) ON (users.Title=criticalincidents.Title)
+						LEFT JOIN (journalofcriticalincidents) on (criticalincidents.CriticalIncidentId=journalofcriticalincidents.CriticalIncidentId)
 						WHERE users.UserId = '$criteria';";
 			} else {
 				// nothing.
