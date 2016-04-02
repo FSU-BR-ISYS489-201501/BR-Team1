@@ -24,7 +24,7 @@
 	$headerCounter = mysqli_num_fields($selectQuery);
 	$tableBody = tableRowGenerator($selectQuery, $headerCounter);
 	
-	if (isset($_POST['success'])) {
+	if (isset($_GET['success'])) {
 		$success = "<br> Thank you for your submission. You will recieve an email message shortly. <br>";
 	}
 ?>
