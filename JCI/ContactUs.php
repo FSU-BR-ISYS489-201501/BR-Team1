@@ -12,6 +12,7 @@ $page_title = 'Contact an Editor';
 include ("includes/Header.php");
 require ('../DbConnector.php');
  ?>
+ <h1>Contact Us</h1>
 <form name="contactform" method="post" action="sendFormEmail.php">
 	<table>
 	 	<tr>
