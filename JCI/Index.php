@@ -13,7 +13,7 @@
 	include('includes/TableRowHelper.php');
 	require('../DbConnector.php');
 	
-	$success = "<br> Thank you for your submission. You will recieve an email message shortly. <br>";
+	$success = '';
 	$currentDate = date("Y-m-d");
 	$query = "SELECT AnnouncementId, Subject, Body FROM announcements WHERE IsActive = 1 AND StartDate < '{$currentDate}' 
 		AND EndDate > '{$currentDate}';";
@@ -25,7 +25,7 @@
 	$tableBody = tableRowGenerator($selectQuery, $headerCounter);
 	
 	if (isset($_POST['success'])) {
-		$success = "<br>" . $_POST['success'] . "<br>";
+		$success = "<br> Thank you for your submission. You will recieve an email message shortly. <br>";
 	}
 ?>
 <?php echo $success; ?>
