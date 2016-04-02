@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
 						WHERE users.LName = '$criteria';";
 			} elseif ($field == "Email") {
-				$query = "	SELECT CONCAT(users.FName, users.LName) As name, users.Email as email, criticalincidents.Title as title
+				$query = "SELECT CONCAT(users.FName, users.LName) As name, users.Email as email, criticalincidents.Title as title
 						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
 						WHERE users.Email = '$criteria';";
 			} elseif($field == "Title")	{
@@ -68,8 +68,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 									WHERE criticalincidents.Title = '$criteria';";
 				$idSelectQuery = "SELECT CriticalIncidentId FROM criticalincidents WHERE Title = '$criteria';";
 			} elseif ($field == "PublicationYear") {
-				$query = " ";
-				$idSelectQuery = " ";
+				$query = "Select  criticalincidents.Title, criticalincidents.Category, journalofcriticalincidents.PublicationYear
+									FROM criticalincidents INNER JOIN journalofcriticalincidents
+									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId
+									WHERE journalofcriticalincidents.PublicationYear = '$criteria'; ";
+				$idSelectQuery = "SELECT criticalincidents.CriticalIncidentId 
+									FROM criticalincidents INNER JOIN journalofcriticalincidents
+									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId
+									WHERE journalofcriticalincidents.PublicationYear = '$criteria'; ";
 			} elseif ($field == "UserId") {
 				echo "if this prints, something is wrong. No way to pick UserId as a selector.";
 				/*
