@@ -206,19 +206,19 @@
 	
 		// the idea from Mark's code 
 		// this function makes a link in every row for assgin reviewers page 
-		function tableRowEditGenerator($idSelectQuery) {
+		function tableRowEditGenerator($idSelectQuery, $pageName, $title) {
 			$assignButton = array();
 			while ($ids = mysqli_fetch_array($idSelectQuery, MYSQLI_NUM)) {
 				for($a = 0;$a < count($ids);$a++) {
-					// The idea for this code was inspired by xdazz.
-					$button = '<td><a href="AssignReviewers.php?id='.$ids[$a].'">Assign</a></td>';
-					// The idea for this code was inspired by Bart S.
-					array_push($assignButton, $button);
-					$button = '<td><a href="RemoveReviewers.php?id='.$ids[$a].'">Remove</a></td>';
-					// The idea for this code was inspired by Bart S.
-					array_push($assignButton, $button);
+					for($b = 0;$b < 2;$b++) {
+						// The idea for this code was inspired by xdazz.
+						$button = '<td><a href=' . $pageName[$b] . '?id='.$ids[$a] . '>' . $title[$b] . '</a></td>';
+						// The idea for this code was inspired by Bart S.
+						array_push($assignButton, $button);
+					}						
 				}
 			}
 			return $assignButton;
 		}
+		
 ?>
