@@ -465,9 +465,9 @@ footer li {
 /*forms*/
 input, textarea {
 	display: block;
-	width:90%;
+	width:30%;
 	border-radius:5px;
-	outline:none;
+	outline:groove;
 	border:none;
 	font-size:12px;
 		}
@@ -1170,15 +1170,14 @@ input, textarea {
    			padding-top: 0.35em;
     		padding-bottom: 0.625em;
     		border-style: solid;
-    		empty-cells:hide;
     		border-width: 1px 1px 1px 1px;
     		padding-left: 0.75em;
     		padding-right: 0.75em;
    			background-color: #D1E5C9;
+
 } 
 			table td{
 			max-width: 650px;
-			empty-cells:hide;
 			border-style: solid;
     		border-width: 0px 0px 1px 0px;
 			word-wrap: break-word;

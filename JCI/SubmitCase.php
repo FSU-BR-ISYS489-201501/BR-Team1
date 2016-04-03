@@ -57,8 +57,8 @@
 	$nameCount = 1;
 	$keyWordCount = 1;
 	$authors = "
-		First Name: <input type='text' name='authorFname[0]'><br>
-		Last Name: <input type='text' name='authorLname[0]'><br>
+		First Name: <input type='text' name='authorFname[0]'>
+		Last Name: <input type='text' name='authorLname[0]'>
 		Email: <td><input type='text' name='email[0]' ><br>
 		<br>
 	";
@@ -84,9 +84,10 @@
 	
 	for($a = 1;$a < $nameCount;$a++) {
 		$authors = $authors . "
-			First Name: <input type='text' name='authorFname[$a]'><br>
-			Last Name: <input type='text' name='authorLname[$a]'><br>
+			First Name: <input type='text' name='authorFname[$a]'>
+			Last Name: <input type='text' name='authorLname[$a]'>
 			Email: <td><input type='text' name='email[$a]' ><br>
+			<br>
 		";
 	}
 	
