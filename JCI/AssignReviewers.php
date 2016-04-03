@@ -11,7 +11,7 @@
   * www.php.net 
   * HTMLBook.pdf from ISYS 288 class
   * used Larry Uldman's PHP book
-  * http://stackoverflow.com
+  * http://stackoverflow.com and William.
   * www.php.net
   * Revision 1.1: 03/22/2016 authors: Faisal Alfadhli 
   * Edited database queries and some changes 

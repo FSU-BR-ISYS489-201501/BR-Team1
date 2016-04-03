@@ -6,10 +6,11 @@
   * Page created for use in the JCI Project.
   * Project work is done as part of a Capstone class ISYS489: Ferris State University.
   * Purpose: this page is used to let Editor be able to remove specific CI from specific Editors
-  *Credits: www.W3schools.com
+  * Credits: www.W3schools.com
   * www.php.net 
   * HTMLBook.pdf from ISYS 288 class
   * used Larry Uldman's PHP book
+  * Copied this from RemoveReviewers.php , and tweaked some queries.
  
   ********************************************************************************************/
 	include ('includes/Header.php');

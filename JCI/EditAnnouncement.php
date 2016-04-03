@@ -7,8 +7,9 @@
   * Project work is done as part of a Capstone class ISYS489: Ferris State University.
   * Purpose: this page is used for making changes in announcement when an editors click on edit button from manage announcement page
   *Credits:  to William 
- * www.W3schools.com
+  * www.W3schools.com
   * www.php.net
+  * Credits to William and http://stackoverflow.com/  
   *Revision1.1: 03/01/2016 Author: Faisal Alfadhli: edited the sql command
   *Revision1.2: 03/11/2016 Author: Faisal Alfadhli: edited tables names 
   *Revision1.3: 03/12/2016 Author: Faisal Alfadhli: fixed bugs and made it functional 

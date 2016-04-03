@@ -7,7 +7,7 @@
  * Project work is done as part of a Capstone class ISYS489: Ferris State University.
  * Purpose: The purpose of this file is to display a page in the browser that shows all
  * Critical Incidents with buttons that will allow the assgin, remove editors
- * Credit: I used code written by Shane to make database queries.
+ * Credit: I used code written by Shane to make database queries. Credit to William and http://stackoverflow.com/
  * 
  ********************************************************************************************/
 

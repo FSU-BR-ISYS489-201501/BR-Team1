@@ -20,6 +20,7 @@
 	require ('../DbConnector.php');
 	include('includes/TableRowHelper.php');
 	
+	// thia was inspired by William
 	if (isset($_GET['id']) ) {
 		$incidentId = $_GET['id'];
 	} elseif (isset($_POST['id']) ) {
