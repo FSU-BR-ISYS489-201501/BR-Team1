@@ -66,13 +66,7 @@
 		} elseif (!isDate($_POST['startDate'])) {
 			$err[] = 'You did not enter a valid date.';
 		} else {
-			$date = new DateTime(mysqli_real_escape_string($dbc, trim($_POST['startDate'])));
-			$now = new DateTime();
-			if($date < $now) {
-				$err[] = 'Date cannot be in the past';
-			} else {
-				$startDate = mysqli_real_escape_string($dbc, trim($_POST['startDate']));
-			}
+			$startDate = mysqli_real_escape_string($dbc, trim($_POST['startDate']));
 		}
 			
 		//Check if the first name text box has a value.
