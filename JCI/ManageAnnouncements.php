@@ -37,7 +37,7 @@
 			$announcementDeactivateQuery = "UPDATE announcements SET IsActive = 0 WHERE AnnouncementId = {$_GET['deleteId']};";
 			$deactivateQuery = @mysqli_query($dbc, $announcementDeactivateQuery);
 			if($deactivateQuery){
-				header('Location: http://localhost/jci/ManageAnnouncements.php');
+				header('Location: ManageAnnouncements.php');
 			}
 		}
 		
@@ -48,7 +48,7 @@
 			$announcementActivateQuery = "UPDATE announcements SET IsActive = 1 WHERE AnnouncementId = {$_GET['activateId']};";
 			$activateQuery = @mysqli_query($dbc, $announcementActivateQuery);
 			if($activateQuery){
-				header('Location: http://localhost/jci/ManageAnnouncements.php');
+				header('Location: ManageAnnouncements.php');
 			}
 		}
 		
@@ -61,7 +61,7 @@
 		$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 3, $headerCounter);
 	}
 	else {
-		header('Location: http://localhost/jci/Index.php');
+		header('Location: http://br-t1-jci.sfcrjci.org/index.php');
 	}
 ?>
 <h1>Manage Announcements</h1>

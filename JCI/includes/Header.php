@@ -36,7 +36,7 @@
 								</div>
 								<br>
 								<div class='mainmenu'>
-									<a href='Index.php' class='button2'>Home</a>
+									<a href='index.php' class='button2'>Home</a>
 									<a href='ViewJournalPDF.php' class='button2'>Published Journals</a>
 									<a href='Search.php' class='button2'>Search</a>
 									<a href='AboutUs.php' class='button2'>About Us</a>
@@ -55,7 +55,7 @@
 							</div>
 							<br>
 							<div class='mainmenu'>
-								<a href='Index.php' class='button2'>Home</a>
+								<a href='index.php' class='button2'>Home</a>
 								<a href='ViewJournalPDF.php' class='button2'>Published Journals</a>
 								<a href='Search.php' class='button2'>Search</a>
 								<a href='AboutUs.php' class='button2'>About Us</a>
@@ -76,7 +76,7 @@
 								</div>
 								<br>
 								<div class='mainmenu'>
-									<a href='Index.php' class='button2'>Home</a>
+									<a href='index.php' class='button2'>Home</a>
 									<a href='ViewJournalPDF.php' class='button2'>Published Journals</a>
 									<a href='Search.php' class='button2'>Search</a>
 									<a href='AboutUs.php' class='button2'>About Us</a>
