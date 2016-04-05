@@ -187,7 +187,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		<p>SCR Member ID: <input type="text" name="memberID" size="15" maxlength="50" value="<?php if (isset($_POST['memberID'])) echo $_POST['memberID']; ?>" /></p>
 		<p>Password: <input type="password" name="pass1" size="15" maxlength="20" value="<?php if (isset($_POST['pass1'])) echo $_POST['pass1']; ?>"  /></p>
 		<p>Confirm Password: <input type="password" name="pass2" size="15" maxlength="20" value="<?php if (isset($_POST['pass2'])) echo $_POST['pass2']; ?>"  /></p>
-		</div>
 		<p><input type="submit" value="Submit" class="button3"</p>
 		
 	</fieldset>
