@@ -66,7 +66,7 @@
 	
 	session_start();
 	
-	// Mark Bowman: This gets the next JCI volume number.
+	// Mark Bowman: This gets the next JCI volume number and matching JournalId.
 	$latest = 0;
 	$volume = 0;
 	$nextVolumeQuery = 	"SELECT VolumeNumber
@@ -101,8 +101,7 @@
 	";
 		
 	$keyWords = "
-		Key Word: <input type='text' name='keyword[0]'><br>
-		<br>
+		<input type='text' name='keyword[0]'><br>
 	";
 	
 	$files = "
@@ -140,7 +139,7 @@
 	
 	for($a = 1;$a < $keyWordCount;$a++) {
 		$keyWords = $keyWords . "
-			Key Word: <input type='text' name='keyword[$a]'><br>
+			<input type='text' name='keyword[$a]'><br>
 		";
 	}
 	
@@ -223,6 +222,7 @@
 			// a message on the page. If the $err array contains errors, it prints them on the screen.
 			if (empty($err)) {
 				// Faisal Alfadhli: i add code lines 126-203 for insert database the user input for submit case.
+				// Mark Bowman: I changed the static number to a variable.
 				for($i = 0; $i < $nameCount; $i++) {
 					//get first name with current index value of $i
 					$authorFname = $_POST["authorFname"][$i];
@@ -272,10 +272,11 @@
 				//set $title
 				$title = $_POST["title"];
 				//build insert query
+				// Mark Bowman: I added the JournalId to the criticalincident table insert query.
 				$query = "INSERT INTO criticalincidents (Title, JournalId)
 						  VALUES ('$title', $latest);";
 				//Run the query...
-				$run = @mysqli_query($dbc, $query)or die("3Errors are ".mysqli_error($dbc));
+				$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
 				//use mysqli_insert_id function to set $critIncidentId variable
 				$critIncidentId = mysqli_insert_id($dbc);
 				//if query not successful ...
@@ -285,7 +286,7 @@
 				}
 				
 				
-				
+				// Mark Bowman: I changed the static number to a variable.
 				for($i = 0; $i < count($userid); $i++) {
 					//set $keywords variable ...
 					$user = $userid[$i];
@@ -302,6 +303,7 @@
 				}
 				
 				//Loop through keywords ...
+				// Mark Bowman: I changed the static number to a variable.
 				for($i = 0; $i < $keyWordCount; $i++) {
 					//if current keyword of index $i is not empty ...
 					if (!empty($_POST["keyword"][$i])) {
@@ -404,38 +406,47 @@
 	?>
 	
 	<!-- Create html Form -->
-	<h2>Fill The Form</h2>
+	<h2>Submit a Case</h2>
 	
 	<form method="post" enctype="multipart/form-data"  multiple = "multiple">
-		<h3>Author(s):</h3>
-			<?php echo $authors ?>
-			<a href='SubmitCase.php?nameCount=<?php echo $nameCount + 1 ?>&keyWordCount=<?php echo $keyWordCount ?>&fileCount=<?php echo $fileCount ?>'>Add Author</a>
-		</table>
-		<br><br>
-		<h3>Critical Incident Title:</h3>
+		<fieldset>
+		<h4>Critical Incident Title:</h4>
 		Title: <input type="text" name="title" value="<?php if (isset($_POST['title'])) echo $_POST['title']; ?>">
-		<br><br>
-		<h3>Key Word(s):</h3>
+		<br>
+		<h4>Author(s):</h4>
+			<?php echo $authors ?>
+			<a href='SubmitCase.php?nameCount=
+			<?php echo $nameCount + 1 ?>&keyWordCount=<?php echo $keyWordCount ?>&fileCount=<?php echo $fileCount ?>' class = 'button5'>Add Author</a>
+		</table>
+		<br>
+		<br>
+		<br>
+		<h4>Key Word(s):</h4>
 			<?php echo $keyWords ?>
-			<a href='SubmitCase.php?nameCount=<?php echo $nameCount ?>&keyWordCount=<?php echo $keyWordCount + 1?>&fileCount=<?php echo $fileCount ?>'>Add Key Word</a>
-		   
-		
-		<br><br>
+			<a href='SubmitCase.php?nameCount=
+			<?php echo $nameCount ?>&keyWordCount=<?php if ($keyWordCount < 5) {echo $keyWordCount + 1;} else {echo $keyWordCount;}?>&fileCount=
+			<?php echo $fileCount ?>' class = 'button5'>Key Word</a>
+		<br>
+		<br>
+		<br>
 		<!-- use for uploading fils -->
-		<h3>File(s)</h3>
-		<label for='uploadedFile'>Select only Microsoft Word document files to upload:</label>  
+		<h4>File(s)</h4>
 		<br><br>  
 		<!-- loop through results of upfileBody from our uploadfilefields function and display them on webpage -->
 		<!-- <?php foreach($upfileBody as $result) { echo $result, '<br>'; } ?> -->
+		<label for='uploadedFile'>Select only Microsoft Word document files to upload:</label> 
+		<br>
+		<br>
 		<?php echo $files ?>
-		<a href='SubmitCase.php?nameCount=<?php echo $nameCount ?>&keyWordCount=<?php echo $keyWordCount ?>&fileCount=<?php echo $fileCount + 1?>'>Add a File</a>
-		<br><br>
+		<br>
+		<br>
+		<a href='SubmitCase.php?nameCount=<?php echo $nameCount ?>&keyWordCount=<?php echo $keyWordCount ?>&fileCount=
+			<?php if ($fileCount < 6) {echo $fileCount + 1;} else {echo $fileCount;}?>' class = 'button5'>Add a File</a> 
+		<br>
+		<br>
 		<input name="submitCase" type="submit" value="Submit" name="uploadedFile" />
-		<br><br>
-	
+		</fieldset>
 	</form>
-	
-	
  <?php
 
 	/*function authorFields(){

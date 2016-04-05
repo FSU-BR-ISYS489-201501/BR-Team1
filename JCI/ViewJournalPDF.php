@@ -29,17 +29,15 @@
 ?>
 
 <h1>Published Journals</h1>
-<fieldset>
-	<table>
-		<tr>
-			<th>Journal Volume</th>
-			<th>Publication Year</th>
-		</tr>
-		<tbody>
-			<?php echo $tableBody; ?>
-		</tbody>
-	</table>
-</fieldset>
+<table>
+	<tr>
+		<th>Journal Volume</th>
+		<th>Publication Year</th>
+	</tr>
+	<tbody>
+		<?php echo $tableBody; ?>
+	</tbody>
+</table>
 
 <?php
 include ("includes/Footer.php");

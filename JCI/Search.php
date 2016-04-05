@@ -170,6 +170,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			<option <?php if($fieldVar == "Keyword") echo'selected="selected"'; ?>    value="Keyword">Keyword</option>
 			<option <?php if($fieldVar == "PubYear") echo'selected="selected"'; ?> value="PubYear">Publication Date</option>
 		</select>
+		<br>
+		<br>
 		<input type="text" name="criteria" size="15" maxlength="50" value="<?php if (isset($_POST['criteria'])) echo $_POST['criteria']; ?>" /></p>
 		<p><input type="submit" value="Search" /></p>
 	</fieldset>

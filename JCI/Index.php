@@ -13,9 +13,12 @@
 	include('includes/TableRowHelper.php');
 	require('../DbConnector.php');
 	
+	$tableStart= "<table><tbody>";
+	$tableHeader = "<th>Announcements</th>";
+	$tableEnd= "</table></tbody>";
 	$success = '';
 	$currentDate = date("Y-m-d");
-	$query = "SELECT AnnouncementId, Subject, Body FROM announcements WHERE IsActive = 1 AND StartDate <= '{$currentDate}' 
+	$query = "SELECT Body FROM announcements WHERE IsActive = 1 AND StartDate <= '{$currentDate}' 
 		AND EndDate > '{$currentDate}';";
 	
 	// Stole from Shane Workman's Register code
@@ -29,17 +32,21 @@
 	}
 ?>
 <?php echo $success; ?>
-<H1>Welcome to JCI</H1>
-<div id = 'announcementViewer'>
-	<table>
-		<tr>
-			<th></th>
-			<th>Subject</th>
-			<th>Announcement</th>
-		</tr>
-		<?php echo $tableBody; ?>
-	</table>
-</div>
+<br>
+<center>
+	<H1>Welcome to JCI</H1>
+	<?php 
+		// This code was borrowed from Search.php, written by Shane Workman.
+		iF (!empty($tableBody)){
+			echo $tableStart;
+			echo $tableHeader;
+			echo $tableBody;
+			echo $tableEnd;
+		}
+	?>
+</center>
+<br>
+
 <br>
 
 <!--
