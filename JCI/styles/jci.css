@@ -373,13 +373,13 @@ h4{font-family: 'Noto Sans', sans-serif;
 	font-style: italic;
 	color: black;
 	opacity: .5;
-	font-size: 10px;
+	font-size: 13px;
 	
 }
 a {
 	font-weight: 400;
 	color: black;
-	font-size: 10px;
+	font-size: 13px;
 	text-decoration:none;
 }
 p{font-family: 'Noto Sans', sans-serif;
@@ -392,7 +392,7 @@ p{font-family: 'Noto Sans', sans-serif;
 .popup.text{font-family: 'Noto Sans', sans-serif;
 	font-weight: 400;
 	color: black;
-	font-size: 10px;
+	font-size: 13px;
 	padding:10px 10px 35px 10px;
 	
 }
@@ -1183,4 +1183,114 @@ input, textarea {
 			word-wrap: break-word;
     		    		
 		}
+		
+/*------------------------------------*\
+    $CAROUSEL
+    http://csswizardry.com/2011/10/fully-fluid-responsive-css-carousel/
+\*------------------------------------*/
+.carousel{
+    overflow:hidden;
+    width:100%;
+}
+.panes{
+    list-style:none;
+    margin:0;
+    padding:0;
+    position:relative;
+    width:500%; /* Number of panes * 100% */
+    overflow:hidden; /* This is used solely to clear floats, it does not add functionality. */
+     
+    -moz-animation:carousel 60s linear infinite;
+    -webkit-animation:carousel 60s linear infinite;
+	animation:carousel 60s linear infinite;
+}
+	/*.panes:hover{
+		-moz-animation-play-state:paused;
+		-webkit-animation-play-state:paused;
+		animation-play-state:paused;
+	}*/
+.panes > li{
+    position:relative;
+    float:left;
+    width:20%; /* 100 / number of panes */
+}
+.carousel img{
+    display:block;
+    width:100%;
+    max-width:100%;
+}
+.panel-copy{
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	left:66.666%;
+	padding:2%;
+	-moz-box-shadow:0 0 10px rgba(0,0,0,0.2);
+	-webkit-box-shadow:0 0 10px rgba(0,0,0,0.2);
+	box-shadow:0 0 10px rgba(0,0,0,0.2);
+}
+.panel-copy,
+.panel-copy a{
+	color:#fff;
+}
 
+@-moz-keyframes carousel{
+    0%    { left:0; }
+    11%   { left:0; }
+    12.5% { left:-100%; }
+    23.5% { left:-100%; }
+    25%   { left:-200%; }
+    36%   { left:-200%; }
+    37.5% { left:-300%; }
+    48.5% { left:-300%; }
+    50%   { left:-400%; }
+    61%   { left:-400%; }
+    62.5% { left:-300%; }
+    73.5% { left:-300%; }
+    75%   { left:-200%; }
+    86%   { left:-200%; }
+    87.5% { left:-100%; }
+    98.5% { left:-100%; }
+    100%  { left:0; }
+}
+
+@-webkit-keyframes carousel{
+    0%    { left:0; }
+    11%   { left:0; }
+    12.5% { left:-100%; }
+    23.5% { left:-100%; }
+    25%   { left:-200%; }
+    36%   { left:-200%; }
+    37.5% { left:-300%; }
+    48.5% { left:-300%; }
+    50%   { left:-400%; }
+    61%   { left:-400%; }
+    62.5% { left:-300%; }
+    73.5% { left:-300%; }
+    75%   { left:-200%; }
+    86%   { left:-200%; }
+    87.5% { left:-100%; }
+    98.5% { left:-100%; }
+    100%  { left:0; }
+}
+
+@keyframes carousel{
+    0%    { left:0; }
+    11%   { left:0; }
+    12.5% { left:-100%; }
+    23.5% { left:-100%; }
+    25%   { left:-200%; }
+    36%   { left:-200%; }
+    37.5% { left:-300%; }
+    48.5% { left:-300%; }
+    50%   { left:-400%; }
+    61%   { left:-400%; }
+    62.5% { left:-300%; }
+    73.5% { left:-300%; }
+    75%   { left:-200%; }
+    86%   { left:-200%; }
+    87.5% { left:-100%; }
+    98.5% { left:-100%; }
+    100%  { left:0; }
+}
