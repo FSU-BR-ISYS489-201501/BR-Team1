@@ -25,12 +25,20 @@
  * Revision 1.4: 02/20/2016 Author: Ben Brackett
  * Description of change: added checkLogin function and included LoginHelper.php
  * 
- * Revision 1.3: 03/27/2016 Author: Faisal
+ * Revision 1.5: 03/27/2016 Author: Faisal
  * Description of Change: added email fields, and queries to update data into db
  * 
- * Revision 1.3: 04/01/2016 Author: Faisal
+ * Revision 1.6: 04/01/2016 Author: Faisal
  * Description of Change: added Function to dynamicly add file upload buttons if the user requires them.
- *  NOT FINISHED YET.
+ * 
+ * Revision 1.7: 04/02/2016 Author: Mark Bowman
+ * Description of Change: I redesigned most of the file to allow dynamic input of authors and key words.
+ * 
+ * Revision 1.8: 04/05/2016 Author: Mark Bowman
+ * Description of Change: I redesigned the SQL queries to insert all of the dynamic input. I also assigned
+ * the upcoming JournalId to the Critical Incident and the Files. I also made the system input new users
+ * if an author didn't exist in the database.
+ * 
  ********************************************************************************************/
 	//Ben Brackett: Call checkLogin function
 	include ("includes/LoginHelper.php");
@@ -47,6 +55,7 @@
 	$userid = array();
 	$ids = array();
 	$types = array();
+	$journalIds = array();
 	$critIncidentId;
 	$authorFname; 
 	$authorLname;
@@ -54,8 +63,36 @@
 	$title;
 	$keywords;
 	$fieldcount = 1;
+	
+	session_start();
+	
+	// Mark Bowman: This gets the next JCI volume number.
+	$latest = 0;
+	$volume = 0;
+	$nextVolumeQuery = 	"SELECT VolumeNumber
+					 	FROM nextvolume;";
+	
+	// Written by Shane Workman.
+	$nextVolumeSelectQuery = @mysqli_query($dbc, $nextVolumeQuery);
+	
+	if ($row = mysqli_fetch_array($nextVolumeSelectQuery, MYSQLI_ASSOC)) {
+		$volume = $row['VolumeNumber'];
+	}
+	
+	$nextVolumeIdQuery = 	"SELECT JournalId
+					 	FROM journalofcriticalincidents
+					 	WHERE JournalVolume = $volume;";
+	$nextVolumeIdSelectQuery = @mysqli_query($dbc, $nextVolumeIdQuery);
+	if ($row = mysqli_fetch_array($nextVolumeIdSelectQuery, MYSQLI_ASSOC)) {
+		$latest = $row['JournalId'];
+	}
+	
+	// Mark Bowman: These variables track the number of fields.
 	$nameCount = 1;
 	$keyWordCount = 1;
+	$fileCount = 1;
+	
+	// Mark Bowman: These variables generate the HTML for input fields.
 	$authors = "
 		First Name: <input type='text' name='authorFname[0]'>
 		Last Name: <input type='text' name='authorLname[0]'>
@@ -68,6 +105,11 @@
 		<br>
 	";
 	
+	$files = "
+		<input type='file' name='uploadedFile[]' /><br>
+	";
+	
+	// Mark Bowman: These check to see if variables are set in order to retrive values.
 	if (isset($_GET['fieldcount']) ) {
 		$fieldcount = $_GET['fieldcount'];
 	} elseif (isset($_POST['fieldcount']) ) {
@@ -82,6 +124,11 @@
 		$keyWordCount = $_GET['keyWordCount'];
 	}
 	
+	if (isset($_GET['fileCount'])) {
+		$fileCount = $_GET['fileCount'];
+	}
+	
+	// Mark Bowman: These add additional text fields to the form, based on the retrieved values.
 	for($a = 1;$a < $nameCount;$a++) {
 		$authors = $authors . "
 			First Name: <input type='text' name='authorFname[$a]'>
@@ -97,12 +144,18 @@
 		";
 	}
 	
+	for($a = 1;$a < $fileCount;$a++) {
+		$files = $files . "
+			<input type='file' name='uploadedFile[]' /><br>
+		";
+	}
+	
 	// Only do this stuff if the submitCase button was clicked
 	if(isset($_POST['submitCase'])){
 		if ($_SERVER["REQUEST_METHOD"] == "POST" ) {
 			// make this check all of the authors names being submitted.
 			// require 1 author, but allow multiple. if 1 author isn't input, show an error. If 2 authors aren't, don't show an error, but don't include that information in the database.
-			for($i = 0; $i < 4; $i++) {
+			for($i = 0; $i < $nameCount; $i++) {
 				//$i > means at least 1 author is input.
 				// Mark Bowman: Changed authors[] to author[]			
 				if (empty($_POST["authorFname"][$i]) && ($i==0)) {
@@ -113,7 +166,7 @@
 					$err[]= 'Only letters and white space are allowed';	
 				}
 			} 
-			for($i = 0; $i < 4; $i++) {
+			for($i = 0; $i < $nameCount; $i++) {
 				//$i > means at least 1 author is input.
 				// Mark Bowman: Changed authors[] to author[]			
 				if (empty($_POST["authorLname"][$i]) && ($i==0)) {
@@ -124,7 +177,7 @@
 					$err[]= 'Only letters and white space are allowed';	
 				}
 			} 
-			for($i = 0; $i < 4; $i++) {
+			for($i = 0; $i < $nameCount; $i++) {
 				//$i > means at least 1 author is input.
 				// Mark Bowman: Changed authors[] to author[]
 				if (empty($_POST["email"][$i]) && ($i==0)) {
@@ -141,14 +194,14 @@
 			}
 			// check if the keywords text has no value 
 			// Mark Bowman: Changed keywords[] to keyword[]
-			for($i = 0; $i < 4; $i++) {
+			for($i = 0; $i < $keyWordCount; $i++) {
 				if(empty($_POST["keyword"][$i]) && ($i==0)) {
 					$err[]= 'Type the keywords, please..!';
 				}
 			}
 			// make this check all of the files being uploaded.
 			// Mark Bowman: Changed fileDoc[] to uploadedFile[].
-			for($i = 0; $i < ($fieldcount - 1); $i++) {
+			for($i = 0; $i < ($files); $i++) {
 				if (!file_exists($_FILES["uploadedFile"]['tmp_name'][$i]) && ($i==0) ) {
 					$err[]= 'Failed, you must upload at least one file';
 				} else {
@@ -170,9 +223,10 @@
 			// a message on the page. If the $err array contains errors, it prints them on the screen.
 			if (empty($err)) {
 				// Faisal Alfadhli: i add code lines 126-203 for insert database the user input for submit case.
-				for($i = 0; $i < 4; $i++) {
+				for($i = 0; $i < $nameCount; $i++) {
 					//get first name with current index value of $i
 					$authorFname = $_POST["authorFname"][$i];
+					echo $_POST["authorFname"][$i];
 					//get last name with current index value of $i
 					$authorLname = $_POST["authorLname"][$i];
 					//get email address with current index value of $i
@@ -184,7 +238,7 @@
 					//set results of query to $row variable
 					$row = mysqli_fetch_array($run, MYSQLI_NUM);
 					//if query unsuccessful ...
-					If (!$run){
+					if (!$run){
 						//tell user ...
 						echo 'There was an error selecting a user by email. Please try again!';
 					//if query successful ...
@@ -192,14 +246,14 @@
 						//and current array index of authorFname is not empty ...
 						if(!empty($_POST["authorFname"][$i])) {
 							//and $row is empty ...
-							If (empty($row)){
+							if (empty($row)){
 								//build insert query for user data ...
 								$query = "INSERT INTO users (FName, LName, Email)
 										  VALUES ('$authorFname', '$authorLname', '$email');";
 								//Run the query...
 								$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
 								//if query not successful ...
-								If (!$run){
+								if (!$run){
 									//tell user ...
 									echo 'There was an error inserting a user. Please try again!';
 								//if query successful ...
@@ -218,19 +272,37 @@
 				//set $title
 				$title = $_POST["title"];
 				//build insert query
-				$query = "INSERT INTO criticalincidents (Title)
-						  VALUES ('$title');";
+				$query = "INSERT INTO criticalincidents (Title, JournalId)
+						  VALUES ('$title', $latest);";
 				//Run the query...
-				$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
+				$run = @mysqli_query($dbc, $query)or die("3Errors are ".mysqli_error($dbc));
 				//use mysqli_insert_id function to set $critIncidentId variable
 				$critIncidentId = mysqli_insert_id($dbc);
 				//if query not successful ...
-				If (!$run){
+				if (!$run){
 					//tell user ...
 					echo 'There was an error with the submission. Please try again!';
 				}
+				
+				
+				
+				for($i = 0; $i < count($userid); $i++) {
+					//set $keywords variable ...
+					$user = $userid[$i];
+					// build insert query ...
+					$query = "INSERT INTO authorcases (CriticalIncidentId, UserId)
+						      VALUES ('$critIncidentId', '$user');";
+					//Run the query...
+					$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
+					//if query unsuccessful ...
+					if (!$run){
+						//tell user ...
+						echo 'There was an error with the submission. Please try again!';
+					}
+				}
+				
 				//Loop through keywords ...
-				for($i = 0; $i < 5; $i++) {
+				for($i = 0; $i < $keyWordCount; $i++) {
 					//if current keyword of index $i is not empty ...
 					if (!empty($_POST["keyword"][$i])) {
 						//set $keywords variable ...
@@ -241,19 +313,20 @@
 						//Run the query...
 						$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
 						//if query unsuccessful ...
-						If (!$run){
+						if (!$run){
 							//tell user ...
 							echo 'There was an error with the submission. Please try again!';
 						}
 					}
 				}
 				
-				for($a = 0;$a < $fieldcount;$a++) {
+				for($a = 0;$a < $fileCount;$a++) {
 					array_push($ids, $critIncidentId);
 					array_push($types, 'Word');
+					array_push($journalIds, $latest);
 				}
 				
-				switch (uploadFile($dbc, "uploadedFile", "../uploads/", $ids, $types)) {
+				switch (uploadFile($dbc, "uploadedFile", "../uploads/", $ids, $types, $journalIds)) {
 					case 0:
 						echo 'Upload failed. Contact the system administrator.';
 						break;
@@ -262,9 +335,9 @@
 							// Dr. Herrington helped me with this block	
 							// loop authers Fname and LName to post them in usermessage and editorMsg.
 							$userMsg = "Authors: ";
-							for($i = 0; $i < 4; $i++) {
+							for($i = 0; $i < $nameCount; $i++) {
 								// this code was inspired by William.
-								if ($i=3){
+								if ($i=$nameCount - 1){
 									$userMsg = $userMsg . $_POST['authorFname'][$i] . " ";
 								} else {
 									$userMsg = $userMsg . $_POST['authorFname'][$i] . ", ";
@@ -274,8 +347,8 @@
 							
 							// a message to be sent to editor
 							$editorMsg = "Authors: ";
-							for($i = 0; $i < 4; $i++) {
-								if ($i=3){
+							for($i = 0; $i < $nameCount; $i++) {
+								if ($i=$nameCount - 1){
 									$editorMsg = $editorMsg . $_POST['authorFname'][$i] . " ";
 								} else {
 									$editorMsg = $editorMsg . $_POST['authorFname'][$i] . ", ";
@@ -287,7 +360,7 @@
 							$header = "do-not-reply@jci.com\r\n";
 
 							// send email notification to an author
-							for($i = 0; $i < 4; $i++) {
+							for($i = 0; $i < $nameCount; $i++) {
 								if(!empty($_POST["email"][$i])) {
 							       $rtnVal = mail($_POST['email'][$i], "File uploaded, thank you..!" ,$userMsg, $header);
 							    }
@@ -327,16 +400,16 @@
 		}
 	}
 	// assign uploadFileFields function return results to the variable upfileBody
-	$upfileBody = uploadFileFields($fieldcount);
+	// $upfileBody = uploadFileFields($fieldcount);
 	?>
 	
 	<!-- Create html Form -->
 	<h2>Fill The Form</h2>
 	
-	<form method="post" enctype="multipart/form-data" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" multiple = "multiple">
+	<form method="post" enctype="multipart/form-data"  multiple = "multiple">
 		<h3>Author(s):</h3>
 			<?php echo $authors ?>
-			<a href='SubmitCase.php?nameCount=<?php echo $nameCount + 1 ?>&keyWordCount=<?php echo $keyWordCount ?>'>Add Author</a>
+			<a href='SubmitCase.php?nameCount=<?php echo $nameCount + 1 ?>&keyWordCount=<?php echo $keyWordCount ?>&fileCount=<?php echo $fileCount ?>'>Add Author</a>
 		</table>
 		<br><br>
 		<h3>Critical Incident Title:</h3>
@@ -344,7 +417,7 @@
 		<br><br>
 		<h3>Key Word(s):</h3>
 			<?php echo $keyWords ?>
-			<a href='SubmitCase.php?nameCount=<?php echo $nameCount ?>&keyWordCount=<?php echo $keyWordCount + 1?>'>Add Key Word</a>
+			<a href='SubmitCase.php?nameCount=<?php echo $nameCount ?>&keyWordCount=<?php echo $keyWordCount + 1?>&fileCount=<?php echo $fileCount ?>'>Add Key Word</a>
 		   
 		
 		<br><br>
@@ -353,7 +426,9 @@
 		<label for='uploadedFile'>Select only Microsoft Word document files to upload:</label>  
 		<br><br>  
 		<!-- loop through results of upfileBody from our uploadfilefields function and display them on webpage -->
-		<?php foreach($upfileBody as $result) { echo $result, '<br>'; } ?>
+		<!-- <?php foreach($upfileBody as $result) { echo $result, '<br>'; } ?> -->
+		<?php echo $files ?>
+		<a href='SubmitCase.php?nameCount=<?php echo $nameCount ?>&keyWordCount=<?php echo $keyWordCount ?>&fileCount=<?php echo $fileCount + 1?>'>Add a File</a>
 		<br><br>
 		<input name="submitCase" type="submit" value="Submit" name="uploadedFile" />
 		<br><br>
@@ -361,7 +436,7 @@
 	</form>
 	
 	
-<?php
+ <?php
 
 	/*function authorFields(){
 		for($i = 0; $i < 4; $i++) {
@@ -375,61 +450,61 @@
 	}*/
 	
 	// Function to dynamicly add file upload buttons if the user requires them
-	function uploadFileFields($fieldcount){
-		// create array to hold form fields
-		$uff = array();
-		// if field count is less than 7 do stuff
-		if ($fieldcount < 7){
-			// if fieldcount is greater than 1 do stuff
-			If ($fieldcount > 1){
-				// loop and add fields to the array
-				for($a = 0;$a < $fieldcount;$a++) {
-					$field = "<input type='file' name='uploadedFile[]' />";
-					array_push($uff, $field);
-				}
-				// increase field count as we add more fields to the array
-				$fieldcount = $fieldcount + 1;
-				// hidden field to hold value of our fieldcount
-				$field = "<input type='hidden' value='$fieldcount' name='fieldcount' />";
-				array_push($uff, $field);
-				// add the add field button to the array
-				$field = "<input name='addfield' id='add' type='submit' value='Add File'>";
-				array_push($uff, $field);
-			// if the field count was not greater than 1 then do this stuff
-			} else {
-				// still have to increase the field count when adding a field
-				$fieldcount = $fieldcount + 1;
-				// still adding the fields to the array
-				$field = "<input type='file' name='uploadedFile[]' />";
-				array_push($uff, $field);
-				// updating field count variable for the hidden field
-				$field = "<input type='hidden' value='$fieldcount' name='fieldcount' />";
-				array_push($uff, $field);
-				// add that add file button
-				$field = "<input name='addfield' id='add' type='submit' value='Add File'>";
-				array_push($uff, $field);
-			}
-		// if field count is greater than 7 do this stuff
-		} else {
-			// loop and add all the fields to the array
-			for($a = 0;$a < $fieldcount - 1;$a++) {
-					$field = "<input type='file' name='uploadedFile[]' />";
-					array_push($uff, $field);
-				}
-			// here is that hidden field count field again
-			$field = "<input type='hidden' value='$fieldcount' name='fieldcount' />";
-			array_push($uff, $field);
-			// and that add file button again 
-			$field = "<a href='SubmitCase.php?id='add'>Add File</a>";
-			array_push($uff, $field);
-			// finally warn user they can only upload a maximum of 6 files 
-			$field = "You can only upload a maximum of 6 files per submission.";
-			array_push($uff, $field);
-		}
-		// return all this stuff we did
-		return $uff;
-	}
-?>
+	// function uploadFileFields($fieldcount){
+		// // create array to hold form fields
+		// $uff = array();
+		// // if field count is less than 7 do stuff
+		// if ($fieldcount < 7){
+			// // if fieldcount is greater than 1 do stuff
+			// If ($fieldcount > 1){
+				// // loop and add fields to the array
+				// for($a = 0;$a < $fieldcount;$a++) {
+					// $field = "<input type='file' name='uploadedFile[]' />";
+					// array_push($uff, $field);
+				// }
+				// // increase field count as we add more fields to the array
+				// $fieldcount = $fieldcount + 1;
+				// // hidden field to hold value of our fieldcount
+				// $field = "<input type='hidden' value='$fieldcount' name='fieldcount' />";
+				// array_push($uff, $field);
+				// // add the add field button to the array
+				// $field = "<input name='addfield' id='add' type='submit' value='Add File'>";
+				// array_push($uff, $field);
+			// // if the field count was not greater than 1 then do this stuff
+			// } else {
+				// // still have to increase the field count when adding a field
+				// $fieldcount = $fieldcount + 1;
+				// // still adding the fields to the array
+				// $field = "<input type='file' name='uploadedFile[]' />";
+				// array_push($uff, $field);
+				// // updating field count variable for the hidden field
+				// $field = "<input type='hidden' value='$fieldcount' name='fieldcount' />";
+				// array_push($uff, $field);
+				// // add that add file button
+				// $field = "<input name='addfield' id='add' type='submit' value='Add File'>";
+				// array_push($uff, $field);
+			// }
+		// // if field count is greater than 7 do this stuff
+		// } else {
+			// // loop and add all the fields to the array
+			// for($a = 0;$a < $fieldcount - 1;$a++) {
+					// $field = "<input type='file' name='uploadedFile[]' />";
+					// array_push($uff, $field);
+				// }
+			// // here is that hidden field count field again
+			// $field = "<input type='hidden' value='$fieldcount' name='fieldcount' />";
+			// array_push($uff, $field);
+			// // and that add file button again 
+			// $field = "<a href='SubmitCase.php?id='add'>Add File</a>";
+			// array_push($uff, $field);
+			// // finally warn user they can only upload a maximum of 6 files 
+			// $field = "You can only upload a maximum of 6 files per submission.";
+			// array_push($uff, $field);
+		// }
+		// // return all this stuff we did
+		// return $uff;
+	// }
+ ?>
 <?php
 include ("includes/Footer.php");
 ?>
