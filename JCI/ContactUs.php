@@ -13,55 +13,22 @@ include ("includes/Header.php");
 require ('../DbConnector.php');
  ?>
  <h1>Contact Us</h1>
-<form name="contactform" method="post" action="sendFormEmail.php">
-	<table>
-	 	<tr>
-			<td>
-	 			<label for="first_name">First Name *</label>
-			</td>
-			<td >
-				<input  type="text" name="first_name" maxlength="50" size="30">
-			</td>
-		</tr>
-		<tr>
-			<td >
-	 			<label for="last_name">Last Name *</label>
-	 		</td>
-	 		<td >
-	 			<input  type="text" name="last_name" maxlength="50" size="30">
-	 		</td>
-		</tr>
-	 	<tr>
-	 		<td >
-	 			<label for="email">Email Address *</label>
-	 		</td>
-			<td >
-				<input  type="text" name="email" maxlength="80" size="30">
-	 		</td>
-		</tr>
-	 	<tr>
-	 		<td >
-	 			<label for="telephone">Telephone Number</label>
-	 		</td>
-			<td >
-	 			<input  type="text" name="telephone" maxlength="30" size="30">
-	 		</td>
-		</tr>
-		<tr>
-	 		<td >
-	 			<label for="comments">Comments *</label>
-	 		</td>
-	 		<td >
-				<textarea  name="comments" maxlength="1000" cols="25" rows="6"></textarea>
-	 		</td>
-		</tr>
-		<tr>
-	 		<td colspan="2" style="text-align:center">
-				<input type="submit" value="Submit"> 
-	 		</td>
-	 	</tr>
- 	</table>
- </form>
+ <fieldset>
+	<form name="contactform" method="post" action="sendFormEmail.php">
+		<p>* First Name:
+		<input  type="text" name="first_name" maxlength="50" size="30"></p>
+		<p>* Last Name:
+		<input  type="text" name="last_name" maxlength="50" size="30"></p>
+		<p>* Email Address:
+		<input  type="text" name="email" maxlength="80" size="30"></p>
+		<p>Telephone Number:
+		<input  type="text" name="telephone" maxlength="30" size="30"></p>
+		<p>* Comments:
+		<textarea  name="comments" maxlength="1000" cols="25" rows="6"></textarea></p>
+		<p>* Required</p>
+		<input type="submit" value="Submit"> 
+	 </form>
+ </fieldset>
  
 <?php
 include ('includes/Footer.php');

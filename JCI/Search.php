@@ -17,11 +17,33 @@ include ("includes/Header.php");
 include ("includes/TableRowHelper.php");
 require ('../DbConnector.php');
 $tableBody = "";
+$searchHeader = "";
+$tableStart= "<table><tbody>";
+$tableEnd= "</table></tbody>";
+$fieldVar = "First Name";
+//$emptyResults= "";
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
 	//Set up Error msg array.
- 	$err = array(); 
+ 	$err = array();
 	
+	//Sticky forms help.
+	if(isset($_POST['field']) == "First Name"){
+		$fieldVar = $_POST['field'];
+	} elseif(isset($_POST['field'])== "Last Name"){
+		$fieldVar = $_POST['field'];
+	} elseif(isset($_POST['field'])== "Email"){
+		$fieldVar = $_POST['field'];
+	} elseif(isset($_POST['field'])== "Title"){
+		$fieldVar = $_POST['field'];
+	} elseif(isset($_POST['field'])== "Keyword"){
+		$fieldVar = $_POST['field'];
+	} elseif(isset($_POST['field'])== "PubYear"){
+		$fieldVar = $_POST['field'];
+	} else {
+		$fieldVar = "First Name";
+	}
 	
 	//Checks to see what criteria we are searching for.
 	if (($_POST['field']) == "First Name") {
@@ -32,7 +54,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
 	} elseif (($_POST['field']) == "Title") {
 		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
-	} elseif (($_POST['field']) == "PublicationYear") {
+	} elseif (($_POST['field']) == "PubYear") {
+		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
+	} elseif (($_POST['field']) == "Keyword"){
 		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
 	} else {
 		$err[] = 'This error should never print; if it does, select field is bugged.';
@@ -49,42 +73,54 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	if (empty($err)) {
 		// Create and run the query based of the given criteria.
 			if($field == "First Name")	{
-				$query = "SELECT CONCAT(users.FName, users.LName) As name, users.Email as email, criticalincidents.Title as title
-						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId  
-						WHERE users.FName = '$criteria';";
+				$query = "SELECT users.LName, users.FName, users.Email as email, criticalincidents.Title as title
+									FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId  
+									WHERE users.FName = '$criteria';";
+									
 			} elseif ($field == "Last Name") {
-				$query = "SELECT CONCAT(users.FName, users.LName) As name, users.Email as email, criticalincidents.Title as title
-						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
-						WHERE users.LName = '$criteria';";
+				$query = "SELECT users.LName, users.FName, users.Email as email, criticalincidents.Title as title
+									FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
+									WHERE users.LName = '$criteria';";
+									
 			} elseif ($field == "Email") {
-				$query = "SELECT CONCAT(users.FName, users.LName) As name, users.Email as email, criticalincidents.Title as title
-						FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
-						WHERE users.Email = '$criteria';";
+				$query = "SELECT users.LName, users.FName, users.Email as email, criticalincidents.Title as title
+									FROM users LEFT JOIN criticalincidents ON users.UserId = criticalincidents.UserId
+									WHERE users.Email = '$criteria';";
+									
 			} elseif($field == "Title")	{
-				$query = "SELECT criticalincidents.Title, criticalincidents.Category, journalofcriticalincidents.JournalVolume, 
-									journalofcriticalincidents.PublicationYear 
+				$query = "SELECT criticalincidents.Title, criticalincidents.Category, journalofcriticalincidents.PublicationYear 
 									FROM criticalincidents  INNER JOIN journalofcriticalincidents 
 									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId
 									WHERE criticalincidents.Title = '$criteria';";
+									
 				$idSelectQuery = "SELECT CriticalIncidentId FROM criticalincidents WHERE Title = '$criteria';";
-			} elseif ($field == "PublicationYear") {
+				
+			} elseif ($field == "PubYear") {
 				$query = "Select  criticalincidents.Title, criticalincidents.Category, journalofcriticalincidents.PublicationYear
 									FROM criticalincidents INNER JOIN journalofcriticalincidents
 									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId
 									WHERE journalofcriticalincidents.PublicationYear = '$criteria'; ";
+									
 				$idSelectQuery = "SELECT criticalincidents.CriticalIncidentId 
 									FROM criticalincidents INNER JOIN journalofcriticalincidents
 									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId
 									WHERE journalofcriticalincidents.PublicationYear = '$criteria'; ";
-			} elseif ($field == "UserId") {
-				echo "if this prints, something is wrong. No way to pick UserId as a selector.";
-				/*
-				$query = "SELECT PublicationYear, criticalincidents.CriticalIncidentId, criticalincidents.Title, users.UserId, CONCAT(users.FName, users.LName) AS name
-						FROM users LEFT JOIN (criticalincidents) ON (users.Title=criticalincidents.Title)
-						LEFT JOIN (journalofcriticalincidents) on (criticalincidents.JournalId=journalofcriticalincidents.JournalId)
-						WHERE users.UserId = '$criteria';";
-				$idSelectQuery = " ";
-				 */
+									
+			} elseif ($field == "Keyword") {
+				$query = "Select criticalincidents.Title, criticalincidents.Category, journalofcriticalincidents.PublicationYear 
+									FROM criticalincidents LEFT JOIN keywords 
+									ON keywords.CriticalIncidentId = criticalincidents.CriticalIncidentId 
+									INNER JOIN journalofcriticalincidents 
+									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId 
+									WHERE CIKeyword = '$criteria';";
+									
+				$idSelectQuery = "Select criticalincidents.CriticalIncidentId
+									FROM criticalincidents LEFT JOIN keywords 
+									ON keywords.CriticalIncidentId = criticalincidents.CriticalIncidentId 
+									INNER JOIN journalofcriticalincidents 
+									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId 
+									WHERE CIKeyword = '$criteria';";
+									
 			} else {
 				echo "If this prints, Selecting which SQL statement is used is bugged!";
 			} 
@@ -93,8 +129,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			$run = mysqli_query($dbc, $query);
 			$headerCounter = mysqli_num_fields($run);
 			$tableBody = tableRowGenerator($run, $headerCounter);
+			$searchHeader = "<th>Last Name</th><th>First Name</th><th>Email</th><th>Title</th>";
+			//"Last Name - First Name - Email - Title";
 			
-		} else { //if($field == "Publication Year" || $field == "Title"){
+		} elseif ($field == "PubYear" || $field == "Title" || $field == "Keywords"){
 			$run = mysqli_query($dbc, $query);
 	  		$headerCounter = mysqli_num_fields($run);
 	  		$idSelectRun = mysqli_query($dbc, $idSelectQuery);
@@ -103,7 +141,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			$variableName = array('JournalId', 'JournalId');
 			$editButton = tableRowLinkGenerator($idSelectRun, $pageNames, $variableName, $titles);
 			$tableBody = tableRowGeneratorWithButtons($run, $editButton, 2, $headerCounter);
-		} //else { echo "if this prints, display results is bugged"; }
+			$searchHeader = "<th>Title</th><th>Category</th><th>Year Published</th>";
+			 
+		} else { echo "if this prints, display results is bugged"; }
 		
 	} else {
 		//List each Error msg that is stored in the array.
@@ -123,11 +163,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	<fieldset>
 		<p>Search on the criteria of:
 		<select name="field">
-			<option <?php if(isset($_POST['field'])=="First Name") echo'selected="selected"'; ?>    value="First Name">First Name</option>
-			<option <?php if(isset($_POST['field'])=="Last Name") echo'selected="selected"'; ?>    value="Last Name">Last Name</option>
-			<option <?php if(isset($_POST['field'])=="Email") echo'selected="selected"'; ?>    value="Email">Email</option>
-			<option <?php if(isset($_POST['field'])=="Title") echo'selected="selected"'; ?> value="Title">Title</option>
-			<option <?php if(isset($_POST['field'])=="PublicationYear") echo'selected="selected"'; ?> value="PublicationYear">Publication Date</option>
+			<option <?php if($fieldVar == "First Name") echo'selected="selected"'; ?>    value="First Name">First Name</option>
+			<option <?php if($fieldVar == "Last Name") echo'selected="selected"'; ?>    value="Last Name">Last Name</option>
+			<option <?php if($fieldVar == "Email") echo'selected="selected"'; ?>    value="Email">Email</option>
+			<option <?php if($fieldVar == "Title") echo'selected="selected"'; ?> value="Title">Title</option>
+			<option <?php if($fieldVar == "Keyword") echo'selected="selected"'; ?>    value="Keyword">Keyword</option>
+			<option <?php if($fieldVar == "PubYear") echo'selected="selected"'; ?> value="PubYear">Publication Date</option>
 		</select>
 		<input type="text" name="criteria" size="15" maxlength="50" value="<?php if (isset($_POST['criteria'])) echo $_POST['criteria']; ?>" /></p>
 		<p><input type="submit" value="Search" /></p>
@@ -135,11 +176,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 </form> 
 <h1>Search Results</h1>
 <fieldset>
-	<table>
-		<tbody>
-			<?php echo $tableBody; ?>
-		</tbody>
-	</table>
+	<?php 
+		IF (!empty($tableBody)){
+			echo $tableStart;
+			echo $searchHeader;
+			echo $tableBody;
+			echo $tableEnd;
+		} else {
+			echo "No Search Results!";
+		}
+	?>
 </fieldset>
 
 <?php
