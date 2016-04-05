@@ -27,6 +27,9 @@
   * 
   * Revision1.5: 02/22/2016 Author: Shane Workman
   * Added the CheckEmail.php funciton to the validation. Spelled out a few variables that were abbriviated.
+  * 
+  * Revision1.6: 04/05/2016 Author: Mark Bowman
+  * Added code to insert the Author usertype into the usertypes table.
   ********************************************************************************************/
  $page_title = 'Register';
  include ("includes/Header.php");
@@ -127,6 +130,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				VALUES ('$prefix', '$fName', '$lName', '$suffix', '$email', '$university', '$title', '$member', NOW(), '$pass', '$pass');";
 				
 		//Run the query...
+		$run = @mysqli_query($dbc, $query);
+		
+		// Mark Bowman: I borrowed this line of code from SubmitCase.php. Credit given to William.
+		$critIncidentId = mysqli_insert_id($dbc);
+		
+		// Mark Bowman created a query that will make the registered user an Author in usertypes.
+		$query = "INSERT INTO usertypes(UserId, Type)
+				VALUES($critIncidentId, 'Author');";
+				
 		$run = @mysqli_query($dbc, $query);
 		
 		//Check to make sure the dbConnector didnt die!
