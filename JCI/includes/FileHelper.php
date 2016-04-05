@@ -46,7 +46,7 @@
 	
 	// This function will upload a file from the host's computer to the server. 
 	// A string is returned that specifies if the upload was successful or not.
-	function uploadFile($dbc, $htmlElement, $fileStorageLocation, $ids, $types) {
+	function uploadFile($dbc, $htmlElement, $fileStorageLocation, $ids, $types, $journalIds) {
 		//This is the message that will be returned.
 		$successMessage = 0;
 		
@@ -62,8 +62,8 @@
 			$tempUploadedFileName = $_FILES["$htmlElement"]['tmp_name'][$i];
 			$uploadedFileNameSaveLocation = $fileStorageLocation . "{$_FILES["$htmlElement"]['name']["$i"]}";
 			if ($types[$i] == 'Word' || $types[$i] == 'Summary' || $types[$i] == 'CriticalIncident') {
-				$insertFileLocationSqlQuery = "INSERT INTO files (CriticalIncidentId, FileLocation, FileType, FileDes)
-					VALUES ($ids[$i], '$uploadedFileNameSaveLocation', '$types[$i]', '{$_FILES["$htmlElement"]['name']["$i"]}')";
+				$insertFileLocationSqlQuery = "INSERT INTO files (CriticalIncidentId, JournalId, FileLocation, FileType, FileDes)
+					VALUES ($ids[$i], $journalIds[$i], '$uploadedFileNameSaveLocation', '$types[$i]', '{$_FILES["$htmlElement"]['name']["$i"]}')";
 			}
 			else if ($types[$i] == 'Journal') {
 				$insertFileLocationSqlQuery = "INSERT INTO files (JournalId, FileLocation, FileDes)
