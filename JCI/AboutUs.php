@@ -20,21 +20,18 @@
 <h2>PEOPLE</h2>
 <p>Send us a message on our <a href="ContactUs.php" class="action">Contact Us</a> page.</p>
 <h4 class="secondary">Meet the Editors</h4>
-<img src="styles/images/Editors.JPG" alt="Editors" style="width:400px;height:285;">
-<p>Dr. Timothy Redmer, Associate Editor and Dr. Timothy Brotherton, Editor pose above.</p>
+<img src="styles/images/Editors.JPG" alt="Editors" style="width:70%;height:70%;">
+<p>Dr. Timothy Redmer, Associate Editor (left) and Dr. Timothy Brotherton, Editor (right) pose above.</p>
 <h2>POLICIES</h2>
 <p>Go to our <a href="EditorialPolicy.php" class="action">policies</a> page if you would like to cover areas like the critical incident format, review process, and publication ethics policy.</p>
 <h2>Publication Ethics Policy and Malpractice Statement</h2>
 <p>Go to our page on <a href="Ethics.php" class="action">ethics policy</a> if you would like to know what we expect from the authors, reviewers and editors.</p>
-<h2>SCR Mission and Purpose</h2>
+<h2>JCI Mission and Purpose</h2>
 <p>
-	The Society for Case Research (SCR) facilitates the exchange of ideas leading to the improvement of case research, writing, and teaching; assists in the publication of written cases or case research and other scholarly work; and provides recognition for excellence in case research, writing and teaching. The society publishes three scholarly journals:
-<ul>
-	<li>Business Case Journal</li>
-	<li>Journal of Case Studies</li>
-	<li>Journal of Critical Incidents</li>
-</ul>
-If you are interested in joining SCR, publishing in one of the journals or contacting the Officers of the Society, go to www.sfcr.org. To purchase copies of the Critical Incidents or Teaching Notes contact Roy Cook at cook_r@fortlewis.edu
+The Journal of Critical Incidents does not publish long cases. JCI's focus is on brief incidents that tell about real situation in a real organization. The incident tells a story about an event, an experience, a blunder, or a success. Unlike a long case, the incident does not provide historical detail or how the situation developed. Rather, it provides a snapshot that stimulates student use of their knowledge to arrive at a course of action or analysis.
+Critical incidents can be based on either field work or library research. The maximum length of the Critical incidents is three single-spaced pages. See the Style Guide for layout and submission requirements.
+
+If you are interested in joining SCR, publishing in one of the journals or contacting the Officers of the Society, go to <a href="http://www.sfcr.org">www.sfcr.org</a>. To purchase copies of the Critical Incidents or Teaching Notes contact Joanne Tokle <a href="mailto:tokljoan@isu.edu">tokljoan@isu.edu</a>
 </p>
 <h2>Publication Information</h2>
 <p>
