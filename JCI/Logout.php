@@ -16,7 +16,7 @@
 session_start(); // Access the existing session.
 
 // If no session variable exists, redirect the user:
-if (!isset($_SESSION['USERID'])) {
+if (!isset($_SESSION['UserId'])) {
 
 	// Need the functions:
 	require ('includes/LoginFunction.php');

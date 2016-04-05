@@ -49,8 +49,7 @@ function redirect_user ($page = 'Index.php') {
 } // End of redirect_user() function.
 
 
-
-function check_login($dbc, $email = '', $pass = '') {
+function checkLoginFields($dbc, $email = '', $pass = '') {
 
 	$errors = array(); // Initialize error array.
 
@@ -71,7 +70,7 @@ function check_login($dbc, $email = '', $pass = '') {
 	if (empty($errors)) { // If everything's OK.
 
 		// Retrieve the user_id and first_name for that email/password combination:
-		$q = "SELECT USERID, Fname FROM users WHERE email='$e' AND password_hash='$p'";		
+		$q = "SELECT users.UserId, users.FName, users.LName, usertypes.Type, users.Email FROM users LEFT JOIN (usertypes) ON (users.UserId=usertypes.UserId) WHERE users.Email='$e' AND users.PasswordHash='$p';";		
 		$r = @mysqli_query ($dbc, $q); // Run the query.
 		
 		// Check the result:

@@ -1,40 +1,119 @@
 <!-- By Faisal Alfadhli-->
 <!--Email: alfadhf@ferris.edu-->
-<!--This is my own cod I wrote it 2 years ago for ISYS 288  -->
+<!--This is my own code I wrote it 2 years ago for ISYS 288  -->
 <!--02/04/2016 -->
 <!-- header -->
-
+<!DOCTYPE html>
 <html>
 <head>
 	<title><?php echo $page_title; ?></title>	
-	<link rel="stylesheet" href="includes/style.css" type="text/css" media="screen" />
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-</head>
-<body>
-	<div id="header">
-		<h1>Your Website</h1>
+	<meta charset='utf-8' />
+<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+<title>GRDE328: JCI</title>
+<!--[if lt IE 9]>
+<script src='http://html5shim.googlecode.com/svn/trunk/html5.js'></script>
+<![endif]-->
 		
-	</div>
-	<div id="navigation">
-		<ul>
-<!--Ben Brackett: changed login href link 
-<!--Ben Brackett: changed a spelling mistake for logout
-<!--Ben Brackett: changed logout link-->
-<!-- <<<<<<< HEAD -->
-			<li><a href="Index.php">Home Page</a></li>
-			<li><a href="Register.php">Register</a></li>
-			<li><a href="LoginPage.php">Login</a></li>
-			<li><a href="Logout.php">Logout</a></li>
-			<li><a href="SubmitCase.php">Submit a Case</a></li>
-			
-			<!--
-=======
-			<li><a href="index.php">Home Page</a></li>
-			<li><a href="Register.php">Register</a></li>
-			<li><a href="LoginPage.php">Login</a></li>
-			<li><a href="Logout.php">Lougout</a></li>
-			<li><a href="contact.php">Contact Us</a></li>
->>>>>>> ac3072db73b496b2e4cccd03501441faf0b1e589 -->
-		</ul>
-	</div>
-	<div id="content"><!-- Start of the page-specific content. -->
+<link rel='stylesheet' href='styles/jci.css'>
+<link href='https://fonts.googleapis.com/css?family=Noto+Sans' rel='stylesheet' type='text/css'>
+</head>
+	<body>
+		<div class='header'>
+					<div class='container'>
+						<div class='logo'>
+							<img src='styles/images/icon_logo_opt.png' alt='Logo' class='icon'>
+							
+							
+		<?php
+			session_start();
+			// Cite Anas http://stackoverflow.com/questions/10855972/determine-if-session-superglobal-exists-in-php
+			if(!isset($_SESSION['FName'])) {
+				echo "
+									<div class='login'>
+										<a href='Login.php' class='login'>LOGIN</a>
+										<a href='Register.php' class='login'>REGISTER</a>
+									</div>
+								</div>
+								<br>
+								<div class='mainmenu'>
+									<a href='Index.php' class='button2'>Home</a>
+									<a href='ViewJournalPDF.php' class='button2'>Published Journals</a>
+									<a href='Search.php' class='button2'>Search</a>
+									<a href='AboutUs.php' class='button2'>About Us</a>
+									<a href='ContactUs.php' class='button2'>Contact Us</a>
+								</div>
+							</div>
+						</div>
+					";
+			}
+			else if(!isset($_SESSION['Type'])) {
+				echo "
+								<div class='login'>
+									Hello, {$_SESSION['FName']}!
+									<a href='Logout.php' class='button4'>LOGOUT</a>
+								</div>
+							</div>
+							<br>
+							<div class='mainmenu'>
+								<a href='Index.php' class='button2'>Home</a>
+								<a href='ViewJournalPDF.php' class='button2'>Published Journals</a>
+								<a href='Search.php' class='button2'>Search</a>
+								<a href='AboutUs.php' class='button2'>About Us</a>
+								<a href='ContactUs.php' class='button2'>Contact Us</a>
+							</div>
+						</div>
+					</div>
+				";
+			}
+					
+			else {
+				if ($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
+					echo "
+									<div class='login'>
+										Hello, {$_SESSION['FName']}!
+										<a href='Logout.php' class='button4'>LOGOUT</a>
+									</div>
+								</div>
+								<br>
+								<div class='mainmenu'>
+									<a href='Index.php' class='button2'>Home</a>
+									<a href='ViewJournalPDF.php' class='button2'>Published Journals</a>
+									<a href='Search.php' class='button2'>Search</a>
+									<a href='AboutUs.php' class='button2'>About Us</a>
+									<a href='ContactUs.php' class='button2'>Contact Us</a>
+									<a href='SubmitCase.php' class='button2'>Submit a Case</a>
+									<br>
+									<br>
+									<a href='BrowseCriticalIncidents.php' class = 'button4'>Browse</a>
+									<a href='ManageAnnouncements.php' class = 'button4'>Manage Announcements</a>
+									<a href='CriticalIncidents.php' class = 'button4'>Manage Reviewers</a>
+								</div>
+							</div>
+						</div>
+					";
+				}
+				else if ($_SESSION['Type'] == 'Author' || $_SESSION['Type'] == 'author') {
+					echo "
+									<div class='login'>
+										Hello, {$_SESSION['FName']}!
+										<a href='Logout.php' class='button4'>LOGOUT</a>
+									</div>
+								</div>
+								<br>
+								<div class='mainmenu'>
+									<a href='Index.php' class='button2'>Home</a>
+									<a href='ViewJournalPDF.php' class='button2'>Published Journals</a>
+									<a href='Search.php' class='button2'>Search</a>
+									<a href='AboutUs.php' class='button2'>About Us</a>
+									<a href='ContactUs.php' class='button2'>Contact Us</a>
+									<a href='SubmitCase.php' class='button2'>Submit a Case</a>
+								</div>
+							</div>
+						</div>
+					";
+				}
+			}
+			session_write_close();
+		?>
+		<div id='content'><!-- Start of the page-specific content. -->
+			<div class = 'container'>
