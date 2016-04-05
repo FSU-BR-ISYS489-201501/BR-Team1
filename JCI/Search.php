@@ -132,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			$searchHeader = "<th>Last Name</th><th>First Name</th><th>Email</th><th>Title</th>";
 			//"Last Name - First Name - Email - Title";
 			
-		} elseif ($field == "PubYear" || $field == "Title" || $field == "Keywords"){
+		} elseif ($field == "PubYear" || $field == "Title" || $field == "Keyword"){
 			$run = mysqli_query($dbc, $query);
 	  		$headerCounter = mysqli_num_fields($run);
 	  		$idSelectRun = mysqli_query($dbc, $idSelectQuery);
