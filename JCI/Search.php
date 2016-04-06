@@ -21,6 +21,7 @@ $searchHeader = "";
 $tableStart= "<table><tbody>";
 $tableEnd= "</table></tbody>";
 $fieldVar = "First Name";
+$resultsVar = "";
 //$emptyResults= "";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
@@ -130,6 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			$headerCounter = mysqli_num_fields($run);
 			$tableBody = tableRowGenerator($run, $headerCounter);
 			$searchHeader = "<th>Last Name</th><th>First Name</th><th>Email</th><th>Title</th>";
+			$resultsVar = "No Search Results!";
 			//"Last Name - First Name - Email - Title";
 			
 		} elseif ($field == "PubYear" || $field == "Title" || $field == "Keyword"){
@@ -138,10 +140,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	  		$idSelectRun = mysqli_query($dbc, $idSelectQuery);
 	  		$pageNames = array('PdfViewerSummary.php', 'PdfViewerCI.php');
 			$titles = array('View Summary', 'View Critical Incidents');
-			$variableName = array('JournalId', 'JournalId');
+			$variableName = array('CriticalIncidentId', 'CriticalIncidentId');
 			$editButton = tableRowLinkGenerator($idSelectRun, $pageNames, $variableName, $titles);
 			$tableBody = tableRowGeneratorWithButtons($run, $editButton, 2, $headerCounter);
 			$searchHeader = "<th>Title</th><th>Category</th><th>Year Published</th>";
+			$resultsVar = "No Search Results!";
 			 
 		} else { echo "if this prints, display results is bugged"; }
 		
@@ -176,19 +179,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		<p><input type="submit" value="Search" /></p>
 	</fieldset>
 </form> 
-<h1>Search Results</h1>
-<fieldset>
 	<?php 
 		IF (!empty($tableBody)){
+			echo '<h1>Search Results</h1><fieldset>';
 			echo $tableStart;
 			echo $searchHeader;
 			echo $tableBody;
 			echo $tableEnd;
+			echo '</fieldset>';
 		} else {
-			echo "No Search Results!";
+			echo '<h1>Search Results</h1><fieldset>';
+			echo $resultsVar;
+			echo '</fieldset>';
 		}
 	?>
-</fieldset>
+
 
 <?php
 include ("includes/Footer.php");
