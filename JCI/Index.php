@@ -93,7 +93,7 @@ I would like to personally thank the authors for their contribution of many high
 I especially want to thank our Associate Editor, Tim Redmer. He worked very hard again this year assisting authors and reviewers all summer. He excels at writing, reviewing, AND editing case studies. I continue to enjoy working with him and he is an important asset to <i>JCI</i>. 
 </p>
 <p>
-I wish to thank my intern, Brady Stockwell. An English student minoring Integrated Marketing Communications at Ferris State University, he has helped with the final editing of all the Cis and did much of the formatting for this volume. He has worked very hard to make this volume as perfect as humanly possible. 
+I wish to thank my intern, Brady Stockwell. An English student minoring Integrated Marketing Communications at Ferris State University, he has helped with the final editing of all the CIs and did much of the formatting for this volume. He has worked very hard to make this volume as perfect as humanly possible. 
 </p>
 <p>
 We hope that you will continue to support our ongoing efforts at continuous improvement. Several of the SCR Editors and Board members are re-evaluating the current SCR publication guidelines. You can expect that a number of changes will be proposed and implemented for volume 8 of JCI (e.g. the use of Learning Outcomes rather than Learning Objectives). If you have any suggestions for improvements to the guidelines, please let me know.
