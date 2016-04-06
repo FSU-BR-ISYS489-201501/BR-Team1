@@ -416,7 +416,7 @@
 		<h4>Author(s):</h4>
 			<?php echo $authors ?>
 			<a href='SubmitCase.php?nameCount=
-			<?php echo $nameCount + 1 ?>&keyWordCount=<?php echo $keyWordCount ?>&fileCount=<?php echo $fileCount ?>' class = 'button5'>Add Author</a>
+			<?php echo $nameCount + 1 ?>&keyWordCount=<?php echo $keyWordCount ?>&fileCount=<?php echo $fileCount ?>' class = 'button4'>Add Author</a>
 		</table>
 		<br>
 		<br>
@@ -425,7 +425,7 @@
 			<?php echo $keyWords ?>
 			<a href='SubmitCase.php?nameCount=
 			<?php echo $nameCount ?>&keyWordCount=<?php if ($keyWordCount < 5) {echo $keyWordCount + 1;} else {echo $keyWordCount;}?>&fileCount=
-			<?php echo $fileCount ?>' class = 'button5'>Key Word</a>
+			<?php echo $fileCount ?>' class = 'button4'>Key Word</a>
 		<br>
 		<br>
 		<br>
@@ -441,7 +441,7 @@
 		<br>
 		<br>
 		<a href='SubmitCase.php?nameCount=<?php echo $nameCount ?>&keyWordCount=<?php echo $keyWordCount ?>&fileCount=
-			<?php if ($fileCount < 6) {echo $fileCount + 1;} else {echo $fileCount;}?>' class = 'button5'>Add a File</a> 
+			<?php if ($fileCount < 6) {echo $fileCount + 1;} else {echo $fileCount;}?>' class = 'button4'>Add a File</a> 
 		<br>
 		<br>
 		<input name="submitCase" type="submit" value="Submit" name="uploadedFile" />
