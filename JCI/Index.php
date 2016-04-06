@@ -58,23 +58,23 @@
   <ul class=panes>
 
     <li>
-      <img src="styles/images/Sample.JPG" alt="">
+      <img src="styles/images/Sample.jpg" alt="">
     </li>
 
     <li>
-      <img src="styles/images/Sample.JPG" alt="">
+      <img src="styles/images/Sample.jpg" alt="">
     </li>
 
     <li>
-      <img src="styles/images/Sample.JPG" alt="">
+      <img src="styles/images/Sample.jpg" alt="">
     </li>
 
     <li>
-      <img src="styles/images/Sample.JPG" alt="">
+      <img src="styles/images/Sample.jpg" alt="">
     </li>
 
     <li>
-      <img src="styles/images/Sample.JPG" alt="">
+      <img src="styles/images/Sample.jpg" alt="">
     </li>
 
   </ul>
