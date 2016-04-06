@@ -53,33 +53,35 @@
 	Grabbed from link below
 	http://csswizardry.com/2011/10/fully-fluid-responsive-css-carousel/
 -->	
+<center>
 <div class=carousel>
 
   <ul class=panes>
 
     <li>
-      <img src="styles/images/Sample.jpg" alt="">
+      <img src="styles/images/DSCN3333.JPG" alt="" style="width:60%;height:60%;">
     </li>
 
     <li>
-      <img src="styles/images/Sample.jpg" alt="">
+      <img src="styles/images/DSCN0029.JPG" alt="" style="width:60%;height:60%;">
     </li>
 
     <li>
-      <img src="styles/images/Sample.jpg" alt="">
+      <img src="styles/images/DSCN0179.JPG" alt="" style="width:60%;height:60%;">
     </li>
 
     <li>
-      <img src="styles/images/Sample.jpg" alt="">
+      <img src="styles/images/Volume7WelcomeMessage.PNG" alt="" style="width:40%;height:40%;">
     </li>
 
     <li>
-      <img src="styles/images/Sample.jpg" alt="">
+      <img src="../uploads/AfterHoursSummary.pdf" alt="" style="width:60%;height:60%;">
     </li>
 
   </ul>
 
 </div>
+</center>
 
 <p>
 <b>WELCOME</b> to Volume 7 of the <i>Journal of Critical Incidents</i>! We have made it to our fourth year as editor. With 40 critical incidents this year, Volume 7 is the largest <i>JCI</i> ever. How long can we continue this growth trajectory? Who knows? We want to grow bigger AND better every year. We hope that you find that we have continued to maintain the high standards that you have come to expect from every <i>Society of Case Research</i>  publications.
