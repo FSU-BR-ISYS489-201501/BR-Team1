@@ -16,7 +16,7 @@
   require ('../DbConnector.php');
   $file = '';
   $selectId = $_GET['JournalId'];
-  $query = "SELECT FileLocation FROM files  WHERE '$selectId' AND FileType = 'PDF';";
+  $query = "SELECT FileLocation FROM files  WHERE JournalId = '$selectId' AND FileType = 'PDF';";
   $run = mysqli_query($dbc, $query);
   if ($row = mysqli_fetch_array($run, MYSQLI_NUM)) {
 	  $file = $row[0];
