@@ -11,17 +11,23 @@
   * 
   * Revision 1.1: 04/05/2016 authors: Mark Bowman
   * I made it functional on the live site. 
+   * 
+  * Revision 1.2: 04/06/2016 authors: Mark Bowman
+  * I made the PDF file download with the correct name and file extension.
   *********************************************************************************************/
   $page_title = 'PDF';
   require ('../DbConnector.php');
   $file = '';
   $selectID = $_GET['CriticalIncidentId'];
-  $query = "SELECT FileLocation FROM files  WHERE CriticalIncidentId = '$selectID' AND files.FileType='CI';";
+  $query = "SELECT FileLocation, FileDes FROM files  WHERE CriticalIncidentId = '$selectID' AND files.FileType='CI';";
   $run = mysqli_query($dbc, $query);
   if ($row = mysqli_fetch_array($run, MYSQLI_NUM)) {
 	  $file = $row[0];
+	  $fileName = $row[1];
 	  header('Content-type: application/pdf');
-	  header('Content-Disposition: inline');
+	  // Mark Bowman: I used a reply on Stackoverflow made by Fred -ii- for the synax of this
+	  // line of code. Retrieved from http://stackoverflow.com/questions/18040386/how-to-display-pdf-in-php.
+	  header("Content-Disposition: inline; filename=$fileName");
 	  header('Content-Transfer-Encoding: binary');
 	  header('Accept-Ranges: bytes');
   }
