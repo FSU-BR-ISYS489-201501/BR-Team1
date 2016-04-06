@@ -14,7 +14,7 @@ require ('../DbConnector.php');
  ?>
  <h1>Contact Us</h1>
  <fieldset>
-	<form name="contactform" method="post" action="sendFormEmail.php">
+	<form name="contactform" method="post" action="SendFormEmail.php">
 		<p>* First Name:
 		<input  type="text" name="first_name" maxlength="50" size="30"></p>
 		<p>* Last Name:
