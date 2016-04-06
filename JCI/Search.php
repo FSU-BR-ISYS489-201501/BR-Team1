@@ -11,6 +11,9 @@
   *  
   * Revision1.1: 03/22/2016 Author: Shane Workman 
   * Combined Ben's search page with mine. Updated the diplay. 
+  * 
+  * Revision1.2: 04/06/2016 Author: Mark Bowman
+  * I changed the queries to only return Critical Incidents that have been approved to publish.
   *********************************************************************************************/
 $page_title = 'Search';
 include ("includes/Header.php");
@@ -89,38 +92,43 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 									WHERE users.Email = '$criteria';";
 									
 			} elseif($field == "Title")	{
+				// Mark Bowman: I changed the queries to only return Critical Incidents that have been approved to publish.
 				$query = "SELECT criticalincidents.Title, criticalincidents.Category, journalofcriticalincidents.PublicationYear 
 									FROM criticalincidents  INNER JOIN journalofcriticalincidents 
 									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId
-									WHERE criticalincidents.Title = '$criteria';";
+									WHERE criticalincidents.Title = '$criteria' AND criticalincidents.ApprovedPublish = 1;";
 									
-				$idSelectQuery = "SELECT CriticalIncidentId FROM criticalincidents WHERE Title = '$criteria';";
+				$idSelectQuery = "SELECT CriticalIncidentId FROM criticalincidents INNER JOIN journalofcriticalincidents 
+									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId
+									WHERE criticalincidents.Title = '$criteria' AND criticalincidents.ApprovedPublish = 1;";
 				
 			} elseif ($field == "PubYear") {
+				// Mark Bowman: I changed the queries to only return Critical Incidents that have been approved to publish.
 				$query = "Select  criticalincidents.Title, criticalincidents.Category, journalofcriticalincidents.PublicationYear
 									FROM criticalincidents INNER JOIN journalofcriticalincidents
 									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId
-									WHERE journalofcriticalincidents.PublicationYear = '$criteria'; ";
+									WHERE journalofcriticalincidents.PublicationYear = '$criteria' AND criticalincidents.ApprovedPublish = 1; ";
 									
 				$idSelectQuery = "SELECT criticalincidents.CriticalIncidentId 
 									FROM criticalincidents INNER JOIN journalofcriticalincidents
 									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId
-									WHERE journalofcriticalincidents.PublicationYear = '$criteria'; ";
+									WHERE journalofcriticalincidents.PublicationYear = '$criteria' AND criticalincidents.ApprovedPublish = 1; ";
 									
 			} elseif ($field == "Keyword") {
+				// Mark Bowman: I changed the queries to only return Critical Incidents that have been approved to publish.
 				$query = "Select criticalincidents.Title, criticalincidents.Category, journalofcriticalincidents.PublicationYear 
 									FROM criticalincidents LEFT JOIN keywords 
 									ON keywords.CriticalIncidentId = criticalincidents.CriticalIncidentId 
 									INNER JOIN journalofcriticalincidents 
 									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId 
-									WHERE CIKeyword = '$criteria';";
+									WHERE CIKeyword = '$criteria' AND criticalincidents.ApprovedPublish = 1;";
 									
 				$idSelectQuery = "Select criticalincidents.CriticalIncidentId
 									FROM criticalincidents LEFT JOIN keywords 
 									ON keywords.CriticalIncidentId = criticalincidents.CriticalIncidentId 
 									INNER JOIN journalofcriticalincidents 
 									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId 
-									WHERE CIKeyword = '$criteria';";
+									WHERE CIKeyword = '$criteria' AND criticalincidents.ApprovedPublish = 1;";
 									
 			} else {
 				echo "If this prints, Selecting which SQL statement is used is bugged!";

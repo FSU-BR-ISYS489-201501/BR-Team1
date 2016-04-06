@@ -8,14 +8,18 @@
   * Purpose: The purpose of this page is to allow people to send an email to the editor.
   * Credit: My own code, with inspiration and use of others functions within the project.
   * http://php.net/ was a resource.
+  * 
+  * Revision1.1: 04/06/2016 Author: Mark Bowman
+  * I changed the query to only show journal volumes that are not in development.
   *********************************************************************************************/
   $page_title = 'Journals';
   require ('../DbConnector.php');
   include ("includes/Header.php");
   include ("includes/TableRowHelper.php");
   //Diplay the journals in the Database.
-  $query = "Select JournalVolume, PublicationYear FROM journalofcriticalincidents ORDER BY JournalID;";
-  $idSelectQuery = "SELECT JournalID FROM journalofcriticalincidents ORDER BY JournalID;";
+  //Mark Bowman: Ichanged the query to only show journal volumes that are not in development.
+  $query = "Select JournalVolume, PublicationYear FROM journalofcriticalincidents WHERE InDevelopement = 0 ORDER BY JournalID;";
+  $idSelectQuery = "SELECT JournalID FROM journalofcriticalincidents WHERE InDevelopement = 0 ORDER BY JournalID;";
   $run = mysqli_query($dbc, $query);
   $idSelectRun = mysqli_query($dbc, $idSelectQuery);
   $headerCounter = mysqli_num_fields($run);
