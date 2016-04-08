@@ -11,10 +11,12 @@
   * www.php.net 
   * HTMLBook.pdf from ISYS 288 class
   * used Larry Uldman's PHP book
-  * http://stackoverflow.com and William.
+  * http://stackoverflow.com
   * www.php.net
   * Revision 1.1: 03/22/2016 authors: Faisal Alfadhli 
   * Edited database queries and some changes 
+  *  Revision 1.2: 04/07/2016 authors: Faisal Alfadhli 
+ *  Added a parameter 
   ********************************************************************************************/
 
 	include('includes/Header.php');
@@ -23,15 +25,15 @@
 	
 	// this block is to pull the users info from the db 
 	$reviewerQuery = "SELECT users.UserId, users.FName, users.LName FROM users INNER JOIN usertypes ON users.UserId=usertypes.UserId INNER JOIN reviewers
-		ON users.UserId=reviewers.UserId WHERE usertypes.Type='Reviewer' AND reviewers.Active='1';";
-	$reviewerIdQuery = "SELECT reviewers.ReviewerId FROM reviewers INNER JOIN users ON reviewers.UserId=users.UserId WHERE reviewers.Active='1';";
+		ON users.UserId=reviewers.UserId WHERE usertypes.Type='Reviewer';";
+	$reviewerIdQuery = "SELECT reviewers.ReviewerId FROM reviewers INNER JOIN users ON reviewers.UserId=users.UserId;";
 	
 	// Written by Shane Workman.
 	$selectQuery = @mysqli_query($dbc, $reviewerQuery);
 	$idSelectQuery = @mysqli_query($dbc, $reviewerIdQuery);
-	
 	$headerCounter = mysqli_num_fields($selectQuery);
-	$checkBox = tableRowCheckboxGenerator($selectQuery, $idSelectQuery);
+	//MODIFIED tableRowCheckboxGenerator FUNCTION TO ACCEPT INPUT TYPE AND SET IT AS checkBox.
+	$checkBox = tableRowCheckboxGenerator("checkbox", $selectQuery, $idSelectQuery);
 	// it will add one check box in every row 
 	// it was inspired by William
 	$checkBoxCounter = count($checkBox)/count($checkBox);
