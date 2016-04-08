@@ -9,6 +9,7 @@
  * Critical Incidents with buttons that will allow the assgin, remove reviewers 
  * Credit: I used code written by Shane to make database queries.
  * 
+ * 
  ********************************************************************************************/
 	include('includes/Header.php');
 	include('includes/TableRowHelper.php');
@@ -27,8 +28,14 @@
 	$assignButton = tableRowEditGenerator($idSelectQuery, $pageNames, $titles);
 	// it will add two links in every row 
 	$rowCount = mysqli_num_rows($idSelectQuery);
-	$buttonCounter = count($assignButton)/$rowCount;
-	$tableBody = tableRowGeneratorWithButtons($selectQuery, $assignButton, $buttonCounter, $headerCounter);
+	// inspired by William.
+	if ($rowCount > 0) {
+		$buttonCounter = count($assignButton)/$rowCount;
+		// called this function from table row helper.
+		$tableBody = tableRowGeneratorWithButtons($selectQuery, $assignButton, $buttonCounter, $headerCounter);
+	} else {
+		$tableBody = "<tr><td>No results available to display.</td></tr>";
+	}
 ?>
 	<h1>Critical Incidents - Assign Reviewers</h1>
 	<div id = 'announcementViewer'>
