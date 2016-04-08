@@ -46,18 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
  	$err = array(); 
 
 //collect
-/**
-if(isset($_POST['search'])) {
-	if ($search == "ApprovedPublish") {
-		$query = mysql_query("SELECT* from criticalincidents 
-			LEFT JOIN (files) ON (CriticalIncidentId.ci=CriticalIncidentId.f) WHERE ApprovedPublish = $criteria ORDER BY CriticalIncidentId;") or die("could not access critical incidents.");
-	} elseif ($search == "ApprovedReview") {
-		$query = mysql_query("SELECT* from criticalincidents 
-			LEFT JOIN (files) ON (CriticalIncidentId.ci=CriticalIncidentId.f) WHERE ApprovedReview = $criteria ORDER BY CriticalIncidentId;") or die("could not access critical incidents.");
-	}**/
-// Collect
-//($_SERVER['REQUEST_METHOD'] == 'POST') 
-//{
+
 	$criticalIncidentQuery = "SELECT Title, ReviewerId, Category, Editor, ApprovedReview, ApprovedPublish FROM criticalincidents 
 			LEFT JOIN (files) ON (criticalincidents.CriticalIncidentId=files.CriticalIncidentId) ORDER BY 			criticalincidents.CriticalIncidentId;";
 	$criticalIncidentIdQuery = "SELECT CriticalIncidentId FROM criticalincidents;";
