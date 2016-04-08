@@ -26,8 +26,8 @@
  * Variable: $email - uses the email that was grabbed in the email field
  * Variable: $pass - uses the password that was grabbed in the password field
  *
- * Revision1.1: MM/DD/YYYY Author: Name Here 
- * Description of change. Also add //Name: comments above your change within the code.
+ * Revision1.1: 04/07/2016 Author: Donald Dean
+ * Added password hash and salt encryption
  ********************************************************************************************/
 
 function redirect_user ($page = 'Index.php') {
@@ -68,12 +68,13 @@ function checkLoginFields($dbc, $email = '', $pass = '') {
 	}
 
 	if (empty($errors)) { // If everything's OK.
+	// Donald Dean: Password decrytpion. Inspired by https://www.youtube.com/watch?v=LvNCFffK-y0:
 		$salt = "5v4tws27NONtZjBA7Zhn";
-		$password = $p.$salt;
-		$password = sha1($password);
+		$pass = $p.$salt;
+		$pass = sha1($pass);
 
 		// Retrieve the user_id and first_name for that email/password combination:
-		$q = "SELECT users.UserId, users.FName, users.LName, usertypes.Type, users.Email FROM users LEFT JOIN (usertypes) ON (users.UserId=usertypes.UserId) WHERE users.Email='$e' AND users.PasswordHash='$password';";		
+		$q = "SELECT users.UserId, users.FName, users.LName, usertypes.Type, users.Email FROM users LEFT JOIN (usertypes) ON (users.UserId=usertypes.UserId) WHERE users.Email='$e' AND users.PasswordHash='$pass';";		
 		$r = @mysqli_query ($dbc, $q); // Run the query.
 		
 		// Check the result:

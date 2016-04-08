@@ -30,6 +30,9 @@
   * 
   * Revision1.6: 04/05/2016 Author: Mark Bowman
   * Added code to insert the Author usertype into the usertypes table.
+  * 
+  * Revision1.7: 04/07/2016 Author: Donald Dean
+  * Added password encryption.
   ********************************************************************************************/
  $page_title = 'Register';
  include ("includes/Header.php");
@@ -125,12 +128,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 	//Check if the array is empty, no ERRORS?
 	If(empty($err)) {
+		// Donald Dean: I borrowed this idea from sourcewareinfo. Credit https://www.youtube.com/watch?v=LvNCFffK-y0.
 		$salt = "5v4tws27NONtZjBA7Zhn";
-		$password = $_POST['pass1'].$salt;
-		$password = sha1($password);
+		$pass = $_POST['pass1'].$salt;
+		$pass = sha1($pass);
 		//Creat the query that dumps info into the DB.
 		$query = "INSERT INTO users (Prefix, FName, LName, Suffix, Email, Employer, Title, MemberCode, Regdate, PasswordHash, PasswordSalt)
-				VALUES ('$prefix', '$fName', '$lName', '$suffix', '$email', '$university', '$title', '$member', NOW(), '$password', '$password');";
+				VALUES ('$prefix', '$fName', '$lName', '$suffix', '$email', '$university', '$title', '$member', NOW(), '$pass', '$pass');";
 				
 		//Run the query...
 		$run = @mysqli_query($dbc, $query);
