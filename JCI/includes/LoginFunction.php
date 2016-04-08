@@ -68,9 +68,12 @@ function checkLoginFields($dbc, $email = '', $pass = '') {
 	}
 
 	if (empty($errors)) { // If everything's OK.
+		$salt = "5v4tws27NONtZjBA7Zhn";
+		$password = $p.$salt;
+		$password = sha1($password);
 
 		// Retrieve the user_id and first_name for that email/password combination:
-		$q = "SELECT users.UserId, users.FName, users.LName, usertypes.Type, users.Email FROM users LEFT JOIN (usertypes) ON (users.UserId=usertypes.UserId) WHERE users.Email='$e' AND users.PasswordHash='$p';";		
+		$q = "SELECT users.UserId, users.FName, users.LName, usertypes.Type, users.Email FROM users LEFT JOIN (usertypes) ON (users.UserId=usertypes.UserId) WHERE users.Email='$e' AND users.PasswordHash='$password';";		
 		$r = @mysqli_query ($dbc, $q); // Run the query.
 		
 		// Check the result:

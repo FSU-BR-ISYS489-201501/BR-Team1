@@ -125,9 +125,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 	//Check if the array is empty, no ERRORS?
 	If(empty($err)) {
+		$salt = "5v4tws27NONtZjBA7Zhn";
+		$password = $_POST['pass1'].$salt;
+		$password = sha1($password);
 		//Creat the query that dumps info into the DB.
 		$query = "INSERT INTO users (Prefix, FName, LName, Suffix, Email, Employer, Title, MemberCode, Regdate, PasswordHash, PasswordSalt)
-				VALUES ('$prefix', '$fName', '$lName', '$suffix', '$email', '$university', '$title', '$member', NOW(), '$pass', '$pass');";
+				VALUES ('$prefix', '$fName', '$lName', '$suffix', '$email', '$university', '$title', '$member', NOW(), '$password', '$password');";
 				
 		//Run the query...
 		$run = @mysqli_query($dbc, $query);
