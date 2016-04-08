@@ -187,21 +187,22 @@
 			return $tableBody;
 		}
 		
-		// the idea from Mark's code 
+	// the idea from Mark's code 
 		// makes check box in every row 
-		function tableRowCheckboxGenerator($selectQuery, $idSelectQuery) {
-			$checkBox = array();
+		// Edited this Function to accept any iput type as a parameter. inpspired by William.
+		function tableRowCheckboxGenerator($checkORradio, $selectQuery, $idSelectQuery) {
+			$inputType = array();
 			while ($ids = mysqli_fetch_array($idSelectQuery, MYSQLI_NUM)) {
 				echo "<tr>";
 				for($a = 0;$a < count($ids);$a++) {
 					// The idea for this code was inspired by xdazz.
-					$chkBox = "<td><input type='checkbox' name='checkList[]' value='$ids[$a]'></td>";
+					$chkRdioButtonBox = "<td><input type='" . $checkORradio . "' name='checkList[]' value='$ids[$a]'></td>";
 					// The idea for this code was inspired by Bart S.
-					array_push($checkBox, $chkBox);
+					array_push($inputType, $chkRdioButtonBox);
 				}
 				echo "</tr>";
 			}
-			return $checkBox;
+			return $inputType;
 		}
 	
 		// the idea from Mark's code 
