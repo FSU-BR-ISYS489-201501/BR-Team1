@@ -5,22 +5,20 @@
   *
   * Page created for use in the JCI Project.
   * Project work is done as part of a Capstone class ISYS489: Ferris State University.
-  * Purpose: this page is used to let Editor be able to split CIs among editors (assign specific cases to specific Editors)
-  * Credits: www.W3schools.com
-  * Credits to William and http://stackoverflow.com/ 
+  * Purpose: this page is used to let Editor be able to split reviews among editors (assign specific cases to specific Editors)
+  *Credits: www.W3schools.com
   * www.php.net 
   * HTMLBook.pdf from ISYS 288 class
   * used Larry Uldman's PHP book
-  * Revision1.0: 03/11/2016 Author: Faisal Alfadhli: edited tables names
-  * Revision1.0: 30/30/2016 Author: Faisal Alfadhli: edited queris and make it functional.
+  *Revision1.0: 03/11/2016 Author: Faisal Alfadhli: edited tables names
+  *Revision1.1: 04/07/2016 Author: Faisal Alfadhli: add a parameter for radio button
   ********************************************************************************************/
 	include('includes/Header.php');
 	require ('../DbConnector.php');
 	include('includes/TableRowHelper.php');
 	
 	// this block is to pull the users info from the db 
-	$editorQuery = "SELECT users.UserId, users.FName, users.LName FROM users INNER JOIN usertypes ON users.UserId=usertypes.UserId INNER JOIN reviewers
-		ON users.UserId=reviewers.UserId WHERE usertypes.Type='Editor' OR usertypes.Type='editor';";
+	$editorQuery = "SELECT users.UserId, users.FName, users.LName FROM users INNER JOIN usertypes ON users.UserId=usertypes.UserId WHERE usertypes.Type='Editor' OR usertypes.Type='editor';";
 	$editorIdQuery = "SELECT users.UserId FROM users INNER JOIN usertypes ON usertypes.UserId=users.UserId WHERE usertypes.Type='Editor' OR usertypes.Type='editor';";
 	
 	// Written by Shane Workman.
@@ -28,7 +26,8 @@
 	$idSelectQuery = @mysqli_query($dbc, $editorIdQuery);
 	
 	$headerCounter = mysqli_num_fields($selectQuery);
-	$checkBox = tableRowCheckboxGenerator($selectQuery, $idSelectQuery);
+	//MODIFIED tableRowCheckboxGenerator FUNCTION TO ACCEPT INPUT TYPE AND SET IT AS RADIO SO ONLY ONE EDITOR CAN BE SELECTED AT A TIME
+	$checkBox = tableRowCheckboxGenerator("radio", $selectQuery, $idSelectQuery);
 	// it will add one check box in every row 
 	// it was inspired by William
 	$checkBoxCounter = count($checkBox)/count($checkBox);
