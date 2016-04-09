@@ -183,7 +183,7 @@
 						}
 					}
 					if (empty($err)) {
-						echo '<form action="LaunchNewestVolume.php" method = "POST"><input type="submit" value="Launch the Latest Volume"></form>';
+						echo '<form action="LaunchNewestVolume.php" method = "POST"><input type="submit"  class = "button5" value="Launch the Latest Volume"></form>';
 					}
 				}
 				else {
