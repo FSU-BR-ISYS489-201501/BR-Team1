@@ -42,10 +42,10 @@ $tableBody = '';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 
-	//Set up Error msg array.s
+	//Set up Error msg array
  	$err = array(); 
 
-//collect
+	// Collect data from table
 	$criticalIncidentQuery = "SELECT Title, ReviewerId, Category, Editor, ApprovedReview, ApprovedPublish 
 	FROM criticalincidents ORDER BY criticalincidents.CriticalIncidentId;";
 	$criticalIncidentIdQuery = "SELECT CriticalIncidentId FROM criticalincidents;";
@@ -54,84 +54,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	$selectQuery = @mysqli_query($dbc, $criticalIncidentQuery);
 	$idSelectQuery = @mysqli_query($dbc, $criticalIncidentIdQuery);	
 	
-	// $count = mysqli_num_rows($selectQuery);
-			// if ($count == 0) {
-				// $output = 'There were no search results!';
-			// }else{
-				// while ($row = mysqli_fetch_row($selectQuery)) {
-					// $CriticalIncidentId = $row['CriticalIncidentId'];
-					// $Title = $row['Title'];
-					// $ReviewerId = $row['ReviewerId'];
-					// $MemoLocation = $row['MemoLocation'];
-					// $CoverPageLocation = $row['CoverPageLocation'];
-					// $LetterToEditorLocation = $row['LetterToEditorLocation'];
-					// $Category = $row['Category'];
-					// $Active = $row['Active'];
-					// $ApprovedReview = $row['ApprovedReview'];
-					// $ApprovedPublish = $row['ApprovedPublish'];
-// 					
-				// $output .= '<div>'
-							// .$Title.
-							// ''
-							// .$ReviewerId.
-							// ''
-							// .$MemoLocation.
-							// ''
-							// .$CoverPageLocation.
-							// ''
-							// .$LetterToEditorLocation.
-							// ''
-							// .$Category.
-							// ''
-							// .$Active.
-							// ''
-							// .$ApprovedReview.
-							// ''
-							// .$ApprovedPublish.
-							// '<div>';
-				// }	
-				// }
-				
+	// Push CI Id to FileMgmt			
 	$pageNames = array('FileManagement.php');
 	$variableNames = array('CriticalIncidentId');
 	$titles = array('View');
 	
-	// for($a = 0; $a < count($editButton); $a++) {
-			// echo $editButton[$a];
-			// }
-	
+	//Edit button creates view link in table for each CI Id
 	$headerCounter = mysqli_num_fields($selectQuery);
 	$editButton = tableRowLinkGenerator($idSelectQuery, $pageNames, $variableNames, $titles);
 	$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 1, $headerCounter);
-//}
 ?>		
 
 <h1>Critical Incidents</h1>
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
-	<fieldset>
-		<!--<p>Criteria:
-		<select name="search">
-			<option <?php if(isset($_POST['search'])=="ApprovedPublish") echo'selected="selected"'; ?>    value="ApprovedPublish">ApprovedPublish</option>
-			<option <?php if(isset($_POST['search'])=="ApprovedReview") echo'selected="selected"'; ?>    value="ApprovedReview">ApprovedReview</option>
-			temp unused. Will add more search on data as presented.
-			<option <?php if(isset($_POST['search'])=="Journals Reviewed") echo'selected="selected"'; ?>    value="Journals Reviewed">Journals Reviewed</option>
-			<option <?php if(isset($_POST['search'])=="Journals Reviewed") echo'selected="selected"'; ?>    value="Journals Reviewed">Journals Reviewed</option>
-			<option <?php if(isset($_POST['search'])=="Journals Reviewed") echo'selected="selected"'; ?>    value="Journals Reviewed">Journals Reviewed</option>
-			<option <?php if(isset($_POST['search'])=="Journals Reviewed") echo'selected="selected"'; ?>    value="Journals Reviewed">Journals Reviewed</option>
-			<option <?php if(isset($_POST['search'])=="Journals Reviewed") echo'selected="selected"'; ?>    value="Journals Reviewed">Journals Reviewed</option>
-
-		</select></p>
-		<p><input type="submit" value="search" /></p>
-		<p>On the criteria of:
-		<select name="field">
-			<option <?php if(isset($_POST['field'])=="First Name") echo'selected="selected"'; ?>    value="First Name">First Name</option>
-			<option <?php if(isset($_POST['field'])=="Last Name") echo'selected="selected"'; ?>    value="Last Name">Last Name</option>
-			<option <?php if(isset($_POST['field'])=="Email") echo'selected="selected"'; ?>    value="Email">Email</option>
-		</select>
-		<input type="text" name="criteria" size="15" maxlength="50" value="<?php if (isset($_POST['criteria'])) echo $_POST['criteria']; ?>" /></p>
-		<p><input type="submit" value="Search" /></p>-->
-	</fieldset>
-</form> 
 <fieldset>
 	<table>
 		<thead>
@@ -147,8 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		<tbody>
 			<?php 
 			echo $tableBody;
-			?>
-			
+			?>	
 		</tbody>
 	</table>
 </fieldset>
