@@ -46,9 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
  	$err = array(); 
 
 //collect
-
-	$criticalIncidentQuery = "SELECT Title, ReviewerId, Category, Editor, ApprovedReview, ApprovedPublish FROM criticalincidents 
-			LEFT JOIN (files) ON (criticalincidents.CriticalIncidentId=files.CriticalIncidentId) ORDER BY 			criticalincidents.CriticalIncidentId;";
+	$criticalIncidentQuery = "SELECT Title, ReviewerId, Category, Editor, ApprovedReview, ApprovedPublish 
+	FROM criticalincidents ORDER BY criticalincidents.CriticalIncidentId;";
 	$criticalIncidentIdQuery = "SELECT CriticalIncidentId FROM criticalincidents;";
 	
 	// Written by Shane Workman.
@@ -93,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				// }	
 				// }
 				
-	$pageNames = array('ViewCriticalIncidents.php');
+	$pageNames = array('FileManagement.php');
 	$variableNames = array('CriticalIncidentId');
 	$titles = array('View');
 	
