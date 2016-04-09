@@ -9,7 +9,7 @@
  * users to view all active announcements and their content.
  * Credit: Give any attributation to code used within, not created by you.
  *
- * Revision1.1: MM/DD/YYYY Author: Name Here 
+ * Revision1.1: 04/09/2016 Author: Mark Bowman
  * Description of change. Also add //Name: comments above your change within the code.
  ********************************************************************************************/
  	$page_title = 'Announcements';
@@ -26,21 +26,25 @@
 	
 	$headerCounter = mysqli_num_fields($selectQuery);
 	$tableBody = tableRowGenerator($selectQuery, $headerCounter);
+	
+	// Mark Bowman: I added code to check if the body of the table contains any data before displaying the rest of the table.
+	// The idea for this code was inspired by Shane.
+	if (!empty($tableBody)) {
+		echo "
+			<br/>
+			<div id = 'fileViewer'>
+				<table>
+					<tr>
+						<th>FileId</th>
+						<th>CriticalIncidentId</th>
+						<th>FileDes</th>
+					</tr>
+					$tableBody
+				</table>
+			</div>
+		";
+	}
 ?>
-
-
-	<div id = 'announcementViewer'>
-		<table>
-			<tr>
-				<th>Announcement Number</th>
-				<th>Subject</th>
-				<th>Announcement</th>
-			</tr>
-			<?php echo $tableBody; ?>
-		</table>
-	</div>
-	
-	
 <?php
 	include('includes/Footer.php');
 ?>
