@@ -34,6 +34,9 @@
 	 * 
 	 * Revision 1.2: 02/15/2016 Author: Mark Bowman
 	 * Description of Change: Added database connection into parameters for downloadFile and uploadFile
+	 * 
+	 * Revision 1.3: 04/09/2016 Author: Mark Bowman
+	 * Description of Change: Revised SQL queries and changed the name of a file type.
 	 *******************************************************************************************************************/
 	//TODO fix this function
 	function checkIfFileExistsOnFileServer($filePath) {
@@ -55,19 +58,20 @@
 		$fileUplaodSuccessCounter = 0;
 		$numberOfFilesUploaded = count($_FILES["$htmlElement"]['tmp_name']);
 		$i = 0;
+		$insertFileLocationSqlQuery = '';
 		// This block is going through all of the uploaded files.
 		for($i; $i < $numberOfFilesUploaded; $i++) {
 			// This block contains variables for the browser's temporary name
 			// for the uploaded file and the location it is going to be saved to.
 			$tempUploadedFileName = $_FILES["$htmlElement"]['tmp_name'][$i];
 			$uploadedFileNameSaveLocation = $fileStorageLocation . "{$_FILES["$htmlElement"]['name']["$i"]}";
-			if ($types[$i] == 'Word' || $types[$i] == 'Summary' || $types[$i] == 'CriticalIncident') {
+			if ($types[$i] == 'Word' || $types[$i] == 'Summary' || $types[$i] == 'CI') {
 				$insertFileLocationSqlQuery = "INSERT INTO files (CriticalIncidentId, JournalId, FileLocation, FileType, FileDes)
 					VALUES ($ids[$i], $journalIds[$i], '$uploadedFileNameSaveLocation', '$types[$i]', '{$_FILES["$htmlElement"]['name']["$i"]}')";
 			}
 			else if ($types[$i] == 'Journal') {
-				$insertFileLocationSqlQuery = "INSERT INTO files (JournalId, FileLocation, FileDes)
-					VALUES ('$ids[$i]', $uploadedFileNameSaveLocation, '$types[$i]')";
+				$insertFileLocationSqlQuery = "INSERT INTO files (JournalId, FileLocation, FileType, FileDes)
+					VALUES ('$ids[$i]', $uploadedFileNameSaveLocation, '$types[$i], '{$_FILES["$htmlElement"]['name']["$i"]}')";
 			}
 			
 			// This block checks if a file has been submitted with the HTML form.
