@@ -84,23 +84,21 @@
 	}
 ?>
 	
-<fieldset>
 	<?php 
 		// Mark Bowman: I added code to check if the body of the table contains any data before displaying the rest of the table.
 		// The idea for this code was inspired by Shane.
 		if (!empty($tableBody)) {
+			echo '<fieldset>';
 			echo $tableStart;
 			echo $tableHeader;
 			echo $tableBody; 
 			echo $tableEnd;
+			echo '</fieldset>';
 		}
 		else {
 			echo 'There are no submitted Critical Incidents for the next volume of the JCI.';
 		}
 	?>
-</fieldset>
-
-
 
 <?php
 	include('includes/Footer.php');
