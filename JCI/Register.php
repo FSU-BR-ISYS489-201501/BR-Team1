@@ -92,11 +92,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			
 			$email = mysqli_real_escape_string($dbc, trim($_POST['email']));
 		}
-		$testQ = "SELECT Email FROM Users WHERE Email = '$email';";
+		$testQ = "SELECT Email, Password FROM Users WHERE Email = '$email';";
 		$result = mysqli_query($dbc, $testQ);
 		if (mysqli_num_rows($result)== true){
 			$err[] = 'This email is already registered!';
 		}
+		//access result set and check if a pass exists
+		//set a pass var
 	
  	//Check if university text box has a value or set it to null.
  	if (empty($_POST['university'])) {
@@ -204,9 +206,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		<p>Title: <input type="text" name="title" size="15" maxlength="50" value="<?php if (isset($_POST['title'])) echo $_POST['title']; ?>" /></p>
 		<p>Institution: <input type="text" name="university" size="20" maxlength="100" value="<?php if (isset($_POST['university'])) echo $_POST['university']; ?>" /></p>
 		<p>SCR Member ID: <input type="text" name="memberID" size="15" maxlength="50" value="<?php if (isset($_POST['memberID'])) echo $_POST['memberID']; ?>" /></p>
-		<p>* Password: <input type="password" name="pass1" size="15" maxlength="20" value="<?php if (isset($_POST['pass1'])) echo $_POST['pass1']; ?>"  /></p>
-		<p>* Confirm Password: <input type="password" name="pass2" size="15" maxlength="20" value="<?php if (isset($_POST['pass2'])) echo $_POST['pass2']; ?>"  /></p>
-		<p>* Required</p>
 		<p>Password Requirements:
 			<ul>
 				<li>At least 10 characters long.</li>
@@ -214,9 +213,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				<li>1 number.</li>
 				<li>1 capital letter.</li>
 				<li>1 lower case letter.</li>
-			</ul></p>
-		<p><input type="submit" value="Submit" class="button3"</p>
+			</ul>
+		</p>
+		<p>* Password: <input type="password" name="pass1" size="15" maxlength="20" value="<?php if (isset($_POST['pass1'])) echo $_POST['pass1']; ?>"  /></p>
+		<p>* Confirm Password: <input type="password" name="pass2" size="15" maxlength="20" value="<?php if (isset($_POST['pass2'])) echo $_POST['pass2']; ?>"  /></p>
+		<p>* Required</p>
 		
+		<p><input type="submit" value="Submit" class="button3"</p>
 	</fieldset>
 	<p>Please only Register if you intend on either submitting a Critical Incident, or being a reviewer for the editorial staff!
 		Thank you. ~ Staff</p>

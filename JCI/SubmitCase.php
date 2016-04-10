@@ -345,7 +345,7 @@
 									$userMsg = $userMsg . $_POST['authorFname'][$i] . ", ";
 								}							   
                             }
-							$userMsg = $userMsg . ".Thank you for your submission! You will be contacted shortly.";
+							$userMsg = $userMsg . ".Thank you for your submission! You will be emailed with a confirmation in 5 minutes.";
 							
 							// a message to be sent to editor
 							$editorMsg = "Authors: ";
