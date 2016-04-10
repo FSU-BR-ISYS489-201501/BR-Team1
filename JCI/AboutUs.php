@@ -49,7 +49,7 @@ Send us a message on our <a href="ContactUs.php" class="action">Contact Us</a> p
 </p>
 
 <h4 class="secondary">Meet the Editors</h4>
-<img src="styles/images/Editors.JPG" alt="Editors" style="width:70%;height:70%;">
+<img src="styles/images/Editors.JPG" alt="Editors" style="width:30%;height:30%;">
 <p>
 Dr. Timothy Redmer, Associate Editor (left) and Dr. Timothy Brotherton, Editor (right) pose above.
 </p>
