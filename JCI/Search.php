@@ -196,9 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			echo $tableEnd;
 			echo '</fieldset>';
 		} else {
-			echo '<h1>Search Results</h1><fieldset>';
 			echo $resultsVar;
-			echo '</fieldset>';
 		}
 	?>
 
