@@ -409,6 +409,9 @@
 	
 	<form method="post" enctype="multipart/form-data"  multiple = "multiple">
 		<fieldset>
+			Select the number of authors, keywords, and files before filling out the form.
+			<br>
+			<br>
 		<h4>Critical Incident Title:</h4>
 		Title: <input type="text" name="title" value="<?php if (isset($_POST['title'])) echo $_POST['title']; ?>">
 		<br>
