@@ -218,8 +218,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		<p>* Password: <input type="password" name="pass1" size="15" maxlength="20" value="<?php if (isset($_POST['pass1'])) echo $_POST['pass1']; ?>"  /></p>
 		<p>* Confirm Password: <input type="password" name="pass2" size="15" maxlength="20" value="<?php if (isset($_POST['pass2'])) echo $_POST['pass2']; ?>"  /></p>
 		<p>* Required</p>
+		<p>Password Requirements:
+			<ul>
+				<li>At least 10 characters long.</li>
+				<li>1 special character.</li>
+				<li>1 number.</li>
+				<li>1 capital letter.</li>
+				<li>1 lower case letter.</li>
+			</ul></p>
 		<p><input type="submit" value="Submit" class="button3"</p>
 	</fieldset>
+	<p>Please only Register if you intend on either submitting a Critical Incident, or being a reviewer for the editorial staff!
+		Thank you. ~ Staff</p>
 </form>
 
 <?php

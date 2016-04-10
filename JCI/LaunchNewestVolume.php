@@ -15,17 +15,10 @@
  * 
  * Credit: Give any attributation to code used within, not created by you.
  *
- * Function:  functionName($myVar, $varTwo)
- * Purpose: This is the description of what the function does.
- * Variable: $myVar - Description of variable.
- * Variable: $varTwo - Another description.
- *
- * Function:  functionNameTwo($anotherVar)
- * Purpose: This is the description of what the function does.
- * Variable: $anotherVar - Description of variable. 
- *
- * Revision1.1: MM/DD/YYYY Author: Name Here 
- * Description of change. Also add //Name: comments above your change within the code.
+ * Revision1.1: 04/09/2016 Author: Mark Bowman
+ * I altered the SQL query to allow for searching of the latest volume number. I also changed
+ * the logic to check file types instead of just any record in the files table. Finally, I 
+ * changed the output of the error messages slightly. It now includes an introductory sentence.
  ********************************************************************************************/
  
  	$page_title = 'Launch Latest Volume of JCI';
@@ -36,6 +29,7 @@
  	// Makes the latest volume go live
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$latest = 0;
+		$currentDate = date("Y");
 		$nextVolumeQuery = 	"SELECT VolumeNumber
 						 	FROM nextvolume;";
 		
@@ -51,6 +45,12 @@
 	
 		// Written by Shane Workman.
 		$updateNextVolumeSelectQuery = @mysqli_query($dbc, $updateNextVolumeQuery);
+		
+		$createNewVolumeQuery = "INSERT INTO journalofcriticalincidents(JournalVolume, PublicationYear)
+								VALUES ($latest, $currentDate)";
+		
+		// Written by Shane Workman.						
+		$createNewVolumeInsertQuery = @mysqli_query($dbc, $createNewVolumeQuery);
 	}
 	
 	session_start();
@@ -68,14 +68,18 @@
 			
 			$latest = $row['VolumeNumber'];
 			$tableBody = '';
-		
-			$criticalIncidentQuery = 	"SELECT CriticalIncidentId, Title, JournalId
+			// Mark Bowman: I altered the SQL query to check the volume number instead of the journal ID.
+			$criticalIncidentQuery = 	"SELECT criticalincidents.CriticalIncidentId, criticalincidents.Title, journalofcriticalincidents.JournalVolume
 							 			FROM criticalincidents 
-							 			WHERE ApprovedPublish = 1 AND JournalId = {$latest} ORDER BY CriticalIncidentId;";
+							 			INNER JOIN journalofcriticalincidents
+									 	ON journalofcriticalincidents.JournalId = criticalincidents.JournalId
+							 			WHERE ApprovedPublish = 1 AND journalofcriticalincidents.JournalVolume = {$latest} ORDER BY CriticalIncidentId;";
 										
 			$criticalIncidentIdQuery = 	"SELECT CriticalIncidentId
 							 			FROM criticalincidents 
-							 			WHERE ApprovedPublish = 1 AND JournalId = {$latest} ORDER BY CriticalIncidentId;";
+							 			INNER JOIN journalofcriticalincidents
+									 	ON journalofcriticalincidents.JournalId = criticalincidents.JournalId
+							 			WHERE ApprovedPublish = 1 AND journalofcriticalincidents.JournalVolume = {$latest} ORDER BY CriticalIncidentId;";
 			
 			// Written by Shane Workman.
 			$criticalIncidentSelectQuery = @mysqli_query($dbc, $criticalIncidentQuery);
@@ -88,20 +92,24 @@
 			$headerCounter = mysqli_num_fields($criticalIncidentSelectQuery);
 			$editButton = tableRowLinkGenerator($criticalIncidentIdSelectQuery, $pageNames, $variableNames, $titles);
 			$tableBody = tableRowGeneratorWithButtons($criticalIncidentSelectQuery, $editButton, 1, $headerCounter);
-		
-			echo "
-				<div id = 'criticalIncidentViewer'>
-					<table>
-						<tr>
-							<th>ID</th>
-							<th>Title</th>
-							<th>Volume</th>
-						</tr>
-						$tableBody
-					</table>
-				</div>
-			";
 			
+			// Mark Bowman: I added code to check if the body of the table contains any data before displaying the rest of the table.
+			// The idea for this code was inspired by Shane.
+			if (!empty($tableBody)) {
+				echo "
+					<br/>
+					<div id = 'criticalIncidentViewer'>
+						<table>
+							<tr>
+								<th>Number</th>
+								<th>Title</th>
+								<th>Volume</th>
+							</tr>
+							$tableBody
+						</table>
+					</div>
+				";
+			}
 			
 			// Shows the submit button or an error message.
 			// Declaring variables for future use.
@@ -114,8 +122,9 @@
 			
 		 	$approvedSubmissionQuery = 	"SELECT CriticalIncidentId
 							 			FROM criticalincidents 
-							 			WHERE ApprovedPublish = 1 AND JournalId = {$latest}
-										ORDER BY CriticalIncidentId;";
+							 			INNER JOIN journalofcriticalincidents
+									 	ON journalofcriticalincidents.JournalId = criticalincidents.JournalId
+							 			WHERE ApprovedPublish = 1 AND journalofcriticalincidents.JournalVolume = {$latest} ORDER BY CriticalIncidentId;";
 			
 			
 			// Written by Shane Workman.
@@ -126,7 +135,7 @@
 					
 					// Creating the query to verify if Critical Incidents have files
 					// associated with them.
-					$fileLocationQuery = 	"SELECT CriticalIncidentId, FileDes
+					$fileLocationQuery = 	"SELECT CriticalIncidentId, FileType
 											FROM files
 											WHERE CriticalIncidentId = {$row[0]}";
 					while ($row = mysqli_fetch_row($selectQuery)) {
@@ -153,8 +162,10 @@
 				for($a = 0; $a < count($criticalIncidentIds); $a++) {
 					$currentIdFileCounter = 0;
 					while ($row = mysqli_fetch_row($fileLocationSelectQuery)) {
-						if ($criticalIncidentIds[$a] == "$row[0]") {
-							$currentIdFileCounter++;
+						if (isset($row['FileType'])) {
+							if (($criticalIncidentIds[$a] == "$row[0]" && $row['FileType'] == 'Summary') || ($criticalIncidentIds[$a] == "$row[0]" && $row['FileType'] == 'CI')) {
+								$currentIdFileCounter++;
+							}
 						}
 					}
 					//This function resets the resultset to 0. Shef @ http://stackoverflow.com/questions/6439230/how-to-go-through-mysql-result-twice
@@ -172,17 +183,21 @@
 						}
 					}
 					if (empty($err)) {
-						echo '<form action="LaunchNewestVolume.php" method = "POST"><input type="submit" value="Launch the Latest Volume"></form>';
+						echo '<form action="LaunchNewestVolume.php" method = "POST"><input type="submit"  class = "button5" value="Launch the Latest Volume"></form>';
 					}
 				}
 				else {
-					$err[] = 'No submitted Critical Inicdents have been approved for publication.';
+					$err[] = 'No submitted Critical Incidents have been approved for publication.';
 				}
 			}
 			
 			// Generates any error messages.
-			for($i = 0; $i < count($err); $i++) {
-					echo "{$err[$i]} <br />";
+			// Mark Bowman: I added an introductory message for the errors.
+			if (!empty($err)) {
+				echo "<br/>Here is a list of all of the errors: <br/>";
+				for($i = 0; $i < count($err); $i++) {
+					echo "{$err[$i]} <br/>";
+				}
 			}
 		}
 	}

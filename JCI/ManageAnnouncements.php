@@ -79,7 +79,7 @@
 			<?php echo $tableBody; ?>
 		</table>
 	</div>
-	<a href="PostNewAnnouncement.php">Create a New Announcement</a>
+	<a href="PostNewAnnouncement.php" class = 'button4'>Create a New Announcement</a>
 	
 <?php
 	include('includes/Footer.php');
