@@ -22,7 +22,6 @@
 	$criticalIncidentId = 0;
 	if (isset($_GET['CriticalIncidentId'])) {
 		$criticalIncidentId = $_GET['CriticalIncidentId'];
-		echo $criticalIncidentId;
 	}
 	if ($_SERVER["REQUEST_METHOD"] == "POST") {
 		$criticalIncidentIdQuery = "SELECT JournalId FROM criticalincidents WHERE CriticalIncidentId = $criticalIncidentId;";
