@@ -12,25 +12,13 @@
  * through a php link. This was obtained from http://stackoverflow.com/questions/19323010/execute-php-function-with-onclick.
  * I used code written by Shane Workman to make database queries.
  *
- * Revision1.1: MM/DD/YYYY Author: Name Here 
- * Description of change. Also add //Name: comments above your change within the code.
+ * Revision1.1: 04/10/2016 Author: Mark Bowman
+ * Description of change. The layout of the file was altered in order to allow redirects to 
+ * occur. If the header function is called after content is displayed, it will not redirect.
  ********************************************************************************************/
-	$page_title = 'Manage Announcements';
-	include('includes/Header.php');
-	include('includes/TableRowHelper.php');
-	require('../DbConnector.php');
 	session_start();
 	
 	if($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
-	
-		$announcementQuery = "SELECT AnnouncementId, Subject, Body, StartDate, EndDate, Type, IsActive FROM announcements;";
-		$announcementIdQuery = "SELECT AnnouncementId FROM announcements;";
-		
-		// Written by Shane Workman.
-		$selectQuery = @mysqli_query($dbc, $announcementQuery);
-		$idSelectQuery = @mysqli_query($dbc, $announcementIdQuery);
-		
-		
 		// The idea for this code was inspired by Michael J. Calkins.
 		// This block will check if 'deleteId' is set in the url. It will set the announcement with that value to inactive.
 		if (isset($_GET['deleteId'])) {
@@ -38,9 +26,9 @@
 			$deactivateQuery = @mysqli_query($dbc, $announcementDeactivateQuery);
 			if($deactivateQuery){
 				header('Location: ManageAnnouncements.php');
+				exit;
 			}
 		}
-		
 		
 		// The idea for this code was inspired by Michael J. Calkins.
 		// This block will check if 'activateId' is set in the url. It will set the announcement with that value to active.
@@ -49,8 +37,21 @@
 			$activateQuery = @mysqli_query($dbc, $announcementActivateQuery);
 			if($activateQuery){
 				header('Location: ManageAnnouncements.php');
+				exit;
 			}
 		}
+		
+		$page_title = 'Manage Announcements';
+		include('includes/Header.php');
+		include('includes/TableRowHelper.php');
+		require('../DbConnector.php');
+		
+		$announcementQuery = "SELECT AnnouncementId, Subject, Body, StartDate, EndDate, Type, IsActive FROM announcements;";
+		$announcementIdQuery = "SELECT AnnouncementId FROM announcements;";
+		
+		// Written by Shane Workman.
+		$selectQuery = @mysqli_query($dbc, $announcementQuery);
+		$idSelectQuery = @mysqli_query($dbc, $announcementIdQuery);
 		
 		$pageNames = array('EditAnnouncement.php', 'ManageAnnouncements.php', 'ManageAnnouncements.php');
 		$variableNames = array('id', 'deleteId', 'activateId');
@@ -61,7 +62,8 @@
 		$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 3, $headerCounter);
 	}
 	else {
-		header('Location: http://br-t1-jci.sfcrjci.org/index.php');
+		header('Location: http://br-t1-jci.sfcrjci.org/Index.php');
+		exit;
 	}
 ?>
 <h1>Manage Announcements</h1>
