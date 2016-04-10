@@ -123,7 +123,7 @@
 	function downloadFile($dbc, $fileId) {
 		
 		$successMessage = 0;
-		$selectFileLocationSqlQuery = "SELECT FileDes FROM files WHERE FileID = ?;";
+		$selectFileLocationSqlQuery = "SELECT FileLocation FROM files WHERE FileID = ?;";
 		
 		
 		// This code was retrived from http://php.net/manual/en/mysqli.prepare.php.
