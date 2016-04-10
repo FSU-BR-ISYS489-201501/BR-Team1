@@ -359,7 +359,7 @@
 							
 							// email header
 							$header = "do-not-reply@jci.com\r\n";
-
+							
 							// send email notification to an author
 							for($i = 0; $i < $nameCount; $i++) {
 								if(!empty($_POST["email"][$i])) {
@@ -367,20 +367,20 @@
 							    }
 							}
 
-							if ($rtnVal == true) {
+							if ($rtnVal == 1) {
 								// send email notification to editor
-								$rtnVal = mail("alfadhf@ferris.edu", "New Submission", $editorMsg);
-
-								if ($rtnVal == true) {
+								$rtnVal = mail("alfadhf@ferris.edu", "New Submission", $editorMsg, $header);
+								echo $rtnVal;
+								if ($rtnVal == 1) {
 									// display Thank you Message
-									header("Location: http://localhost/jci/Index.php?success=Y"); 
+									header("Location: http://br-t1-jci.sfcrjci.org/Index.php?success = Y"); 
 								}  else  {
 									echo "ERROR: Message not sent to editor.";
 								}
 							} else {
 								echo "ERROR: Messages not sent.";
 							}
-							echo 'Upload Successful.';
+							echo '<br> Thank you for your submission. You will recieve an email message within the next five minutes. <br>';
 						}
 						break;
 					case 2:
