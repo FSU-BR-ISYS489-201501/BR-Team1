@@ -28,7 +28,7 @@
 	$tableBody = tableRowGenerator($selectQuery, $headerCounter);
 	
 	if (isset($_GET['success'])) {
-		$success = "<br> Thank you for your submission. You will recieve an email message shortly. <br>";
+		$success = "<br> Thank you for your submission. You will recieve an email message within the next five minutes. <br>";
 	}
 ?>
 <?php echo $success; ?>

@@ -345,7 +345,7 @@
 									$userMsg = $userMsg . $_POST['authorFname'][$i] . ", ";
 								}							   
                             }
-							$userMsg = $userMsg . ".Thank you for your submission! You will be emailed with a confirmation in 5 minutes.";
+							$userMsg = $userMsg . ".Thank you for your submission!";
 							
 							// a message to be sent to editor
 							$editorMsg = "Authors: ";
@@ -374,7 +374,7 @@
 
 								if ($rtnVal == true) {
 									// display Thank you Message
-									header("Location: http://localhost/jci/Index.php?success=Y"); 
+									header("Location: Index.php?success=Y"); 
 								}  else  {
 									echo "ERROR: Message not sent to editor.";
 								}
