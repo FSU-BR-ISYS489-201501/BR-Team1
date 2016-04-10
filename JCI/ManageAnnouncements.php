@@ -79,6 +79,8 @@
 			<?php echo $tableBody; ?>
 		</table>
 	</div>
+	<br/>
+	<br/>
 	<a href="PostNewAnnouncement.php" class = 'button4'>Create a New Announcement</a>
 	
 <?php
