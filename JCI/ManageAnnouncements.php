@@ -15,6 +15,9 @@
  * Revision1.1: 04/10/2016 Author: Mark Bowman
  * Description of change. The layout of the file was altered in order to allow redirects to 
  * occur. If the header function is called after content is displayed, it will not redirect.
+ * 
+ * Credit: I found out about the header function problem after reading the post by Daedalus
+ * at http://stackoverflow.com/questions/21522384/php-header-location-url-php-not-working-in-godaddy.
  ********************************************************************************************/
 	session_start();
 	
