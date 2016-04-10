@@ -226,7 +226,6 @@
 				for($i = 0; $i < $nameCount; $i++) {
 					//get first name with current index value of $i
 					$authorFname = $_POST["authorFname"][$i];
-					echo $_POST["authorFname"][$i];
 					//get last name with current index value of $i
 					$authorLname = $_POST["authorLname"][$i];
 					//get email address with current index value of $i
@@ -345,7 +344,7 @@
 									$userMsg = $userMsg . $_POST['authorFname'][$i] . ", ";
 								}							   
                             }
-							$userMsg = $userMsg . ".Thank you for your submission!";
+							$userMsg = $userMsg . ".Thank you for your submission! You will be contacted shortly.";
 							
 							// a message to be sent to editor
 							$editorMsg = "Authors: ";
@@ -374,7 +373,7 @@
 
 								if ($rtnVal == true) {
 									// display Thank you Message
-									header("Location: Index.php?success=Y"); 
+									header("Location: http://localhost/jci/Index.php?success=Y"); 
 								}  else  {
 									echo "ERROR: Message not sent to editor.";
 								}
@@ -416,7 +415,7 @@
 		<h4>Author(s):</h4>
 			<?php echo $authors ?>
 			<a href='SubmitCase.php?nameCount=
-			<?php echo $nameCount + 1 ?>&keyWordCount=<?php echo $keyWordCount ?>&fileCount=<?php echo $fileCount ?>' class = 'button4'>Add Author</a>
+			<?php echo $nameCount + 1 ?>&keyWordCount=<?php echo $keyWordCount ?>&fileCount=<?php echo $fileCount ?>' class = 'button5'>Add Author</a>
 		</table>
 		<br>
 		<br>
@@ -425,7 +424,7 @@
 			<?php echo $keyWords ?>
 			<a href='SubmitCase.php?nameCount=
 			<?php echo $nameCount ?>&keyWordCount=<?php if ($keyWordCount < 5) {echo $keyWordCount + 1;} else {echo $keyWordCount;}?>&fileCount=
-			<?php echo $fileCount ?>' class = 'button4'>Key Word</a>
+			<?php echo $fileCount ?>' class = 'button5'>Key Word</a>
 		<br>
 		<br>
 		<br>
@@ -441,7 +440,7 @@
 		<br>
 		<br>
 		<a href='SubmitCase.php?nameCount=<?php echo $nameCount ?>&keyWordCount=<?php echo $keyWordCount ?>&fileCount=
-			<?php if ($fileCount < 6) {echo $fileCount + 1;} else {echo $fileCount;}?>' class = 'button4'>Add a File</a> 
+			<?php if ($fileCount < 6) {echo $fileCount + 1;} else {echo $fileCount;}?>' class = 'button5'>Add a File</a> 
 		<br>
 		<br>
 		<input name="submitCase" type="submit" value="Submit" name="uploadedFile" />
