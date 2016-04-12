@@ -1,0 +1,92 @@
+<?php
+ /*********************************************************************************************
+  * Original Author: Shane Workman
+  * Date of origination: 04/11/2016
+  *
+  * Page created for use in the JCI Project.
+  * Project work is done as part of a Capstone class ISYS489: Ferris State University.
+  * Purpose: This page is used to help a User reset thier password given they know the registered Email.
+  * Credit: 
+  * 
+  *************************************************************************************************/
+ $page_title = 'Password Reset';
+  include ("includes/Header.php");
+  include ("includes/RandString.php");
+  require ('../DbConnector.php');
+  $form = "";
+  //Begin Validation... 
+  if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+	  	//Set up Error msg array.
+	 	$err = array();
+		//Check to make sure they entered an email.
+		if (empty($_POST['email'])) {
+				$err[] = 'Please type in your email';
+			} else {
+				$email = mysqli_real_escape_string($dbc, trim($_POST['email']));
+			}
+		// 
+		if (empty($err)) {
+			$query = "SELECT Email FROM Users WHERE Email = '$email';";	
+			$run = @mysqli_query($dbc, $query);
+			$count = mysqli_num_rows($run);
+			if ($count > 0) {
+				$token = randString(10);
+				$iquery = "INSERT INTO tokens (Token, Email) values ('$token', '$email')";
+				$irun = @mysqli_query($dbc, $query);
+				
+				$defaultEmail = "webmailer@JCI.com";
+				$url = 'http://'. $_SERVER['HTTP_HOST'] ;
+				$to = $email;
+				$subject = "";
+				$message = 
+				'<html>
+					<head>
+					<title>Password help for JCI website</title>
+					</head>
+					<body>
+					<p>Click on the given link to reset your password <a href="'.$url.'/reset.php?token='.$token.'">Reset Password</a></p>
+					</body>
+					</html>
+					';
+			    $headers = 'From: ' . $defaultEmail . "\r\n" .
+        		'Reply-To: ' . $defaultEmail . "\r\n" .
+        		'X-Mailer: PHP/' . phpversion();
+				//Builds email to send to the registered.
+    			mail($to, $subject, $message, $headers);
+				echo '<fieldset>An email has been sent to the email provided! Check it and follow instructions to reset your password.</fieldset>';
+				
+			} else {
+				echo '<fieldset>Email not registered: <a href="Register.php">Register!</a></fieldset>';
+			}
+			
+		} else {
+			Foreach($err as $m)
+			{
+				echo " $m <br />";
+			} echo "Please correct the errors.";
+			$form = '<h1>Password Reset</h1>
+				<fieldset>	
+					<form action="PasswordHelp.php" id="regiForm" method="post">
+					<p>To reset your password, just enter the email address you use to log into your JCI account. <br />
+						This may be the email address you used when you first registered on JCI.<br /><br />
+						Email Address: <input type="text" name="email" size="15" maxlength="50" /></p>		
+						<input type="submit" value="Reset My Password" />
+					</form>
+				</fieldset>';	  
+		}
+  } else {
+  	$form = '<h1>Password Reset</h1>
+				<fieldset>	
+					<form action="PasswordHelp.php" id="regiForm" method="post">
+					<p>To reset your password, just enter the email address you use to log into your JCI account. <br />
+						This may be the email address you used when you first registered on JCI.<br /><br />
+						Email Address: <input type="text" name="email" size="15" maxlength="50" /></p>		
+						<input type="submit" value="Reset My Password" />
+					</form>
+				</fieldset>';
+  }
+?>
+<?php echo "$form"; ?>
+<?php 
+include ("includes/Footer.php");
+?>
