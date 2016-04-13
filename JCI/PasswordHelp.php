@@ -8,7 +8,7 @@
   * Purpose: This page is used to help a User reset thier password given they know the registered Email.
   * Credit: http://php.net/ was a resource. 
   * 		http://stackoverflow.com/questions/8389195/what-server-variable-provide-full-url
-  * 
+  * 		http://stackoverflow.com/questions/30513624/sending-token-query-string-parameter-from-webpage-url-in-post-request  * 
   *************************************************************************************************/
  $page_title = 'Password Reset';
   include ("includes/Header.php");
@@ -45,7 +45,7 @@
 					<title>Password help for JCI website</title>
 					</head>
 					<body>
-					<p>Click on the given link to reset your password <a href="'.$url.'/reset.php?token='.$token.'">Reset Password</a></p>
+					<p>Click on the given link to reset your password <a href="'.$url.'/Reset.php?token='.$token.'">Reset Password</a></p>
 					</body>
 					</html>
 					';
