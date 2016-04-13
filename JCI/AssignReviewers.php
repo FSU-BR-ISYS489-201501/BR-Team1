@@ -15,8 +15,8 @@
   * www.php.net
   * Revision 1.1: 03/22/2016 authors: Faisal Alfadhli 
   * Edited database queries and some changes 
-  *  Revision 1.2: 04/07/2016 authors: Faisal Alfadhli 
- *  Added a parameter 
+  * Revision 1.2: 04/07/2016 authors: Faisal Alfadhli : Added a parameter 
+  * Revision 1.2: 04/012/2016 authors: Faisal Alfadhli :changed checkbox to radio button, edited some queries.
   ********************************************************************************************/
 
 	include('includes/Header.php');
@@ -24,16 +24,21 @@
 	include('includes/TableRowHelper.php');
 	
 	// this block is to pull the users info from the db 
-	$reviewerQuery = "SELECT users.UserId, users.FName, users.LName FROM users INNER JOIN usertypes ON users.UserId=usertypes.UserId INNER JOIN reviewers
-		ON users.UserId=reviewers.UserId WHERE usertypes.Type='Reviewer';";
-	$reviewerIdQuery = "SELECT reviewers.ReviewerId FROM reviewers INNER JOIN users ON reviewers.UserId=users.UserId;";
+	$reviewerQuery = "SELECT users.UserId, users.FName, users.LName FROM users
+						INNER JOIN usertypes ON users.UserId=usertypes.UserId
+						INNER JOIN reviewers ON users.UserId=reviewers.UserId
+						WHERE usertypes.Type='Reviewer';";
+	$reviewerIdQuery = "SELECT reviewers.ReviewerId FROM reviewers
+						INNER JOIN users ON reviewers.UserId=users.UserId
+						INNER JOIN usertypes ON users.UserId=usertypes.UserId
+						WHERE usertypes.Type='Reviewer';";
 	
 	// Written by Shane Workman.
 	$selectQuery = @mysqli_query($dbc, $reviewerQuery);
 	$idSelectQuery = @mysqli_query($dbc, $reviewerIdQuery);
 	$headerCounter = mysqli_num_fields($selectQuery);
-	//MODIFIED tableRowCheckboxGenerator FUNCTION TO ACCEPT INPUT TYPE AND SET IT AS checkBox.
-	$checkBox = tableRowCheckboxGenerator("checkbox", $selectQuery, $idSelectQuery);
+	//MODIFIED tableRowCheckboxGenerator FUNCTION TO ACCEPT INPUT TYPE AND SET IT AS RADIO SO ONLY ONE EDITOR CAN BE SELECTED AT A TIME
+	$checkBox = tableRowCheckboxGenerator("radio", $selectQuery, $idSelectQuery);
 	// it will add one check box in every row 
 	// it was inspired by William
 	$checkBoxCounter = count($checkBox)/count($checkBox);
@@ -77,7 +82,7 @@
 				// idea from http://stackoverflow.com/questions/10119665/checking-if-data-exists-in-database
 				// Count the number of rows returned from our query to help us determine
 				// the user is already assigned to the incident.				
-				$query = "SELECT COUNT(ReviewerId) AS numberOfRows FROM reviewcis WHERE CriticalIncidentId=$incidentId AND ReviewerId=$reviewerID;";
+				$query = "SELECT COUNT(ReviewerId) AS numberOfRows FROM criticalincidents WHERE CriticalIncidentId=$incidentId AND ReviewerId=$reviewerID;";
 				// Assign the results of the query to a variable.
 				$result = mysqli_query($dbc, $query);
 				// get the array and assign it to a variable
@@ -95,7 +100,7 @@
 					array_push($userIdArr, $reviewerID);
 					// If the number of rows returned is not greater than 0 than run the Insert
 					// Query to assign the user as a reviewer.
-					$query = "INSERT INTO reviewcis (ReviewerId, CriticalIncidentId) VALUES ($reviewerID,$incidentId);";
+					$query = "UPDATE criticalincidents SET ReviewerId=$reviewerID WHERE CriticalIncidentId = $incidentId;";
 					//Run the query...
 					$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
 					If (!$run) {
