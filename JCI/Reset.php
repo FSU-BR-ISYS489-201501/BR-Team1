@@ -38,7 +38,7 @@
 		$salt = "5v4tws27NONtZjBA7Zhn";
 		$pass = $pass.$salt;
 		$pass = sha1($pass);
-		//Creat the query that dumps info into the DB.
+		//Creat the query that updates info into the DB.
 		$query = "UPDATE users SET PasswordHash`= '$pass' WHERE `Email`= '$email';";
 		$run = @mysqli_query($dbc, $query);
 				//The Following builds the email to be sent.
