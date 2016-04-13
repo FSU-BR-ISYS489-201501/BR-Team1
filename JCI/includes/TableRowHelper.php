@@ -221,7 +221,7 @@
 			}
 			return $assignButton;
 		}
-		
+		// this idea from William
 		// function for remove reviewer : adds elements to our php page.
 	function spitHTML($incidentId, $tableBody) {	
 		echo "<h1>Remove Reviewers</h1>
