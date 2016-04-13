@@ -22,6 +22,7 @@
 	session_start();
 	
 	if($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
+		require('../DbConnector.php');
 		// The idea for this code was inspired by Michael J. Calkins.
 		// This block will check if 'deleteId' is set in the url. It will set the announcement with that value to inactive.
 		if (isset($_GET['deleteId'])) {
@@ -47,7 +48,6 @@
 		$page_title = 'Manage Announcements';
 		include('includes/Header.php');
 		include('includes/TableRowHelper.php');
-		require('../DbConnector.php');
 		
 		$announcementQuery = "SELECT AnnouncementId, Subject, Body, StartDate, EndDate, Type, IsActive FROM announcements;";
 		$announcementIdQuery = "SELECT AnnouncementId FROM announcements;";
