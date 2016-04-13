@@ -8,72 +8,81 @@
   * Purpose: this page is used to let Editor be able to remove specific CI from specific Editors
   * Credits: www.W3schools.com
   * www.php.net 
+  * William
   * HTMLBook.pdf from ISYS 288 class
   * used Larry Uldman's PHP book
   * Copied this from RemoveReviewers.php , and tweaked some queries.
+ * *Revision1.0: 04/11/2016 Author: Faisal Alfadhli: moved HTML element to a function in table row helper to git rid of errors in this page.
  
   ********************************************************************************************/
 	include ('includes/Header.php');
 	require ('../DbConnector.php');
 	include('includes/TableRowHelper.php');
-	
-	$editorsQuery =  "SELECT users.UserId, users.FName, users.LName FROM users 
-						INNER JOIN reviewers ON users.UserId=reviewers.UserId 
-						INNER JOIN reviewcis ON reviewers.ReviewerId=reviewcis.ReviewerId 
-						INNER JOIN criticalincidents ON criticalincidents.CriticalIncidentId=reviewcis.CriticalIncidentId 
-						WHERE reviewcis.CriticalIncidentId=$incidentId;";
-	$editorsIdQuery = "SELECT users.UserId FROM users 
-						INNER JOIN reviewers ON users.UserId=reviewers.UserId 
-						INNER JOIN reviewcis ON reviewers.ReviewerId=reviewcis.ReviewerId 
-						INNER JOIN criticalincidents ON criticalincidents.CriticalIncidentId=reviewcis.CriticalIncidentId 
-						WHERE reviewcis.CriticalIncidentId=$incidentId;";
-	
-	//$UpdateEditorTable= "UPDATE Critical_Incident SET ";
-	
-	$idSelectQuery = @mysqli_query($dbc, $idQuery);
-	$editorSelectQuery = @mysqli_query($dbc, $editorName);
-	$submissionSelectQuery = @mysqli_query($dbc, $submissionQuery);
-	
-	$ids = array();
-	$tableBody = '';
-	
-	while ($row = mysqli_fetch_row($idSelectQuery)) {
-		array_push($ids, $row);
+	// If $_GET or $_POST are set then assign the value to a variable.
+	if (isset($_GET['id']) ) {
+		$incidentId = $_GET['id'];
+	} elseif (isset($_POST['id']) ) {
+		$incidentId = $_POST['id'];
 	}
-	if (!empty($ids)){
-		//To determine how many fields were returned in the query.
-		$headerCounter = countNumberOfFields($dbc, $submissionSelectQuery);
-		//To list editors names in dropdown list.
-		$radioButton = tableRowRadioButtonGenerator($dbc, $editorSelectQuery, $ids);
-		$tableBody = tableRowGeneratorWithRadioButtons($submissionSelectQuery, $radioButton, $headerCounter, $ids);
+	$editorsQuery =  "SELECT Editor FROM criticalincidents
+				      WHERE criticalincidents.CriticalIncidentId=$incidentId;";
+	$editorsIdQuery = "SELECT criticalincidents.Editor FROM criticalincidents
+					   WHERE criticalincidents.CriticalIncidentId=$incidentId;";
+	
+	
+	$selectQuery = @mysqli_query($dbc, $editorsQuery);
+	$idSelectQuery = @mysqli_query($dbc, $editorsIdQuery);
+	// this block was inspired by William.
+	// tells us how many headers in are in a query result
+	if ($headerCount = @mysqli_num_fields($selectQuery)){
+		$headerCount = @mysqli_num_fields($selectQuery);
+    }
+	// tells us how many rows of data are in a query result
+	if ($rowCount = @mysqli_num_rows($selectQuery)){
+		$rowCount = @mysqli_num_rows($selectQuery);
+    }
+	// if there is data do something
+	if ($rowCount > 0){
+		$checkBox = tableRowCheckboxGenerator("radio", $selectQuery, $idSelectQuery);
+		// it will add one check box in every row
+		$checkBoxCounter = count($checkBox)/count($checkBox);
+		$tableBody = tableRowGeneratorWithButtons($selectQuery, $checkBox, $checkBoxCounter, $headerCount);
+		// function to add html elements to our page.
+		spitMoreHTML($incidentId, $tableBody);
+	} else {
+		// if there is no data display a message to the user.
+		$tableBody = "<tr><td>No users are currently assigned as reviewers!</td></tr>";
+		spitMoreHTML($incidentId, $tableBody);
+	}
+	if(isset($_POST['submit'])){
+		if(!empty($_POST['checkList'])) {	
+			// Variable to hold an array.
+			$editorIdArr = array();
+			//Loop to store and display values of individual checked checkbox
+			foreach($_POST['checkList'] as $selected) {
+				// Assign the selected checkbox value to a variable.
+				$editorId = $selected;	
+				// append selected user id to the array.		
+				array_push($editorIdArr, $editorId);
+				$query = "UPDATE criticalincidents SET Editor = NULL WHERE CriticalIncidentId = '$incidentId'";
+				// Run the query...
+				$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
+				If (!$run) {
+					//If the query did not run then tell the user about it.
+					echo 'There was an error when removing the reviewer(s). Please try again!';
+				} else {
+					// Set the update success flag to true.
+					$updateSuccess = "true";
+				}
+			}
+			if ($updateSuccess = "true"){
+				echo "User successfully removed from active reviewers!";
+			}
+		} elseif (empty($_POST['checkList'])) {
+			// If no checkboxes are selected then tell the user to make sure they select one. 
+			echo "<b>Please Select At least One Option.</b>";
+		}
 	}
 
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		//This block will update the select value to db
-		$insertQuery ='INSERT INTO criticalincidents(Editor) VALUES(_POST("$editors[a]"))';
-		$run = mysqli_query($dbc, $insertQuery);
-	}
-	else{
-		echo 'Sorry, there is an error, try again please!';
-		
-	}
-?>
-	<h1>Assign Editors</h1>
-	<div id = 'divRemoveEditors'>
-		<div class="main">
-			<form name="frmRemoveEditors" action="RemoveCasesFromEditors.php" method="post">
-				<input type="hidden" name="id" value="<?php echo $incidentId; ?>">
-				<label class="heading">Select an editor to review case:</label><br/><br/>
-				<table>
-					<tr>
-						<th>User Id</th>
-						<th>First Name</th>
-						<th>Last Name</th>
-					</tr>
-					<?php echo $tableBody; ?>
-				</table>
-				<!-----Including PHP Script----->
-				<br/><input type='submit' name='submit' Value='Submit'/><br/><br/>
-<?php
 	include('includes/footer.php');
 ?>
