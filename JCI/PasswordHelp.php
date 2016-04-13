@@ -6,7 +6,8 @@
   * Page created for use in the JCI Project.
   * Project work is done as part of a Capstone class ISYS489: Ferris State University.
   * Purpose: This page is used to help a User reset thier password given they know the registered Email.
-  * Credit: 
+  * Credit: http://php.net/ was a resource. 
+  * 		http://stackoverflow.com/questions/8389195/what-server-variable-provide-full-url
   * 
   *************************************************************************************************/
  $page_title = 'Password Reset';
@@ -37,7 +38,7 @@
 				$defaultEmail = "webmailer@JCI.com";
 				$url = 'http://'. $_SERVER['HTTP_HOST'] ;
 				$to = $email;
-				$subject = "";
+				$subject = "JCI password Reset";
 				$message = 
 				'<html>
 					<head>
