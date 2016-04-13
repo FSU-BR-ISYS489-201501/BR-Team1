@@ -222,4 +222,47 @@
 			return $assignButton;
 		}
 		
+		// function for remove reviewer : adds elements to our php page.
+	function spitHTML($incidentId, $tableBody) {	
+		echo "<h1>Remove Reviewers</h1>
+			<div id = 'divRemoveReviewers'>
+				<div class='main'>
+					<form name='frmRemoveReviwers' action='RemoveReviewers.php' method='post'>
+						<input type='hidden' name='id' value='$incidentId'>
+						<label class='heading'>Select users to remove from case:</label><br/><br/>
+						<table>
+							<tr>
+								<th>User Id</th>
+								<th>First Name</th>
+								<th>Last Name</th>
+							</tr>
+							$tableBody
+						</table>
+						<!-----Including PHP Script----->
+						<br/><input type='submit' name='submit' Value='Submit'/><br/><br/>
+					</form>
+				</div>
+			</div>";
+	}
+	// function for remove Editor : adds elements to our php page	
+	function spitMoreHTML($incidentId, $tableBody) {	
+		echo "<h1>Remove Editors</h1>
+			<div id = 'divRemoveEditors'>
+				<div class='main'>
+					<form name='frmRemoveEditors' action='RemoveCasesFromEditors.php' method='post'>
+						<input type='hidden' name='id' value='$incidentId'>
+						<label class='heading'>Select an editor to review case:</label><br/><br/>
+						<table>
+							<tr>
+								<th>Editor</th>
+							</tr>
+							$tableBody
+						</table>
+						<!-----Including PHP Script----->
+						<br/><input type='submit' name='submit' Value='Submit'/><br/><br/>
+					</form>
+				</div>
+			</div>";
+	}
+		
 ?>
