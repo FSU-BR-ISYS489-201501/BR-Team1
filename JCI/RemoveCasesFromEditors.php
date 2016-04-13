@@ -12,7 +12,7 @@
   * HTMLBook.pdf from ISYS 288 class
   * used Larry Uldman's PHP book
   * Copied this from RemoveReviewers.php , and tweaked some queries.
- * *Revision1.0: 04/11/2016 Author: Faisal Alfadhli: moved HTML element to a function in table row helper to git rid of errors in this page.
+ * *Revision1.0: 04/11/2016 Author: Faisal Alfadhli: moved HTML elements to a function in table row helper to git rid of errors in this page.
  
   ********************************************************************************************/
 	include ('includes/Header.php');
