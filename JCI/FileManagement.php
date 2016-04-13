@@ -29,7 +29,7 @@
 	if($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
 		// Borrowed idea from Mark's ManageAnnouncements
 		$query = "SELECT FileDes, FileType FROM files WHERE CriticalIncidentId = $criticalIncidentId";
-		$IdQuery = "SELECT FileId FROM files WHERE CriticalIncidentId = 1;";
+		$IdQuery = "SELECT FileId FROM files WHERE CriticalIncidentId = $criticalIncidentId;";
 		$idSelectQuery = @mysqli_query($dbc, $IdQuery);
 		$selectQuery = @mysqli_query($dbc, $query);
 		$headerCounter = mysqli_num_fields($selectQuery);
