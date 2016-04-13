@@ -8,18 +8,16 @@
  * Purpose: The purpose of this file is to display a page in the browser that shows all
  * Critical Incidents with buttons that will allow the assgin, remove editors
  * Credit: I used code written by Shane to make database queries. Credit to William and http://stackoverflow.com/
- * 
+ * Revision1.1: 04/11/2016 Author: Faisal Alfadhli: edited the query.
  ********************************************************************************************/
 
 	include('includes/Header.php');
 	include('includes/TableRowHelper.php');
 	require('../DbConnector.php');
+
 	
-	// $critincQuery: joining tables to get some info and display them.
-	$critincQuery = "SELECT criticalincidents.CriticalIncidentId, criticalincidents.UserId, criticalincidents.Category,
-							criticalincidents.Title, users.Fname, users.Lname FROM criticalincidents INNER JOIN users ON users.UserId=criticalincidents.Editor;";
-	$critincIdQuery = "SELECT CriticalIncidentId FROM criticalincidents;";
-	
+	$critincQuery = "SELECT CriticalIncidentId, UserId, Category, Title, Editor FROM criticalincidents;";
+	$critincIdQuery = "SELECT CriticalIncidentId FROM criticalincidents ORDER BY CriticalIncidentId;";
 	// Written by Shane Workman.
 	$selectQuery = @mysqli_query($dbc, $critincQuery);
 	$idSelectQuery = @mysqli_query($dbc, $critincIdQuery);
