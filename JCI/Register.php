@@ -88,18 +88,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			$err[] = 'You forgot to enter your email.';
 		} elseif (checkEmail($_POST['email']) == 0) {
 			$err[] = 'The email submitted doesnt have the correct syntax.';
-		} else {
+		} elseif (1 == 2){
 			
+		} else {
 			$email = mysqli_real_escape_string($dbc, trim($_POST['email']));
+			$testQ = "SELECT Email FROM Users WHERE Email = '$email';";
+			$result = mysqli_query($dbc, $testQ);
+			if (mysqli_num_rows($result) > 0){
+				$err[] = 'This email is already registered! Please check <a href="PasswordHelp.php">Forgot Password?</a>';
+			} else {
+				// $email = mysqli_real_escape_string($dbc, trim($_POST['email']));
+			}
 		}
-		$testQ = "SELECT Email, Password FROM Users WHERE Email = '$email';";
-		$result = mysqli_query($dbc, $testQ);
-		if (mysqli_num_rows($result)== true){
-			$err[] = 'This email is already registered!';
-		}
-		//access result set and check if a pass exists
-		//set a pass var
-	
+
  	//Check if university text box has a value or set it to null.
  	if (empty($_POST['university'])) {
 		$university = 'NULL';
@@ -132,11 +133,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	If(empty($err)) {
 		// Donald Dean: I borrowed this idea from sourcewareinfo. Credit https://www.youtube.com/watch?v=LvNCFffK-y0.
 		$salt = "5v4tws27NONtZjBA7Zhn";
-		$pass = $_POST['pass1'].$salt;
+		// $salt = randString(10); Shane: Would like to implement this. would have to add some query to loginFunction.
+		$pass = $pass.$salt;
 		$pass = sha1($pass);
 		//Creat the query that dumps info into the DB.
 		$query = "INSERT INTO users (Prefix, FName, LName, Suffix, Email, Employer, Title, MemberCode, Regdate, PasswordHash, PasswordSalt)
-				VALUES ('$prefix', '$fName', '$lName', '$suffix', '$email', '$university', '$title', '$member', NOW(), '$pass', '$pass');";
+				VALUES ('$prefix', '$fName', '$lName', '$suffix', '$email', '$university', '$title', '$member', NOW(), '$pass', '$salt');";
 				
 		//Run the query...
 		$run = @mysqli_query($dbc, $query);
