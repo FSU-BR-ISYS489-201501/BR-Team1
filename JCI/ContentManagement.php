@@ -5,8 +5,11 @@
  *
  * Page created for use in the JCI Project.
  * Project work is done as part of a Capstone class ISYS489: Ferris State University.
- * Purpose: Include a overview of the page: Such as. This is the index.php and will serve as the home page content of the site.\
- * Credit: Give any attributation to code used within, not created by you.
+ * Purpose: This file will allow an editor to modify the content on the index, about us, 
+ * ethics and editorial policy page.
+ * Credit: Blocks of code have been borrowed from EditAnnouncement.php in order to save time.
+ * A combination of Faisal Alfadhli and William are responsible for those pieces of code on
+ * lines: 35-40, 43-48, 51-55, 59-78, and 109-117.
  * 
  ********************************************************************************************/
  
