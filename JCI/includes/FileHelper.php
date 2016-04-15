@@ -37,6 +37,9 @@
 	 * 
 	 * Revision 1.3: 04/09/2016 Author: Mark Bowman
 	 * Description of Change: Revised SQL queries and changed the name of a file type.
+	 * 
+	 * Revision 1.4: 04/15/2016 Author: Mark Bowman
+	 * Description of Change: Revised prepared statements, because I was using them wrong.
 	 *******************************************************************************************************************/
 	//TODO fix this function
 	function checkIfFileExistsOnFileServer($filePath) {
@@ -55,7 +58,7 @@
 		
 		// This block is setting a counter for the number of 
 		// files and how many have been uploaded.
-		$fileUplaodSuccessCounter = 0;
+		$fileUploadSuccessCounter = 0;
 		$numberOfFilesUploaded = count($_FILES["$htmlElement"]['tmp_name']);
 		$i = 0;
 		$insertFileLocationSqlQuery = '';
@@ -65,26 +68,37 @@
 			// for the uploaded file and the location it is going to be saved to.
 			$tempUploadedFileName = $_FILES["$htmlElement"]['tmp_name'][$i];
 			$uploadedFileNameSaveLocation = $fileStorageLocation . "{$_FILES["$htmlElement"]['name']["$i"]}";
+			$fileName = $_FILES[$htmlElement]['name'][$i];
+			$id = $ids[$i];
+			$journalId = $journalIds[$i];
+			$type = $types[$i];
+			
 			if ($types[$i] == 'Word' || $types[$i] == 'Summary' || $types[$i] == 'CI') {
+				// I changed this, because I was using prepared statements wrong. Ryan Pomaski, soon-to-be co-worker 
+				// critiqued my code.
 				$insertFileLocationSqlQuery = "INSERT INTO files (CriticalIncidentId, JournalId, FileLocation, FileType, FileDes)
-					VALUES ($ids[$i], $journalIds[$i], '$uploadedFileNameSaveLocation', '$types[$i]', '{$_FILES["$htmlElement"]['name']["$i"]}')";
+					VALUES (?, ?, ?, ?, ?)";
+				$stmt = mysqli_prepare($dbc, $insertFileLocationSqlQuery);
+				mysqli_stmt_bind_param($stmt, 'iisss', $id, $journalId, $uploadedFileNameSaveLocation, $type, $fileName);
 			}
 			else if ($types[$i] == 'Journal') {
+				// I changed this, because I was using prepared statements wrong. Ryan Pomaski, soon-to-be co-worker 
+				// critiqued my code.
 				$insertFileLocationSqlQuery = "INSERT INTO files (JournalId, FileLocation, FileType, FileDes)
-					VALUES ('$ids[$i]', $uploadedFileNameSaveLocation, '$types[$i], '{$_FILES["$htmlElement"]['name']["$i"]}')";
+					VALUES (?, ?, ?, ?)";
+				$stmt = mysqli_prepare($dbc, $insertFileLocationSqlQuery);
+				mysqli_stmt_bind_param($stmt, 'isss', $id, $uploadedFileNameSaveLocation, $type, $fileName);
 			}
 			
 			// This block checks if a file has been submitted with the HTML form.
 			if(file_exists($tempUploadedFileName)) {
 				// This block performs an SQL query to insert file
 				// location into the database.
-				if ($stmt = mysqli_prepare($dbc, $insertFileLocationSqlQuery)) {
-					mysqli_stmt_execute($stmt);
+				if (mysqli_stmt_execute($stmt)) {
 					mysqli_stmt_close($stmt);
 					// This block moves the input file to the file server.
-					if(move_uploaded_file($tempUploadedFileName, 
-					$uploadedFileNameSaveLocation)) {
-						$fileUplaodSuccessCounter += 1;
+					if(move_uploaded_file($tempUploadedFileName, $uploadedFileNameSaveLocation)) {
+						$fileUploadSuccessCounter += 1;
 					}
 					else {
 						// This block ets the variable if the file could not be saved to the file server.
@@ -108,7 +122,7 @@
 		
 		// This block sets the variable if all files were successfully uploaded to the database and file server.
 		if ($i != 0) {
-			if($i == $fileUplaodSuccessCounter) {
+			if($i == $fileUploadSuccessCounter) {
 				$successMessage = 1;
 			}
 		}
@@ -130,7 +144,9 @@
 		// A specific author was not specified, but the code from the manual was altered to 
 		// meet the needs of the JCI website.
 		if ($stmt = mysqli_prepare($dbc, $selectFileLocationSqlQuery)) {
-		    mysqli_stmt_bind_param($stmt, "s", $fileId);
+			// I changed this, because I was using prepared statements wrong. Ryan Pomaski, soon-to-be co-worker 
+			// critiqued my code.
+		    mysqli_stmt_bind_param($stmt, "i", $fileId);
 		    mysqli_stmt_execute($stmt);
 		    mysqli_stmt_bind_result($stmt, $filePath);
 		    mysqli_stmt_fetch($stmt);
@@ -141,27 +157,12 @@
   			header("Content-Disposition: attachment; filename=\"" . basename($filePath) . "\"");
 			readfile($filePath);
 
-			
 		    mysqli_stmt_close($stmt);
 			mysqli_close($dbc);
 			$successMessage = 1;
-			
-			return $successMessage;
 		}
 		else {
 			return $successMessage;
 		}
 	};
-	
-	
-	// This block calls the uploadFile function for testing.
-	// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		// $uploadMessage = uploadFile("uploadedFile", "../uploads/");
-		// echo "$message";
-	// }
-// 	
-	// // This block calls the downloadFile function for testing.
-	// if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-		// $downloadMessage = downloadFile("1");
-	// }
 ?>
