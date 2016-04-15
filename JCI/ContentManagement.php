@@ -9,8 +9,10 @@
  * ethics and editorial policy page.
  * Credit: Blocks of code have been borrowed from EditAnnouncement.php in order to save time.
  * A combination of Faisal Alfadhli and William are responsible for those pieces of code on
- * lines: 35-40, 43-48, 51-55, 59-78, and 109-117.
+ * lines: 35-40, 43-55, and 117-125.
  * 
+ * Revision 1.1: 04/15/2016 Author: Mark Bowman
+ * Description of Change: I changed the file to use prepared statements.
  ********************************************************************************************/
  
  	session_start();
@@ -44,7 +46,7 @@
 				$err[] = 'You forgot to put a title for the page content.';
 			} 
 			else {
-				$title = mysqli_real_escape_string($dbc, trim($_POST['title']));
+				$title = trim($_POST['title']);
 			}
 				
 			// This checks to see if the user input a body and displays a message if not.
@@ -52,20 +54,22 @@
 				$err[] = 'You forgot to enter your page content.';
 			} 
 			else {
-				$body = mysqli_real_escape_string($dbc, trim($_POST['body']));
+				$body = $_POST['body'];
 			}
 			
 			// If there were no errors setting variables, this will update the database with the input data.
 			if(empty($err)) {
 
-				$query = "UPDATE pagecontent SET Title='$title', Body='$body' WHERE PageContentId = $pageContentId;";
-				$run = @mysqli_query($dbc, $query);
+				$query = "UPDATE pagecontent SET Title=?, Body=? WHERE PageContentId = ?;";
+				$stmt = mysqli_prepare($dbc, $query);
+				mysqli_stmt_bind_param($stmt, 'ssi', $title, $body, $pageContentId);
 				
-				if (!$run) {
-					echo 'There was an error with the database while updating the page. Please try again, or if the problem persists contact the web admin.';
+				if (mysqli_stmt_execute($stmt)) {
+					mysqli_stmt_close($stmt);
+					echo "Your page has been updated.";
 				} 
 				else {
-					echo "Your page has been updated.";
+					echo 'There was an error with the database while updating the page. Please try again, or if the problem persists contact the web admin.';
 				}
 			} 
 			else {
@@ -90,15 +94,21 @@
 			$pageContentId = $_GET['id'];
 		}
 		
-		$pageContentQuery = "SELECT Title, Body FROM pagecontent WHERE PageContentId = $pageContentId;";
-		$pageContentSelectQuery = @mysqli_query($dbc, $pageContentQuery);
+		$pageContentQuery = "SELECT Title, Body FROM pagecontent WHERE PageContentId = ?;";
+		$stmt = mysqli_prepare($dbc, $pageContentQuery);
+		mysqli_stmt_bind_param($stmt, 'i', $pageContentId);
 		
-		// This sets the title and body to the content from the database.
-		if ($row = mysqli_fetch_array($pageContentSelectQuery, MYSQLI_ASSOC)) {
-			$title = $row['Title'];
-			$body = $row['Body'];
+		if (mysqli_stmt_execute($stmt)) {
+			mysqli_stmt_bind_result($stmt, $title, $body);
+			// This sets the title and body to the content from the database.
+			if (mysqli_stmt_fetch($stmt)) {
+			}
+			else {
+				echo 'There was a problem with the database. Please contact the web admin.';
+			}
+			mysqli_stmt_close($stmt);
+			mysqli_close($dbc);
 		}
- 		
 	}
 	// If the user is not an editor, this will perform a redirect.
 	else {
