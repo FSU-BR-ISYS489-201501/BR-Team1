@@ -41,7 +41,7 @@
 	<H1>Welcome to JCI</H1>
 	<?php 
 		// This code was borrowed from Search.php, written by Shane Workman.
-		iF (!empty($tableBody)){
+		if (!empty($tableBody)){
 			echo $tableStart;
 			echo $tableHeader;
 			echo $tableBody;
