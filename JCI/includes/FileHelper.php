@@ -68,6 +68,7 @@
 			// for the uploaded file and the location it is going to be saved to.
 			$tempUploadedFileName = $_FILES["$htmlElement"]['tmp_name'][$i];
 			$uploadedFileNameSaveLocation = $fileStorageLocation . "{$_FILES["$htmlElement"]['name']["$i"]}";
+			
 			$fileName = $_FILES[$htmlElement]['name'][$i];
 			$id = $ids[$i];
 			$journalId = $journalIds[$i];
@@ -87,14 +88,14 @@
 				$insertFileLocationSqlQuery = "INSERT INTO files (JournalId, FileLocation, FileType, FileDes)
 					VALUES (?, ?, ?, ?)";
 				$stmt = mysqli_prepare($dbc, $insertFileLocationSqlQuery);
-				mysqli_stmt_bind_param($stmt, 'isss', $id, $uploadedFileNameSaveLocation, $type, $fileName);
+				mysqli_stmt_bind_param($stmt, 'isss', $journalId, $uploadedFileNameSaveLocation, $type, $fileName);
 			}
 			
 			// This block checks if a file has been submitted with the HTML form.
 			if(file_exists($tempUploadedFileName)) {
 				// This block performs an SQL query to insert file
 				// location into the database.
-				if (mysqli_stmt_execute($stmt)) {
+				if (mysqli_stmt_execute($stmt)or die("Errors are ".mysqli_error($dbc))) {
 					mysqli_stmt_close($stmt);
 					// This block moves the input file to the file server.
 					if(move_uploaded_file($tempUploadedFileName, $uploadedFileNameSaveLocation)) {
@@ -129,7 +130,6 @@
 		
 		
 		// This block closes the connection to the database.
-		mysqli_close($dbc);
 		return $successMessage;
 	};
 	
@@ -158,7 +158,6 @@
 			readfile($filePath);
 
 		    mysqli_stmt_close($stmt);
-			mysqli_close($dbc);
 			$successMessage = 1;
 		}
 		else {

@@ -66,22 +66,10 @@
 	
 	session_start();
 	
-	// Mark Bowman: This gets the next JCI volume number and matching JournalId.
-	$latest = 0;
-	$volume = 0;
-	$nextVolumeQuery = 	"SELECT VolumeNumber
-					 	FROM nextvolume;";
-	
-	// Written by Shane Workman.
-	$nextVolumeSelectQuery = @mysqli_query($dbc, $nextVolumeQuery);
-	
-	if ($row = mysqli_fetch_array($nextVolumeSelectQuery, MYSQLI_ASSOC)) {
-		$volume = $row['VolumeNumber'];
-	}
-	
+	// Mark Bowman: This gets the current volume in development.
 	$nextVolumeIdQuery = 	"SELECT JournalId
 					 	FROM journalofcriticalincidents
-					 	WHERE JournalVolume = $volume;";
+					 	WHERE InDevelopement = 1;";
 	$nextVolumeIdSelectQuery = @mysqli_query($dbc, $nextVolumeIdQuery);
 	if ($row = mysqli_fetch_array($nextVolumeIdSelectQuery, MYSQLI_ASSOC)) {
 		$latest = $row['JournalId'];
