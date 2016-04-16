@@ -21,7 +21,7 @@
 	
 	$tableStart = "<table>";
 	$tableHeader = "<th>Critical Incident</th><th>Approved</th>";
-	$tableBody;
+	$tableBody = '';
 	$tableEnd = "</table>";
 	
 	session_start();
@@ -48,27 +48,23 @@
 			}
 		}
 		
-		$nextVolumeQuery = 	"SELECT VolumeNumber
-						 	FROM nextvolume;";
+		$nextVolumeQuery = 	"SELECT JournalId FROM journalofcriticalincidents WHERE InDevelopement = 1;";
 		
 		// Written by Shane Workman.
 		$nextVolumeSelectQuery = @mysqli_query($dbc, $nextVolumeQuery);
 		
 		if ($row = mysqli_fetch_array($nextVolumeSelectQuery, MYSQLI_ASSOC)) {
 			
-			$latest = $row['VolumeNumber'];
+			$latest = $row['JournalId'];
+			
 			// Mark Bowman: I altered the SQL query to check the volume number instead of the journal ID.
 			$criticalIncidentQuery = 	"SELECT criticalincidents.Title, criticalincidents.ApprovedPublish
 									 	FROM criticalincidents 
-									 	INNER JOIN journalofcriticalincidents
-									 	ON journalofcriticalincidents.JournalId = criticalincidents.JournalId 
-									 	WHERE JournalVolume = {$latest} ORDER BY CriticalIncidentId;";
+									 	WHERE JournalId = $latest ORDER BY CriticalIncidentId;";
 												
 			$criticalIncidentIdQuery = 	"SELECT CriticalIncidentId
 							 			FROM criticalincidents 
-									 	INNER JOIN journalofcriticalincidents
-									 	ON journalofcriticalincidents.JournalId = criticalincidents.JournalId 
-									 	WHERE JournalVolume = {$latest} ORDER BY CriticalIncidentId;";
+									 	WHERE JournalId = $latest ORDER BY CriticalIncidentId;";
 										
 			$criticalIncidentSelectQuery = @mysqli_query($dbc, $criticalIncidentQuery);
 			$criticalIncidentIdSelectQuery = @mysqli_query($dbc, $criticalIncidentIdQuery);

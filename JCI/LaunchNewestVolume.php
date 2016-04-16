@@ -22,71 +22,95 @@
  ********************************************************************************************/
  
  	$page_title = 'Launch Latest Volume of JCI';
+	include ("includes/FileHelper.php");
  	include('includes/Header.php');
 	include('includes/TableRowHelper.php');
 	include('../DbConnector.php');
 	
+	$latest = 0;
+	$latestVolume = '';
+	$currentDate = date('Y');
+	
  	// Makes the latest volume go live
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-		$latest = 0;
-		$currentDate = date("Y");
-		$nextVolumeQuery = 	"SELECT VolumeNumber
-						 	FROM nextvolume;";
+		$nextVolumeQuery = 	"SELECT JournalId, JournalVolume FROM journalofcriticalincidents WHERE InDevelopement = 1;";
 		
 		// Written by Shane Workman.
 		$nextVolumeSelectQuery = @mysqli_query($dbc, $nextVolumeQuery);
 		
 		if ($row = mysqli_fetch_array($nextVolumeSelectQuery, MYSQLI_ASSOC)) {
-			$latest = $row['VolumeNumber'];
+			$latest = $row['JournalId'];
+			$latestVolume = $row['JournalVolume'];
 		}
-		//Update the current JCI volume.
-		$latest++;
-		$updateNextVolumeQuery = 	"UPDATE nextvolume SET VolumeNumber = {$latest} WHERE NextVolumeId = 1;";
-	
-		// Written by Shane Workman.
-		$updateNextVolumeSelectQuery = @mysqli_query($dbc, $updateNextVolumeQuery);
 		
-		$createNewVolumeQuery = "INSERT INTO journalofcriticalincidents(JournalVolume, PublicationYear)
-								VALUES ($latest, $currentDate)";
+		$criticalIncidentIds = array();
+		$types = array();
+		$journalIds = array();
 		
-		// Written by Shane Workman.						
-		$createNewVolumeInsertQuery = @mysqli_query($dbc, $createNewVolumeQuery);
+		array_push($criticalIncidentIds, 0);
+		array_push($types, 'Journal');
+		array_push($journalIds, $latest);
+		
+		if (uploadFile($dbc, "uploadedFile", "../uploads/", $criticalIncidentIds, $types, $journalIds)) {
+		
+			//Update the current JCI volume.
+			$updateNextVolumeQuery = "UPDATE journalofcriticalincidents SET InDevelopement = 0 WHERE JournalId = $latest;";
+			
+			// Written by Shane Workman.
+			if ($updateNextVolumeSelectQuery = @mysqli_query($dbc, $updateNextVolumeQuery)) {
+				if (mysqli_affected_rows($dbc)) {
+					$latest++;
+					$latestVolume = (int) $latestVolume;
+					$currentDate = (int) $currentDate;
+					$latestVolume++;
+					$currentDate++;
+					$createNewVolumeQuery = "INSERT INTO journalofcriticalincidents(JournalVolume, PublicationYear, InDevelopement)
+											VALUES ('$latestVolume', '$currentDate', 1)";
+					
+					// Written by Shane Workman.						
+					$createNewVolumeInsertQuery = @mysqli_query($dbc, $createNewVolumeQuery);
+				}
+				else {
+				
+				}
+			}
+			else {
+				echo 'nothing was updated!';
+			}
+		}
+		else {
+			echo 'Failed to upload the new volume.';
+		}
 	}
 	
 	session_start();
 	if($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
 		
-		$nextVolumeQuery = 	"SELECT VolumeNumber
-						 	FROM nextvolume;";
+		$nextVolumeQuery = 	"SELECT JournalId, JournalVolume FROM journalofcriticalincidents WHERE InDevelopement = 1;";
 		
 		// Written by Shane Workman.
 		$nextVolumeSelectQuery = @mysqli_query($dbc, $nextVolumeQuery);
 		
-		
-		
 		if ($row = mysqli_fetch_array($nextVolumeSelectQuery, MYSQLI_ASSOC)) {
 			
-			$latest = $row['VolumeNumber'];
+			$latest = $row['JournalId'];
+			$latestVolume = $row['JournalVolume'];
 			$tableBody = '';
 			// Mark Bowman: I altered the SQL query to check the volume number instead of the journal ID.
-			$criticalIncidentQuery = 	"SELECT criticalincidents.CriticalIncidentId, criticalincidents.Title, journalofcriticalincidents.JournalVolume
+			$criticalIncidentQuery = 	"SELECT CriticalIncidentId, Title, JournalId
 							 			FROM criticalincidents 
-							 			INNER JOIN journalofcriticalincidents
-									 	ON journalofcriticalincidents.JournalId = criticalincidents.JournalId
-							 			WHERE ApprovedPublish = 1 AND journalofcriticalincidents.JournalVolume = {$latest} ORDER BY CriticalIncidentId;";
+							 			WHERE ApprovedPublish = 1 AND JournalId = $latest ORDER BY CriticalIncidentId;";
 										
 			$criticalIncidentIdQuery = 	"SELECT CriticalIncidentId
 							 			FROM criticalincidents 
-							 			INNER JOIN journalofcriticalincidents
-									 	ON journalofcriticalincidents.JournalId = criticalincidents.JournalId
-							 			WHERE ApprovedPublish = 1 AND journalofcriticalincidents.JournalVolume = {$latest} ORDER BY CriticalIncidentId;";
+							 			WHERE ApprovedPublish = 1 AND JournalId = $latest ORDER BY CriticalIncidentId;";
 			
 			// Written by Shane Workman.
 			$criticalIncidentSelectQuery = @mysqli_query($dbc, $criticalIncidentQuery);
 			$criticalIncidentIdSelectQuery = @mysqli_query($dbc, $criticalIncidentIdQuery);
 		
 			$pageNames = array('FileManagement.php');
-			$variableNames = array('id');
+			$variableNames = array('CriticalIncidentId');
 			$titles = array('View');
 			
 			$headerCounter = mysqli_num_fields($criticalIncidentSelectQuery);
@@ -122,9 +146,7 @@
 			
 		 	$approvedSubmissionQuery = 	"SELECT CriticalIncidentId
 							 			FROM criticalincidents 
-							 			INNER JOIN journalofcriticalincidents
-									 	ON journalofcriticalincidents.JournalId = criticalincidents.JournalId
-							 			WHERE ApprovedPublish = 1 AND journalofcriticalincidents.JournalVolume = {$latest} ORDER BY CriticalIncidentId;";
+							 			WHERE ApprovedPublish = 1 AND JournalId = {$latest} ORDER BY CriticalIncidentId;";
 			
 			
 			// Written by Shane Workman.
@@ -145,7 +167,7 @@
 					$fileLocationQuery = $fileLocationQuery . " ORDER BY CriticalIncidentId";
 				}
 				else {
-					$err[] = "There are no approved Critical Incidents for JCI volume {$latest}.";
+					$err[] = "There are no approved Critical Incidents for JCI volume $latestVolume.";
 				}
 			}
 			else {
@@ -161,9 +183,10 @@
 				// with a Critical Incident in the initial query.
 				for($a = 0; $a < count($criticalIncidentIds); $a++) {
 					$currentIdFileCounter = 0;
-					while ($row = mysqli_fetch_row($fileLocationSelectQuery)) {
+					while ($row = mysqli_fetch_array($fileLocationSelectQuery, MYSQLI_ASSOC)) {
 						if (isset($row['FileType'])) {
-							if (($criticalIncidentIds[$a] == "$row[0]" && $row['FileType'] == 'Summary') || ($criticalIncidentIds[$a] == "$row[0]" && $row['FileType'] == 'CI')) {
+							if (($criticalIncidentIds[$a] == $row['CriticalIncidentId'] && $row['FileType'] == 'Summary') || 
+								($criticalIncidentIds[$a] == $row['CriticalIncidentId'] && $row['FileType'] == 'CI')) {
 								$currentIdFileCounter++;
 							}
 						}
@@ -183,7 +206,11 @@
 						}
 					}
 					if (empty($err)) {
-						echo '<form action="LaunchNewestVolume.php" method = "POST"><input type="submit"  class = "button5" value="Launch the Latest Volume"></form>';
+						$formToDisplay = '<form action="LaunchNewestVolume.php" enctype="multipart/form-data"  multiple = "multiple" method = "POST">';
+						$formToDisplay = $formToDisplay . '<input type="file" name="uploadedFile[]" />';
+						$formToDisplay = $formToDisplay . '<input type="submit" class = "button5" value="Launch the Latest Volume">';
+						$formToDisplay = $formToDisplay . '</form>';
+						echo $formToDisplay;
 					}
 				}
 				else {
