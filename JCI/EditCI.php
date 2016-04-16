@@ -128,7 +128,21 @@
 						?>
 				</p>	
 				<p>Title: <input type="text" name="title" size="15" maxlength="50" value="<?php echo $title; ?>" </input></p>
-				<p>Announcement: <br/><textarea name="announcement" style="width:250px;height:150px;" value=""><?php echo $body;?></textarea><br />
+				<p>Keywords: <br/>
+				<?php
+						$sql="SELECT KeywordId, CIKeyword FROM keywords order by CIKeyword"; 
+						
+						echo "<select name=CIKeyword value=''>Keywords </option>"; // list box select command
+						
+						/* Option values are added by looping through the array */ 
+						foreach ($dbo->query($sql) as $row){//Array or records stored in $row
+												
+						echo "<textarea name="keywords" style="width:250px;height:150px;" value=""> echo $body;";
+												
+						}
+						
+						 echo "</textarea>";// Closing of list box
+						?>
 				<p><input type="submit" value="Submit" /></p>
 			</fieldset>
 		</form>		
