@@ -84,9 +84,8 @@
 									<a href='SubmitCase.php' class='button2'>Submit a Case</a>
 									<br>
 									<br>
-									<a href='BrowseCriticalIncidents.php' class = 'button4'>Browse</a>
-									<a href='ManageAnnouncements.php' class = 'button4'>Manage Announcements</a>
-									<a href='CriticalIncidents.php' class = 'button4'>Manage Reviewers</a>
+									<a href='UserManagement.php' class = 'button4'>User Management</a>
+									<a href='WebsiteManagement.php' class = 'button4'>Website Management </a>
 								</div>
 							</div>
 						</div>
