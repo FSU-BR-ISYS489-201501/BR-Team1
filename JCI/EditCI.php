@@ -38,14 +38,14 @@
 			$CriticalIncidentId = mysqli_real_escape_string($dbc, trim($_POST['id']));
 			}
 		
-		//Check category value value.
+		//Check Keyword value
 		if (empty($_POST['CIKeyword'])) {
 			$err[] = 'You forgot to enter a Critical Incident.';
 		} else {
 			$CIKeyword = mysqli_real_escape_string($dbc, trim($_POST['id']));
 			}
 		
-		//Check category value value.
+		//Check category value
 		if (empty($_POST['Category'])) {
 			$err[] = 'You forgot to select.';
 		} else {
@@ -136,8 +136,9 @@
 						
 						/* Option values are added by looping through the array */ 
 						foreach ($dbo->query($sql) as $row){//Array or records stored in $row
-												
-						echo "<textarea name="keywords" style="width:250px;height:150px;" value=""> echo $body;";
+						
+						<html>						
+						<p>Keywords: <textarea name="keywords" style="width:250px;height:150px;" value=""><php echo $body; ?></textarea></p>
 												
 						}
 						
