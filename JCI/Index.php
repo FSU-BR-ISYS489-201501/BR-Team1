@@ -19,6 +19,7 @@
 	$success = '';
 	$currentDate = date("Y-m-d");
 	$contentBody = '';
+	$slideShow = '';
 	
 	$query = "SELECT Body FROM announcements WHERE IsActive = 1 AND StartDate <= '{$currentDate}' 
 		AND EndDate > '{$currentDate}';";
@@ -33,6 +34,14 @@
 	$pageContentSelectQuery = @mysqli_query($dbc, $pageContentQuery);
 	if ($row = mysqli_fetch_array($pageContentSelectQuery, MYSQLI_ASSOC)) {
 		$contentBody = $row['Body'];
+	}
+	
+	$query = "SELECT FileLocation FROM files WHERE FileType = 'Slide';";
+	
+	if ($selectQuery = @mysqli_query($dbc, $query)) {
+		while ($row = mysqli_fetch_array($selectQuery, MYSQLI_NUM)) {
+			$slideShow = $slideShow . "<li><img src=$row[0] alt='' style='width:60%;height:60%;'></li>";
+		}
 	}
 ?>
 <?php echo $success; ?>
@@ -62,25 +71,9 @@
 
   <ul class=panes>
 
-    <li>
-      <img src="styles/images/DSCN3333.JPG" alt="" style="width:60%;height:60%;">
-    </li>
-
-    <li>
-      <img src="styles/images/DSCN0029.JPG" alt="" style="width:60%;height:60%;">
-    </li>
-
-    <li>
-      <img src="styles/images/DSCN0179.JPG" alt="" style="width:60%;height:60%;">
-    </li>
-
-    <li>
-      <img src="styles/images/Volume7WelcomeMessage.PNG" alt="" style="width:40%;height:40%;">
-    </li>
-
-    <li>
-      <img src="../uploads/AfterHoursSummary.pdf" alt="" style="width:60%;height:60%;">
-    </li>
+    <?php
+    	echo $slideShow;
+    ?>
 
   </ul>
 
