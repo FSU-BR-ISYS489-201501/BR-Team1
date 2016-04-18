@@ -6,7 +6,7 @@
   * Page created for use in the JCI Project.
   * Project work is done as part of a Capstone class ISYS489: Ferris State University.
   * Purpose: The purpose of this page is to allow people to send an email to the editor.
-  * Credit: my own code, from my Final project in ISYS288.
+  * Credit: partially my own code, from my Final project in ISYS288 - Had help but don't remember the source.
   *********************************************************************************************/
   $page_title = "Email Confirmation";
 include ('includes/Header.php');
