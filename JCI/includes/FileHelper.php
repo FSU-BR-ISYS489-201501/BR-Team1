@@ -4,19 +4,19 @@
 	 * Original Author: Mark Bowman
 	 * Date of Origination: 02/04/2016
 	 * 
-	 * Functions: checkIfFileExistsOnFileServer($filePath), uploadFile($htmlElement, $fileStorageLocation)
-	 * , downloadFile($fileId)
-	 * 
-	 * Function: checkIfFileExistsOnFileServer($filePath)
-	 * Purpose: This function will check if the input file name already exists on the file server. If it does, 
-	 * this function will modify the name of the file until it finds a file name that doesn't exist on the file server.
-	 * and if the input file name exists on the file server, it returns a file name that doesn't exist on the file server.
-	 * Variable: $filePath includes the name of the file.
+	 * Functions: uploadFile($htmlElement, $fileStorageLocation), downloadFile($fileId)
 	 * 
 	 * Function: uploadFile($htmlElement, $fileStorageLocation)
 	 * Purpose: This function will recieve any number of files from an html form. This 
 	 * function will then insert the location and name of the file into a database, and then save the actual file on 
 	 * the file server. Finally, it will return $successMessage, which is described in the variables section.
+	 * 
+	 * Credit: I asked Ryan Pomaski, a future co-worker, to look over the uploadFile function for critiques, and he
+	 * suggested that I should look over the manual again, which lead to discover that I was using prepared statements
+	 * incorrectly. I used code written by bebertjean in the downloadFile function, retrieved from 
+	 * http://php.net/manual/en/function.header.php. Code was also retrived from http://php.net/manual/en/mysqli.prepare.php, 
+	 * but a specific author was not specified. The code from the manual was altered to meet the needs of the JCI website.
+	 * 
 	 * Variables: $htmlElement contains all of the uploaded files. 
 	 * 			$fileStorageLocation is the destination file path for the uploaded files. 
 	 * 			$uploadedFileNameSaveLocation is the destination file path for the uploaded files in to the file name. 
@@ -40,15 +40,10 @@
 	 * 
 	 * Revision 1.4: 04/15/2016 Author: Mark Bowman
 	 * Description of Change: Revised prepared statements, because I was using them wrong.
+	 * 
+	 * Revision 1.5: 04/17/2016 Author: Mark Bowman
+	 * Description of Change: Removed unused function and added/changed comments.
 	 *******************************************************************************************************************/
-	//TODO fix this function
-	function checkIfFileExistsOnFileServer($filePath) {
-		$counter = 1;
-		while (file_exists($filePath)) {
-			$counter++;
-		}
-		return $filePath . " ($counter)";
-	};
 	
 	// This function will upload a file from the host's computer to the server. 
 	// A string is returned that specifies if the upload was successful or not.
@@ -75,16 +70,13 @@
 			$type = $types[$i];
 			
 			if ($types[$i] == 'Word' || $types[$i] == 'Summary' || $types[$i] == 'CI') {
-				// I changed this, because I was using prepared statements wrong. Ryan Pomaski, soon-to-be co-worker 
-				// critiqued my code.
 				$insertFileLocationSqlQuery = "INSERT INTO files (CriticalIncidentId, JournalId, FileLocation, FileType, FileDes)
 					VALUES (?, ?, ?, ?, ?)";
 				$stmt = mysqli_prepare($dbc, $insertFileLocationSqlQuery);
 				mysqli_stmt_bind_param($stmt, 'iisss', $id, $journalId, $uploadedFileNameSaveLocation, $type, $fileName);
 			}
 			else if ($types[$i] == 'Journal') {
-				// I changed this, because I was using prepared statements wrong. Ryan Pomaski, soon-to-be co-worker 
-				// critiqued my code.
+				// I changed this, because I was using prepared statements wrong. 
 				$insertFileLocationSqlQuery = "INSERT INTO files (JournalId, FileLocation, FileType, FileDes)
 					VALUES (?, ?, ?, ?)";
 				$stmt = mysqli_prepare($dbc, $insertFileLocationSqlQuery);
@@ -119,16 +111,12 @@
 				break;
 			}
 		}
-		
-		
 		// This block sets the variable if all files were successfully uploaded to the database and file server.
 		if ($i != 0) {
 			if($i == $fileUploadSuccessCounter) {
 				$successMessage = 1;
 			}
 		}
-		
-		
 		// This block closes the connection to the database.
 		return $successMessage;
 	};
@@ -140,19 +128,15 @@
 		$selectFileLocationSqlQuery = "SELECT FileLocation FROM files WHERE FileID = ?;";
 		
 		
-		// This code was retrived from http://php.net/manual/en/mysqli.prepare.php.
-		// A specific author was not specified, but the code from the manual was altered to 
-		// meet the needs of the JCI website.
+		// Citation: Unknown
 		if ($stmt = mysqli_prepare($dbc, $selectFileLocationSqlQuery)) {
-			// I changed this, because I was using prepared statements wrong. Ryan Pomaski, soon-to-be co-worker 
-			// critiqued my code.
 		    mysqli_stmt_bind_param($stmt, "i", $fileId);
 		    mysqli_stmt_execute($stmt);
 		    mysqli_stmt_bind_result($stmt, $filePath);
 		    mysqli_stmt_fetch($stmt);
 			
-			// This code was written by bebertjean at yahoo dot fr. This 
-			// code was retrived from http://php.net/manual/en/function.header.php.
+			// Citation: bebertjean
+			// This will set the file name of the file to be downloaded.
 			header('Content-Type: application/download');
   			header("Content-Disposition: attachment; filename=\"" . basename($filePath) . "\"");
 			readfile($filePath);
