@@ -32,36 +32,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	//Set up Error msg array.
  	$err = array();
 	
-	//Sticky forms help.
-	if(isset($_POST['field']) == "First Name"){
-		$fieldVar = $_POST['field'];
-	} elseif(isset($_POST['field'])== "Last Name"){
-		$fieldVar = $_POST['field'];
-	} elseif(isset($_POST['field'])== "Email"){
-		$fieldVar = $_POST['field'];
-	} elseif(isset($_POST['field'])== "Title"){
-		$fieldVar = $_POST['field'];
-	} elseif(isset($_POST['field'])== "Keyword"){
-		$fieldVar = $_POST['field'];
-	} elseif(isset($_POST['field'])== "PubYear"){
-		$fieldVar = $_POST['field'];
-	} else {
-		$fieldVar = "First Name";
-	}
 	
 	//Checks to see what criteria we are searching for.
 	if (($_POST['field']) == "First Name") {
 		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
+		$fieldVar = $_POST['field'];
 	} elseif (($_POST['field']) == "Last Name") {
 		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
+		$fieldVar = $_POST['field'];
 	} elseif (($_POST['field']) == "Email") {
 		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
+		$fieldVar = $_POST['field'];
 	} elseif (($_POST['field']) == "Title") {
 		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
+		$fieldVar = $_POST['field'];
 	} elseif (($_POST['field']) == "PubYear") {
 		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
+		$fieldVar = $_POST['field'];
 	} elseif (($_POST['field']) == "Keyword"){
 		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
+		$fieldVar = $_POST['field'];
+	} elseif (($_POST['field']) == "Category"){
+		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
+		$fieldVar = $_POST['field'];
 	} else {
 		$err[] = 'This error should never print; if it does, select field is bugged.';
 	}
@@ -130,19 +123,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId 
 									WHERE CIKeyword = '$criteria' AND criticalincidents.ApprovedPublish = 1;";
 									
+			} elseif ($field == "Category") {
+				// ADD IN CATEGORY SQL HERE... ONCE it gets washed out.
 			} else {
 				echo "If this prints, Selecting which SQL statement is used is bugged!";
 			} 
 		if($field == "First Name" || $field == "Last Name" || $field == "Email"){
-			//Diplay search resualts.
+			//Diplay search results.
 			$run = mysqli_query($dbc, $query);
 			$headerCounter = mysqli_num_fields($run);
 			$tableBody = tableRowGenerator($run, $headerCounter);
 			$searchHeader = "<th>Last Name</th><th>First Name</th><th>Email</th><th>Title</th>";
 			$resultsVar = "No Search Results!";
-			//"Last Name - First Name - Email - Title";
 			
 		} elseif ($field == "PubYear" || $field == "Title" || $field == "Keyword"){
+			//Display search results
 			$run = mysqli_query($dbc, $query);
 	  		$headerCounter = mysqli_num_fields($run);
 	  		$idSelectRun = mysqli_query($dbc, $idSelectQuery);
@@ -164,9 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		} echo "Please correct the errors.";
     }
 } else {
-	//$query = "";
-	//$headerCounter = mysqli_num_fields($query);
-	//$tableBody = tableRowGenerator($query, $headerCounter);
+	//Do NOTHING!
 }
 ?>
 <h1>Search Criteria</h1>
@@ -179,6 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			<option <?php if($fieldVar == "Email") echo'selected="selected"'; ?>    value="Email">Email</option>
 			<option <?php if($fieldVar == "Title") echo'selected="selected"'; ?> value="Title">Title</option>
 			<option <?php if($fieldVar == "Keyword") echo'selected="selected"'; ?>    value="Keyword">Keyword</option>
+			<option <?php if($fieldVar == "Category") echo'selected="selected"'; ?> value="Category">Category</option>
 			<option <?php if($fieldVar == "PubYear") echo'selected="selected"'; ?> value="PubYear">Publication Date</option>
 		</select>
 		<br>
