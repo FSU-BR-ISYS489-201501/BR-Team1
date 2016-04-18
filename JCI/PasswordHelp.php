@@ -25,7 +25,7 @@
 			} else {
 				$email = mysqli_real_escape_string($dbc, trim($_POST['email']));
 			}
-		// 
+		//Checks to see if array
 		if (empty($err)) {
 			$query = "SELECT Email FROM Users WHERE Email = '$email';";	
 			$run = @mysqli_query($dbc, $query);
@@ -54,10 +54,10 @@
         		'X-Mailer: PHP/' . phpversion();
 				//Builds email to send to the registered.
     			mail($to, $subject, $message, $headers);
-				echo '<fieldset>An email has been sent to the email provided! Check it and follow instructions to reset your password.</fieldset>';
+				echo '<h1>Password Reset</h1> <fieldset>An email has been sent to the email provided! Check it and follow instructions to reset your password.</fieldset>';
 				
 			} else {
-				echo '<fieldset>Email not registered: <a href="Register.php">Register!</a></fieldset>';
+				echo '<h1>Password Reset</h1> <fieldset>Email not registered: <a href="Register.php">Register!</a></fieldset>';
 			}
 			
 		} else {
