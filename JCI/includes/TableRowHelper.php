@@ -40,6 +40,9 @@
  * Purpose: This function creates table rows that contain a link for assgin reviwers.
  * This will be saved to a string and then returned.
  * 
+ * Function DropDownList($selectQuery, $field)
+ * Purpose: This function creates dropdown list to select a value.
+ * 
  * Revision1.1: MM/DD/YYYY Author: Name Here 
  * Description of change. Also add //Name: comments above your change within the code.
  ********************************************************************************************/
@@ -242,4 +245,16 @@
 			</div>";
 	}
 		
+	// This function is to create dropdown list.
+	// It was created by my tutor: William Quigley, Email : mnewrath@gmail.com
+	function DropDownList($selectQuery, $field){
+		$catddbox = "<select name='slctCategory'>
+			  <option value=''>Select...</option>";
+		while ($row = mysqli_fetch_array($selectQuery)) {
+			$data = $row["$field"];
+			$catddbox = $catddbox . "<option value='$data'>$data</option>";
+		}
+		$catddbox = $catddbox . "</select>";
+		return $catddbox;
+	}
 ?>
