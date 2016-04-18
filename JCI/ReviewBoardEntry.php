@@ -13,32 +13,94 @@
   $page_title = 'Create Review Board';
   include ("includes/Header.php");
   include('includes/TableRowHelper.php');
+  require ('../DbConnector.php'); 
   
-  	//Got from mark to check the post back.
-  	if (isset($_GET['boardId'])) {
-			$deleteQuery = "DELETE FROM reviewboard WHERE boardID = {$_GET['activateId']};";
-			$run = @mysqli_query($dbc, deleteQuery);
-			if($run){
-				header('Location: ManageAnnouncements.php');
-				exit;
-			}
+	//Got from mark to check the post back.
+	if (isset($_GET['boardId'])) {
+		$selectId = $_GET['boardId'];
+		$deleteQuery = "DELETE FROM reviewboard WHERE boardId = $selectId ;";
+		$run = @mysqli_query($dbc, $deleteQuery);
+		if($run) {				
+			header('Location: ReviewBoardEntry.php');
+			exit;
+		} else {
+			echo "If you see this message, please tell web admin! Thank you.";
+			
 		}
-	$query = "SELECT fName, lName, institution FROM reviewboard;";
-	$idQuery = "SELECT boardId FROM reviewboard;";
+	}
+ 
+ if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+{
+	$err = array();
+	// Make sure there is a First name entered.
+	if (empty($_POST['fName'])) {
+			$err[]= "You didn't enter the persons First Name!";
+		} else {
+			$fName = mysqli_real_escape_string($dbc, trim($_POST['fName']));
+		} 
+	// Make sure there is a Last name entered.
+	if (empty($_POST['lName'])) {
+			$err[]= "You didn't enter the persons Last Name!";
+		} else {
+			$lName = mysqli_real_escape_string($dbc, trim($_POST['lName']));
+		}
+	// Make sure there is a Institute entered.
+	if (empty($_POST['institution'])) {
+			$err[]= "You didn't enter the persons Institution!";
+		} else {
+			$institution = mysqli_real_escape_string($dbc, trim($_POST['institution']));
+		}		
+	// Check that all textboxes had data.
+	If(empty($err)){
+		//Insert the reviewer into the reviewboard table.
+		$query = "INSERT INTO reviewboard (fName, lName, institution)
+					VALUES ('$fName', '$lName', '$institution');";
+		$run = mysqli_query($dbc, $query);
+	} else {
+		
+		//List each Error msg that is stored in the array.
+		Foreach($err as $m)
+		{
+			echo " $m <br />";
+		} echo "Please correct the errors.";
+		
+
+	}
+	
+	// Display Current Table anyway!
+	$query = "SELECT fName, lName, institution FROM reviewboard ORDER BY lName;";
+	$idQuery = "SELECT boardId FROM reviewboard ORDER BY lName;";
 	
 	$run = @mysqli_query($dbc, $query);
 	$idRun = @mysqli_query($dbc, $idQuery);
 	
 	$pageNames = array('ReviewBoardEntry.php');
-	$variableNames = array('boardID');
+	$variableNames = array('boardId');
 	$titles = array('Delete');
 	
-	$headerCounter = mysqli_num_fields($run);
+	$headerCounter = @mysqli_num_fields($run);
 	$editButton = tableRowLinkGenerator($idRun, $pageNames, $variableNames, $titles);
 	$tableBody = tableRowGeneratorWithButtons($run, $editButton, 1, $headerCounter);
+} else {
+	// Not a postback, grab the data for the table.
+	$query = "SELECT fName, lName, institution FROM reviewboard ORDER BY lName;";
+	$idQuery = "SELECT boardId FROM reviewboard ORDER BY lName;";
+	
+	$run = @mysqli_query($dbc, $query);
+	$idRun = @mysqli_query($dbc, $idQuery);
+	
+	$pageNames = array('ReviewBoardEntry.php');
+	$variableNames = array('boardId');
+	$titles = array('Delete');
+	
+	$headerCounter = @mysqli_num_fields($run);
+	$editButton = tableRowLinkGenerator($idRun, $pageNames, $variableNames, $titles);
+	$tableBody = tableRowGeneratorWithButtons($run, $editButton, 1, $headerCounter);
+}
 ?>
 
-<h1>Review Board</h1>>
+<h1>Current Review Board</h1>
+<fieldset>
 		<table>
 			<tr>
 				<th>First Name</th>
@@ -47,7 +109,17 @@
 			</tr>
 			<?php echo $tableBody; ?>
 		</table>
-
+</fieldset>
+<h1>Insert Review Member</h1>
+<fieldset>
+	<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"  method="post">
+			<p>First Name: <input type="text" name="fName" size="15" maxlength="50"  /></p>
+			<p>Last Name: <input type="text" name="lName" size="15" maxlength="50"  /></p>
+			<p>Institution: <input type="text" name="institution" size="15" maxlength="50"  /></p>
+			<p>* All fields required.</p>
+			<p><input type="submit" value="Submit" class="button3"</p>
+	</form>		
+</fieldset>
 	  
 <?php
 include ("includes/Footer.php");
