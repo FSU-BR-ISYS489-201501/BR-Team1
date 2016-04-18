@@ -1,8 +1,23 @@
-<!-- By Faisal Alfadhli-->
-<!--Email: alfadhf@ferris.edu-->
-<!--This is my own code I wrote it 2 years ago for ISYS 288  -->
-<!--02/04/2016 -->
-<!-- header -->
+<?php
+/*********************************************************************************************
+ * Original Author: Faisal Alfadhli
+ * Date of origination: 02/04/2016
+ *
+ * Page created for use in the JCI Project.
+ * Project work is done as part of a Capstone class ISYS489: Ferris State University.
+ * Purpose: The purpose of this page to allow any user a means of navigating the website.
+ * 
+ * Credit: I used a post written by Anas to understand how to use session_start(), retrieved 
+ * from http://stackoverflow.com/questions/10855972/determine-if-session-superglobal-exists-in-php.
+ * 
+ * Revision1.1: 04/02/2016 Author: Mark Bowman
+ * Description of change. I changed the layout of the header and made it so different account
+ * types see a customized header.
+ * 
+ * Revision1.2: 04/17/2016 Author: Mark Bowman
+ * Description of change. I added a comment header and citations.
+ ********************************************************************************************/
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,8 +40,8 @@
 							
 							
 		<?php
+			// Citation: Anas
 			session_start();
-			// Cite Anas http://stackoverflow.com/questions/10855972/determine-if-session-superglobal-exists-in-php
 			if(!isset($_SESSION['FName'])) {
 				echo "
 									<div class='login'>
@@ -84,9 +99,8 @@
 									<a href='SubmitCase.php' class='button2'>Submit a Case</a>
 									<br>
 									<br>
-									<a href='BrowseCriticalIncidents.php' class = 'button4'>Browse</a>
-									<a href='ManageAnnouncements.php' class = 'button4'>Manage Announcements</a>
-									<a href='CriticalIncidents.php' class = 'button4'>Manage Reviewers</a>
+									<a href='UserManagement.php' class = 'button4'>User Management</a>
+									<a href='WebsiteManagement.php' class = 'button4'>Website Management </a>
 								</div>
 							</div>
 						</div>

@@ -23,7 +23,7 @@
 	
 	if($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
 		require('../DbConnector.php');
-		// The idea for this code was inspired by Michael J. Calkins.
+		// Citation: Michael J. Calkins.
 		// This block will check if 'deleteId' is set in the url. It will set the announcement with that value to inactive.
 		if (isset($_GET['deleteId'])) {
 			$announcementDeactivateQuery = "UPDATE announcements SET IsActive = 0 WHERE AnnouncementId = {$_GET['deleteId']};";
@@ -34,7 +34,7 @@
 			}
 		}
 		
-		// The idea for this code was inspired by Michael J. Calkins.
+		// Citation: Michael J. Calkins.
 		// This block will check if 'activateId' is set in the url. It will set the announcement with that value to active.
 		if (isset($_GET['activateId'])) {
 			$announcementActivateQuery = "UPDATE announcements SET IsActive = 1 WHERE AnnouncementId = {$_GET['activateId']};";
@@ -52,7 +52,7 @@
 		$announcementQuery = "SELECT AnnouncementId, Subject, Body, StartDate, EndDate, Type, IsActive FROM announcements;";
 		$announcementIdQuery = "SELECT AnnouncementId FROM announcements;";
 		
-		// Written by Shane Workman.
+		// Citation: Shane Workman.
 		$selectQuery = @mysqli_query($dbc, $announcementQuery);
 		$idSelectQuery = @mysqli_query($dbc, $announcementIdQuery);
 		
