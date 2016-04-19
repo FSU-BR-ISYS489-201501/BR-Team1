@@ -68,7 +68,7 @@
 			$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
 			
 			if($run){
-				$query = "UPDATE keywords SET CIKeyword='$keyword' WHERE CriticalIncidentId = $CriticalIncidentId;";
+				//$query = "UPDATE keywords SET CIKeyword='$keyword' WHERE CriticalIncidentId = $CriticalIncidentId;";
 			}
 		} else {
 				//List each Error msg that is stored in the array.
@@ -124,25 +124,33 @@
 	<h1>Edit Critical Incidents</h1>
 		<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" id="editCriticalIncident" method="post">
 			<fieldset> 
-				Title: <input type="text" name="title" value="<?php echo $title; ?>">
+				Title: <input type="text" name="title" value="<?php if (isset($title)) {echo $title;} ?>">
 				<input type="hidden" value="<?php if (isset($CriticalIncidentId)) echo $CriticalIncidentId; ?>" name="id" >
 			  	<p>Category:
 						<!-- Idea from http://www.plus2net.com/php_tutorial/list-table.php -->
 						<?php
-						$sql="SELECT CriticalIncidentId, CategoryName FROM categorys order by CategoryName"; 
+						$sql="SELECT CategoryName FROM categorys order by CategoryName"; 
 						
-						echo "<select name=categorys value=''>Category Name</option>"; // list box select command
+						echo "<select name=categorys>"; // list box select command
+						$selectQuery = mysqli_query($dbc, $sql);
 						
 						/* Option values are added by looping through the array */ 
-						foreach ($dbo->query($sql) as $row){//Array or records stored in $row
+						while($row=mysqli_fetch_row($selectQuery)){
+							echo "<option value={$row[0]}>{$row[0]}</option>";
+						} //Array or records stored in $row
 												
-						echo "<option value=$row[CriticalIncidentId]>$row[CategoryName]</option>"; 
+						 
 												
-						}
+						
 						
 						 echo "</select>";// Closing of list box
 						?>
 						
+						<!--
+						<select name="type">
+							<option <?php if(isset($category)) {echo $category;} ?> value="<?php $category; ?>"
+						</select>
+						-->
 				</p>
 							
 				
