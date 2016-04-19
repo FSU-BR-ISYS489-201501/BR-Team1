@@ -7,6 +7,10 @@
  * Project work is done as part of a Capstone class ISYS489: Ferris State University.
  * Purpose: To show a list of users, and allow the editor to update/verify the Society for Case Research (SCR) Membership numbers
  * Credit: Borrows code from Shane and Mark
+ * Revision 1: 4/18/16
+ * 	- Added clearer instructions to the page
+ * 	- Added the Update box so that only records with the Update checkbox marked will receive
+ * 	an update query (rather than updating all user records in the database)
  ********************************************************************************************/
 	include ("includes/Header.php");
 	include("includes/TableRowHelper.php");
@@ -22,14 +26,13 @@
 		}
 	
 	// Query all records in the users table to pull in a full list. In the future, we could ad code to do a sort or search to limit records
-	
 	$authorQuery = "SELECT UserId AS authUserId, FName AS authFirstName, LName AS authLastName, Email AS authEmail, MemberCode AS authSCRNumber, VerifiedMemberCode AS SCRBeenVerified FROM users;"; 
 	$selectQuery = @mysqli_query($dbc, $authorQuery); // Pull in the user list
 	
 	$userCount = 0; // Start a counter to keep track of our iteration and set up our arrays
 	$tableBody = "";	
 	
-	echo("<p>Use this form to compare and verify SCR Membership Codes. Empty or incorrect codes can be corrected.");
+	echo("<p>Use this form to compare and verify SCR Membership Codes. Empty or incorrect codes can be corrected.<p>To update a record, enter the correct SCR Membership Code in the box, check the verified Membership code as necessary, and check the Update box for each user being updated. Then click on the Save Changes button at the bottom of the screen.");
 	
 	while ($row = mysqli_fetch_array($selectQuery)) // Pull in our rows, one at a time
 		{
@@ -44,12 +47,12 @@
 		
 		// Based on the code from the TableRowHelper.php file with a lot of tweaks by Meredith Purk		
 		$tableBody = $tableBody . "<tr>"; // Our first row: This will hold the author information
-		$tableBody = $tableBody . "<td>{$row['authLastName']}, {$row['authFirstName']}</td><td>{$row['authEmail']}</td></tr>";
+		$tableBody = $tableBody . "<td>{$row['authLastName']}, {$row['authFirstName']}</td><td>{$row['authEmail']}</td><td><input type='checkbox' name='saveChangesBox{$userCount}'>Update</input></td></tr>";
 	
 		// Skip to our next row, which will be the SCR Field and Verified Checkbox
 		$tableBody = $tableBody . "<tr><td><textarea cols='20' rows='1' maxLength=15 name='textBox{$userCount}'>{$currentAuthorSCR[$userCount]}</textarea></td>"; // SCR Textbox	
 		$tableBody = $tableBody . "<td><input type='checkbox' name='verifiedSCRBox{$userCount}'{$checkBoxState}>Verified Membership Code</input></td></tr>"; // Verified Checkbox Control
-		$tableBody = $tableBody . "<tr><td><input type='hidden' name='authUserId{$userCount}' value='{$row['authUserId']}'</input><hr></td><td><hr></td></tr>";
+		$tableBody = $tableBody . "<tr><td><input type='hidden' name='authUserId{$userCount}' value='{$row['authUserId']}'> </input> <hr></td><td><hr></td></tr>"; // Hidden input box lets us keep track of our userID
 		$userCount++; // increment our count for the next iteration
 	}
 	
@@ -65,21 +68,30 @@
 	$counter = 0;
 	while (!empty($_POST['authUserId' .  $counter]))
 		{
-		$currUserId = $_POST['authUserId' . $counter];
-		$newSCRCode = $_POST['textBox' . $counter];
-		if (empty($_POST['verifiedSCRBox' . $counter]))
-			$verifiedSCR = FALSE;
-		else
-			$verifiedSCR = TRUE;
-		//Run the update query
-		$updateQuery = "UPDATE users SET MemberCode='$newSCRCode', VerifiedMemberCode='$verifiedSCR' WHERE userId='$currUserId';";
-		// echo($updateQuery); // Debug string
-		$counter++; // increment our counter  
-		$run = @mysqli_query($dbc, $updateQuery)or die("Errors are ".mysqli_error($dbc));
-		If (!$run)
-			echo 'There was an error when updating the records for ' . $currUserID . '. Please try again!';
-		else
-			$updatesMade++; // Increment number of successful updates
+		if (!empty($_POST['saveChangesBox' . $counter])) 
+			{ // We only want to do this if the saveChanges checkbox was ticked
+			$currUserId = $_POST['authUserId' . $counter];
+			$newSCRCode = $_POST['textBox' . $counter];
+			if (empty($_POST['verifiedSCRBox' . $counter]))
+				{
+				$verifiedSCR = FALSE;
+				}
+			else
+				{
+				$verifiedSCR = TRUE;
+				}
+		
+			//Run the update query
+			$updateQuery = "UPDATE users SET MemberCode='$newSCRCode', VerifiedMemberCode='$verifiedSCR' WHERE userId='$currUserId';";
+			// echo($updateQuery); // Debug string
+
+			$run = @mysqli_query($dbc, $updateQuery)or die("Errors are ".mysqli_error($dbc));
+			If (!$run)
+				echo 'There was an error when updating the records for ' . $newSCRCode . '. Please try again!';
+			else
+				$updatesMade++; // Increment number of successful updates
+			}
+		$counter++; // increment our counter for the next loop
 		}
 	if ($updatesMade > 0)
 		echo 'Successfully updated ' . $updatesMade . ' records(s).';
