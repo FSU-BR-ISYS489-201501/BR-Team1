@@ -14,9 +14,12 @@
 	include ("includes/Header.php");
 	require ('../DbConnector.php');
 	session_start();
+	// Get the users id from the session
 	$r=$_SESSION['UserId'];
+	// I borrowed this code from Shane's Register file
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$err = array();
+		// Declare variables for after the form is submitted
 		$fname = mysqli_real_escape_string($dbc, trim($_POST['fName']));
 		$lname = mysqli_real_escape_string($dbc, trim($_POST['lName']));
 		$suffix = mysqli_real_escape_string($dbc, trim($_POST['suffix']));
@@ -25,6 +28,7 @@
 		$institution = mysqli_real_escape_string($dbc, trim($_POST['university']));
 		$membercode = mysqli_real_escape_string($dbc, trim($_POST['memberID']));
 		$prefix = mysqli_real_escape_string($dbc, trim($_POST['prefix']));
+		// Error checking from Shane's Register file
 		if (empty($email)) {
 			$err[] = 'You forgot to enter your email.';
 		} elseif (checkEmail($_POST['email']) == 0) {
@@ -38,7 +42,7 @@
 			if (mysqli_num_rows($result) > 0){
 				$err[] = 'This email is already registered!';
 			} else {
-				// $email = mysqli_real_escape_string($dbc, trim($_POST['email']));
+				
 			}
 		}
 		if (empty($fname)) {
@@ -48,14 +52,14 @@
 			$err[] = 'You forgot to enter your last name.';
 		}
 		If(empty($err)) {
-			//Creat the query that dumps info into the DB.
+			// Create the query that dumps info into the DB.
 			$updatequery = "UPDATE users SET  Prefix = '$prefix', FName = '$fname', LName = '$lname', Suffix = '$suffix', Email = '$email', Title = '$title', 
 			Employer = '$institution', MemberCode = '$membercode' WHERE UserId = $r;";
 			$run = @mysqli_query($dbc, $updatequery)or die("Errors are ".mysqli_error($dbc));
 			echo "Your profile has been updated!";
 			}
 			else {
-			//List each Error msg that is stored in the array.
+			// List each Error msg that is stored in the array.
 			Foreach($err as $m)
 			{
 				echo " $m <br />";
@@ -63,9 +67,6 @@
 		
 		}
 	}
-	
-			
-	
 		// Borrowed idea from Mark's ManageAnnouncements
 		$query = "SELECT Prefix, FName, LName, Suffix, Email, Employer, Title, MemberCode FROM users WHERE UserId = $r;";
 		$IdQuery = "SELECT UserId FROM users WHERE UserId = $r;";
@@ -73,9 +74,10 @@
 		$selectQuery = @mysqli_query($dbc, $query);
 		$row = mysqli_fetch_array($selectQuery, MYSQLI_NUM);
 		
+		// Borrowed idea from Faisals's EditAnnouncements
 		//The following variable set the starting column from our query array $row.
 		$a = 1;
-		//this code was inspired by Wiiliam
+		//This code was inspired by Wiiliam
 		//The previous variable is increased in value to assign the appropriate values from our query array to each variable.
 		$FName = "{$row[$a]}";
 		$LName = "{$row[$a+1]}";
@@ -84,11 +86,9 @@
 		$Institution = "{$row[$a+4]}";
 		$Title = "{$row[$a+5]}";
 		$MemberCode = "{$row[$a+6]}";
-		
-	
-		
-
 ?>
+	<!-- Borrowed the registration form and modified it to grab the values that we need from the database -->
+	
 	<h1>Edit Profile</h1>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" id="regiForm" method="post">
 	<fieldset>
