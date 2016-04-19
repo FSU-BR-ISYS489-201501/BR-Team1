@@ -23,11 +23,8 @@
 	$page_title = 'EditCriticalIncident';
  	include ("includes/Header.php");
 	include ("includes/ValidationHelper.php");
-	include('includes/TableRowHelper.php');
 	require ('../DbConnector.php');
 	
-	$editButton = array();
-$button = "<td><select>";
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') 
  	{
