@@ -44,7 +44,6 @@
 		}
 	}
 ?>
-<?php echo $success; ?>
 <br>
 <center>
 	<H1>Welcome to JCI</H1>
