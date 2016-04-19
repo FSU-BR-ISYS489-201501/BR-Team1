@@ -27,30 +27,32 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	
-	
-	
+	$CriticalIncidentId = $_POST['id'];
 	$keyword =$_POST['keyword'];
-	
-	If (isset($_GET['id']) ) {
-			$CriticalIncidentId = $_GET['id'];
-		} Else {
-			$CriticalIncidentId = $_POST['id'];
-		}
-	
 	echo "$CriticalIncidentId";
 	echo "$keyword";
 	$query = "INSERT INTO keywords (CIKeyword, CriticalIncidentId) VALUES ('$keyword', $CriticalIncidentId);";
 	
 	$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
 	}
+	
+	$CriticalIncidentId = 0;
+	
+	If (isset($_GET['id'])) {
+		$CriticalIncidentId = $_GET['id'];
+	} 
+	else if (isset($_POST['id'])){
+		$CriticalIncidentId = $_POST['id'];
+	}
+	
 	?>
 
 	<!--Takes information to create a new announcement in the db.-->
 	<h1>Edit Critical Incidents</h1>
-		<form method="post">
+		<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" id="createKeyword" method="post">
 			<fieldset>
 					Keywords: <input  type="text" name="keyword" size="15" maxlength="50" value="<?php if (isset($keyword)){echo $keyword;} ?>" </input>
-					<input type="hidden" value="<?php if (isset($CriticalIncidentId)) echo $CriticalIncidentId; ?>" name="id" >
+					<input type="hidden" value="<?php if (isset($CriticalIncidentId)) echo $CriticalIncidentId; ?>" name="id"></input>
 					<input type="submit" value="Submit" />
 			</fieldset>
 		</form>		
