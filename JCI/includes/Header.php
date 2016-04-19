@@ -66,6 +66,8 @@
 								<div class='login'>
 									Hello, {$_SESSION['FName']}!
 									<a href='Logout.php' class='button4'>LOGOUT</a>
+									<br>
+									<a href='EditProfile.php'><img src='styles/images/icon_userheader_opt.png' title='Edit Profile' ></a>
 								</div>
 							</div>
 							<br>
@@ -86,7 +88,10 @@
 					echo "
 									<div class='login'>
 										Hello, {$_SESSION['FName']}!
+										
 										<a href='Logout.php' class='button4'>LOGOUT</a>
+										<br>
+										<a href='EditProfile.php'><img src='styles/images/icon_userheader_opt.png' title='Edit Profile' ></a>
 									</div>
 								</div>
 								<br>
@@ -111,6 +116,8 @@
 									<div class='login'>
 										Hello, {$_SESSION['FName']}!
 										<a href='Logout.php' class='button4'>LOGOUT</a>
+										<br>
+										<a href='EditProfile.php'><img src='styles/images/icon_userheader_opt.png' title='Edit Profile' ></a>
 									</div>
 								</div>
 								<br>
