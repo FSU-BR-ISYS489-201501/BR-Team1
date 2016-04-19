@@ -23,8 +23,11 @@
 	$page_title = 'EditCriticalIncident';
  	include ("includes/Header.php");
 	include ("includes/ValidationHelper.php");
+	include('includes/TableRowHelper.php');
 	require ('../DbConnector.php');
 	
+	$editButton = array();
+$button = "<td><select>";
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') 
  	{
@@ -33,38 +36,42 @@
 		
 		//Check for CI Id value.
 		if (empty($_POST['CriticalIncidentId'])) {
-			$err[] = 'You forgot to enter a Critical Incident.';
+			$err[] = 'Critical Incident not selected.';
 		} else {
 			$CriticalIncidentId = mysqli_real_escape_string($dbc, trim($_POST['id']));
 			}
 		
 		//Check Keyword value
 		if (empty($_POST['CIKeyword'])) {
-			$err[] = 'You forgot to enter a Critical Incident.';
+			$err[] = 'There are no keywords entered.';
 		} else {
 			$CIKeyword = mysqli_real_escape_string($dbc, trim($_POST['id']));
 			}
 		
 		//Check category value
 		if (empty($_POST['Category'])) {
-			$err[] = 'You forgot to select.';
+			$err[] = 'You forgot to select a category.';
 		} else {
 			$Category = mysqli_real_escape_string($dbc, trim($_POST['id']));
 			}
 		
+		//Check category value
+		if (empty($_POST['Title'])) {
+			$err[] = 'There is no title.';
+		} else {
+			$Title = mysqli_real_escape_string($dbc, trim($_POST['id']));
+			}
+		
 		//Check to see if any errors exist in the validation array.
 		if(empty($err)) {
-			//Creat the query that dumps info into the DB.
-			$query = "UPDATE announcements SET Subject='$title', Body='$announcement', StartDate='$startDate', Type='$type', EndDate='$endDate' WHERE AnnouncementId = $announcementId;";
+			//Create the query that dumps info into the DB.
+			$query = "UPDATE criticalincidents SET Category='$Category', Title='$Title' WHERE CriticalIncidentId = $CriticalIncidentId;";
 					
 			//Run the query...
 			$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
 			
-			If (!$run)
-			{
-				echo 'There was an error when creating the announcement. Please try again!';
-			} else {
-				echo "Thank you for Updating your Announcement!";
+			if($run){
+				$query = "UPDATE keywords SET CIKeyword='$keyword' WHERE CriticalIncidentId = $CriticalIncidentId;";
 			}
 		} else {
 				//List each Error msg that is stored in the array.
@@ -85,33 +92,45 @@
 			$CriticalIncidentId = $_POST['id'];
 		}
 		
-		// from Mark code	
-		$editQuery = "SELECT AnnouncementId, Subject, Body, StartDate, Type, EndDate, IsActive FROM announcements WHERE AnnouncementId = $announcementId;";
+		// Credit to Mark
+		$editQuery = "SELECT Category, Title FROM criticalincidents WHERE CriticalIncidentId = $CriticalIncidentId;";
 		$selectQuery = @mysqli_query($dbc, $editQuery);	
-		$headerCounter = mysqli_num_fields($selectQuery);
 		$row = mysqli_fetch_array($selectQuery, MYSQLI_NUM);
 		
 		//The following variable set the starting column from our query array $row.
 		$a = 1;
 		//this code was inspired by Wiiliam
 		//The previous variable is increased in value to assign the appropriate values from our query array to each variable.
-		$title = "{$row[$a]}";
-		$body = "{$row[$a+1]}";
-		$type = "{$row[$a+2]}";
+		while($row=mysqli_fetch_row($selectQuery)){
+			$title = "{$row[$a+1]}";
+			$category = "{$row[$a]}";
+		}
+		
+		$editKeyword ="SELECT CIKeyword FROM keywords WHERE CriticalIncidentId = $CriticalIncidentId;";
+		$selectQuery = @mysqli_query($dbc, $editKeyword);	
+		$row = mysqli_fetch_array($selectQuery, MYSQLI_NUM);
+		
+		$keyword = '';
+		while($row=mysqli_fetch_row($selectQuery)){
+			$keyword=$keyword."Keywords: <input type='text' name='keyword[0]' size='15' maxlength='50' value='{$row[0]}' ></input>";
+		}
 		
 		//Changing category
 		//Get all categories for specific journal drop down
 		//Changing keyword text box if the field 
 		//Edit all other info about CIs
+		//use for loop $i
+		//
 ?>
 
 	<!--Takes information to create a new announcement in the db.-->
 	<h1>Edit Critical Incidents</h1>
 		<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" id="editCriticalIncident" method="post">
-			<fieldset>
-				<input type="hidden" value="<?php if (isset($CriticalIncidentId)) echo $CriticalIncidentId; ?>" name="id" />
+			<fieldset> 
+				Title: <input type="text" name="title" value="<?php echo $title; ?>">
+				<input type="hidden" value="<?php if (isset($CriticalIncidentId)) echo $CriticalIncidentId; ?>" name="id" >
 			  	<p>Category:
-					<!-- Idea from http://www.plus2net.com/php_tutorial/list-table.php -->
+						<!-- Idea from http://www.plus2net.com/php_tutorial/list-table.php -->
 						<?php
 						$sql="SELECT CriticalIncidentId, CategoryName FROM categorys order by CategoryName"; 
 						
@@ -126,27 +145,22 @@
 						
 						 echo "</select>";// Closing of list box
 						?>
-				</p>	
-				<p>Title: <input type="text" name="title" size="15" maxlength="50" value="<?php echo $title; ?>" </input></p>
-				<p>Keywords: <br/>
+						
+				</p>
+							
+				
+				<!--<p>Keywords: <input type="text" name="keyword[0]" size="15" maxlength="50" value="<?php echo $keyword[0]; ?>" </input></p>-->
 				<?php
-						$sql="SELECT KeywordId, CIKeyword FROM keywords order by CIKeyword"; 
-						
-						echo "<select name=CIKeyword value=''>Keywords </option>"; // list box select command
-						
-						/* Option values are added by looping through the array */ 
-						foreach ($dbo->query($sql) as $row){//Array or records stored in $row
-						
-						<html>						
-						<p>Keywords: <textarea name="keywords" style="width:250px;height:150px;" value=""><php echo $body; ?></textarea></p>
-												
-						}
-						
-						 echo "</textarea>";// Closing of list box
-						?>
-				<p><input type="submit" value="Submit" /></p>
+				echo $keyword; 
+				?>
+					
+				
+				<input type="submit" value="Submit" />
 			</fieldset>
 		</form>		
 		
-		
-		
+		<!--$keyword = array();
+		while($row=mysqli_fetch_row($selectQuery)){
+			array_push($keyword,$row[0]);
+		}
+		-->
