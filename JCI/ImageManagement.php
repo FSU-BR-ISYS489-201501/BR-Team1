@@ -8,6 +8,8 @@
  * Purpose: The purpose of this file is to allow an editor to change the pictures on the
  * website.
  * 
+ * Credit: I got the idea to use a loop to test for changes from Serge Seredenko after 
+ * reading his post on http://stackoverflow.com/questions/19472479/php-mysql-only-update-input-fields-that-have-been-changed.
  ********************************************************************************************/
 
 	session_start();
@@ -15,51 +17,95 @@
 		
 		$page_title = 'Picture Management';
 		include ("includes/Header.php");
-		echo "<h1>Picture Management</h2>";
+		require ('../DbConnector.php');
 		
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-			$saveLocation = '';
-			$CriticalIncidentIds = array();
-			$journalIds = array();
-			$types = array();
-			array_push($types, $_POST['type']);
-			if ($types[0] == 'Slide') {
-				$saveLocation = "styles/images/slideshow/";
-			}
-			else if ($types[0] == 'About') {
-				$saveLocation = "styles/images/aboutus/";
-			}
-			else {
-				echo 'Please select a location for the image to display.';
-			}
-			if (uploadFile($dbc, "uploadedFile", $saveLocation, $criticalIncidentIds, $types, $journalIds)) {
-				echo 'Your file has been uploaded.';
+			$query = "SELECT FileLocation, FileId, FileType FROM files WHERE FileType = 'Slide' OR FileType = 'About' OR FileType = 'null';";
+			if ($selectQuery = mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc))) {
+				$counter = 0;
+				// Citation: Serge Seredenko
+				while ($row = mysqli_fetch_array($selectQuery, MYSQLI_NUM)) {
+					if ($_POST[$counter] != $row[2]) {
+						$updateQuery = "UPDATE files SET FileType = '$_POST[$counter]' WHERE FileId = $row[1]";
+						if ($executeUpdateQuery = mysqli_query($dbc, $updateQuery)or die("Errors are ".mysqli_error($dbc))) {
+						}
+					}
+					$counter++;
+				}
 			}
 		}
 		
-		$query = "SELECT FileDes, FileLocation FROM files WHERE FileType = 'Slide';";
+		$tableStart = "<table><tr><th>Picture</th><th>Activate</th><th>Deactivate</th></tr>";
+		$tableBody = '';
+		$tableEnd = '</table></br><input type="submit" class = "button3" value="Update Pictures">';
 		
-		if ($selectQuery = @mysqli_query($dbc, $query)) {	
-			echo "<fieldset>";
-			echo "</fieldset>";
+		$query = "SELECT FileLocation, FileId, FileType FROM files WHERE FileType = 'Slide' OR FileType = 'About' OR FileType = 'null';";
+		if ($selectQuery = mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc))) {
+			$counter = 0;
+			while ($row = mysqli_fetch_array($selectQuery, MYSQLI_NUM)) {
+				$tableBody = $tableBody . "
+					<tr>
+						<td>
+							<img src=$row[0] alt='' style='width:10%;height:5%;'>
+						</td>
+						<td>
+							<select name = $counter>";
+				if ($row[2] == 'Slide') {
+					$tableBody = $tableBody . "
+								<option value = 'null'>Location on the Website</option>
+								<option value = 'Slide' selected>Slideshow Image</option>
+								<option value = 'About'>About Us Image</option>
+							</select>
+							</td>
+						</tr>";
+				}
+				else if ($row[2] == 'About') {
+					$tableBody = $tableBody . "
+								<option value = 'null'>Location on the Website</option>
+								<option value = 'Slide'>Slideshow Image</option>
+								<option value = 'About' selected>About Us Image</option>
+							</select>
+							</td>
+						</tr>";
+				}
+				else {
+					$tableBody = $tableBody . "
+								<option value = 'null' selected>Location on the Website</option>
+								<option value = 'Slide'>Slideshow Image</option>
+								<option value = 'About'>About Us Image</option>
+							</select>
+							</td>
+						</tr>";
+				}
+				$counter++;
+			}
 		}
 	}
 	else {
 		header('Location: http://br-t1-jci.sfcrjci.org/Index.php');
 		exit;
 	}
-
+	
 ?>
+<h1>Picture Management</h1>
+</br>
+<a href='UploadPicture.php' class = 'button4'>Upload a New Picture</a>
+</br>
+</br>
+<form action='<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>'method = 'POST'>
+<?php
+	if (!empty($tableBody)) {
+		echo $tableStart;
+		echo $tableBody;
+		echo $tableEnd;
+	}
+	else {
+		echo 'There was a problem with the database';
+	}
+?>
+<form>
+</br>
 
-<form action="ImageManagement.php" enctype="multipart/form-data"  multiple = "multiple" method = "POST">
-	<select name = 'type'>
-		<option value = 'null'>Location on the Website</option>
-		<option value = 'Slide'>Slideshow Image</option>
-		<option value = 'About'>About Us Image</option>
-	</select>
-	<input type="file" name="uploadedFile" />
-	<input type="submit" class = "button" value="Submit Picture">
-</form>
 
 <?php
 	include('includes/Footer.php');
