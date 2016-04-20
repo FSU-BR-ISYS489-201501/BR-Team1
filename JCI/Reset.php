@@ -82,10 +82,10 @@
 	}
 	
   } else {
-	  $token=$_GET['token'];
-	  echo '$token';
+	  $token = $_GET['token'];
+	  echo "$token";
 	  $query = "SELECT Email FROM tokens WHERE Token = '$token';";
-	  echo '$query';
+	  echo "$query";
 	  $run = @mysqli_query($dbc, $query);
 	  
 	  if (mysqli_num_rows($run > 0)){
