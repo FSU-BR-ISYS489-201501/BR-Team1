@@ -8,7 +8,9 @@
  * Purpose: The purpose of this file is to display a page in the browser that shows all
  * Critical Incidents with buttons that will allow the assgin, remove reviewers 
  * Credit: I used code written by Shane to make database queries.
- * * Revision 1.0: 04/012/2016 authors: Faisal Alfadhli : edited the query
+ * tutor: William Quigley, Email : mnewrath@gmail.com
+ * Revision 1.0: 04/012/2016 authors: Faisal Alfadhli.
+ * Description of change: edited the query
  ********************************************************************************************/
 	include('includes/Header.php');
 	include('includes/TableRowHelper.php');
@@ -17,7 +19,7 @@
 	$critincQuery = "SELECT CriticalIncidentId, UserId, Category, Title FROM criticalincidents;";
 	$critincIdQuery = "SELECT CriticalIncidentId FROM criticalincidents ORDER BY CriticalIncidentId;";
 	
-	// Written by Shane Workman.
+	//It was Written by Shane Workman.
 	$selectQuery = @mysqli_query($dbc, $critincQuery);
 	$idSelectQuery = @mysqli_query($dbc, $critincIdQuery);
 	

@@ -7,8 +7,11 @@
  * Project work is done as part of a Capstone class ISYS489: Ferris State University.
  * Purpose: The purpose of this file is to display a page in the browser that shows all
  * Critical Incidents with buttons that will allow the assgin, remove editors
- * Credit: I used code written by Shane to make database queries. Credit to William and http://stackoverflow.com/
- * Revision1.1: 04/11/2016 Author: Faisal Alfadhli: edited the query.
+ * Credit: I used code written by Shane to make database queries. 
+ * tutor: William Quigley, Email : mnewrath@gmail.com
+ * http://stackoverflow.com/
+ * Revision1.1: 04/11/2016 Author: Faisal Alfadhli.
+ * Description of change: edited the query.
  ********************************************************************************************/
 
 	include('includes/Header.php');
@@ -18,16 +21,14 @@
 	
 	$critincQuery = "SELECT CriticalIncidentId, UserId, Category, Title, Editor FROM criticalincidents;";
 	$critincIdQuery = "SELECT CriticalIncidentId FROM criticalincidents ORDER BY CriticalIncidentId;";
-	// Written by Shane Workman.
+	// It was written by Shane Workman.
 	$selectQuery = @mysqli_query($dbc, $critincQuery);
 	$idSelectQuery = @mysqli_query($dbc, $critincIdQuery);
-	
 	$headerCounter = mysqli_num_fields($selectQuery);
-	// create two buttons in every row and link them to assgin or remove
+	// I create two buttons in every row and link them to assgin or remove
 	$pageNames = array('AssignCasesToEditors.php', 'RemoveCasesFromEditors.php');
 	$titles = array('Assign', 'Remove');
 	$assignButton = tableRowEditGenerator($idSelectQuery, $pageNames, $titles);
-	// it will add two links in every row 
 	$rowCount = mysqli_num_rows($idSelectQuery);
 	$buttonCounter = count($assignButton)/$rowCount;
 	$pageNames = array('AssignCasesToEditors.php', 'RemoveCasesFromEditors.php');

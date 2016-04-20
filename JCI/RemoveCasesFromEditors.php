@@ -8,16 +8,18 @@
   * Purpose: this page is used to let Editor be able to remove specific CI from specific Editors
   * Credits: www.W3schools.com
   * www.php.net 
-  * William
+  * tutor: William Quigley, Email : mnewrath@gmail.com
   * HTMLBook.pdf from ISYS 288 class
   * used Larry Uldman's PHP book
   * Copied this from RemoveReviewers.php , and tweaked some queries.
- * *Revision1.0: 04/11/2016 Author: Faisal Alfadhli: moved HTML elements to a function in table row helper to git rid of errors in this page.
+  * Revision1.0: 04/11/2016 Author: Faisal Alfadhli.
+  * moved HTML elements to a function in table row helper to git rid of errors in this page.
  
   ********************************************************************************************/
 	include ('includes/Header.php');
 	require ('../DbConnector.php');
 	include('includes/TableRowHelper.php');
+	
 	// If $_GET or $_POST are set then assign the value to a variable.
 	if (isset($_GET['id']) ) {
 		$incidentId = $_GET['id'];
@@ -65,7 +67,7 @@
 				// append selected user id to the array.		
 				array_push($editorIdArr, $editorId);
 				$query = "UPDATE criticalincidents SET Editor = NULL WHERE CriticalIncidentId = '$incidentId'";
-				// Run the query...
+				// It run the query
 				$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
 				If (!$run) {
 					//If the query did not run then tell the user about it.
