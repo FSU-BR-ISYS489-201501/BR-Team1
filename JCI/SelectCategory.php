@@ -18,7 +18,7 @@
 	include('includes/TableRowHelper.php');
 	require('../DbConnector.php');
 	// I get this Idea from my tutor William.
-	// If $_GET or $_POST are set then assign the value to a variable.
+	// If $_GET or $_POST are set, then assign the value to a variable.
 	if (isset($_GET['id']) ) {
 		$incidentId = $_GET['id'];
 	} elseif (isset($_POST['id']) ) {
@@ -30,7 +30,7 @@
 	$selectQuery = @mysqli_query($dbc, $myCatQuery);	
 	$jourIdSelectQuery = @mysqli_query($dbc, $myJournalId);
 	// this is to call DropDownList function from TableRowHelper.
-	// "CategoryName": this parameter to display category name in dropdown list.
+	// "CategoryName": this parameter is to display category name in dropdown list.
 	$tablebody = DropDownList($selectQuery, "CategoryName");
 	
 	if (isset($_POST['submit'])){
@@ -53,7 +53,7 @@
 				$myJournalId = $row[0];
 				$query = "INSERT INTO cicategorys (CategoryId, CriticalIncidentId, JournalId)
 			          VALUES ('$myCatid', '$incidentId', '$myJournalId');";
-				//Run the query...
+				//$run: it is variable to Run the query
 				$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
 				header('Location: http://localhost/BR-Team1/JCI/Category.php');
 			}

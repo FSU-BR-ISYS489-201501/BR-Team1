@@ -14,40 +14,74 @@
   * database to the corresponding critical incident ID number.
   ********************************************************************************************/
 
-	include ("includes/FileHelper.php");
-	include ("includes/Header.php");
-	require ('../DbConnector.php');
-	
-	// Call the uploadFile function
-	$criticalIncidentId = 0;
-	if (isset($_GET['CriticalIncidentId'])) {
-		$criticalIncidentId = $_GET['CriticalIncidentId'];
-	}
-	else {
-		$criticalIncidentId = $_POST['id'];
-	}
-	if ($_SERVER["REQUEST_METHOD"] == "POST") {
-		$criticalIncidentIdQuery = "SELECT JournalId FROM criticalincidents WHERE CriticalIncidentId = $criticalIncidentId;";
-		$idQuery = @mysqli_query($dbc, $criticalIncidentIdQuery);
-		if ($row = mysqli_fetch_array($idQuery, MYSQLI_ASSOC)) {
-			
-			$journalIds = array();
-			$types = array();
-			$ids = array();
-			array_push($journalIds, $row['JournalId']);
-			array_push($types, $_POST['fileType']);
-			array_push($ids, $criticalIncidentId);
-			if (uploadFile($dbc, "uploadedFile", "../uploads/", $ids, $types, $journalIds)) {
-				echo 'The file has been uploaded.';
+ 	session_start();
+	if($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
+		
+		include ("includes/FileHelper.php");
+		include ("includes/Header.php");
+		require ('../DbConnector.php');
+		include("includes/ValidationHelper.php");
+		
+		$criticalIncidentId = 0;
+		if (isset($_GET['CriticalIncidentId'])) {
+			$criticalIncidentId = $_GET['CriticalIncidentId'];
+		}
+		else {
+			$criticalIncidentId = $_POST['id'];
+		}
+		
+		if ($_SERVER["REQUEST_METHOD"] == "POST") {
+			$criticalIncidentIdQuery = "SELECT JournalId FROM criticalincidents WHERE CriticalIncidentId = $criticalIncidentId;";
+			$idQuery = @mysqli_query($dbc, $criticalIncidentIdQuery);
+			if ($row = mysqli_fetch_array($idQuery, MYSQLI_ASSOC)) {
+				
+				$journalIds = array();
+				$types = array();
+				$ids = array();
+				array_push($journalIds, $row['JournalId']);
+				array_push($types, $_POST['fileType']);
+				array_push($ids, $criticalIncidentId);
+				if ($_FILES["uploadedFile"]["type"] == "application/msword" || $_FILES["uploadedFile"]["type"] == "application/pdf" ||
+					$_FILES["uploadedFile"]["type"] =="application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+					if (preg_match("/(^[a-zA-Z0-9]).([a-zA-Z])/", $_FILES["uploadedFile"]['name'])) {
+						switch (uploadFile($dbc, "uploadedFile", "../uploads/", $ids, $types, $journalIds)) {
+						case 0:
+							echo 'Upload failed. Contact the system administrator.';
+							break;
+						case 1:
+							echo 'Upload was successful.';
+							break;
+						case 2:
+							echo 'Upload failed. There was an error with the file server.';
+							break;
+						case 3:
+							echo 'Upload failed. There was an error with the database.';
+							break;
+						case 4:
+							echo 'Upload failed. No files were attached.';
+							break;
+						}
+					}
+					else {
+						echo 'The file must be name with English letters or numbers.';
+					}
+				}
+				else {
+					echo 'The uploaded file must be a Microsoft Word document or a PDF document.';
+				}
 			}
 		}
+	}
+	else {
+		header('Location: http://br-t1-jci.sfcrjci.org/Index.php');
+		exit;
 	}
 ?>
 	<br/>
 	<fieldset>
 		<form method="post" enctype="multipart/form-data"  multiple = "multiple">
 			<input type="hidden" value="<?php if (isset($criticalIncidentId)) echo $criticalIncidentId; ?>" name="id" />
-			<input type="file" name="uploadedFile[]" />
+			<input type="file" name="uploadedFile" />
 			<br/><br/>
 			<select name = 'fileType'>
 				<option value = 'Word'>Word Document</option>

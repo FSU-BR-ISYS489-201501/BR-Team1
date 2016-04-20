@@ -9,7 +9,7 @@
  * Purpose: This page is used to let an author to submit cases for review. 
  * Credit: I learnd many of this code from Larry Uldman's PHP book and these websites: 
  * https://www.youtube.com/channel/UCzEYvv6Ciw_fnRIqK0cFdRQ
- * 
+ *  tutor: William Quigley, Email : mnewrath@gmail.com
  *  www.W3schools.com/php/
  * Tizag.com/category/php/
  * Tutorialspoints.com/php/

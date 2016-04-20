@@ -6,15 +6,17 @@
   * Page created for use in the JCI Project.
   * Project work is done as part of a Capstone class ISYS489: Ferris State University.
   * Purpose: this page is used to let Editor be able to remove specific reviewer from specific Critical Incident
-  *Credits:  to William 
+  * Credits:  tutor: William Quigley, Email : mnewrath@gmail.com
   *  www.W3schools.com
   * www.php.net 
   * HTMLBook.pdf from ISYS 288 class
   * used Larry Uldman's PHP book
   * http://stackoverflow.com
   * www.php.net
-  * Revision 1.1: 03/22/2016 authors: Faisal Alfadhli: Edited database queries and some changes 
-  * Revision 1.1: 04/12/2016 authors: Faisal Alfadhli:  moved HTML element to a function in table row helpe, edited some queries.
+  * Revision 1.1: 03/22/2016 authors: Faisal Alfadhli.
+  *  Edited database queries and some changes 
+  * Revision 1.1: 04/12/2016 authors: Faisal Alfadhli.
+  *  moved HTML element to a function in table row helpe, edited some queries.
   ********************************************************************************************/
 
 	include('includes/Header.php');
@@ -35,11 +37,11 @@
 						 INNER JOIN reviewers ON reviewers.ReviewerId=criticalincidents.ReviewerId 
 						 INNER JOIN users ON reviewers.UserId=users.UserId 
 						 WHERE criticalincidents.CriticalIncidentId=$incidentId;";
-	// Written by Shane Workman.
+	// It was written by Shane Workman.
 	$selectQuery = @mysqli_query($dbc, $reviewersQuery);
 	$idSelectQuery = @mysqli_query($dbc, $reviewersIdQuery);
 	
-	// copied from remove editors page.
+	// This block was copied from remove editors page.
 	if ($headerCount = @mysqli_num_fields($selectQuery)){
 		$headerCount = @mysqli_num_fields($selectQuery);
     }
@@ -49,12 +51,11 @@
 	// if there is a data do somthing 
 	if ($rowCount > 0){
 		$checkBox = tableRowCheckboxGenerator("radio", $selectQuery, $idSelectQuery);
-		// it will add one check box in every row
 		$checkBoxCounter = count($checkBox)/count($checkBox);
 		$tableBody = tableRowGeneratorWithButtons($selectQuery, $checkBox, $checkBoxCounter, $headerCount);
 		spitHTML($incidentId, $tableBody);
 	} else {
-		// if not show a message 
+		// if ther is no data show a message.
 		$tableBody = "<tr><td>No users are currently assigned as reviewers!</td></tr>";
 		spitHTML($incidentId, $tableBody);
 	}
@@ -66,13 +67,12 @@
 			foreach($_POST['checkList'] as $selected) {
 				// Assign the selected checkbox value to a variable.
 				$reviewerId = $selected;	
-				// append selected user id to the array.		
+				// I append selected user id to the array.		
 				array_push($reviwIdArr, $reviewerId);
 				$query = "UPDATE criticalincidents SET ReviewerId = NULL WHERE CriticalIncidentId = '$incidentId'";
-				// Run the query...
 				$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
+			
 				If (!$run) {
-					//If the query did not run then tell the user about it.
 					echo 'There was an error when removing the reviewer(s). Please try again!';
 				} else {
 					// Set the update success flag to true.
@@ -82,8 +82,9 @@
 			if ($updateSuccess = "true"){
 				echo "User successfully removed from active reviewers!";
 			}
-		} elseif (empty($_POST['checkList'])) {
-			// If no checkboxes are selected then tell the user to make sure they select one. 
+		}
+		// If no checkboxes are selected then tell the user to make sure they select one. 
+		 elseif (empty($_POST['checkList'])) {
 			echo "<b>Please Select At least One Option.</b>";
 		}
 	}
