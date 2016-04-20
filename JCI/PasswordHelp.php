@@ -49,7 +49,9 @@
         		'X-Mailer: PHP/' . phpversion();
 				//Builds email to send to the registered.
     			mail($to, $subject, $message, $headers);
-				echo '<h1>Password Reset</h1> <fieldset>An email has been sent to the email provided! Check it and follow instructions to reset your password.</fieldset>';
+				echo 'Password Reset.
+				An email has been sent to the email provided! Check it and follow instructions to reset your password.
+				It may take 3-5 minutes to receive the email!';
 				
 			} else {
 				echo '<h1>Password Reset</h1> <fieldset>Email not registered: <a href="Register.php">Register!</a></fieldset>';
