@@ -33,21 +33,16 @@
 			if ($count > 0) {
 				$token = randString(10);
 				$iquery = "INSERT INTO tokens (Token, Email) values ('$token', '$email')";
-				$irun = @mysqli_query($dbc, $query);
+				$irun = @mysqli_query($dbc, $iquery);
 				
 				$defaultEmail = "webmailer@JCI.com";
 				$url = 'http://'. $_SERVER['HTTP_HOST'] ;
 				$to = $email;
 				$subject = "JCI password Reset";
 				$message = 
-				'<html>
-					<head>
-					<title>Password help for JCI website</title>
-					</head>
-					<body>
-					<p>Click on the given link to reset your password <a href="'.$url.'/Reset.php?token='.$token.'">Reset Password</a></p>
-					</body>
-					</html>
+				'
+				Password help for JCI website
+				Click on the given link to reset your password <a href="'.$url.'/Reset.php?token='.$token.'">Reset Password</a></p>
 					';
 			    $headers = 'From: ' . $defaultEmail . "\r\n" .
         		'Reply-To: ' . $defaultEmail . "\r\n" .
