@@ -9,14 +9,14 @@
   * Credit: My own code or borrowed from within our site. http://php.net/ was a resource.
   * 
   **********************************************************************************************/  
-  if (isset($_Get('token')))	{
-  		$token = $_GET('token');
-  	}
   $page_title = 'Password Reset';
   include ("includes/Header.php");
   include ("includes/RandString.php");
   require ('../DbConnector.php');
   $form = "";
+  if (isset($_GET('token')))	{
+  		$token = $_GET('token');
+  	}
   //Check to see if the link if from the email or a post back.
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   	//Set up Error msg array.
