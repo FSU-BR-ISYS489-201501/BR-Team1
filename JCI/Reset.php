@@ -83,7 +83,9 @@
 	
   } else {
 	  $token=$_GET['token'];
-	  $query = "Select Email From tokens WHERE Token='$token';";
+	  echo '$token';
+	  $query = "SELECT Email FROM tokens WHERE Token = '$token';";
+	  echo '$query';
 	  $run = @mysqli_query($dbc, $query);
 	  
 	  if (mysqli_num_rows($run > 0)){
@@ -106,7 +108,7 @@
 						<input type="submit" value="Reset My Password" />
 					</form>
 				</fieldset>';
-			$dQuery = "DELETE FROM tokens WHERE WHERE Token='$token';";
+			$dQuery = "DELETE FROM tokens WHERE Token ='$token';";
 			$drun = @mysqli_query($dbc, $dQuery);
 	  } else {
 	  	echo '<h1>Password Reset</h1><fieldset><p>The link was invalid, or already used to reset the password. <a href="PasswordHelp.php">Get new link!</a></p></fieldset>';
