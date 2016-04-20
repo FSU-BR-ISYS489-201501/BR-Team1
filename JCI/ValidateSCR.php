@@ -14,7 +14,8 @@
  * Revision 2: 4/20/16
  * 	- Removed unnecessary horizontal rules (<hr> tags) as they conflicted with the table borders
  * 	declared in CSS
- * 	- Added an ORDER BY claus to the SELECT query to order users by last name
+ * 	- Added an ORDER BY clause to the SELECT query to order users by last name
+ * 	- Moved hidden INPUT to a column on the row above, instead of its own row
  ********************************************************************************************/
 	include ("includes/Header.php");
 	include("includes/TableRowHelper.php");
@@ -55,8 +56,8 @@
 	
 		// Skip to our next row, which will be the SCR Field and Verified Checkbox
 		$tableBody = $tableBody . "<tr><td><textarea cols='20' rows='1' maxLength=15 name='textBox{$userCount}'>{$currentAuthorSCR[$userCount]}</textarea></td>"; // SCR Textbox	
-		$tableBody = $tableBody . "<td><input type='checkbox' name='verifiedSCRBox{$userCount}'{$checkBoxState}>Verified Membership Code</input></td></tr>"; // Verified Checkbox Control
-		$tableBody = $tableBody . "<tr><td><input type='hidden' name='authUserId{$userCount}' value='{$row['authUserId']}'> </input> </td><td></td></tr>"; // Hidden input box lets us keep track of our userID
+		$tableBody = $tableBody . "<td><input type='checkbox' name='verifiedSCRBox{$userCount}'{$checkBoxState}>Verified Membership Code</input></td>"; // Verified Checkbox Control
+		$tableBody = $tableBody . "<td><input type='hidden' name='authUserId{$userCount}' value='{$row['authUserId']}'> </input> </td><td></td></tr>"; // Hidden input box lets us keep track of our userID
 		$userCount++; // increment our count for the next iteration
 	}
 	
