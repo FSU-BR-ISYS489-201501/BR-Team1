@@ -44,8 +44,22 @@
 				if ($_FILES["uploadedFile"]["type"] == "application/msword" || $_FILES["uploadedFile"]["type"] == "application/pdf" ||
 					$_FILES["uploadedFile"]["type"] =="application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
 					if (preg_match("/(^[a-zA-Z0-9]).([a-zA-Z])/", $_FILES["uploadedFile"]['name'])) {
-						if (uploadFile($dbc, "uploadedFile", "../uploads/", $ids, $types, $journalIds)) {
-							echo 'The file has been uploaded.';
+						switch (uploadFile($dbc, "uploadedFile", "../uploads/", $ids, $types, $journalIds)) {
+						case 0:
+							echo 'Upload failed. Contact the system administrator.';
+							break;
+						case 1:
+							echo 'Upload was successful.';
+							break;
+						case 2:
+							echo 'Upload failed. There was an error with the file server.';
+							break;
+						case 3:
+							echo 'Upload failed. There was an error with the database.';
+							break;
+						case 4:
+							echo 'Upload failed. No files were attached.';
+							break;
 						}
 					}
 					else {
