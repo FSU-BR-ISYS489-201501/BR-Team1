@@ -11,6 +11,10 @@
  * 	- Added clearer instructions to the page
  * 	- Added the Update box so that only records with the Update checkbox marked will receive
  * 	an update query (rather than updating all user records in the database)
+ * Revision 2: 4/20/16
+ * 	- Removed unnecessary horizontal rules (<hr> tags) as they conflicted with the table borders
+ * 	declared in CSS
+ * 	- Added an ORDER BY claus to the SELECT query to order users by last name
  ********************************************************************************************/
 	include ("includes/Header.php");
 	include("includes/TableRowHelper.php");
@@ -26,7 +30,7 @@
 		}
 	
 	// Query all records in the users table to pull in a full list. In the future, we could ad code to do a sort or search to limit records
-	$authorQuery = "SELECT UserId AS authUserId, FName AS authFirstName, LName AS authLastName, Email AS authEmail, MemberCode AS authSCRNumber, VerifiedMemberCode AS SCRBeenVerified FROM users;"; 
+	$authorQuery = "SELECT UserId AS authUserId, FName AS authFirstName, LName AS authLastName, Email AS authEmail, MemberCode AS authSCRNumber, VerifiedMemberCode AS SCRBeenVerified FROM users ORDER BY authLastName ASC;"; 
 	$selectQuery = @mysqli_query($dbc, $authorQuery); // Pull in the user list
 	
 	$userCount = 0; // Start a counter to keep track of our iteration and set up our arrays
