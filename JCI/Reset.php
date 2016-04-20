@@ -14,9 +14,7 @@
   include ("includes/RandString.php");
   require ('../DbConnector.php');
   $form = "";
-  if (isset($_GET('token')))	{
-  		$token = $_GET('token');
-  	}
+  $token = $_GET('token');
   //Check to see if the link if from the email or a post back.
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   	//Set up Error msg array.
@@ -65,7 +63,7 @@
 			} echo "Please correct the errors.";
 			$form = '<h1>Password Reset</h1>
 				<fieldset>	
-					<form action="Reset.php" id="regiForm" method="post">
+					<form action="Reset.php?token='.$token.'" id="regiForm" method="post">
 						<p>Please create a new password.<br />
 						<p>* Password: <input type="password" name="pass1" size="15" maxlength="20"  /></p>
 						<p>* Confirm Password: <input type="password" name="pass2" size="15" maxlength="20" /></p>
@@ -85,7 +83,6 @@
 	}
 	
   } else {
-	  echo $token;
 	  $query = "SELECT Email FROM tokens WHERE Token = '$token';";
 	  echo $query;
 	  $run = @mysqli_query($dbc, $query);

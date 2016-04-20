@@ -42,8 +42,7 @@
 				$message = 
 				'
 				Password help for JCI website
-				Click on the given link to reset your password <a href="'.$url.'/Reset.php?token='.$token.'">Reset Password</a></p>
-					';
+				Click on the given link to reset your password '.$url.'/Reset.php?token='.$token.'';
 			    $headers = 'From: ' . $defaultEmail . "\r\n" .
         		'Reply-To: ' . $defaultEmail . "\r\n" .
         		'X-Mailer: PHP/' . phpversion();
