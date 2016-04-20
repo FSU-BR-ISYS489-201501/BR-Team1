@@ -27,7 +27,7 @@
 			}
 		//Checks to see if array
 		if (empty($err)) {
-			$query = "SELECT Email FROM Users WHERE Email = '$email';";	
+			$query = "SELECT Email FROM users WHERE Email = '$email';";	
 			$run = @mysqli_query($dbc, $query);
 			$count = mysqli_num_rows($run);
 			if ($count > 0) {
