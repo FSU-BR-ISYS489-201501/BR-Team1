@@ -9,6 +9,9 @@
   * Credit: My own code or borrowed from within our site. http://php.net/ was a resource.
   * 
   **********************************************************************************************/  
+  if (isset($_Get('token')))	{
+  		$token = $_GET('token');
+  	}
   $page_title = 'Password Reset';
   include ("includes/Header.php");
   include ("includes/RandString.php");
@@ -39,7 +42,7 @@
 		$pass = $pass.$salt;
 		$pass = sha1($pass);
 		//Creat the query that updates info into the DB.
-		$query = "UPDATE users SET PasswordHash`= '$pass' WHERE `Email`= '$email';";
+		$query = "UPDATE users SET PasswordHash= '$pass' WHERE `Email`= '$email';";
 		$run = @mysqli_query($dbc, $query);
 				//The Following builds the email to be sent.
 				//Email needs to change to reflect a webhost generic email.
@@ -82,10 +85,9 @@
 	}
 	
   } else {
-	  $token = $_GET['token'];
-	  echo "$token";
+	  echo $token;
 	  $query = "SELECT Email FROM tokens WHERE Token = '$token';";
-	  echo "$query";
+	  echo $query;
 	  $run = @mysqli_query($dbc, $query);
 	  
 	  if (mysqli_num_rows($run > 0)){
