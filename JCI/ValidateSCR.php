@@ -16,6 +16,7 @@
  * 	declared in CSS
  * 	- Added an ORDER BY clause to the SELECT query to order users by last name
  * 	- Moved hidden INPUT to a column on the row above, instead of its own row
+ * 	- Adjusted rowspan and inline borders on the table
  ********************************************************************************************/
 	include ("includes/Header.php");
 	include("includes/TableRowHelper.php");
@@ -52,7 +53,7 @@
 		
 		// Based on the code from the TableRowHelper.php file with a lot of tweaks by Meredith Purk		
 		$tableBody = $tableBody . "<tr>"; // Our first row: This will hold the author information
-		$tableBody = $tableBody . "<td>{$row['authLastName']}, {$row['authFirstName']}</td><td>{$row['authEmail']}</td><td><input type='checkbox' name='saveChangesBox{$userCount}'>Update</input></td></tr>";
+		$tableBody = $tableBody . "<td style='border-bottom: none'>{$row['authLastName']}, {$row['authFirstName']}</td><td style='border-bottom: none'>{$row['authEmail']}</td><td style='border-bottom: none' rowspan='2'><input type='checkbox' name='saveChangesBox{$userCount}'>Update</input></td></tr>";
 	
 		// Skip to our next row, which will be the SCR Field and Verified Checkbox
 		$tableBody = $tableBody . "<tr><td><textarea cols='20' rows='1' maxLength=15 name='textBox{$userCount}'>{$currentAuthorSCR[$userCount]}</textarea></td>"; // SCR Textbox	
