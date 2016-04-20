@@ -87,7 +87,7 @@
 	  echo $query;
 	  $run = @mysqli_query($dbc, $query);
 	  
-	  if (mysqli_num_rows($run > 0)){
+	  if (mysqli_num_rows($run) > 0){
 	  		$form = '<h1>Password Reset</h1>
 				<fieldset>	
 					<form action="Reset.php" id="regiForm" method="post">
