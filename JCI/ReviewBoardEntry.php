@@ -18,7 +18,7 @@
 	//Got from mark to check the post back.
 	if (isset($_GET['boardId'])) {
 		$selectId = $_GET['boardId'];
-		$deleteQuery = "DELETE FROM reviewboard WHERE boardId = $selectId ;";
+		$deleteQuery = "UPDATE reviewboard SET Active = 0 WHERE boardId = $selectId ;";
 		$run = @mysqli_query($dbc, $deleteQuery);
 		if($run) {				
 			header('Location: ReviewBoardEntry.php');
@@ -68,8 +68,8 @@
 	}
 	
 	// Display Current Table anyway!
-	$query = "SELECT fName, lName, institution FROM reviewboard ORDER BY lName;";
-	$idQuery = "SELECT boardId FROM reviewboard ORDER BY lName;";
+	$query = "SELECT fName, lName, institution FROM reviewboard WHERE Active = 1 ORDER BY lName;";
+	$idQuery = "SELECT boardId FROM reviewboard Active = 1 ORDER BY lName;";
 	
 	$run = @mysqli_query($dbc, $query);
 	$idRun = @mysqli_query($dbc, $idQuery);
@@ -83,8 +83,8 @@
 	$tableBody = tableRowGeneratorWithButtons($run, $editButton, 1, $headerCounter);
 } else {
 	// Not a postback, grab the data for the table.
-	$query = "SELECT fName, lName, institution FROM reviewboard ORDER BY lName;";
-	$idQuery = "SELECT boardId FROM reviewboard ORDER BY lName;";
+	$query = "SELECT fName, lName, institution FROM reviewboard WHERE Active = 1 ORDER BY lName;";
+	$idQuery = "SELECT boardId FROM reviewboard WHERE Active = 1 ORDER BY lName;";
 	
 	$run = @mysqli_query($dbc, $query);
 	$idRun = @mysqli_query($dbc, $idQuery);
