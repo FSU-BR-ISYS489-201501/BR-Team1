@@ -19,18 +19,16 @@
 	if (isset($_GET['boardId'])) {
 		$selectId = $_GET['boardId'];
 		$deleteQuery = "UPDATE reviewboard SET Active = 0 WHERE boardId = $selectId ;";
-		$run = @mysqli_query($dbc, $deleteQuery);
-		if($run) {				
+		if(@mysqli_query($dbc, $deleteQuery)) {				
 			header('Location: ReviewBoardEntry.php');
-			exit;
+			//exit;
 		} else {
 			echo "If you see this message, please tell web admin! Thank you.";
 			
 		}
 	}
- 
- if ($_SERVER['REQUEST_METHOD'] == 'POST') 
-{
+ // Checks to see if the page is posting.
+ if ($_SERVER['REQUEST_METHOD'] == 'POST')  {
 	$err = array();
 	// Make sure there is a First name entered.
 	if (empty($_POST['fName'])) {
@@ -53,8 +51,8 @@
 	// Check that all textboxes had data.
 	If(empty($err)){
 		//Insert the reviewer into the reviewboard table.
-		$query = "INSERT INTO reviewboard (fName, lName, institution)
-					VALUES ('$fName', '$lName', '$institution');";
+		$query = "INSERT INTO reviewboard (fName, lName, institution, Active)
+					VALUES ('$fName', '$lName', '$institution', 1);";
 		$run = mysqli_query($dbc, $query);
 	} else {
 		
@@ -68,16 +66,17 @@
 	}
 	
 	// Display Current Table anyway!
+	// Queries to grab the data needed.
 	$query = "SELECT fName, lName, institution FROM reviewboard WHERE Active = 1 ORDER BY lName;";
-	$idQuery = "SELECT boardId FROM reviewboard Active = 1 ORDER BY lName;";
-	
+	$idQuery = "SELECT boardId FROM reviewboard WHERE Active = 1 ORDER BY lName;";
+	//Execute the queries.
 	$run = @mysqli_query($dbc, $query);
 	$idRun = @mysqli_query($dbc, $idQuery);
-	
+	//Set up to use marks functions.
 	$pageNames = array('ReviewBoardEntry.php');
 	$variableNames = array('boardId');
 	$titles = array('Delete');
-	
+	//Use marks functions to create the table to display.
 	$headerCounter = @mysqli_num_fields($run);
 	$editButton = tableRowLinkGenerator($idRun, $pageNames, $variableNames, $titles);
 	$tableBody = tableRowGeneratorWithButtons($run, $editButton, 1, $headerCounter);
@@ -85,14 +84,14 @@
 	// Not a postback, grab the data for the table.
 	$query = "SELECT fName, lName, institution FROM reviewboard WHERE Active = 1 ORDER BY lName;";
 	$idQuery = "SELECT boardId FROM reviewboard WHERE Active = 1 ORDER BY lName;";
-	
+	// Execute the queries.
 	$run = @mysqli_query($dbc, $query);
 	$idRun = @mysqli_query($dbc, $idQuery);
-	
+	// Set up for marks functions.
 	$pageNames = array('ReviewBoardEntry.php');
 	$variableNames = array('boardId');
 	$titles = array('Delete');
-	
+	// Use marks functions to create the table to display.
 	$headerCounter = @mysqli_num_fields($run);
 	$editButton = tableRowLinkGenerator($idRun, $pageNames, $variableNames, $titles);
 	$tableBody = tableRowGeneratorWithButtons($run, $editButton, 1, $headerCounter);
