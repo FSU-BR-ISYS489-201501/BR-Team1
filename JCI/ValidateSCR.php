@@ -64,7 +64,7 @@
 	}
 	
 	// Once we've iterated through all rows in our user table, create a Save Changes Button/submit button for the form
-	$tableBody = $tableBody . "<tr><td><input type='submit' Value='Save Changes' class='button2'></input</td></tr><tr><td>Save changes made on this form and update the database.</td></tr>";
+	$tableBody = $tableBody . "<tr><td style='border-bottom: none'><input type='submit' Value='Save Changes' class='button2'></input</td></tr><tr><td style='border-bottom: none'>Save changes made on this form and update the database.</td></tr>";
 	
 	//print_r($_POST); // This was a debug to just print the value of the POST array
 	
