@@ -58,8 +58,8 @@
 	
 		// Skip to our next row, which will be the SCR Field and Verified Checkbox
 		$tableBody = $tableBody . "<tr><td><textarea cols='20' rows='1' maxLength=15 name='textBox{$userCount}'>{$currentAuthorSCR[$userCount]}</textarea></td>"; // SCR Textbox	
-		$tableBody = $tableBody . "<td><input type='checkbox' name='verifiedSCRBox{$userCount}'{$checkBoxState}>Verified Membership Code</input></td>"; // Verified Checkbox Control
-		$tableBody = $tableBody . "<td><input type='hidden' name='authUserId{$userCount}' value='{$row['authUserId']}'> </input> </td><td></td></tr>"; // Hidden input box lets us keep track of our userID
+		$tableBody = $tableBody . "<td><input type='checkbox' name='verifiedSCRBox{$userCount}'{$checkBoxState}>Verified Membership Code</input>"; // Verified Checkbox Control
+		$tableBody = $tableBody . "<input type='hidden' name='authUserId{$userCount}' value='{$row['authUserId']}'> </input></td></tr>"; // Hidden input box lets us keep track of our userID
 		$userCount++; // increment our count for the next iteration
 	}
 	
