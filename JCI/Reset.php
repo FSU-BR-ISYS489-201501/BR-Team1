@@ -45,6 +45,7 @@
 		//Credit - seeing http://www.techonthenet.com/sql_server/update.php made me wonder if i could use a select statement in the where clause.
 		$updateQuery = "UPDATE users SET PasswordHash= '$hash' WHERE Email= (SELECT Email FROM tokens WHERE Token = '$token')";
 		$tokenQuery = "UPDATE tokens SET Active = 0 WHERE Token = '$token';";
+		$run = @mysqli_query($dbc, $tokenQuery);
 		if (@mysqli_query($dbc, $updateQuery)) {
 				/* still unsure how to do this.	
 				//The Following builds the email to be sent.
