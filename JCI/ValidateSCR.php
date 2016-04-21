@@ -17,6 +17,7 @@
  * 	- Added an ORDER BY clause to the SELECT query to order users by last name
  * 	- Moved hidden INPUT to a column on the row above, instead of its own row
  * 	- Adjusted rowspan and inline borders on the table
+ * 	- Added class to submit button
  ********************************************************************************************/
 	include ("includes/Header.php");
 	include("includes/TableRowHelper.php");
@@ -63,7 +64,7 @@
 	}
 	
 	// Once we've iterated through all rows in our user table, create a Save Changes Button/submit button for the form
-	$tableBody = $tableBody . "<tr><td><input type='submit' Value='Save Changes'></input</td></tr><tr><td>Save changes made on this form and update the database.</td></tr>";
+	$tableBody = $tableBody . "<tr><td><input type='submit' Value='Save Changes' class='button2'></input</td></tr><tr><td>Save changes made on this form and update the database.</td></tr>";
 	
 	//print_r($_POST); // This was a debug to just print the value of the POST array
 	
