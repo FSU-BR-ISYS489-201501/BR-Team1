@@ -32,7 +32,7 @@
 			$count = mysqli_num_rows($run);
 			if ($count > 0) {
 				$token = randString(10);
-				$iquery = "INSERT INTO tokens (Token, Email) values ('$token', '$email')";
+				$iquery = "INSERT INTO tokens (Token, Email , Active) values ('$token', '$email', 1)";
 				$irun = @mysqli_query($dbc, $iquery);
 				
 				$defaultEmail = "webmailer@JCI.com";
