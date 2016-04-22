@@ -52,7 +52,7 @@
 							<select name = $counter>";
 				if ($row[2] == 'Slide') {
 					$tableBody = $tableBody . "
-								<option value = 'null'>Location on the Website</option>
+								<option value = 'null'>Inactive</option>
 								<option value = 'Slide' selected>Slideshow Image</option>
 								<option value = 'About'>About Us Image</option>
 							</select>
@@ -61,7 +61,7 @@
 				}
 				else if ($row[2] == 'About') {
 					$tableBody = $tableBody . "
-								<option value = 'null'>Location on the Website</option>
+								<option value = 'null'>Inactive</option>
 								<option value = 'Slide'>Slideshow Image</option>
 								<option value = 'About' selected>About Us Image</option>
 							</select>
@@ -70,7 +70,7 @@
 				}
 				else {
 					$tableBody = $tableBody . "
-								<option value = 'null' selected>Location on the Website</option>
+								<option value = 'null' selected>Inactive</option>
 								<option value = 'Slide'>Slideshow Image</option>
 								<option value = 'About'>About Us Image</option>
 							</select>

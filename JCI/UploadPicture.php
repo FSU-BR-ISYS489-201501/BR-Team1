@@ -74,7 +74,7 @@ session_start();
 
 <form enctype="multipart/form-data"  multiple = "multiple" method = "POST">
 	<select name = 'type'>
-		<option value = 'null'>Location on the Website</option>
+		<option value = 'null'>Inactive</option>
 		<option value = 'Slide'>Slideshow Image</option>
 		<option value = 'About'>About Us Image</option>
 	</select>
