@@ -143,7 +143,10 @@
 		//Changing keyword text box if the field 
 		//Edit all other info about CIs
 		//use for loop $i
-		//
+		//update only needs keywordid
+		//insert needs keyword's ci id
+		//create keyword file to add keywords
+		
 ?>
 
 	<!--Takes information to create a new announcement in the db.-->
