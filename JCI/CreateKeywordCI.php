@@ -27,13 +27,17 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	
-	$CriticalIncidentId = $_POST['id'];
-	$keyword =$_POST['keyword'];
-	echo "$CriticalIncidentId";
-	echo "$keyword";
-	$query = "INSERT INTO keywords (CIKeyword, CriticalIncidentId) VALUES ('$keyword', $CriticalIncidentId);";
-	
-	$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
+		$CriticalIncidentId = $_POST['id'];
+		$keyword =$_POST['keyword'];
+		if (preg_match("/^[a-zA-Z]/", $keyword)) {
+		echo "$CriticalIncidentId";
+		echo "$keyword";
+		$query = "INSERT INTO keywords (CIKeyword, CriticalIncidentId) VALUES ('$keyword', $CriticalIncidentId);";
+		
+		$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
+		}else{
+			echo "The keyword can only contain English letters.";
+		}
 	}
 	
 	$CriticalIncidentId = 0;
@@ -44,6 +48,8 @@
 	else if (isset($_POST['id'])){
 		$CriticalIncidentId = $_POST['id'];
 	}
+	
+	
 	
 	?>
 
