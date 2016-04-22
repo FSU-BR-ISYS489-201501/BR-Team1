@@ -24,7 +24,6 @@ $searchHeader = "";
 $tableStart= "<table><tbody>";
 $tableEnd= "</table></tbody>";
 $fieldVar = "First Name";
-$resultsVar = "";
 //$emptyResults= "";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') 
@@ -189,10 +188,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			echo $tableBody;
 			echo $tableEnd;
 			echo '</fieldset>';
-		} else {
+		} elseif (!empty($resultsVar)) {
 			echo '<h1>Search Results</h1><fieldset>';
 			echo $resultsVar;
 			echo '</fieldset>';
+		} else {
+			// Do nothing!.
 		}
 	?>
 
