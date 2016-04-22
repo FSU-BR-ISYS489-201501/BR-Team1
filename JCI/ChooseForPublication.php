@@ -12,6 +12,10 @@
  * Revision1.1: 04/09/2016 Author: Mark Bowman
  * I altered the SQL query to allow for searching of the latest volume number. I also added 
  * conditionals to see if the table body has content before displaying the rest of the table.
+ * 
+ * Revision1.2: 04/21/2016 Author: Mark Bowman
+ * I altered the location of the in development query in order to squash a bug that allowed a 
+ * user to deactivate a published Critical Incident.	
  ********************************************************************************************/
  
 	$page_title = 'Choose Cases for Publication';
@@ -27,27 +31,6 @@
 	session_start();
 	if($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
 		
-		// The idea for this code was inspired by Michael J. Calkins.
-		// This block will check if 'deleteId' is set in the url. It will set the announcement with that value to inactive.
-		if (isset($_GET['rejectedPublicationId'])) {
-			$rejectQuery = "UPDATE criticalincidents SET ApprovedPublish = 0 WHERE CriticalIncidentId = {$_GET['rejectedPublicationId']};";
-			$rejectCriticalIncidentQuery = @mysqli_query($dbc, $rejectQuery);
-			if($rejectCriticalIncidentQuery){
-				header('Location: http://localhost/jci/ChooseForPublication.php');
-			}
-		}
-		
-		
-		// The idea for this code was inspired by Michael J. Calkins.
-		// This block will check if 'activateId' is set in the url. It will set the announcement with that value to active.
-		if (isset($_GET['approvedPublicationId'])) {
-			$approveQuery = "UPDATE criticalincidents SET ApprovedPublish = 1 WHERE CriticalIncidentId = {$_GET['approvedPublicationId']};";
-			$approveCriticalIncidentQuery = @mysqli_query($dbc, $approveQuery);
-			if($approveCriticalIncidentQuery){
-				header('Location: http://localhost/jci/ChooseForPublication.php');
-			}
-		}
-		
 		$nextVolumeQuery = 	"SELECT JournalId FROM journalofcriticalincidents WHERE InDevelopement = 1;";
 		
 		// Written by Shane Workman.
@@ -56,7 +39,28 @@
 		if ($row = mysqli_fetch_array($nextVolumeSelectQuery, MYSQLI_ASSOC)) {
 			
 			$latest = $row['JournalId'];
+		
+			// The idea for this code was inspired by Michael J. Calkins.
+			// This block will check if 'deleteId' is set in the url. It will set the announcement with that value to inactive.
+			if (isset($_GET['rejectedPublicationId'])) {
+				$rejectQuery = "UPDATE criticalincidents SET ApprovedPublish = 0 WHERE CriticalIncidentId = {$_GET['rejectedPublicationId']} AND JournalId = $latest;";
+				$rejectCriticalIncidentQuery = @mysqli_query($dbc, $rejectQuery);
+				if($rejectCriticalIncidentQuery){
+					header('Location: http://localhost/jci/ChooseForPublication.php');
+				}
+			}
 			
+			
+			// The idea for this code was inspired by Michael J. Calkins.
+			// This block will check if 'activateId' is set in the url. It will set the announcement with that value to active.
+			if (isset($_GET['approvedPublicationId'])) {
+				$approveQuery = "UPDATE criticalincidents SET ApprovedPublish = 1 WHERE CriticalIncidentId = {$_GET['approvedPublicationId']} AND JournalId = $latest;";
+				$approveCriticalIncidentQuery = @mysqli_query($dbc, $approveQuery);
+				if($approveCriticalIncidentQuery){
+					header('Location: http://localhost/jci/ChooseForPublication.php');
+				}
+			}
+		
 			// Mark Bowman: I altered the SQL query to check the volume number instead of the journal ID.
 			$criticalIncidentQuery = 	"SELECT criticalincidents.Title, criticalincidents.ApprovedPublish
 									 	FROM criticalincidents 
