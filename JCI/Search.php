@@ -123,7 +123,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 									WHERE CIKeyword = '$criteria' AND criticalincidents.ApprovedPublish = 1;";
 									
 			} elseif ($field == "Category") {
-				// ADD IN CATEGORY SQL HERE... ONCE it gets washed out.
+				// Mark Bowman: I changed the queries to only return Critical Incidents that have been approved to publish.
+				$query = "Select criticalincidents.Title, category.CategoryName, category.CategoryYear 
+									FROM criticalincidents INNER JOIN 
+									ON cicategory.CriticalIncidentId = criticalincidents.CriticalIncidentId 
+									INNER JOIN category
+									ON cicategoy.CategoryId = category.CategoryId 
+									WHERE  = '$criteria' AND criticalincidents.ApprovedPublish = 1;";
+									
+				$idSelectQuery = "Select criticalincidents.CriticalIncidentId
+									FROM criticalincidents INNER JOIN 
+									ON cicategory.CriticalIncidentId = criticalincidents.CriticalIncidentId 
+									INNER JOIN category
+									ON cicategoy.CategoryId = category.CategoryId 
+									WHERE  = '$criteria' AND criticalincidents.ApprovedPublish = 1;";
 			} else {
 				echo "If this prints, Selecting which SQL statement is used is bugged!";
 			} 
@@ -135,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			$searchHeader = "<th>Last Name</th><th>First Name</th><th>Email</th><th>Title</th>";
 			$resultsVar = "No Search Results!";
 			
-		} elseif ($field == "PubYear" || $field == "Title" || $field == "Keyword"){
+		} elseif ($field == "PubYear" || $field == "Title" || $field == "Keyword" || $field == "Category"){
 			//Display search results
 			$run = mysqli_query($dbc, $query);
 	  		$headerCounter = mysqli_num_fields($run);
