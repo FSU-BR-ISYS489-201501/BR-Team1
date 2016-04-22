@@ -56,7 +56,7 @@
 			}
 		
 		//Check category value
-		if (empty($_POST['Title'])) {
+		if (empty($_POST['title'])) {
 			$err[] = 'There is no title.';
 		} else {
 			$title = mysqli_real_escape_string($dbc, trim($_POST['id']));
@@ -95,21 +95,21 @@
 		// Select Category and Title of Critical Incident
 		$editQuery = "SELECT Category, Title FROM criticalincidents WHERE CriticalIncidentId = $CriticalIncidentId;";
 		$selectQuery = @mysqli_query($dbc, $editQuery);	
-		$row = mysqli_fetch_array($selectQuery, MYSQLI_NUM);
 		
-		$title = mysqli_fetch_row($selectQuery);
-		$title=$title."Title: <input type='text' name='title' size='15' maxlength='50' value='{$title}' ></input>";
+		
+		
+		// $title=$title."Title: <input type='text' name='title' size='15' maxlength='50' value='{$title}' ></input>";
 			// // The idea for this code was inspired by xdazz.
 			// // $button = '<a href=' . $pageName[$b] . '?' . $variableName[$b] . '=' . $ids[$a] . '>' . $title[$b] . '</a></td>';
 		
 		
 		//The following variable set the starting column from our query array $row.
-		$a = 1;
+	
 		//this code was inspired by Wiiliam
 		//The previous variable is increased in value to assign the appropriate values from our query array to each variable.
-		while($row=mysqli_fetch_row($selectQuery)){
-			$title = "{$row[$a+1]}";
-			$category = "{$row[$a]}";
+		if($row = mysqli_fetch_array($selectQuery, MYSQLI_NUM)){
+			$title = $row[1];
+			$category = $row[0];
 		}
 		
 		// $editKeyword ="SELECT CIKeyword FROM keywords WHERE CriticalIncidentId = $CriticalIncidentId;";
@@ -143,7 +143,10 @@
 		//Changing keyword text box if the field 
 		//Edit all other info about CIs
 		//use for loop $i
-		//
+		//update only needs keywordid
+		//insert needs keyword's ci id
+		//create keyword file to add keywords
+		
 ?>
 
 	<!--Takes information to create a new announcement in the db.-->
@@ -152,7 +155,7 @@
 			<fieldset> 
 				
 				<input type="hidden" value="<?php if (isset($CriticalIncidentId)) echo $CriticalIncidentId; ?>" name="id" ></input>
-			  	 Title: <input  type="text" name="title" value="<?php echo $title;?>"</input>
+			  	 Title: <input  type="text" name="title" value="<?php if (isset($title)) {echo $title;}?>"></input>
 			  	 <?php
 			  	// echo $title;
 			  	?>
