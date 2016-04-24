@@ -21,10 +21,30 @@
 	if ($row = mysqli_fetch_array($pageContentSelectQuery, MYSQLI_ASSOC)) {
 		$contentBody = $row['Body'];
 	}
+	
+	$editorsQuery = "SELECT Body FROM pagecontent WHERE PageContentId = 3;";
+	$editorsSelectQuery = @mysqli_query($dbc, $editorsQuery);
+	if ($row = mysqli_fetch_array($editorsSelectQuery, MYSQLI_ASSOC)) {
+		$editors = $row['Body'];
+	}
+	
+	$query = "SELECT FileLocation FROM files WHERE FileType = 'About';";
+	
+	if ($selectQuery = @mysqli_query($dbc, $query)) {
+		while ($row = mysqli_fetch_array($selectQuery, MYSQLI_NUM)) {
+			$aboutUs = $aboutUs . "<img src=$row[0] alt='' style='width:60%;height:60%;'>";
+		}
+	}
 ?>
-
+<p>
 <?php echo $contentBody; ?>
-
+</p>
+<p>
+<?php echo $aboutUs; ?>
+</p>
+<p>
+<?php echo $editors; ?>
+</p>
 <?php
 	include ('includes/Footer.php');
 ?>

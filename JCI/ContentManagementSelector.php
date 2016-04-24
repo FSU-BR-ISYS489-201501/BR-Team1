@@ -23,10 +23,11 @@
 		include ("includes/Header.php");
 		echo "<h1>Content Management</h2>";
 		echo "<fieldset>";
-		echo "<br/><a href='ContentManagement.php?id=1' class = 'button4'>Manage the Home Page</a><br/>";
-		echo "<br/><a href='ContentManagement.php?id=2' class = 'button4'>Manage the About Us Page</a><br/>";
-		echo "<br/><a href='ContentManagement.php?id=3' class = 'button4'>Manage the Ethics Policy and Malpractice Page</a><br/>";
-		echo "<br/><a href='ContentManagement.php?id=4' class = 'button4'>Manage the Editorial Policy Page</a><br/>";
+		echo "<br/><a href='ContentManagement.php?id=1' class = 'button2'>Manage the Home Page</a><br/><br>";
+		echo "<br/><a href='ContentManagement.php?id=2' class = 'button2'>Manage the About Us Page</a><br/><br>";
+		echo "<br/><a href='ContentManagement.php?id=3' class = 'button2'>Manage the Editor Names on the About Us Page</a><br/><br>";
+		echo "<br/><a href='ContentManagement.php?id=4' class = 'button2'>Manage the Ethics Policy and Malpractice Page</a><br/><br>";
+		echo "<br/><a href='ContentManagement.php?id=5' class = 'button2'>Manage the Editorial Policy Page</a><br/><br>";
 		echo "</fieldset>";
 	}
 	else {

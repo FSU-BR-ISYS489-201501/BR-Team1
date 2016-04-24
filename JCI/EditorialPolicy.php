@@ -16,7 +16,7 @@
 	
 	$contentBody = '';
 	
-	$pageContentQuery = "SELECT Body FROM pagecontent WHERE PageContentId = 3;";
+	$pageContentQuery = "SELECT Body FROM pagecontent WHERE PageContentId = 5;";
 	$pageContentSelectQuery = @mysqli_query($dbc, $pageContentQuery);
 	if ($row = mysqli_fetch_array($pageContentSelectQuery, MYSQLI_ASSOC)) {
 		$contentBody = $row['Body'];
