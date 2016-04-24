@@ -28,6 +28,8 @@
 		$institution = mysqli_real_escape_string($dbc, trim($_POST['university']));
 		$membercode = mysqli_real_escape_string($dbc, trim($_POST['memberID']));
 		$prefix = mysqli_real_escape_string($dbc, trim($_POST['prefix']));
+		
+
 		// Error checking from Shane's Register file
 		if (empty($email)) {
 			$err[] = 'You forgot to enter your email.';
@@ -79,6 +81,7 @@
 		$a = 1;
 		//This code was inspired by Wiiliam
 		//The previous variable is increased in value to assign the appropriate values from our query array to each variable.
+		$Prefix = "{$row[$a-1]}";
 		$FName = "{$row[$a]}";
 		$LName = "{$row[$a+1]}";
 		$Suffix = "{$row[$a+2]}";
@@ -94,13 +97,13 @@
 	<fieldset>
 		<p>Prefix: 
 		<select name="prefix">
-			<option <?php if(isset($_POST['prefix'])=="NULL") echo'selected="selected"'; ?>    value="NULL"></option>
-			<option <?php if(isset($_POST['prefix'])=="Ms") echo'selected="selected"'; ?>    value="Ms">Ms</option>
-			<option <?php if(isset($_POST['prefix'])=="Mrs") echo'selected="selected"'; ?>    value="Mrs">Mrs</option>
-			<option <?php if(isset($_POST['prefix'])=="Miss") echo'selected="selected"'; ?>    value="Miss">Miss</option>
-			<option <?php if(isset($_POST['prefix'])=="Mr") echo'selected="selected"'; ?>    value="Mr">Mr</option>
-			<option <?php if(isset($_POST['prefix'])=="Sir") echo'selected="selected"'; ?>    value="Sir">Sir</option>
-			<option <?php if(isset($_POST['prefix'])=="Dr") echo'selected="selected"'; ?>    value="Dr">Dr</option>
+			<option <?php if ($Prefix == "NULL") echo'selected="selected"'; ?>    value="NULL"></option>
+			<option <?php if ($Prefix == "Ms") echo'selected="selected"'; ?>    value="Ms">Ms</option>
+			<option <?php if ($Prefix == "Mrs") echo'selected="selected"'; ?>    value="Mrs">Mrs</option>
+			<option <?php if ($Prefix == "Miss") echo'selected="selected"'; ?>    value="Miss">Miss</option>
+			<option <?php if ($Prefix == "Mr") echo'selected="selected"'; ?>    value="Mr">Mr</option>
+			<option <?php if ($Prefix == "Sir") echo'selected="selected"'; ?>    value="Sir">Sir</option>
+			<option <?php if ($Prefix == "Dr") echo'selected="selected"'; ?>    value="Dr">Dr</option>
 		</select></p>
 		<p>* First Name: <input type="text" name="fName" size="15" maxlength="50" value="<?php echo $FName; ?>" /></p>
 		<p>* Last Name: <input type="text" name="lName" size="15" maxlength="50" value="<?php echo $LName; ?>" /></p>
