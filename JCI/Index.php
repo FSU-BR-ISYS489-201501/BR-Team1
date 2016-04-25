@@ -21,14 +21,26 @@
 	$contentBody = '';
 	$slideShow = '';
 	
-	$query = "SELECT Body FROM announcements WHERE IsActive = 1 AND StartDate <= '{$currentDate}' 
+	if($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor' || $_SESSION['Type'] == 'author' || $_SESSION['Type'] == 'Author') {
+		$query = "SELECT Body FROM announcements WHERE IsActive = 1 AND StartDate <= '{$currentDate}' 
 		AND EndDate > '{$currentDate}';";
 	
-	// Stole from Shane Workman's Register code
-	$selectQuery = @mysqli_query($dbc, $query);
+		// Stole from Shane Workman's Register code
+		$selectQuery = @mysqli_query($dbc, $query);
+		
+		$headerCounter = mysqli_num_fields($selectQuery);
+		$tableBody = tableRowGenerator($selectQuery, $headerCounter);
+	}
+	else {
+		$query = "SELECT Body FROM announcements WHERE IsActive = 1 AND Type = 1 AND StartDate <= '{$currentDate}' 
+		AND EndDate > '{$currentDate}';";
 	
-	$headerCounter = mysqli_num_fields($selectQuery);
-	$tableBody = tableRowGenerator($selectQuery, $headerCounter);
+		// Stole from Shane Workman's Register code
+		$selectQuery = @mysqli_query($dbc, $query);
+		
+		$headerCounter = mysqli_num_fields($selectQuery);
+		$tableBody = tableRowGenerator($selectQuery, $headerCounter);
+	}
 	
 	$pageContentQuery = "SELECT Body FROM pagecontent WHERE PageContentId = 1;";
 	$pageContentSelectQuery = @mysqli_query($dbc, $pageContentQuery);
