@@ -19,7 +19,7 @@
   //Diplay the journals in the Database.
   //Mark Bowman: Ichanged the query to only show journal volumes that are not in development.
   $query = "Select JournalVolume, PublicationYear FROM journalofcriticalincidents WHERE InDevelopement = 0 ORDER BY JournalID;";
-  $idSelectQuery = "SELECT JournalID FROM journalofcriticalincidents WHERE InDevelopement = 0 ORDER BY JournalID;";
+  $idSelectQuery = "SELECT JournalID FROM journalofcriticalincidents WHERE InDevelopement = 0 ORDER BY JournalID DESC;";
   $run = mysqli_query($dbc, $query);
   $idSelectRun = mysqli_query($dbc, $idSelectQuery);
   $headerCounter = mysqli_num_fields($run);
