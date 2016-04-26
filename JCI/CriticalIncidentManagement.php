@@ -31,8 +31,10 @@
  	{
 		//Set up Error msg array.
 		$err = array();
-		$title = array();
-		$category = array();
+		$title = '';
+		$category = '';
+		$CriticalIncidentId = '';
+		$fieldcount = 1;
 		
 		//Check for CI Id value.
 		if (empty($_POST['CriticalIncidentId'])) {
@@ -49,10 +51,10 @@
 			}
 		
 		//Check category value
-		if (empty($_POST['Category'])) {
+		if (empty($_POST['category'])) {
 			$err[] = 'You forgot to select a category.';
 		} else {
-			$Category = mysqli_real_escape_string($dbc, trim($_POST['id']));
+			$category = mysqli_real_escape_string($dbc, trim($_POST['id']));
 			}
 		
 		//Check category value
@@ -65,7 +67,7 @@
 		//Check to see if any errors exist in the validation array.
 		
 			//Create the query that dumps info into the DB.
-			$query = "UPDATE criticalincidents SET Category='$Category', Title='$title' WHERE CriticalIncidentId = $CriticalIncidentId;";
+			$query = "UPDATE criticalincidents SET Category='$category', Title='$title' WHERE CriticalIncidentId = '$CriticalIncidentId';";
 					
 			//Run the query...
 			$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
@@ -88,7 +90,7 @@
 		//Value of a variable	
 		If (isset($_GET['id']) ) {
 			$CriticalIncidentId = $_GET['id'];
-		} Else {
+		} else {
 			$CriticalIncidentId = $_POST['id'];
 		}
 		
@@ -146,6 +148,8 @@
 		//update only needs keywordid
 		//insert needs keyword's ci id
 		//create keyword file to add keywords
+		
+		
 		
 ?>
 
