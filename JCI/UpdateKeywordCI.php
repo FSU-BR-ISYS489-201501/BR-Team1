@@ -20,7 +20,7 @@
  * Revision1.1: MM/DD/YYYY Author: Name Here 
  * Description of change. Also add //Name: comments above your change within the code.
  ********************************************************************************************/
-	$page_title = 'Create Keyword';
+	$page_title = 'Update Keyword';
  	include ("includes/Header.php");
 	include ("includes/ValidationHelper.php");
 	require ('../DbConnector.php');
@@ -32,10 +32,9 @@
 		if (preg_match("/^[a-zA-Z]/", $keyword)) {
 		echo "$CriticalIncidentId";
 		echo "$keyword";
+		// $query = "INSERT INTO keywords (CIKeyword, CriticalIncidentId) VALUES ('$keyword', $CriticalIncidentId);";
 		
-		$query = "INSERT INTO keywords (CIKeyword, CriticalIncidentId) VALUES ('$keyword', $CriticalIncidentId);";
-		
-		// $query = "UPDATE keywords SET CIKeyword='$keyword' WHERE KeywordId=$CriticalIncidentId;";
+		$query = "UPDATE keywords SET CIKeyword='$keyword' WHERE KeywordId=$CriticalIncidentId;";
 		
 		$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
 		}else{

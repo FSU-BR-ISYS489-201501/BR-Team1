@@ -132,9 +132,9 @@
 	$idSelectQuery = @mysqli_query($dbc, $critincIdQuery);
 	$headerCounter = mysqli_num_fields($selectQuery);
 	// I create a button in every row and link them to create keyword
-	$pageNames = array('CreateKeywordCI.php');
+	$pageNames = array('UpdateKeywordCI.php');
 	$titles = array('Edit');
-	$variableNames = array('CriticalIncidentId');
+	$variableNames = array('id');
 	//Edit button creates view link in table for each CI Id
 	$headerCounter = mysqli_num_fields($selectQuery);
 	$editButton = tableRowLinkGenerator($idSelectQuery, $pageNames, $variableNames, $titles);
@@ -148,8 +148,9 @@
 		//update only needs keywordid
 		//insert needs keyword's ci id
 		//create keyword file to add keywords
-		
-		
+		$pageName = array('CreateKeywordCI.php');
+		$title = array('Add Keyword');
+		$button = '<a href=' . $pageName . '?' . $variableNames . '=' . $idSelectQuery . '>' . $title . '</a>';
 		
 ?>
 
