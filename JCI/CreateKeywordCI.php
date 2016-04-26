@@ -32,7 +32,9 @@
 		if (preg_match("/^[a-zA-Z]/", $keyword)) {
 		echo "$CriticalIncidentId";
 		echo "$keyword";
-		$query = "INSERT INTO keywords (CIKeyword, CriticalIncidentId) VALUES ('$keyword', $CriticalIncidentId);";
+		// $query = "INSERT INTO keywords (CIKeyword, CriticalIncidentId) VALUES ('$keyword', $CriticalIncidentId);";
+		
+		$query = "UPDATE keywords SET CIKeyword='$keyword' WHERE KeywordId='$id';";
 		
 		$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
 		}else{
@@ -40,7 +42,7 @@
 		}
 	}
 	
-	$CriticalIncidentId = 0;
+	$CriticalIncidentId = '';
 	
 	If (isset($_GET['id'])) {
 		$CriticalIncidentId = $_GET['id'];
