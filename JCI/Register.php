@@ -88,16 +88,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			$err[] = 'You forgot to enter your email.';
 		} elseif (checkEmail($_POST['email']) == 0) {
 			$err[] = 'The email submitted doesnt have the correct syntax.';
-		} elseif (1 == 2){
-			
 		} else {
-			$email = mysqli_real_escape_string($dbc, trim($_POST['email']));
-			$testQ = "SELECT Email FROM Users WHERE Email = '$email';";
+			$testEmail = mysqli_real_escape_string($dbc, trim($_POST['email']));
+			$testQ = "SELECT * FROM users WHERE Email = '$testEmail';"; 
 			$result = mysqli_query($dbc, $testQ);
-			if (mysqli_num_rows($result) > 0){
+			if (@mysqli_fetch_array($result)) { 
 				$err[] = 'This email is already registered! Please check <a href="PasswordHelp.php">Forgot Password?</a>';
 			} else {
-				// $email = mysqli_real_escape_string($dbc, trim($_POST['email']));
+				$email = mysqli_real_escape_string($dbc, trim($_POST['email']));
+				
 			}
 		}
 
