@@ -30,19 +30,37 @@
   $editButton = tableRowLinkGenerator($idSelectRun, $pageNames, $variableName, $titles);
   $tableBody = tableRowGeneratorWithButtons($run, $editButton, 1, $headerCounter);
   
+  //Begin code to display the review board.
+  $rQuery = "SELECT fName, lName, institution FROM reviewboard WHERE Active = 1 ORDER BY lName;";
+  $reviewResults = mysqli_query($dbc, $rQuery);
+  $reviewHeaderCounter = mysqli_num_fields($reviewResults);
+  $tableBody2= tableRowGenerator($reviewResults, $reviewHeaderCounter);
 ?>
-
+<div style="float:right">
+<h1>Current Review Board</h1>
+	<table>
+		<tr>
+			<th>First Name</th>
+			<th>Last Name</th>
+			<th>Institution</th>
+		</tr>
+		<tbody>
+		<?php echo $tableBody2; ?>
+		</tbody>
+	</table>
+</div>
+<div style="float:left">
 <h1>Published Journals</h1>
-<table>
-	<tr>
-		<th>Journal Volume</th>
-		<th>Publication Year</th>
-	</tr>
-	<tbody>
-		<?php echo $tableBody; ?>
-	</tbody>
-</table>
-
+	<table>
+		<tr>
+			<th>Journal Volume</th>
+			<th>Publication Year</th>
+		</tr>
+		<tbody>
+			<?php echo $tableBody; ?>
+		</tbody>
+	</table>
+</div>
 <?php
 include ("includes/Footer.php");
 ?>
