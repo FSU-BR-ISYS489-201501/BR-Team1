@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 									
 			} elseif($field == "Title")	{
 				// Mark Bowman: I changed the queries to only return Critical Incidents that have been approved to publish.
-				$query = "SELECT criticalincidents.Title, criticalincidents.Category, journalofcriticalincidents.PublicationYear 
+				$query = "SELECT criticalincidents.Title, journalofcriticalincidents.PublicationYear 
 									FROM criticalincidents  INNER JOIN journalofcriticalincidents 
 									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId
 									WHERE criticalincidents.Title = '$criteria' AND criticalincidents.ApprovedPublish = 1;";
@@ -96,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				
 			} elseif ($field == "PubYear") {
 				// Mark Bowman: I changed the queries to only return Critical Incidents that have been approved to publish.
-				$query = "Select  criticalincidents.Title, criticalincidents.Category, journalofcriticalincidents.PublicationYear
+				$query = "Select  criticalincidents.Title, journalofcriticalincidents.PublicationYear
 									FROM criticalincidents INNER JOIN journalofcriticalincidents
 									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId
 									WHERE journalofcriticalincidents.PublicationYear = '$criteria' AND criticalincidents.ApprovedPublish = 1; ";
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 									
 			} elseif ($field == "Keyword") {
 				// Mark Bowman: I changed the queries to only return Critical Incidents that have been approved to publish.
-				$query = "Select criticalincidents.Title, criticalincidents.Category, journalofcriticalincidents.PublicationYear 
+				$query = "Select criticalincidents.Title, journalofcriticalincidents.PublicationYear 
 									FROM criticalincidents LEFT JOIN keywords 
 									ON keywords.CriticalIncidentId = criticalincidents.CriticalIncidentId 
 									INNER JOIN journalofcriticalincidents 
@@ -124,19 +124,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 									
 			} elseif ($field == "Category") {
 				// Mark Bowman: I changed the queries to only return Critical Incidents that have been approved to publish.
-				$query = "Select criticalincidents.Title, category.CategoryName, category.CategoryYear 
+				$query = "Select criticalincidents.Title, categorys.CategoryName, categorys.CategoryYear 
 									FROM criticalincidents INNER JOIN 
-									ON cicategory.CriticalIncidentId = criticalincidents.CriticalIncidentId 
-									INNER JOIN category
-									ON cicategoy.CategoryId = category.CategoryId 
-									WHERE  = '$criteria' AND criticalincidents.ApprovedPublish = 1;";
+									ON cicategorys.CriticalIncidentId = criticalincidents.CriticalIncidentId 
+									INNER JOIN categorys
+									ON cicategoys.CategoryId = categorys.CategoryId 
+									WHERE categorys.CategoryName = '$criteria' AND criticalincidents.ApprovedPublish = 1;";
 									
 				$idSelectQuery = "Select criticalincidents.CriticalIncidentId
 									FROM criticalincidents INNER JOIN 
-									ON cicategory.CriticalIncidentId = criticalincidents.CriticalIncidentId 
-									INNER JOIN category
-									ON cicategoy.CategoryId = category.CategoryId 
-									WHERE  = '$criteria' AND criticalincidents.ApprovedPublish = 1;";
+									ON cicategorys.CriticalIncidentId = criticalincidents.CriticalIncidentId 
+									INNER JOIN categorys
+									ON cicategoys.CategoryId = categorys.CategoryId 
+									WHERE categorys.CategoryName = '$criteria' AND criticalincidents.ApprovedPublish = 1;";
 			} else {
 				echo "If this prints, Selecting which SQL statement is used is bugged!";
 			} 
@@ -158,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			$variableName = array('CriticalIncidentId', 'CriticalIncidentId');
 			$editButton = tableRowLinkGenerator($idSelectRun, $pageNames, $variableName, $titles);
 			$tableBody = tableRowGeneratorWithButtons($run, $editButton, 2, $headerCounter);
-			$searchHeader = "<th>Title</th><th>Category</th><th>Year Published</th>";
+			$searchHeader = "<th>Title</th><th>Year Published</th>";
 			$resultsVar = "No Search Results!";
 			 
 		} else { echo "if this prints, display results is bugged"; }
