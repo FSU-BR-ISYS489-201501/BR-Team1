@@ -18,6 +18,8 @@
  * 	- Moved hidden INPUT to a column on the row above, instead of its own row
  * 	- Adjusted rowspan and inline borders on the table
  * 	- Added class to submit button
+ * Revision 3: 4/27/16
+ * 	- Changed Textarea control for SCR code to a textbox
  ********************************************************************************************/
 	include ("includes/Header.php");
 	include("includes/TableRowHelper.php");
@@ -57,7 +59,7 @@
 		$tableBody = $tableBody . "<td style='border-bottom: none'>{$row['authLastName']}, {$row['authFirstName']}</td><td style='border-bottom: none'>{$row['authEmail']}</td><td style='border-bottom: none' rowspan='2'><input type='checkbox' name='saveChangesBox{$userCount}'>Update</input></td></tr>";
 	
 		// Skip to our next row, which will be the SCR Field and Verified Checkbox
-		$tableBody = $tableBody . "<tr><td><textarea cols='20' rows='1' maxLength=15 name='textBox{$userCount}'>{$currentAuthorSCR[$userCount]}</textarea></td>"; // SCR Textbox	
+		$tableBody = $tableBody . "<tr><td><input type='text' value='{$currentAuthorSCR[$userCount]}' maxLength=15 name='textBox{$userCount}'></input></td>"; // SCR Textbox
 		$tableBody = $tableBody . "<td><input type='checkbox' name='verifiedSCRBox{$userCount}'{$checkBoxState}>Verified Membership Code</input>"; // Verified Checkbox Control
 		$tableBody = $tableBody . "<input type='hidden' name='authUserId{$userCount}' value='{$row['authUserId']}'> </input></td></tr>"; // Hidden input box lets us keep track of our userID
 		$userCount++; // increment our count for the next iteration
