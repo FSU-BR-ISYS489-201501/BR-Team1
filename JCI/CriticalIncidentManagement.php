@@ -148,9 +148,10 @@
 		//update only needs keywordid
 		//insert needs keyword's ci id
 		//create keyword file to add keywords
-		$pageName = array('CreateKeywordCI.php');
-		$title = array('Add Keyword');
-		$button = '<a href=' . $pageName . '?' . $variableNames . '=' . $idSelectQuery . '>' . $title . '</a>';
+		$keywordTitle = array('Add Keyword');
+		$variableNames = array('id');
+		// $addButton = tableRowLinkGenerator($idSelectQuery, $pageName, $variableNames, $keywordTitle);
+		$button = '<a href=' . 'CreateKeyWordCI.php' . '?' . 'id' . '=' . '$idSelectQuery' . '>' . 'Add Keyword' . '</a>';
 		
 ?>
 
@@ -188,8 +189,12 @@
 					<?php
 				echo $tableBody;
 				// echo $keyword; 
+				echo $button;
 				?>
 				</table>
+				<?php
+				
+				?>
 				<!--<p>Keywords: <input type="text" name="keyword[0]" size="15" maxlength="50" value="<?php echo $keyword[0]; ?>" </input></p>-->
 				
 					
