@@ -20,10 +20,17 @@
  * 	- Added class to submit button
  * Revision 3: 4/27/16
  * 	- Changed Textarea control for SCR code to a textbox
+ * 	- Added session check to ensure that only users logged in as Editors can access this page
+ * 	- Removed the unnecessary include for TableRowHelper.php because those functions weren't
+ * 		being used in this file any more
  ********************************************************************************************/
 	include ("includes/Header.php");
-	include("includes/TableRowHelper.php");
-	require ('../DbConnector.php');
+
+session_start();
+	
+if($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor')
+	{ // Check the session data to ensure we are logged in as an Editor
+	require('../DbConnector.php');
 	$page_title = 'Validate SCR Membership';
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') 
@@ -68,7 +75,12 @@
 	// Once we've iterated through all rows in our user table, create a Save Changes Button/submit button for the form
 	$tableBody = $tableBody . "<tr><td style='border-bottom: none'><input type='submit' Value='Save Changes' class='button1'></input</td></tr><tr><td style='border-bottom: none'>Save changes made on this form and update the database.</td></tr>";
 	
-	//print_r($_POST); // This was a debug to just print the value of the POST array
+	}
+else
+	{ // If we are not logged in as an Editor, redirect us to the index page
+	header('Location: http://br-t1-jci.sfcrjci.org/Index.php');
+	exit;
+	}	
 	
 	function updateSCRRecords($dbc)
 	{
