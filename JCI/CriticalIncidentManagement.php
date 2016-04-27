@@ -67,23 +67,12 @@
 		//Check to see if any errors exist in the validation array.
 		
 			//Create the query that dumps info into the DB.
-			$query = "UPDATE criticalincidents SET Category='$category', Title='$title' WHERE CriticalIncidentId = '$CriticalIncidentId';";
+			$query = "UPDATE criticalincidents SET Category='$category', Title='$title' WHERE CriticalIncidentId = $CriticalIncidentId;";
 					
 			//Run the query...
-			$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
+			$run = @mysqli_querys($dbc, $query)or die("Errors are ".mysqli_error($dbc));
 			}
-			// if($run){
-				// //$query = "UPDATE keywords SET CIKeyword='$keyword' WHERE CriticalIncidentId = $CriticalIncidentId;";
-			// }
-		// } else {
-				// //List each Error msg that is stored in the array.
-				// Foreach($err as $m)
-				// {
-					// echo " $m <br />";
-				// } echo "Please correct the errors.";
-// 			
-			// }	
-		
+
 		
 		// it will get id value from edit link and when we hit sibmit it will post it in the board 
 		// this code was inspired by Wiliam
@@ -99,12 +88,6 @@
 		$selectQuery = @mysqli_query($dbc, $editQuery);	
 		
 		
-		
-		// $title=$title."Title: <input type='text' name='title' size='15' maxlength='50' value='{$title}' ></input>";
-			// // The idea for this code was inspired by xdazz.
-			// // $button = '<a href=' . $pageName[$b] . '?' . $variableName[$b] . '=' . $ids[$a] . '>' . $title[$b] . '</a></td>';
-		
-		
 		//The following variable set the starting column from our query array $row.
 	
 		//this code was inspired by Wiiliam
@@ -113,17 +96,6 @@
 			$title = $row[1];
 			$category = $row[0];
 		}
-		
-		// $editKeyword ="SELECT CIKeyword FROM keywords WHERE CriticalIncidentId = $CriticalIncidentId;";
-		// $selectQuery = @mysqli_query($dbc, $editKeyword);	
-		// $row = mysqli_fetch_array($selectQuery, MYSQLI_NUM);
-// 		
-		// $keyword = '';
-		// while($row=mysqli_fetch_row($selectQuery)){
-			// $keyword=$keyword."Keywords: <input type='text' name='keyword[0]' size='15' maxlength='50' value='{$row[0]}' ></input>";
-			// // The idea for this code was inspired by xdazz.
-			// // $button = '<a href=' . $pageName[$b] . '?' . $variableName[$b] . '=' . $ids[$a] . '>' . $title[$b] . '</a></td>';
-		// }
 		
 	$critincQuery = "SELECT CIKeyword FROM keywords WHERE CriticalIncidentId = $CriticalIncidentId;";
 	$critincIdQuery = "SELECT KeywordId FROM keywords WHERE CriticalIncidentId = $CriticalIncidentId;";
@@ -139,19 +111,9 @@
 	$headerCounter = mysqli_num_fields($selectQuery);
 	$editButton = tableRowLinkGenerator($idSelectQuery, $pageNames, $variableNames, $titles);
 	$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 1, $headerCounter);
-		
-		//Changing category
-		//Get all categories for specific journal drop down
-		//Changing keyword text box if the field 
-		//Edit all other info about CIs
-		//use for loop $i
-		//update only needs keywordid
-		//insert needs keyword's ci id
-		//create keyword file to add keywords
-		$keywordTitle = array('Add Keyword');
-		$variableNames = array('id');
-		// $addButton = tableRowLinkGenerator($idSelectQuery, $pageName, $variableNames, $keywordTitle);
-		$button = '<a href=' . 'CreateKeyWordCI.php' . '?' . 'id' . '=' . '$idSelectQuery' . '>' . 'Add Keyword' . '</a>';
+	
+	//Create add keyword button	
+	$button = '<a href=' . 'CreateKeyWordCI.php' . '?' . 'id' . '=' . "$CriticalIncidentId" . '>' . 'Add Keyword' . '</a>';
 		
 ?>
 
@@ -162,17 +124,15 @@
 				
 				<input type="hidden" value="<?php if (isset($CriticalIncidentId)) echo $CriticalIncidentId; ?>" name="id" ></input>
 			  	 Title: <input  type="text" name="title" value="<?php if (isset($title)) {echo $title;}?>"></input>
-			  	 <?php
-			  	// echo $title;
-			  	?>
-			  	
-			  	<p>Category:
+			  	 Category: <input type="text" name="category" value="<?php if (isset($category)) {echo $category;}?>"</input>
+
+			  	<p> Choose New Category:
 						<!-- Idea from http://www.plus2net.com/php_tutorial/list-table.php -->
 						<?php
 						
 						$sql="SELECT CategoryName FROM categorys order by CategoryName"; 
 						
-						echo "<select name=categorys>"; // list box select command
+						echo "<select name=category>"; // list box select command
 						$selectQuery = mysqli_query($dbc, $sql);
 						
 						/* Option values are added by looping through the array */ 
@@ -192,13 +152,7 @@
 				echo $button;
 				?>
 				</table>
-				<?php
-				
-				?>
-				<!--<p>Keywords: <input type="text" name="keyword[0]" size="15" maxlength="50" value="<?php echo $keyword[0]; ?>" </input></p>-->
-				
-					
-				
+
 				<input type="submit" value="Submit" />
 			</fieldset>
 		</form>		
