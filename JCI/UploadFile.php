@@ -22,6 +22,7 @@
 		require ('../DbConnector.php');
 		include("includes/ValidationHelper.php");
 		
+		//Mark Bowman: This will get the primary key from the url for the database query.
 		$criticalIncidentId = 0;
 		if (isset($_GET['CriticalIncidentId'])) {
 			$criticalIncidentId = $_GET['CriticalIncidentId'];
@@ -41,6 +42,9 @@
 				array_push($journalIds, $row['JournalId']);
 				array_push($types, $_POST['fileType']);
 				array_push($ids, $criticalIncidentId);
+				
+				//Mark Bowman: This block checks if the input file is .doc, .docx, or pdf format, and then it will
+				//call the upload function if the input file is of an approved type.
 				if ($_FILES["uploadedFile"]["type"] == "application/msword" || $_FILES["uploadedFile"]["type"] == "application/pdf" ||
 					$_FILES["uploadedFile"]["type"] =="application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
 					if (preg_match("/(^[a-zA-Z0-9]).([a-zA-Z])/", $_FILES["uploadedFile"]['name'])) {

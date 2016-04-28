@@ -9,7 +9,7 @@
  * ethics and editorial policy page.
  * Credit: Blocks of code have been borrowed from EditAnnouncement.php in order to save time.
  * A combination of Faisal Alfadhli and William are responsible for those pieces of code on
- * lines: 35-40, 43-55, and 117-125.
+ * lines: 37-58 and 120-130
  * 
  * Revision 1.1: 04/15/2016 Author: Mark Bowman
  * Description of Change: I changed the file to use prepared statements.

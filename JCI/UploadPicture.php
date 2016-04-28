@@ -23,6 +23,9 @@ session_start();
 			$journalIds = array();
 			$types = array();
 			array_push($types, $_POST['type']);
+			
+			//Mark Bowman: This block will check to see where the user intended the image to 
+			//be dispayed, and then it will save that type to the database.
 			if ($_POST['type'] == 'Slide') {
 				$saveLocation = "styles/images/slideshow/";
 			}
@@ -32,6 +35,9 @@ session_start();
 			else {
 				echo 'Please select a location for the image to display. <br>';
 			}
+			
+			//Mark Bowman: This block checks if the input file is a jpg, png, or tif image file type. If the input
+			//file is of an approved format, it will be uploaded to the database.
 			if ($_FILES["uploadedFile"]["type"] == "image/jpeg" || $_FILES["uploadedFile"]["type"] == "image/png" || 
 				$_FILES["uploadedFile"]["type"] == "image/tif" || $_FILES["uploadedFile"]["type"] == "image/x-tif") {
 					

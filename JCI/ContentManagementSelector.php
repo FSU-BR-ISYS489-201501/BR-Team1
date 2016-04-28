@@ -5,14 +5,9 @@
  *
  * Page created for use in the JCI Project.
  * Project work is done as part of a Capstone class ISYS489: Ferris State University.
- * Purpose: This file will allow an editor to modify the content on the index, about us, 
- * ethics and editorial policy page.
- * Credit: Blocks of code have been borrowed from EditAnnouncement.php in order to save time.
- * A combination of Faisal Alfadhli and William are responsible for those pieces of code on
- * lines: 35-40, 43-55, and 117-125.
- * 
- * Revision 1.1: 04/15/2016 Author: Mark Bowman
- * Description of Change: I changed the file to use prepared statements.
+ * Purpose: This file will show links that will all direct an editor to the content management
+ * page, but each link will include a distinct id value. That value will be used in content
+ * management to determine which page will be modified.
  ********************************************************************************************/
  
  	session_start();

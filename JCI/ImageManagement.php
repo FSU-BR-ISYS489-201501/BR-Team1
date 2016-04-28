@@ -20,10 +20,15 @@
 		require ('../DbConnector.php');
 		
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+			
+			//This query will get the file location, file id, and file type from the database if the file is a slideshow picture,
+			//an about us picture, or inactive.
 			$query = "SELECT FileLocation, FileId, FileType FROM files WHERE FileType = 'Slide' OR FileType = 'About' OR FileType = 'null';";
 			if ($selectQuery = mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc))) {
 				$counter = 0;
 				// Citation: Serge Seredenko
+				//This will check if the form data was changed at all. If the form data is different from the database data, the 
+				//database will be updated.
 				while ($row = mysqli_fetch_array($selectQuery, MYSQLI_NUM)) {
 					if ($_POST[$counter] != $row[2]) {
 						$updateQuery = "UPDATE files SET FileType = '$_POST[$counter]' WHERE FileId = $row[1]";
@@ -35,10 +40,13 @@
 			}
 		}
 		
+		//These variables will contain the HTML code that will be displayed in table format.
 		$tableStart = "<table><tr><th>Picture</th><th>Activate</th><th>Deactivate</th></tr>";
 		$tableBody = '';
 		$tableEnd = '</table></br><input type="submit" class = "button3" value="Update Pictures">';
 		
+		//This query will get the file location, file id, and file type from the database if the file is a slideshow picture,
+		//an about us picture, or inactive.
 		$query = "SELECT FileLocation, FileId, FileType FROM files WHERE FileType = 'Slide' OR FileType = 'About' OR FileType = 'null';";
 		if ($selectQuery = mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc))) {
 			$counter = 0;
@@ -50,6 +58,8 @@
 						</td>
 						<td>
 							<select name = $counter>";
+							
+				//This conditional will determine which value is automatially selected, which is based on the contents of the database.
 				if ($row[2] == 'Slide') {
 					$tableBody = $tableBody . "
 								<option value = 'null'>Inactive</option>

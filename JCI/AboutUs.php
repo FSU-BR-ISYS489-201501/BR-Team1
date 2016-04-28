@@ -7,6 +7,10 @@
  * Page created for use in the JCI Project.
  * Project work is done as part of a Capstone class ISYS489: Ferris State University.
  * Purpose of Page: This is the AboutUs.php and will serve as the About Us content of the site.
+ * 
+ * Revision1.1: 04/24/2016 Author: Mark Bowman
+ * Description of change: Added code to make the page pull content from the database instead 
+ * of static HTML.
  ********************************************************************************************/
  
  $page_title = 'About Us';

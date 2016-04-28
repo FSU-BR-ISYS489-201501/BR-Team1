@@ -7,6 +7,10 @@
  * Project work is done as part of a Capstone class ISYS489: Ferris State University.
  * Purpose of Page: This is the EditorialPolicy.php and will serve as the Editorial Policy 
  * content of the site.
+ * 
+ * Revision1.1: 04/24/2016 Author: Mark Bowman
+ * Description of change: Added code to make the page pull content from the database instead 
+ * of static HTML.
  ********************************************************************************************/
 
   $page_title = 'Editorial Policy';

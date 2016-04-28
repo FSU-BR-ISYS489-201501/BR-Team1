@@ -6,14 +6,10 @@
  * Page created for use in the JCI Project.
  * Project work is done as part of a Capstone class ISYS489: Ferris State University.
  * Purpose: The purpose of this file is to check the database in order to verify that all 
- * approved for publish Critical Inicidents have at least one file associated with it in the
- * files table. If all approved Critical Incidents have at least one file associated with it, 
- * a submit button is generated. If all approved Critical Incidents do not have at least one
- * file associated with it, an error message is displayed.
- * 
- * Currently, pushing the submit button does nothing.
- * 
- * Credit: Give any attributation to code used within, not created by you.
+ * approved for publish Critical Inicidents have at least one summary and one critical incident
+ * associated with it in the files table. If all approved Critical Incidents have at least one 
+ * summary and one CI associated with it, a submit button is generated. If all approved Critical Incidents 
+ * do not have at least one summary and one CI associated with it, an error message is displayed.
  *
  * Revision1.1: 04/09/2016 Author: Mark Bowman
  * I altered the SQL query to allow for searching of the latest volume number. I also changed
@@ -43,6 +39,7 @@
 			$latestVolume = $row['JournalVolume'];
 		}
 		
+		//These variables will be used with the uploadFile function.
 		$criticalIncidentIds = array();
 		$types = array();
 		$journalIds = array();
@@ -196,7 +193,7 @@
 					$data[$a] = array($criticalIncidentIds[$a], $currentIdFileCounter);
 				}
 				
-				// Generates the submit button.				
+				// This block will generate the submit button if there were no errors.				
 				if (count($data) != 0) {
 					for($a = 0; $a < count($data); $a++) {
 						if (isset($data[$a][1])) {
@@ -219,7 +216,7 @@
 			}
 			
 			// Generates any error messages.
-			// Mark Bowman: I added an introductory message for the errors.
+			// I added an introductory message for the errors.
 			if (!empty($err)) {
 				echo "<br/>Here is a list of all of the errors: <br/>";
 				for($i = 0; $i < count($err); $i++) {
