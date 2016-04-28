@@ -61,8 +61,13 @@
 					
 			//Run the query...
 			$run = @mysqli_querys($dbc, $query)or die("Errors are ".mysqli_error($dbc));
+			If (!$run)
+			{
+				echo 'There was an error when editing this critical incident. Please try again!';
+			} else {
+				echo "Thank you for updating this critical incident!";
 			}
-
+		}
 		
 		// This will get id value from edit link and when we hit sibmit it will post it in the board 
 		// This code was inspired by Wiliam
@@ -114,19 +119,18 @@
 			  	 Title: <input  type="text" name="title" value="<?php if (isset($title)) {echo $title;}?>"></input>
 			  	 Category: <input type="text" name="category" value="<?php if (isset($category)) {echo $category;}?>"</input>
 
-			  	<p> Choose New Category:
+			  	<p> List of existing categories:
 						<!-- Idea from http://www.plus2net.com/php_tutorial/list-table.php -->
 						<?php
 						$sql="SELECT CategoryName FROM categorys order by CategoryName"; 
-						echo "<select name=category>"; // list box select command
+						
 						$selectQuery = mysqli_query($dbc, $sql);
 						
 						/* Option values are added by looping through the array */ 
 						while($row=mysqli_fetch_row($selectQuery)){
-							echo "<option value={$row[0]}>{$row[0]}</option>";
+							echo "</br><list ={$row[0]}>{$row[0]}</list>";
 						} //Array or records stored in $row
 						
-						 echo "</select>";// Closing of list box
 						?>
 				
 				</p>
