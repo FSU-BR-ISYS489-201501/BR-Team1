@@ -112,7 +112,7 @@
 	}
 	// If the user is not an editor, this will perform a redirect.
 	else {
-		header('Location: http://br-t1-jci.sfcrjci.org/Index.php');
+		header('Location: Index.php');
 		exit;
 	}
 ?>
