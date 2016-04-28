@@ -11,6 +11,9 @@
   *  
   * Revision1.1: 03/22/2016 Author: Shane Workman 
   * Combined Ben's search page with mine. Updated the diplay. 
+  * 
+  * Revision1.2: 04/06/2016 Author: Mark Bowman
+  * I changed the queries to only return Critical Incidents that have been approved to publish.
   *********************************************************************************************/
 $page_title = 'Search';
 include ("includes/Header.php");
@@ -28,36 +31,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	//Set up Error msg array.
  	$err = array();
 	
-	//Sticky forms help.
-	if(isset($_POST['field']) == "First Name"){
-		$fieldVar = $_POST['field'];
-	} elseif(isset($_POST['field'])== "Last Name"){
-		$fieldVar = $_POST['field'];
-	} elseif(isset($_POST['field'])== "Email"){
-		$fieldVar = $_POST['field'];
-	} elseif(isset($_POST['field'])== "Title"){
-		$fieldVar = $_POST['field'];
-	} elseif(isset($_POST['field'])== "Keyword"){
-		$fieldVar = $_POST['field'];
-	} elseif(isset($_POST['field'])== "PubYear"){
-		$fieldVar = $_POST['field'];
-	} else {
-		$fieldVar = "First Name";
-	}
 	
 	//Checks to see what criteria we are searching for.
 	if (($_POST['field']) == "First Name") {
 		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
+		$fieldVar = $_POST['field'];
 	} elseif (($_POST['field']) == "Last Name") {
 		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
+		$fieldVar = $_POST['field'];
 	} elseif (($_POST['field']) == "Email") {
 		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
+		$fieldVar = $_POST['field'];
 	} elseif (($_POST['field']) == "Title") {
 		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
+		$fieldVar = $_POST['field'];
 	} elseif (($_POST['field']) == "PubYear") {
 		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
+		$fieldVar = $_POST['field'];
 	} elseif (($_POST['field']) == "Keyword"){
 		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
+		$fieldVar = $_POST['field'];
+	} elseif (($_POST['field']) == "Category"){
+		$field = mysqli_real_escape_string($dbc, trim($_POST['field']));
+		$fieldVar = $_POST['field'];
 	} else {
 		$err[] = 'This error should never print; if it does, select field is bugged.';
 	}
@@ -88,60 +84,82 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 									WHERE users.Email = '$criteria';";
 									
 			} elseif($field == "Title")	{
-				$query = "SELECT criticalincidents.Title, criticalincidents.Category, journalofcriticalincidents.PublicationYear 
+				// Mark Bowman: I changed the queries to only return Critical Incidents that have been approved to publish.
+				$query = "SELECT criticalincidents.Title, journalofcriticalincidents.PublicationYear 
 									FROM criticalincidents  INNER JOIN journalofcriticalincidents 
 									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId
-									WHERE criticalincidents.Title = '$criteria';";
+									WHERE criticalincidents.Title = '$criteria' AND criticalincidents.ApprovedPublish = 1;";
 									
-				$idSelectQuery = "SELECT CriticalIncidentId FROM criticalincidents WHERE Title = '$criteria';";
+				$idSelectQuery = "SELECT CriticalIncidentId FROM criticalincidents INNER JOIN journalofcriticalincidents 
+									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId
+									WHERE criticalincidents.Title = '$criteria' AND criticalincidents.ApprovedPublish = 1;";
 				
 			} elseif ($field == "PubYear") {
-				$query = "Select  criticalincidents.Title, criticalincidents.Category, journalofcriticalincidents.PublicationYear
+				// Mark Bowman: I changed the queries to only return Critical Incidents that have been approved to publish.
+				$query = "Select  criticalincidents.Title, journalofcriticalincidents.PublicationYear
 									FROM criticalincidents INNER JOIN journalofcriticalincidents
 									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId
-									WHERE journalofcriticalincidents.PublicationYear = '$criteria'; ";
+									WHERE journalofcriticalincidents.PublicationYear = '$criteria' AND criticalincidents.ApprovedPublish = 1; ";
 									
 				$idSelectQuery = "SELECT criticalincidents.CriticalIncidentId 
 									FROM criticalincidents INNER JOIN journalofcriticalincidents
 									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId
-									WHERE journalofcriticalincidents.PublicationYear = '$criteria'; ";
+									WHERE journalofcriticalincidents.PublicationYear = '$criteria' AND criticalincidents.ApprovedPublish = 1; ";
 									
 			} elseif ($field == "Keyword") {
-				$query = "Select criticalincidents.Title, criticalincidents.Category, journalofcriticalincidents.PublicationYear 
+				// Mark Bowman: I changed the queries to only return Critical Incidents that have been approved to publish.
+				$query = "Select criticalincidents.Title, journalofcriticalincidents.PublicationYear 
 									FROM criticalincidents LEFT JOIN keywords 
 									ON keywords.CriticalIncidentId = criticalincidents.CriticalIncidentId 
 									INNER JOIN journalofcriticalincidents 
 									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId 
-									WHERE CIKeyword = '$criteria';";
+									WHERE CIKeyword = '$criteria' AND criticalincidents.ApprovedPublish = 1;";
 									
 				$idSelectQuery = "Select criticalincidents.CriticalIncidentId
 									FROM criticalincidents LEFT JOIN keywords 
 									ON keywords.CriticalIncidentId = criticalincidents.CriticalIncidentId 
 									INNER JOIN journalofcriticalincidents 
 									ON criticalincidents.JournalId = journalofcriticalincidents.JournalId 
-									WHERE CIKeyword = '$criteria';";
+									WHERE CIKeyword = '$criteria' AND criticalincidents.ApprovedPublish = 1;";
 									
+			} elseif ($field == "Category") {
+				// Mark Bowman: I changed the queries to only return Critical Incidents that have been approved to publish.
+				$query = "Select criticalincidents.Title, categorys.CategoryName, categorys.CategoryYear 
+									FROM criticalincidents INNER JOIN 
+									ON cicategorys.CriticalIncidentId = criticalincidents.CriticalIncidentId 
+									INNER JOIN categorys
+									ON cicategoys.CategoryId = categorys.CategoryId 
+									WHERE categorys.CategoryName = '$criteria' AND criticalincidents.ApprovedPublish = 1;";
+									
+				$idSelectQuery = "Select criticalincidents.CriticalIncidentId
+									FROM criticalincidents INNER JOIN 
+									ON cicategorys.CriticalIncidentId = criticalincidents.CriticalIncidentId 
+									INNER JOIN categorys
+									ON cicategoys.CategoryId = categorys.CategoryId 
+									WHERE categorys.CategoryName = '$criteria' AND criticalincidents.ApprovedPublish = 1;";
 			} else {
 				echo "If this prints, Selecting which SQL statement is used is bugged!";
 			} 
 		if($field == "First Name" || $field == "Last Name" || $field == "Email"){
-			//Diplay search resualts.
+			//Diplay search results.
 			$run = mysqli_query($dbc, $query);
 			$headerCounter = mysqli_num_fields($run);
 			$tableBody = tableRowGenerator($run, $headerCounter);
 			$searchHeader = "<th>Last Name</th><th>First Name</th><th>Email</th><th>Title</th>";
-			//"Last Name - First Name - Email - Title";
+			$resultsVar = "No Search Results!";
 			
-		} elseif ($field == "PubYear" || $field == "Title" || $field == "Keyword"){
+		} elseif ($field == "PubYear" || $field == "Title" || $field == "Keyword" || $field == "Category"){
+			//Display search results
 			$run = mysqli_query($dbc, $query);
 	  		$headerCounter = mysqli_num_fields($run);
 	  		$idSelectRun = mysqli_query($dbc, $idSelectQuery);
 	  		$pageNames = array('PdfViewerSummary.php', 'PdfViewerCI.php');
 			$titles = array('View Summary', 'View Critical Incidents');
-			$variableName = array('JournalId', 'JournalId');
+			$variableName = array('CriticalIncidentId', 'CriticalIncidentId');
 			$editButton = tableRowLinkGenerator($idSelectRun, $pageNames, $variableName, $titles);
 			$tableBody = tableRowGeneratorWithButtons($run, $editButton, 2, $headerCounter);
-			$searchHeader = "<th>Title</th><th>Category</th><th>Year Published</th>";
+			$searchHeader = "<th>Title</th><th>Year Published</th>";
+			$resultsVar = "No Search Results!";
 			 
 		} else { echo "if this prints, display results is bugged"; }
 		
@@ -153,9 +171,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		} echo "Please correct the errors.";
     }
 } else {
-	//$query = "";
-	//$headerCounter = mysqli_num_fields($query);
-	//$tableBody = tableRowGenerator($query, $headerCounter);
+	//Do NOTHING!
 }
 ?>
 <h1>Search Criteria</h1>
@@ -168,6 +184,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			<option <?php if($fieldVar == "Email") echo'selected="selected"'; ?>    value="Email">Email</option>
 			<option <?php if($fieldVar == "Title") echo'selected="selected"'; ?> value="Title">Title</option>
 			<option <?php if($fieldVar == "Keyword") echo'selected="selected"'; ?>    value="Keyword">Keyword</option>
+			<option <?php if($fieldVar == "Category") echo'selected="selected"'; ?> value="Category">Category</option>
 			<option <?php if($fieldVar == "PubYear") echo'selected="selected"'; ?> value="PubYear">Publication Date</option>
 		</select>
 		<br>
@@ -176,19 +193,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		<p><input type="submit" value="Search" /></p>
 	</fieldset>
 </form> 
-<h1>Search Results</h1>
-<fieldset>
 	<?php 
 		IF (!empty($tableBody)){
+			echo '<h1>Search Results</h1><fieldset>';
 			echo $tableStart;
 			echo $searchHeader;
 			echo $tableBody;
 			echo $tableEnd;
+			echo '</fieldset>';
+		} elseif (!empty($resultsVar)) {
+			echo '<h1>Search Results</h1><fieldset>';
+			echo $resultsVar;
+			echo '</fieldset>';
 		} else {
-			echo "No Search Results!";
+			// Do nothing!.
 		}
 	?>
-</fieldset>
 
 <?php
 include ("includes/Footer.php");

@@ -30,6 +30,9 @@
   * 
   * Revision1.6: 04/05/2016 Author: Mark Bowman
   * Added code to insert the Author usertype into the usertypes table.
+  * 
+  * Revision1.7: 04/07/2016 Author: Donald Dean
+  * Added password encryption.
   ********************************************************************************************/
  $page_title = 'Register';
  include ("includes/Header.php");
@@ -86,15 +89,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		} elseif (checkEmail($_POST['email']) == 0) {
 			$err[] = 'The email submitted doesnt have the correct syntax.';
 		} else {
-			
-			$email = mysqli_real_escape_string($dbc, trim($_POST['email']));
+			$testEmail = mysqli_real_escape_string($dbc, trim($_POST['email']));
+			$testQ = "SELECT * FROM users WHERE Email = '$testEmail';"; 
+			$result = mysqli_query($dbc, $testQ);
+			if (@mysqli_fetch_array($result)) { 
+				$err[] = 'This email is already registered! Please check <a href="PasswordHelp.php">Forgot Password?</a>';
+			} else {
+				$email = mysqli_real_escape_string($dbc, trim($_POST['email']));
+				
+			}
 		}
-		$testQ = "SELECT Email FROM Users WHERE Email = '$email';";
-		$result = mysqli_query($dbc, $testQ);
-		if (mysqli_num_rows($result)== true){
-			$err[] = 'This email is already registered!';
-		}
-	
+
  	//Check if university text box has a value or set it to null.
  	if (empty($_POST['university'])) {
 		$university = 'NULL';
@@ -125,9 +130,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
 	//Check if the array is empty, no ERRORS?
 	If(empty($err)) {
+		// Donald Dean: I borrowed this idea from sourcewareinfo. Credit https://www.youtube.com/watch?v=LvNCFffK-y0.
+		$salt = "5v4tws27NONtZjBA7Zhn";
+		// $salt = randString(10); Shane: Would like to implement this. would have to add some query to loginFunction.
+		$pass = $pass.$salt;
+		$pass = sha1($pass);
 		//Creat the query that dumps info into the DB.
 		$query = "INSERT INTO users (Prefix, FName, LName, Suffix, Email, Employer, Title, MemberCode, Regdate, PasswordHash, PasswordSalt)
-				VALUES ('$prefix', '$fName', '$lName', '$suffix', '$email', '$university', '$title', '$member', NOW(), '$pass', '$pass');";
+				VALUES ('$prefix', '$fName', '$lName', '$suffix', '$email', '$university', '$title', '$member', NOW(), '$pass', '$salt');";
 				
 		//Run the query...
 		$run = @mysqli_query($dbc, $query);
@@ -197,12 +207,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		<p>Title: <input type="text" name="title" size="15" maxlength="50" value="<?php if (isset($_POST['title'])) echo $_POST['title']; ?>" /></p>
 		<p>Institution: <input type="text" name="university" size="20" maxlength="100" value="<?php if (isset($_POST['university'])) echo $_POST['university']; ?>" /></p>
 		<p>SCR Member ID: <input type="text" name="memberID" size="15" maxlength="50" value="<?php if (isset($_POST['memberID'])) echo $_POST['memberID']; ?>" /></p>
+		<p>Password Requirements:
+			<ul>
+				<li>At least 10 characters long.</li>
+				<li>1 special character.</li>
+				<li>1 number.</li>
+				<li>1 capital letter.</li>
+				<li>1 lower case letter.</li>
+			</ul>
+		</p>
 		<p>* Password: <input type="password" name="pass1" size="15" maxlength="20" value="<?php if (isset($_POST['pass1'])) echo $_POST['pass1']; ?>"  /></p>
 		<p>* Confirm Password: <input type="password" name="pass2" size="15" maxlength="20" value="<?php if (isset($_POST['pass2'])) echo $_POST['pass2']; ?>"  /></p>
 		<p>* Required</p>
-		<p><input type="submit" value="Submit" class="button3"</p>
 		
+		<p><input type="submit" value="Submit" class="button3"</p>
 	</fieldset>
+	<p>Please only Register if you intend on either submitting a Critical Incident, or being a reviewer for the editorial staff!
+		Thank you. ~ Staff</p>
 </form>
 
 <?php

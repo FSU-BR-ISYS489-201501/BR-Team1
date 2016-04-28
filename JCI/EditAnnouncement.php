@@ -6,14 +6,12 @@
   * Page created for use in the JCI Project.
   * Project work is done as part of a Capstone class ISYS489: Ferris State University.
   * Purpose: this page is used for making changes in announcement when an editors click on edit button from manage announcement page
-  *Credits:  to William 
+  * Credits: tutor: William Quigley, Email : mnewrath@gmail.com
   * www.W3schools.com
   * www.php.net
-  * Credits to William and http://stackoverflow.com/  
-  *Revision1.1: 03/01/2016 Author: Faisal Alfadhli: edited the sql command
-  *Revision1.2: 03/11/2016 Author: Faisal Alfadhli: edited tables names 
-  *Revision1.3: 03/12/2016 Author: Faisal Alfadhli: fixed bugs and made it functional 
-  *Revision1.4: 03/18/2016 Author: Faisal Alfadhli: fixed bugs added area for start date 
+  * http://stackoverflow.com/  
+  * Revision 1.0: 03/18/2016 Author: Faisal Alfadhli.
+  * Description of change:fixed bugs added area for start date 
   ********************************************************************************************/
 
 	include ("includes/Header.php");
@@ -23,32 +21,24 @@
 	
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') 
 	{
-		//Set up Error msg array.
+		//$err Sets up Error msg array.
 		$err = array();
-		
-		//Check if the first name text box has a value.
+		//it checks if a text box has a value, if it is not display an error message
 		if (empty($_POST['id'])) {
 			$err[] = 'You forgot to enter an announcement.';
 		} else {
 			$announcementId = mysqli_real_escape_string($dbc, trim($_POST['id']));
 			}
-		
-		
-		//Check if the first name text box has a value.
 		if (empty($_POST['title'])) {
 			$err[] = 'You forgot to put a title for the announcement.';
 		} else {
 			$title = mysqli_real_escape_string($dbc, trim($_POST['title']));
 			}
-			
-		//Check if the first name text box has a value.
 		if (empty($_POST['announcement'])) {
 			$err[] = 'You forgot to enter an announcement.';
 		} else {
 			$announcement = mysqli_real_escape_string($dbc, trim($_POST['announcement']));
 			}
-			
-		//Check if the first name text box has a value.
 		if (empty($_POST['type'])) {
 			$err[] = 'You forgot to select an announcement type.';
 		} elseif (($_POST['type']) == 'Private') {
@@ -57,8 +47,8 @@
 			// All visitors
 			$type = mysqli_real_escape_string($dbc, 2);
 		}
-
-			//Check if the Start date has a value and that it is correct.
+		
+		//Check if the a date has a value and it is in a correct format.
 		if (empty($_POST['startDate'])) {
 			$err[] = 'You forgot to enter a date that the announcement can begin.';
 		} elseif (!preg_match("/[0-9]{4}-[0-9]{2}-[0-9]{2}/", ($_POST['startDate']))) {
@@ -68,8 +58,7 @@
 		} else {
 			$startDate = mysqli_real_escape_string($dbc, trim($_POST['startDate']));
 		}
-			
-		//Check if the first name text box has a value.
+		
 		if (empty($_POST['endDate'])) {
 				$err[] = 'You forgot to enter a date that the announcement expires.';
 			} elseif (!preg_match("/[0-9]{4}-[0-9]{2}-[0-9]{2}/", ($_POST['endDate']))) {
@@ -86,14 +75,12 @@
 				}
 			}
 			
-		//Check to see if any errors exist in the validation array.
+		// If there is no error, run the query and display a message.
 		if(empty($err)) {
-			//Creat the query that dumps info into the DB.
-			$query = "UPDATE announcements SET Subject='$title', Body='$announcement', StartDate='$startDate', Type='$type', EndDate='$endDate' WHERE AnnouncementId = $announcementId;";
-					
-			//Run the query...
+			$query = "UPDATE announcements SET Subject='$title', Body='$announcement', StartDate='$startDate',
+			 Type='$type', EndDate='$endDate' WHERE AnnouncementId = $announcementId;";
 			$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
-			
+			// if the query did not run, tell the user about the error.
 			If (!$run)
 			{
 				echo 'There was an error when creating the announcement. Please try again!';
@@ -109,25 +96,25 @@
 			
 			}	
 		}
-		// it will get id value from edit link and when we hit sibmit it will post it in the board 
-		// this code was inspired by Wiiliam
-		//Value of a variable
+
+		// This block is to get id value from edit link and when we hit submit it will post it in the board 
+		// This code was inspired by Wiiliam
 		If (isset($_GET['id']) ) {
 			$announcementId = $_GET['id'];
 		} Else {
 			$announcementId = $_POST['id'];
 		}
 	
-		// from Mark code	
+		// It was written by Mark.	
 		$announcementQuery = "SELECT AnnouncementId, Subject, Body, StartDate, Type, EndDate, IsActive FROM announcements WHERE AnnouncementId = $announcementId;";
 		$selectQuery = @mysqli_query($dbc, $announcementQuery);	
 		$headerCounter = mysqli_num_fields($selectQuery);
 		$row = mysqli_fetch_array($selectQuery, MYSQLI_NUM);
 		
-		//The following variable set the starting column from our query array $row.
+		//The following variable is to set the starting column from our query array $row.
 		$a = 1;
 		//this code was inspired by Wiiliam
-		//The previous variable is increased in value to assign the appropriate values from our query array to each variable.
+		// The previous variable is increased in value to assign the appropriate values from our query array to each variable.
 		$title = "{$row[$a]}";
 		$body = "{$row[$a+1]}";
 		$startDate = "{$row[$a+2]}";

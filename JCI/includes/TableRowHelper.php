@@ -40,6 +40,9 @@
  * Purpose: This function creates table rows that contain a link for assgin reviwers.
  * This will be saved to a string and then returned.
  * 
+ * Function DropDownList($selectQuery, $field)
+ * Purpose: This function creates dropdown list to select a value.
+ * 
  * Revision1.1: MM/DD/YYYY Author: Name Here 
  * Description of change. Also add //Name: comments above your change within the code.
  ********************************************************************************************/
@@ -140,85 +143,118 @@
 		}
 		return $downloadButton;
 	}
-		
-		// function tableRowGeneratorWithButtonsFileManagement($selectQuery, $downloadButton, $headerCounter) {
-		// $tableBody = '';
-		// $idCounter = 0;
-		// // This block will retrieve an array from the database, which will be used to assign values
-		// // to an HTML table.
-		// while ($row = mysqli_fetch_array($selectQuery, MYSQLI_NUM)) {
-			// $tableBody = $tableBody . "<tr>";
-			// // This block will add individual field values to the table.
-			// for($a = 0;$a < $headerCounter;$a++) {
-				// $tableBody = $tableBody . "<td>{$row[$a]}</td>";
-			// }
-			// // This block will add an download button
-			// // to the table.
-			// if (!empty($downloadButton[$idCounter])) {
-				// $tableBody = $tableBody . $downloadButton[$idCounter];
-				// $idCounter++;
-// 				
-			// }
-			// $tableBody = $tableBody . "</tr>";
-		// }
-		// return $tableBody;
-	// }
 	
-		// the idea from Mark's code 
-		function tableRowGeneratorWithCheckbox($selectQuery, $editButton, $headerCounter) {
-			$tableBody = '';
-			$idCounter = 0;
-			// This block will retrieve an array from the database, which will be used to assign values
-			// to an HTML table.
-			while ($row = mysqli_fetch_array($selectQuery, MYSQLI_NUM)) {
-				$tableBody = $tableBody . "<tr>";
-				// This block will add individual field values to the table.
-				for($a = 0;$a < $headerCounter;$a++) {
-					$tableBody = $tableBody . "<td>{$row[$a]}</td>";
-				}
-				// This block will add an edit button, an activate button, and a deactivate button 
-				// to the table.
-				if (!empty($editButton[$idCounter])) {
-					$tableBody = $tableBody . $editButton[$idCounter];
-					$idCounter++;
-				}
-				$tableBody = $tableBody . "</tr>";
+	// the idea from Mark's code 
+	function tableRowGeneratorWithCheckbox($selectQuery, $editButton, $headerCounter) {
+		$tableBody = '';
+		$idCounter = 0;
+		// This block will retrieve an array from the database, which will be used to assign values
+		// to an HTML table.
+		while ($row = mysqli_fetch_array($selectQuery, MYSQLI_NUM)) {
+			$tableBody = $tableBody . "<tr>";
+			// This block will add individual field values to the table.
+			for($a = 0;$a < $headerCounter;$a++) {
+				$tableBody = $tableBody . "<td>{$row[$a]}</td>";
 			}
-			return $tableBody;
+			// This block will add an edit button, an activate button, and a deactivate button 
+			// to the table.
+			if (!empty($editButton[$idCounter])) {
+				$tableBody = $tableBody . $editButton[$idCounter];
+				$idCounter++;
+			}
+			$tableBody = $tableBody . "</tr>";
 		}
+		return $tableBody;
+	}
 		
-		// the idea from Mark's code 
-		// makes check box in every row 
-		function tableRowCheckboxGenerator($selectQuery, $idSelectQuery) {
-			$checkBox = array();
-			while ($ids = mysqli_fetch_array($idSelectQuery, MYSQLI_NUM)) {
-				echo "<tr>";
-				for($a = 0;$a < count($ids);$a++) {
+	// the idea from Mark's code 
+	// makes check box in every row 
+	// Edited this Function to accept any iput type as a parameter. inpspired by William.
+	function tableRowCheckboxGenerator($checkORradio, $selectQuery, $idSelectQuery) {
+		$inputType = array();
+		while ($ids = mysqli_fetch_array($idSelectQuery, MYSQLI_NUM)) {
+			echo "<tr>";
+			for($a = 0;$a < count($ids);$a++) {
+				// The idea for this code was inspired by xdazz.
+				$chkRdioButtonBox = "<td><input type='" . $checkORradio . "' name='checkList[]' value='$ids[$a]'></td>";
+				// The idea for this code was inspired by Bart S.
+				array_push($inputType, $chkRdioButtonBox);
+			}
+			echo "</tr>";
+		}
+		return $inputType;
+	}
+	
+	// the idea from Mark's code 
+	// this function makes a link in every row for assgin reviewers page 
+	function tableRowEditGenerator($idSelectQuery, $pageName, $title) {
+		$assignButton = array();
+		while ($ids = mysqli_fetch_array($idSelectQuery, MYSQLI_NUM)) {
+			for($a = 0;$a < count($ids);$a++) {
+				for($b = 0;$b < 2;$b++) {
 					// The idea for this code was inspired by xdazz.
-					$chkBox = "<td><input type='checkbox' name='checkList[]' value='$ids[$a]'></td>";
+					$button = '<td><a href=' . $pageName[$b] . '?id='.$ids[$a] . '>' . $title[$b] . '</a></td>';
 					// The idea for this code was inspired by Bart S.
-					array_push($checkBox, $chkBox);
-				}
-				echo "</tr>";
+					array_push($assignButton, $button);
+				}						
 			}
-			return $checkBox;
 		}
-	
-		// the idea from Mark's code 
-		// this function makes a link in every row for assgin reviewers page 
-		function tableRowEditGenerator($idSelectQuery, $pageName, $title) {
-			$assignButton = array();
-			while ($ids = mysqli_fetch_array($idSelectQuery, MYSQLI_NUM)) {
-				for($a = 0;$a < count($ids);$a++) {
-					for($b = 0;$b < 2;$b++) {
-						// The idea for this code was inspired by xdazz.
-						$button = '<td><a href=' . $pageName[$b] . '?id='.$ids[$a] . '>' . $title[$b] . '</a></td>';
-						// The idea for this code was inspired by Bart S.
-						array_push($assignButton, $button);
-					}						
-				}
-			}
-			return $assignButton;
-		}
+		return $assignButton;
+	}
+	// this idea from William
+	// function for remove reviewer : adds elements to our php page.
+	function spitHTML($incidentId, $tableBody) {	
+		echo "<h1>Remove Reviewers</h1>
+			<div id = 'divRemoveReviewers'>
+				<div class='main'>
+					<form name='frmRemoveReviwers' action='RemoveReviewers.php' method='post'>
+						<input type='hidden' name='id' value='$incidentId'>
+						<label class='heading'>Select users to remove from case:</label><br/><br/>
+						<table>
+							<tr>
+								<th>User Id</th>
+								<th>First Name</th>
+								<th>Last Name</th>
+							</tr>
+							$tableBody
+						</table>
+						<!-----Including PHP Script----->
+						<br/><input type='submit' name='submit' Value='Submit'/><br/><br/>
+					</form>
+				</div>
+			</div>";
+	}
+	// function for remove Editor : adds elements to our php page	
+	function spitMoreHTML($incidentId, $tableBody) {	
+		echo "<h1>Remove Editors</h1>
+			<div id = 'divRemoveEditors'>
+				<div class='main'>
+					<form name='frmRemoveEditors' action='RemoveCasesFromEditors.php' method='post'>
+						<input type='hidden' name='id' value='$incidentId'>
+						<label class='heading'>Select an editor to review case:</label><br/><br/>
+						<table>
+							<tr>
+								<th>Editor</th>
+							</tr>
+							$tableBody
+						</table>
+						<!-----Including PHP Script----->
+						<br/><input type='submit' name='submit' Value='Submit'/><br/><br/>
+					</form>
+				</div>
+			</div>";
+	}
 		
+	// This function is to create dropdown list.
+	// It was created by my tutor: William Quigley, Email : mnewrath@gmail.com
+	function DropDownList($selectQuery, $field){
+		$catddbox = "<select name='slctCategory'>
+			  <option value=''>Select...</option>";
+		while ($row = mysqli_fetch_array($selectQuery)) {
+			$data = $row["$field"];
+			$catddbox = $catddbox . "<option value='$data'>$data</option>";
+		}
+		$catddbox = $catddbox . "</select>";
+		return $catddbox;
+	}
 ?>

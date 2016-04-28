@@ -8,23 +8,28 @@
   * Purpose: The purpose of this page is to allow people to send an email to the editor.
   * Credit: My own code, with inspiration and use of others functions within the project. 
   * http://php.net/ was a resource.
+  * 
+  * Revision 1.1: 04/05/2016 authors: Mark Bowman
+  * I made it functional on the live site. 
+   * 
+  * Revision 1.2: 04/06/2016 authors: Mark Bowman
+  * I made the PDF file download with the correct name and file extension.
   *********************************************************************************************/
   $page_title = 'PDF';
   require ('../DbConnector.php');
-  //include ("includes/Header.php");
-  //include ("includes/TableRowHelper.php");
-  $selectID = $_SERVER['QUERY_STRING'];
-  $query = "SELECT FileLocation FROM files  WHERE '$selectID' AND files.FileType='CriticalIncident';";
+  $file = '';
+  $selectID = $_GET['CriticalIncidentId'];
+  $query = "SELECT FileLocation, FileDes FROM files  WHERE CriticalIncidentId = '$selectID' AND files.FileType='CI';";
   $run = mysqli_query($dbc, $query);
-  $file = $run;
-  header('Content-type: application/pdf');
-  header('Content-Disposition: inline');
-  header('Content-Transfer-Encoding: binary');
-  header('Accept-Ranges: bytes');
-  header("Location: $file");
-    @readfile($file);
+  if ($row = mysqli_fetch_array($run, MYSQLI_NUM)) {
+	  $file = $row[0];
+	  $fileName = $row[1];
+	  header('Content-type: application/pdf');
+	  // Mark Bowman: I used a reply on Stackoverflow made by Fred -ii- for the synax of this
+	  // line of code. Retrieved from http://stackoverflow.com/questions/18040386/how-to-display-pdf-in-php.
+	  header("Content-Disposition: inline; filename=$fileName");
+	  header('Content-Transfer-Encoding: binary');
+	  header('Accept-Ranges: bytes');
+  }
+	@readfile($file);
  ?>
-<!--
-<?php
-  include ("includes/Footer.php");
-?>
