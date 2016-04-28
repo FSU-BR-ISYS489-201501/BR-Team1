@@ -94,13 +94,15 @@
 	$titles = array('Edit');
 	$variableNames = array('id');
 	//Edit button creates view link in table for each CI Id
-	$headerCounter = mysqli_num_fields($selectQuery);
 	$editButton = tableRowLinkGenerator($idSelectQuery, $pageNames, $variableNames, $titles);
 	$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 1, $headerCounter);
 	
 	//Create add keyword button	
 	$button = '<a href=' . 'CreateKeyWordCI.php' . '?' . 'id' . '=' . "$CriticalIncidentId" . '>' . 'Add Keyword' . '</a>';
-		
+	
+	
+
+	
 ?>
 
 	<!--Takes information to create a new announcement in the db.-->
@@ -112,19 +114,21 @@
 			  	 Title: <input  type="text" name="title" value="<?php if (isset($title)) {echo $title;}?>"></input>
 			  	 Category: <input type="text" name="category" value="<?php if (isset($category)) {echo $category;}?>"</input>
 
-			  	<p> Choose from these existing categories
+			  	<p> Choose New Category:
+						<!-- Idea from http://www.plus2net.com/php_tutorial/list-table.php -->
 						<?php
 						$sql="SELECT CategoryName FROM categorys order by CategoryName"; 
-						// echo "<select name=category>"; // list box select command
+						echo "<select name=category>"; // list box select command
 						$selectQuery = mysqli_query($dbc, $sql);
-						echo $selectQuery;
-						// /* Option values are added by looping through the array */ 
-						// while($row=mysqli_fetch_row($selectQuery)){
-						// 	echo "<option value={$row[0]}>{$row[0]}</option>";
-						// } //Array or records stored in $row
 						
-						//  echo "</select>";// Closing of list box
+						/* Option values are added by looping through the array */ 
+						while($row=mysqli_fetch_row($selectQuery)){
+							echo "<option value={$row[0]}>{$row[0]}</option>";
+						} //Array or records stored in $row
+						
+						 echo "</select>";// Closing of list box
 						?>
+				
 				</p>
 				<p>Keywords:</p>			
 				<table>
