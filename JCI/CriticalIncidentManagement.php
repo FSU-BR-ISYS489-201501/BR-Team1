@@ -11,6 +11,10 @@
 
  ********************************************************************************************/
 	$page_title = 'EditCriticalIncident';
+ 	
+ 	session_start();
+	
+	if($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
  	include ("includes/Header.php");
 	include ("includes/ValidationHelper.php");
 	include('includes/TableRowHelper.php');
@@ -61,12 +65,6 @@
 					
 			//Run the query...
 			$run = @mysqli_querys($dbc, $query)or die("Errors are ".mysqli_error($dbc));
-			If (!$run)
-			{
-				echo 'There was an error when editing this critical incident. Please try again!';
-			} else {
-				echo "Thank you for updating this critical incident!";
-			}
 		}
 		
 		// This will get id value from edit link and when we hit sibmit it will post it in the board 
@@ -104,9 +102,14 @@
 	
 	//Create add keyword button	
 	$button = '<a href=' . 'CreateKeyWordCI.php' . '?' . 'id' . '=' . "$CriticalIncidentId" . '>' . 'Add Keyword' . '</a>';
+		
 	
-	
+	}
 
+	else {
+		header('Location: http://br-t1-jci.sfcrjci.org/Index.php');
+		exit;
+	}
 	
 ?>
 
