@@ -102,10 +102,15 @@
 	
 	//Create add keyword button	
 	$button = '<a href=' . 'CreateKeyWordCI.php' . '?' . 'id' . '=' . "$CriticalIncidentId" . '>' . 'Add Keyword' . '</a>';
-		
+	
+	$authorQuery = "SELECT users.FName, users.LName FROM users
+	LEFT JOIN (usertypes) ON (users.UserId=usertypes.UserId) 
+	LEFT JOIN (authorcases) ON (usertypes.UserId=authorcases.UserId) WHERE authorcases.CriticalIncidentId=$CriticalIncidentId;";
+	$selectThisQuery = @mysqli_query($dbc, $authorQuery);
+	$headsCounter = mysqli_num_fields($selectThisQuery);
+	$authorBody = tableRowGenerator($selectThisQuery, $headsCounter);
 	
 	}
-
 	else {
 		header('Location: http://br-t1-jci.sfcrjci.org/Index.php');
 		exit;
@@ -117,35 +122,23 @@
 	<h1>Edit Critical Incidents</h1>
 		<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" id="editCriticalIncident" method="post">
 			<fieldset> 
-				
 				<input type="hidden" value="<?php if (isset($CriticalIncidentId)) echo $CriticalIncidentId; ?>" name="id" ></input>
-			  	 Title: <input  type="text" name="title" value="<?php if (isset($title)) {echo $title;}?>"></input>
-			  	 Category: <input type="text" name="category" value="<?php if (isset($category)) {echo $category;}?>"</input>
-
-			  	<p> List of existing categories:
-						<!-- Idea from http://www.plus2net.com/php_tutorial/list-table.php -->
-						<?php
-						$sql="SELECT CategoryName FROM categorys order by CategoryName"; 
-						
-						$selectQuery = mysqli_query($dbc, $sql);
-						
-						/* Option values are added by looping through the array */ 
-						while($row=mysqli_fetch_row($selectQuery)){
-							echo "</br><list ={$row[0]}>{$row[0]}</list>";
-						} //Array or records stored in $row
-						
-						?>
-				
-				</p>
-				<p>Keywords:</p>			
+			  	Title: <input  type="text" name="title" value="<?php if (isset($title)) {echo $title;}?>"></input>
+			  	Category: <input type="text" name="category" value="<?php if (isset($category)) {echo $category;}?>"</input>
+				</br>Authors of this critical incident: </br>
+					<?php
+					echo $authorBody;
+					?>
+					</br>
+				</br>Keywords:</br>		
 				<table>
 					<?php
-				echo $tableBody;
-				// echo $keyword; 
-				echo $button;
-				?>
+					echo $tableBody;
+					?>
 				</table>
-
+					<?php echo $button; ?>
+					</br>
+					</br>
 				<input type="submit" value="Submit" />
 			</fieldset>
 		</form>		
