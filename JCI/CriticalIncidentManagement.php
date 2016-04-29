@@ -101,7 +101,7 @@
 	$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 1, $headerCounter);
 	
 	//Create add keyword button	
-	$button = '<a href=' . 'CreateKeyWordCI.php' . '?' . 'id' . '=' . "$CriticalIncidentId" . '>' . 'Add Keyword' . '</a>';
+	$button = '<a href=' . 'CreateKeywordCI.php' . '?' . 'id' . '=' . "$CriticalIncidentId" . '>' . 'Add Keyword' . '</a>';
 	
 	$authorQuery = "SELECT users.FName, users.LName FROM users
 	LEFT JOIN (usertypes) ON (users.UserId=usertypes.UserId) 
