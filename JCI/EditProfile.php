@@ -108,7 +108,7 @@
 		<p>* First Name: <input type="text" name="fName" size="15" maxlength="50" value="<?php echo $FName; ?>" /></p>
 		<p>* Last Name: <input type="text" name="lName" size="15" maxlength="50" value="<?php echo $LName; ?>" /></p>
 		<p>Suffix: <input type="text" name="suffix" size="10" maxlength="10" value="<?php echo $Suffix; ?>" /></p>
-		<p>* Email Address: <input type="text" name="email" size="20" maxlength="100" value="<?php echo $Email; ?>"  /> </p>
+		<p>* Email Address: <input type="text" name="email" disabled="disabled" size="20" maxlength="100" value="<?php echo $Email; ?>"  /> </p>
 		<p>Title: <input type="text" name="title" size="15" maxlength="50" value="<?php echo $Title; ?>" /></p>
 		<p>Institution: <input type="text" name="university" size="20" maxlength="100" value="<?php echo $Institution; ?>" /></p>
 		<p>SCR Member ID: <input type="text" name="memberID" size="15" maxlength="50" value="<?php echo $MemberCode; ?>" /></p>
