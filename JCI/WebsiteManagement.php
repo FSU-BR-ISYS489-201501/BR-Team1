@@ -17,16 +17,15 @@
 		echo "<h1>Website Management</h2>";
 		echo "<fieldset>";
 		echo "<br/><a href='BrowseCriticalIncidents.php' class = 'button4'>Browse Critical Incidents</a><br/>";
-		echo "<br/><a href='Category.php' class = 'button4'>Browse Categories</a><br/>";
 		echo "<br/><a href='ManageAnnouncements.php' class = 'button4'>Manage Announcements</a><br/>";
 		echo "<br/><a href='ContentManagementSelector.php' class = 'button4'>Manage Website Content</a><br/>";
-		echo "<br/><a href='ChangeSubmissionDates.php' class = 'button4'>Set the Submission Dates for the Next Volume</a><br/>";
-		echo "<br/><a href='ChooseForPublication.php' class = 'button4'>Choose Critical Incidents for the Next Volume</a><br/>";
-		echo "<br/><a href='LaunchNewestVolume.php' class = 'button4'>Finalize the Next Volume</a><br/>";
 		echo "</fieldset>";
 	}
 	else {
 		header('Location: Index.php');
 		exit;
 	}
+?>
+<?php
+	include ('includes/Footer.php');
 ?>
