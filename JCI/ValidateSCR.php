@@ -128,7 +128,7 @@ else
 		<table>
 			<tr>
 				<th>Last Name, First Name</th>
-				<th>eMail Address</th>
+				<th>Email Address</th>
 			</tr>
 			<?php echo $tableBody; ?>
 		</table>
