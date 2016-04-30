@@ -1,4 +1,4 @@
-<?php
+ <?php
  /*********************************************************************************************
  * Original Author:Faisal Alfadhli
  * Date of origination: 04/16/2016
@@ -12,6 +12,8 @@
  * www.php.net
  * www.stackoverflow.com
  * www.W3schools.com
+ * Revision 1.0: 04/29/2016 Author: Faisal Alfadhli.
+ * Description of change:added a link for edit category page 
  ********************************************************************************************/
  
  	include('includes/Header.php');
@@ -24,18 +26,17 @@
 						 WHERE journalofcriticalincidents.InDevelopement='1';";
 	$critincIdQuery = "SELECT CriticalIncidentId FROM criticalincidents
 					   INNER JOIN journalofcriticalincidents ON criticalincidents.JournalId=journalofcriticalincidents.JournalId
-					   WHERE journalofcriticalincidents.InDevelopement='1';";
-					   
+					   WHERE journalofcriticalincidents.InDevelopement='1';";				   
 	// It was written by Shane Workman.
 	$selectQuery = @mysqli_query($dbc, $devJournalsQuery);
-	$idSelectQuery = @mysqli_query($dbc, $critincIdQuery);
+	$ciIdSelectQuery = @mysqli_query($dbc, $critincIdQuery);
 	$headerCounter = mysqli_num_fields($selectQuery);
-	$pageNames = array('SelectCategory.php', 'NewCategory.php');	
-	$titles = array('Select', 'New');
+	$pageNames = array('NewCategory.php', 'SelectCategory.php', 'EditCategory.php');	
+	$titles = array('New', 'Select', 'Edit');
 	
-	$assignButton = tableRowEditGenerator($idSelectQuery, $pageNames, $titles);
+	$assignButton = tableRowEditGenerator($ciIdSelectQuery, $pageNames, $titles);
 	// it will add two links in every row 
-	$rowCount = mysqli_num_rows($idSelectQuery);
+	$rowCount = mysqli_num_rows($ciIdSelectQuery);
 	if ($rowCount > 0) {
 		$buttonCounter = count($assignButton)/$rowCount;
 		$tableBody = tableRowGeneratorWithButtons($selectQuery, $assignButton, $buttonCounter, $headerCounter);
@@ -54,6 +55,7 @@
 				//I build insert query into categorys table.
 				$query = "INSERT INTO categorys (CategoryName, CategoryYear)
 						  VALUES ('$catNameToInsert', '$catYearToInsert');";
+				//Run the query...
 				$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
 				
 				//if query is unsuccessful tell a user there is an error.
@@ -85,5 +87,5 @@
 	</form>
 
 <?php
-	include ("includes/Footer.php");
+include ("includes/Footer.php");
 ?>

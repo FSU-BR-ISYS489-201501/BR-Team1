@@ -188,19 +188,20 @@
 	// the idea from Mark's code 
 	// this function makes a link in every row for assgin reviewers page 
 	function tableRowEditGenerator($idSelectQuery, $pageName, $title) {
-		$assignButton = array();
-		while ($ids = mysqli_fetch_array($idSelectQuery, MYSQLI_NUM)) {
-			for($a = 0;$a < count($ids);$a++) {
-				for($b = 0;$b < 2;$b++) {
-					// The idea for this code was inspired by xdazz.
-					$button = '<td><a href=' . $pageName[$b] . '?id='.$ids[$a] . '>' . $title[$b] . '</a></td>';
-					// The idea for this code was inspired by Bart S.
-					array_push($assignButton, $button);
-				}						
+			$assignButton = array();
+			while ($ids = mysqli_fetch_array($idSelectQuery, MYSQLI_NUM)) {
+				// made dynamic with count page name
+				for($a = 0;$a < count($ids);$a++) {
+					for($b = 0;$b < count($pageName);$b++) {
+						// The idea for this code was inspired by xdazz.
+						$button = '<td><a href=' . $pageName[$b] . '?id='.$ids[$a] . '>' . $title[$b] . '</a></td>';
+						// The idea for this code was inspired by Bart S.
+						array_push($assignButton, $button);
+					}						
+				}
 			}
+			return $assignButton;
 		}
-		return $assignButton;
-	}
 	// this idea from William
 	// function for remove reviewer : adds elements to our php page.
 	function spitHTML($incidentId, $tableBody) {	
