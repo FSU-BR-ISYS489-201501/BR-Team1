@@ -14,7 +14,7 @@
 </div>
 	<footer>
 	<div class="container">
-	&#169; 2016 JCI Website | Ferris State University | Error 404: Team Name Not found
+	&#169; 2016 JCI Website | Ferris State University | Error 404: Team Name Not Found
 </div>
 </footer>
 </body>
