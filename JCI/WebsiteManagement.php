@@ -19,6 +19,7 @@
 		echo "<br/><a href='BrowseCriticalIncidents.php' class = 'button4'>Browse Critical Incidents</a><br/>";
 		echo "<br/><a href='ManageAnnouncements.php' class = 'button4'>Manage Announcements</a><br/>";
 		echo "<br/><a href='ContentManagementSelector.php' class = 'button4'>Manage Website Content</a><br/>";
+		echo "<br/><a href='ImageManagement.php' class = 'button4'>Manage Images</a><br/>";
 		echo "</fieldset>";
 	}
 	else {

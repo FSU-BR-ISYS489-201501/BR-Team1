@@ -120,7 +120,7 @@
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" id="pagecontent" method="POST">
 	<fieldset>
 		<div style="float:right">
-			<p>Info goes here!</p>
+			<p></p>
 		</div>
 		<div style="float:left">
 		<input type="hidden" value="<?php if (isset($pageContentId)) echo $pageContentId; ?>" name="id" />
