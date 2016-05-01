@@ -19,7 +19,7 @@
   require ('../DbConnector.php');
   $file = '';
   $selectID = $_GET['CriticalIncidentId'];
-  $query = "SELECT FileLocation, FileDes FROM files  WHERE CriticalIncidentId = '$selectID' AND files.FileType='Summary';";
+  $query = "SELECT FileLocation, FileDes FROM files  WHERE CriticalIncidentId = '$selectID' AND files.FileType='Summary' AND Active = 1;";
   $run = mysqli_query($dbc, $query);
   if ($row = mysqli_fetch_array($run, MYSQLI_NUM)) {
 	  $file = $row[0];

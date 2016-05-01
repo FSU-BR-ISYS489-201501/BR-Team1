@@ -16,6 +16,7 @@
 		include ("includes/Header.php");
 		echo "<h1>Website Management</h2>";
 		echo "<fieldset>";
+		echo "<br/><a href='EditFiles.php' class = 'button4'>Activate and Deactivate Files</a><br/>";
 		echo "<br/><a href='BrowseCriticalIncidents.php' class = 'button4'>Browse Critical Incidents</a><br/>";
 		echo "<br/><a href='ManageAnnouncements.php' class = 'button4'>Manage Announcements</a><br/>";
 		echo "<br/><a href='ContentManagementSelector.php' class = 'button4'>Manage Website Content</a><br/>";

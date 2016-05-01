@@ -19,9 +19,8 @@
  * Variable: $headerCounter - This is the number of fields being returned (columns).
  * 
  * Function:  tableRowGeneratorWithButtons($dbc, $selectQuery, $editButton, $headerCounter)
- * Purpose: This function creates table rows that contain an edit button, an activate button, 
- * and a deactivate button. This will be saved to a string and then returned.
- * Variable: $editButton - This is an array with the edit button, activate button, and
+ * Purpose: This function creates table rows that a string containing buttons. This will be saved to a 
+ * string and then returned. Variable: $editButton - This is an array with the edit button, activate button, and
  * deactivate button.
  * 
  * Function:  tableRowLinkGenerator($dbc, $idSelectQuery)
