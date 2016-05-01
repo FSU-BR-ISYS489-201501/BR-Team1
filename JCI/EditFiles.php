@@ -24,7 +24,7 @@ if($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
 	require('../DbConnector.php');
 	
 	// Citation: Michael J. Calkins.
-	// This block will check if 'deleteId' is set in the url. It will set the announcement with that value to inactive.
+	// This block will check if 'deleteId' is set in the url. It will set the file with that value to inactive.
 	if (isset($_GET['deleteId'])) {
 		$fileDeactivateQuery = "UPDATE files SET Active = 0 WHERE FileId = {$_GET['deleteId']};";
 		$deactivateQuery = @mysqli_query($dbc, $fileDeactivateQuery) OR die("Errors are ".mysqli_error($dbc));
@@ -33,7 +33,7 @@ if($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
 	}
 	
 	// Citation: Michael J. Calkins.
-	// This block will check if 'activateId' is set in the url. It will set the announcement with that value to active.
+	// This block will check if 'activateId' is set in the url. It will set the file with that value to active.
 	if (isset($_GET['activateId'])) {
 		$fileActivateQuery = "UPDATE files SET Active = 1 WHERE FileId = {$_GET['activateId']};";
 		$activateQuery = @mysqli_query($dbc, $fileActivateQuery) OR die("Errors are ".mysqli_error($dbc));
