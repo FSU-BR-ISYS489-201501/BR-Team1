@@ -156,7 +156,7 @@
 					// associated with them.
 					$fileLocationQuery = 	"SELECT CriticalIncidentId, FileType
 											FROM files
-											WHERE CriticalIncidentId = {$row[0]}";
+											WHERE Active = 1 AND CriticalIncidentId = {$row[0]} ";
 					while ($row = mysqli_fetch_row($selectQuery)) {
 						array_push($criticalIncidentIds, $row[0]);
 						$fileLocationQuery = $fileLocationQuery . " OR CriticalIncidentId = {$row[0]}";
@@ -226,7 +226,7 @@
 		}
 	}
 	else {
-		header('Location: http://localhost/jci/Index.php');
+		header('Location: Index.php');
 	}
 ?>
 

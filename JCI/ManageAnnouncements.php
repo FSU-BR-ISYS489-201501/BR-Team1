@@ -65,7 +65,7 @@
 		$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 3, $headerCounter);
 	}
 	else {
-		header('Location: http://br-t1-jci.sfcrjci.org/Index.php');
+		header('Location: Index.php');
 		exit;
 	}
 ?>

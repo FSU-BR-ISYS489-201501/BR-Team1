@@ -54,7 +54,7 @@
 		}
 	}
 	else {
-		header('Location: http://localhost/jci/Index.php');
+		header('Location: Index.php');
 	}
 ?>
 	<br/>

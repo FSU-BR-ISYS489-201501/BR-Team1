@@ -105,7 +105,8 @@
 									<br>
 									<br>
 									<a href='UserManagement.php' class = 'button4'>User Management</a>
-									<a href='WebsiteManagement.php' class = 'button4'>Website Management </a>
+									<a href='WebsiteManagement.php' class = 'button4'>Website Management</a>
+									<a href='NextVolumeManagement.php' class = 'button4'>Volume Management</a>
 								</div>
 							</div>
 						</div>

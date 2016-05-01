@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
  	$err = array(); 
 
 	// Collect data from table
-	$criticalIncidentQuery = "SELECT Title, ReviewerId, Category, Editor, ApprovedReview, ApprovedPublish 
+	$criticalIncidentQuery = "SELECT Title, Category, ApprovedReview, ApprovedPublish 
 	FROM criticalincidents ORDER BY criticalincidents.CriticalIncidentId;";
 	$criticalIncidentIdQuery = "SELECT CriticalIncidentId FROM criticalincidents;";
 	
@@ -55,14 +55,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	$idSelectQuery = @mysqli_query($dbc, $criticalIncidentIdQuery);	
 	
 	// Push CI Id to FileMgmt			
-	$pageNames = array('FileManagement.php');
-	$variableNames = array('CriticalIncidentId');
-	$titles = array('View');
+	$pageNames = array('CriticalIncidentManagement.php', 'FileManagement.php');
+	$variableNames = array('id', 'CriticalIncidentId');
+	$titles = array('View', 'Manage Files');
 	
 	//Edit button creates view link in table for each CI Id
 	$headerCounter = mysqli_num_fields($selectQuery);
 	$editButton = tableRowLinkGenerator($idSelectQuery, $pageNames, $variableNames, $titles);
-	$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 1, $headerCounter);
+	$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 2, $headerCounter);
 ?>		
 
 <h1>Critical Incidents</h1>
@@ -71,9 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		<thead>
 			<tr>
 				<th>--Title--</th>
-				<th>--Reviewer ID--</th>
 				<th>--Category--</th>
-				<th>--Editor--</th>
 				<th>--Approved for Review (1=Yes, 0=No)--</th>
 				<th>--Approved for Publication (1=Yes, 0=No)--</th>
 			</tr>

@@ -82,6 +82,10 @@
 			$tableBody = tableRowGeneratorWithButtons($criticalIncidentSelectQuery, $editButton, 2, $headerCounter);
 		}
 	}
+	else {
+		header('Location: Index.php');
+		exit;
+	}
 ?>
 	
 	<?php 

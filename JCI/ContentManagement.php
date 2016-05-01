@@ -112,7 +112,7 @@
 	}
 	// If the user is not an editor, this will perform a redirect.
 	else {
-		header('Location: http://br-t1-jci.sfcrjci.org/Index.php');
+		header('Location: Index.php');
 		exit;
 	}
 ?>
@@ -120,7 +120,7 @@
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" id="pagecontent" method="POST">
 	<fieldset>
 		<div style="float:right">
-			<p>Info goes here!</p>
+			<p></p>
 		</div>
 		<div style="float:left">
 		<input type="hidden" value="<?php if (isset($pageContentId)) echo $pageContentId; ?>" name="id" />

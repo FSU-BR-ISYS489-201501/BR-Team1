@@ -11,6 +11,10 @@
 
  ********************************************************************************************/
 	$page_title = 'EditCriticalIncident';
+ 	
+ 	session_start();
+	
+	if($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
  	include ("includes/Header.php");
 	include ("includes/ValidationHelper.php");
 	include('includes/TableRowHelper.php');
@@ -61,8 +65,7 @@
 					
 			//Run the query...
 			$run = @mysqli_querys($dbc, $query)or die("Errors are ".mysqli_error($dbc));
-			}
-
+		}
 		
 		// This will get id value from edit link and when we hit sibmit it will post it in the board 
 		// This code was inspired by Wiliam
@@ -94,47 +97,48 @@
 	$titles = array('Edit');
 	$variableNames = array('id');
 	//Edit button creates view link in table for each CI Id
-	$headerCounter = mysqli_num_fields($selectQuery);
 	$editButton = tableRowLinkGenerator($idSelectQuery, $pageNames, $variableNames, $titles);
 	$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 1, $headerCounter);
 	
 	//Create add keyword button	
-	$button = '<a href=' . 'CreateKeyWordCI.php' . '?' . 'id' . '=' . "$CriticalIncidentId" . '>' . 'Add Keyword' . '</a>';
-		
+	$button = '<a href=' . 'CreateKeywordCI.php' . '?' . 'id' . '=' . "$CriticalIncidentId" . '>' . 'Add Keyword' . '</a>';
+	
+	$authorQuery = "SELECT users.FName, users.LName FROM users
+	LEFT JOIN (usertypes) ON (users.UserId=usertypes.UserId) 
+	LEFT JOIN (authorcases) ON (usertypes.UserId=authorcases.UserId) WHERE authorcases.CriticalIncidentId=$CriticalIncidentId;";
+	$selectThisQuery = @mysqli_query($dbc, $authorQuery);
+	$headsCounter = mysqli_num_fields($selectThisQuery);
+	$authorBody = tableRowGenerator($selectThisQuery, $headsCounter);
+	
+	}
+	else {
+		header('Location: http://br-t1-jci.sfcrjci.org/Index.php');
+		exit;
+	}
+	
 ?>
 
 	<!--Takes information to create a new announcement in the db.-->
 	<h1>Edit Critical Incidents</h1>
 		<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" id="editCriticalIncident" method="post">
 			<fieldset> 
-				
 				<input type="hidden" value="<?php if (isset($CriticalIncidentId)) echo $CriticalIncidentId; ?>" name="id" ></input>
-			  	 Title: <input  type="text" name="title" value="<?php if (isset($title)) {echo $title;}?>"></input>
-			  	 Category: <input type="text" name="category" value="<?php if (isset($category)) {echo $category;}?>"</input>
-
-			  	<p> Choose from these existing categories
-						<?php
-						$sql="SELECT CategoryName FROM categorys order by CategoryName"; 
-						// echo "<select name=category>"; // list box select command
-						$selectQuery = mysqli_query($dbc, $sql);
-						echo $selectQuery;
-						// /* Option values are added by looping through the array */ 
-						// while($row=mysqli_fetch_row($selectQuery)){
-						// 	echo "<option value={$row[0]}>{$row[0]}</option>";
-						// } //Array or records stored in $row
-						
-						//  echo "</select>";// Closing of list box
-						?>
-				</p>
-				<p>Keywords:</p>			
+			  	Title: <input  type="text" name="title" value="<?php if (isset($title)) {echo $title;}?>"></input>
+			  	Category: <input type="text" name="category" value="<?php if (isset($category)) {echo $category;}?>"</input>
+				</br>Authors of this critical incident: </br>
+					<?php
+					echo $authorBody;
+					?>
+					</br>
+				</br>Keywords:</br>		
 				<table>
 					<?php
-				echo $tableBody;
-				// echo $keyword; 
-				echo $button;
-				?>
+					echo $tableBody;
+					?>
 				</table>
-
+					<?php echo $button; ?>
+					</br>
+					</br>
 				<input type="submit" value="Submit" />
 			</fieldset>
 		</form>		

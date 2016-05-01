@@ -78,7 +78,7 @@ if($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor')
 	}
 else
 	{ // If we are not logged in as an Editor, redirect us to the index page
-	header('Location: http://br-t1-jci.sfcrjci.org/Index.php');
+	header('Location: Index.php');
 	exit;
 	}	
 	
@@ -128,7 +128,7 @@ else
 		<table>
 			<tr>
 				<th>Last Name, First Name</th>
-				<th>eMail Address</th>
+				<th>Email Address</th>
 			</tr>
 			<?php echo $tableBody; ?>
 		</table>
