@@ -84,7 +84,7 @@ session_start();
 		<option value = 'Slide'>Slideshow Image</option>
 		<option value = 'About'>About Us Image</option>
 	</select>
-	<input type="file" name="uploadedFile" />
+	<input type="file" name="uploadedFile[]" />
 	<input type="submit" class = "button" value="Submit Picture">
 </form>
 

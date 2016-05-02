@@ -23,6 +23,7 @@
 		include("includes/ValidationHelper.php");
 		
 		//Mark Bowman: This will get the primary key from the url for the database query.
+		// The idea for this code was inspired by Faisal.
 		$criticalIncidentId = 0;
 		if (isset($_GET['CriticalIncidentId'])) {
 			$criticalIncidentId = $_GET['CriticalIncidentId'];
@@ -33,6 +34,7 @@
 		
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$criticalIncidentIdQuery = "SELECT JournalId FROM criticalincidents WHERE CriticalIncidentId = $criticalIncidentId;";
+			// The idea for this code was inspired by Shane.
 			$idQuery = @mysqli_query($dbc, $criticalIncidentIdQuery);
 			if ($row = mysqli_fetch_array($idQuery, MYSQLI_ASSOC)) {
 				
@@ -84,6 +86,7 @@
 	<br/>
 	<fieldset>
 		<form method="post" enctype="multipart/form-data"  multiple = "multiple">
+			<?php // The idea for this hidden field came from Submit Case, written by Faisal. ?>
 			<input type="hidden" value="<?php if (isset($criticalIncidentId)) echo $criticalIncidentId; ?>" name="id" />
 			<input type="file" name="uploadedFile" />
 			<br/><br/>

@@ -34,6 +34,7 @@
 			$pageContentId = 0;
 			
 			// This checks to see if the hidden field has content, or it gets the content from the URL.
+			// Borrowed this code from Faisal's Edit Announcement
 			if (isset($_POST['id']) ){
 				$pageContentId = $_POST['id'];
 			}
@@ -87,6 +88,7 @@
 		$pageContentId = 0;
 		
 		// This checks to see if the hidden field has content, or it gets the content from the URL.
+		// Borrowed this code from Faisal's Edit Announcement
 		if (isset($_POST['id']) ){
 			$pageContentId = $_POST['id'];
 		}
@@ -117,12 +119,14 @@
 	}
 ?>
 <h1>Content Management</h1>
+<?php // The idea for this code was inspired by Faisal. ?>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" id="pagecontent" method="POST">
 	<fieldset>
 		<div style="float:right">
 			<p></p>
 		</div>
 		<div style="float:left">
+		<?php // This code was borrowed this code from Faisal. ?>
 		<input type="hidden" value="<?php if (isset($pageContentId)) echo $pageContentId; ?>" name="id" />
 		<p>Title: <input type="text" name="title" size="15" maxlength="50" value="<?php echo $title; ?>" </input></p>
 		<p>Page Content: <br/><textarea name="body" style="width:500px;height:400px;" value=""><?php echo $body;?></textarea><br />

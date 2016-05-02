@@ -117,9 +117,11 @@ else {
 
 ?>
 <div>
+	<?php // The idea for this code was inspired by Shane. ?>
 	<div name = 'table'style="float:left">
 		</br>
 		<?php
+			// The idea for this code was inspired by Shane.
 			if (!empty($tableBody)) {
 				echo "
 					<table>
@@ -134,12 +136,14 @@ else {
 			}
 		?>
 	</div>
+	<?php // The idea for this code was inspired by Shane. ?>
 	<div name = 'select'style="float:right">
 		</br>
 		<fieldset>
 			<form method="post">
 				Choose the year in which files will be/were published.
 				<br>
+				<?php // The idea for this code was inspired by the use of a hidden field in Submit Case, written by Faisal. ?>
 				<input type="hidden" value="<?php if (isset($publicationYear)) echo $publicationYear; ?>" name="id" />
 				<?php
 					echo $selectBody;

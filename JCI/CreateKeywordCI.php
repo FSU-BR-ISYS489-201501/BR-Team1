@@ -25,17 +25,18 @@
 	include ("includes/ValidationHelper.php");
 	require ('../DbConnector.php');
 	
+	// everything in the bracket will run when the submit button is pressed
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	
 		$CriticalIncidentId = $_GET['id'];
 		$keyword =$_POST['keyword'];
+		// checking to make sure only letters are being entered 
 		if (preg_match("/^[a-zA-Z]/", $keyword)) {
 		echo "$CriticalIncidentId";
 		echo "$keyword";
 		
+		// an insert query to insert the new keyword
 		$query = "INSERT INTO keywords (CIKeyword, CriticalIncidentId) VALUES ('$keyword', $CriticalIncidentId);";
-		
-		// $query = "UPDATE keywords SET CIKeyword='$keyword' WHERE KeywordId=$CriticalIncidentId;";
 		
 		$run = @mysqli_query($dbc, $query)or die("Errors are ".mysqli_error($dbc));
 		}else{
@@ -43,7 +44,7 @@
 		}
 	}
 	
-	
+	//grabs the id from the url
 	If (isset($_GET['id'])) {
 		$CriticalIncidentId = $_GET['id'];
 	} 

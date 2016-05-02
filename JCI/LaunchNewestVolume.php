@@ -31,7 +31,7 @@
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$nextVolumeQuery = 	"SELECT JournalId, JournalVolume FROM journalofcriticalincidents WHERE InDevelopement = 1;";
 		
-		// Written by Shane Workman.
+		// The idea for this code was inspired by Shane.
 		$nextVolumeSelectQuery = @mysqli_query($dbc, $nextVolumeQuery);
 		
 		if ($row = mysqli_fetch_array($nextVolumeSelectQuery, MYSQLI_ASSOC)) {
@@ -53,7 +53,7 @@
 			//Update the current JCI volume.
 			$updateNextVolumeQuery = "UPDATE journalofcriticalincidents SET InDevelopement = 0 WHERE JournalId = $latest;";
 			
-			// Written by Shane Workman.
+			// The idea for this code was inspired by Shane.
 			if ($updateNextVolumeSelectQuery = @mysqli_query($dbc, $updateNextVolumeQuery)) {
 				if (mysqli_affected_rows($dbc)) {
 					$latest++;
@@ -64,7 +64,7 @@
 					$createNewVolumeQuery = "INSERT INTO journalofcriticalincidents(JournalVolume, PublicationYear, InDevelopement)
 											VALUES ('$latestVolume', '$currentDate', 1)";
 					
-					// Written by Shane Workman.						
+					// The idea for this code was inspired by Shane.						
 					$createNewVolumeInsertQuery = @mysqli_query($dbc, $createNewVolumeQuery);
 				}
 				else {
@@ -85,7 +85,7 @@
 		
 		$nextVolumeQuery = 	"SELECT JournalId, JournalVolume FROM journalofcriticalincidents WHERE InDevelopement = 1;";
 		
-		// Written by Shane Workman.
+		// The idea for this code was inspired by Shane.
 		$nextVolumeSelectQuery = @mysqli_query($dbc, $nextVolumeQuery);
 		
 		if ($row = mysqli_fetch_array($nextVolumeSelectQuery, MYSQLI_ASSOC)) {
@@ -102,7 +102,7 @@
 							 			FROM criticalincidents 
 							 			WHERE ApprovedPublish = 1 AND JournalId = $latest ORDER BY CriticalIncidentId;";
 			
-			// Written by Shane Workman.
+			// The idea for this code was inspired by Shane.
 			$criticalIncidentSelectQuery = @mysqli_query($dbc, $criticalIncidentQuery);
 			$criticalIncidentIdSelectQuery = @mysqli_query($dbc, $criticalIncidentIdQuery);
 		
@@ -146,7 +146,7 @@
 							 			WHERE ApprovedPublish = 1 AND JournalId = {$latest} ORDER BY CriticalIncidentId;";
 			
 			
-			// Written by Shane Workman.
+			// The idea for this code was inspired by Shane.
 			if ($selectQuery = @mysqli_query($dbc, $approvedSubmissionQuery)) {
 				
 				if ($row = mysqli_fetch_row($selectQuery)) {
@@ -172,6 +172,7 @@
 			}
 			
 			// This command executes the auto-generated SQL query.
+			// The idea for this code was inspired by Shane.
 			if ($fileLocationSelectQuery = @mysqli_query($dbc, $fileLocationQuery)) {
 				
 				$data = array();

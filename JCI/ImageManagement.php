@@ -102,8 +102,10 @@
 <a href='UploadPicture.php' class = 'button4'>Upload a New Picture</a>
 </br>
 </br>
+<?php // The idea for this code was inspired by the code written by Faisal. ?>
 <form action='<?php echo htmlspecialchars($_SERVER['PHP_SELF']);?>'method = 'POST'>
 <?php
+	// The idea for this code was inspired by Shane.
 	if (!empty($tableBody)) {
 		echo $tableStart;
 		echo $tableBody;

@@ -19,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	// Need two helper files:
 	require ('includes/LoginFunction.php');
 	require ('../DbConnector.php');
-	// require ('mysqli_connect.php');
 		
 	// Check the login:
 	list ($check, $data) = checkLoginFields($dbc, $_POST['email'], $_POST['pass']);
@@ -27,7 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	if ($check) { // OK!
 		
 		// Set the session data:
-		// Need to add views to database. Does not work now
 		session_start();
 		if(isset($_SESSION['views'])){
 			$_SESSION['views'] = $_SESSION['views']+1;

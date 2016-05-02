@@ -30,7 +30,7 @@
 		$query = "SELECT Body FROM announcements WHERE IsActive = 1 AND StartDate <= '{$currentDate}' 
 		AND EndDate > '{$currentDate}';";
 	
-		// Stole from Shane Workman's Register code
+		// The idea for this code was inspired by Shane.
 		$selectQuery = @mysqli_query($dbc, $query);
 		
 		$headerCounter = mysqli_num_fields($selectQuery);
@@ -41,7 +41,7 @@
 		$query = "SELECT Body FROM announcements WHERE IsActive = 1 AND Type = 1 AND StartDate <= '{$currentDate}' 
 		AND EndDate > '{$currentDate}';";
 	
-		// Stole from Shane Workman's Register code
+		// The idea for this code was inspired by Shane.
 		$selectQuery = @mysqli_query($dbc, $query);
 		
 		$headerCounter = mysqli_num_fields($selectQuery);
