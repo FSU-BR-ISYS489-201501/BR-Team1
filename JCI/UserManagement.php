@@ -26,3 +26,6 @@
 		exit;
 	}
 ?>
+<?php
+	include ('includes/Footer.php');
+?>

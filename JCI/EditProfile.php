@@ -23,30 +23,13 @@
 		$fname = mysqli_real_escape_string($dbc, trim($_POST['fName']));
 		$lname = mysqli_real_escape_string($dbc, trim($_POST['lName']));
 		$suffix = mysqli_real_escape_string($dbc, trim($_POST['suffix']));
-		$email = mysqli_real_escape_string($dbc, trim($_POST['email']));
 		$title = mysqli_real_escape_string($dbc, trim($_POST['title']));
 		$institution = mysqli_real_escape_string($dbc, trim($_POST['university']));
 		$membercode = mysqli_real_escape_string($dbc, trim($_POST['memberID']));
 		$prefix = mysqli_real_escape_string($dbc, trim($_POST['prefix']));
 		
 
-		// Error checking from Shane's Register file
-		if (empty($email)) {
-			$err[] = 'You forgot to enter your email.';
-		} elseif (checkEmail($_POST['email']) == 0) {
-			$err[] = 'The email submitted doesnt have the correct syntax.';
-		} elseif (1 == 2){
-			
-		} else {
-			$email = mysqli_real_escape_string($dbc, trim($_POST['email']));
-			$testQ = "SELECT Email FROM Users WHERE Email = '$email' AND UserId != $r;";
-			$result = mysqli_query($dbc, $testQ);
-			if (mysqli_num_rows($result) > 0){
-				$err[] = 'This email is already registered!';
-			} else {
-				
-			}
-		}
+		// Error checking from Shane's Register file.
 		if (empty($fname)) {
 			$err[] = 'You forgot to enter your first name.';
 		}
@@ -55,7 +38,7 @@
 		}
 		If(empty($err)) {
 			// Create the query that dumps info into the DB.
-			$updatequery = "UPDATE users SET  Prefix = '$prefix', FName = '$fname', LName = '$lname', Suffix = '$suffix', Email = '$email', Title = '$title', 
+			$updatequery = "UPDATE users SET  Prefix = '$prefix', FName = '$fname', LName = '$lname', Suffix = '$suffix', Title = '$title', 
 			Employer = '$institution', MemberCode = '$membercode' WHERE UserId = $r;";
 			$run = @mysqli_query($dbc, $updatequery)or die("Errors are ".mysqli_error($dbc));
 			echo "Your profile has been updated!";

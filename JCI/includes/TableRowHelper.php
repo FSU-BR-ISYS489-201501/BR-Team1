@@ -19,9 +19,8 @@
  * Variable: $headerCounter - This is the number of fields being returned (columns).
  * 
  * Function:  tableRowGeneratorWithButtons($dbc, $selectQuery, $editButton, $headerCounter)
- * Purpose: This function creates table rows that contain an edit button, an activate button, 
- * and a deactivate button. This will be saved to a string and then returned.
- * Variable: $editButton - This is an array with the edit button, activate button, and
+ * Purpose: This function creates table rows that a string containing buttons. This will be saved to a 
+ * string and then returned. Variable: $editButton - This is an array with the edit button, activate button, and
  * deactivate button.
  * 
  * Function:  tableRowLinkGenerator($dbc, $idSelectQuery)
@@ -188,19 +187,20 @@
 	// the idea from Mark's code 
 	// this function makes a link in every row for assgin reviewers page 
 	function tableRowEditGenerator($idSelectQuery, $pageName, $title) {
-		$assignButton = array();
-		while ($ids = mysqli_fetch_array($idSelectQuery, MYSQLI_NUM)) {
-			for($a = 0;$a < count($ids);$a++) {
-				for($b = 0;$b < 2;$b++) {
-					// The idea for this code was inspired by xdazz.
-					$button = '<td><a href=' . $pageName[$b] . '?id='.$ids[$a] . '>' . $title[$b] . '</a></td>';
-					// The idea for this code was inspired by Bart S.
-					array_push($assignButton, $button);
-				}						
+			$assignButton = array();
+			while ($ids = mysqli_fetch_array($idSelectQuery, MYSQLI_NUM)) {
+				// made dynamic with count page name
+				for($a = 0;$a < count($ids);$a++) {
+					for($b = 0;$b < count($pageName);$b++) {
+						// The idea for this code was inspired by xdazz.
+						$button = '<td><a href=' . $pageName[$b] . '?id='.$ids[$a] . '>' . $title[$b] . '</a></td>';
+						// The idea for this code was inspired by Bart S.
+						array_push($assignButton, $button);
+					}						
+				}
 			}
+			return $assignButton;
 		}
-		return $assignButton;
-	}
 	// this idea from William
 	// function for remove reviewer : adds elements to our php page.
 	function spitHTML($incidentId, $tableBody) {	

@@ -100,8 +100,13 @@
 	$editButton = tableRowLinkGenerator($idSelectQuery, $pageNames, $variableNames, $titles);
 	$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 1, $headerCounter);
 	
+<<<<<<< HEAD
 	//Create add keyword button	which navigates to new page
 	$button = '<a href=' . 'CreateKeyWordCI.php' . '?' . 'id' . '=' . "$CriticalIncidentId" . '>' . 'Add Keyword' . '</a>';
+=======
+	//Create add keyword button	
+	$button = '<a href=' . 'CreateKeywordCI.php' . '?' . 'id' . '=' . "$CriticalIncidentId" . '>' . 'Add Keyword' . '</a>';
+>>>>>>> 4f7ed16303d907a5d3eed0be1531829a59b8a87b
 	
 	$authorQuery = "SELECT users.FName, users.LName FROM users
 	LEFT JOIN (usertypes) ON (users.UserId=usertypes.UserId) 

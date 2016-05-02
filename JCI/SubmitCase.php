@@ -376,7 +376,6 @@
 											if ($rtnVal == 1) {
 												// send email notification to editor
 												$rtnVal = mail("alfadhf@ferris.edu", "New Submission", $editorMsg, $header);
-												echo $rtnVal;
 												if ($rtnVal == 1) {
 													// display Thank you Message
 													header("Location: http://br-t1-jci.sfcrjci.org/Index.php?success = Y"); 
