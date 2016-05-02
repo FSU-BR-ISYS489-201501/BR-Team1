@@ -12,7 +12,8 @@
  * Description of change: Added code to make the page pull content from the database instead 
  * of static HTML.
  ********************************************************************************************/
- 
+ // Coded by mark to Added code to make the page pull content from the database instead 
+// of static HTML.
  $page_title = 'About Us';
 	include ('includes/Header.php');
 	include('includes/TableRowHelper.php');

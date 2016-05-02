@@ -1185,29 +1185,26 @@ input, textarea {
 		
 /*------------------------------------*\
     $CAROUSEL
-    http://csswizardry.com/2011/10/fully-fluid-responsive-css-carousel/
+    Source:    http://csswizardry.com/2011/10/fully-fluid-responsive-css-carousel/
 \*------------------------------------*/
 .carousel{
     overflow:hidden;
     width:100%;
 }
+/*css for slides*/
 .panes{
     list-style:none;
     margin:0;
     padding:0;
     position:relative;
-    width:500%; /* Number of panes * 100% */
+    width:500%; /* Number of slides * 100% */
     overflow:hidden; /* This is used solely to clear floats, it does not add functionality. */
      
     -moz-animation:carousel 60s linear infinite;
     -webkit-animation:carousel 60s linear infinite;
 	animation:carousel 60s linear infinite;
 }
-	/*.panes:hover{
-		-moz-animation-play-state:paused;
-		-webkit-animation-play-state:paused;
-		animation-play-state:paused;
-	}*/
+/*this specifies number of slide transitions*/
 .panes > li{
     position:relative;
     float:left;
@@ -1233,7 +1230,7 @@ input, textarea {
 .panel-copy a{
 	color:#fff;
 }
-
+/*this specifies how long each slide will stay for*/
 @-moz-keyframes carousel{
     0%    { left:0; }
     11%   { left:0; }
@@ -1253,7 +1250,7 @@ input, textarea {
     98.5% { left:-100%; }
     100%  { left:0; }
 }
-
+/*this specifies how long each slide will stay for*/
 @-webkit-keyframes carousel{
     0%    { left:0; }
     11%   { left:0; }
@@ -1273,7 +1270,7 @@ input, textarea {
     98.5% { left:-100%; }
     100%  { left:0; }
 }
-
+/*this specifies how long each slide will stay for*/
 @keyframes carousel{
     0%    { left:0; }
     11%   { left:0; }

@@ -19,13 +19,14 @@
   * journalofcriticalincidents table instead of the deprecated submissions table, and I
   * changed variable names.
   ********************************************************************************************/
-  
+  	// Check to make sure user is editor
 	session_start();
   	if($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
 		$page_title = 'ChangeSubmissionDates'; 
 		include ("includes/Header.php");
 		require ('../DbConnector.php');
-		//Begin Validation... 
+		
+		// If submit button is pressed...
 		if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		 	//Set up Error msg array.
 		 	$err = array();

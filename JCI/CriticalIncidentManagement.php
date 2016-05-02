@@ -5,22 +5,21 @@
  *
  * Page created for use in the JCI Project.
  * Project work is done as part of a Capstone class ISYS489: Ferris State University.
- * Purpose: Include a overview of the page: Such as. This is the index.php and will serve as the home page content of the site.\
- * Credit: Most of the code is from other pages that were created by Faisal and Mark. 
- * 	I did use some code from http://www.plus2net.com/php_tutorial/list-table.php to pull values from the db to populate a drop down list
+ * Purpose: To give the editor the ability to edit each critical incident 
+ * Credit: Most of the code is from other pages that were created by Faisal and Mark. Specifically LoginFunction, SubmitCase and EditAnnouncement
 
  ********************************************************************************************/
 	$page_title = 'EditCriticalIncident';
  	
  	session_start();
-	
+	// checks to see if the user is an editor. if not the user will be redirected to the home page
 	if($_SESSION['Type'] == 'Editor' || $_SESSION['Type'] == 'editor') {
  	include ("includes/Header.php");
 	include ("includes/ValidationHelper.php");
 	include('includes/TableRowHelper.php');
 	require ('../DbConnector.php');
 	
-	
+	// everything in the bracket will run when the submit button is pressed
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') 
  	{
 		//Set up Error msg array.
@@ -68,7 +67,7 @@
 		}
 		
 		// This will get id value from edit link and when we hit sibmit it will post it in the board 
-		// This code was inspired by Wiliam
+		// This code was inspired by William
 		If (isset($_GET['id']) ) {
 			$CriticalIncidentId = $_GET['id'];
 		} else {
@@ -79,16 +78,17 @@
 		$editQuery = "SELECT Category, Title FROM criticalincidents WHERE CriticalIncidentId = $CriticalIncidentId;";
 		$selectQuery = @mysqli_query($dbc, $editQuery);	
 	
-		// This code was inspired by Wiliam
+		// This code was inspired by William
 		// The previous variable is increased in value to assign the appropriate values from our query array to each variable.
 		if($row = mysqli_fetch_array($selectQuery, MYSQLI_NUM)){
 			$title = $row[1];
 			$category = $row[0];
 		}
-		
+	
+	//This code creates a table for keywords. It is part of Mark's function being called from TableRowHelper in the includes folder
 	$critincQuery = "SELECT CIKeyword FROM keywords WHERE CriticalIncidentId = $CriticalIncidentId;";
 	$critincIdQuery = "SELECT KeywordId FROM keywords WHERE CriticalIncidentId = $CriticalIncidentId;";
-	// This was written by Shane Workman.
+	// To create variables for the function to use. 
 	$selectQuery = @mysqli_query($dbc, $critincQuery);
 	$idSelectQuery = @mysqli_query($dbc, $critincIdQuery);
 	$headerCounter = mysqli_num_fields($selectQuery);
@@ -100,7 +100,7 @@
 	$editButton = tableRowLinkGenerator($idSelectQuery, $pageNames, $variableNames, $titles);
 	$tableBody = tableRowGeneratorWithButtons($selectQuery, $editButton, 1, $headerCounter);
 	
-	//Create add keyword button	
+	//Create add keyword button	which navigates to new page
 	$button = '<a href=' . 'CreateKeyWordCI.php' . '?' . 'id' . '=' . "$CriticalIncidentId" . '>' . 'Add Keyword' . '</a>';
 	
 	$authorQuery = "SELECT users.FName, users.LName FROM users
