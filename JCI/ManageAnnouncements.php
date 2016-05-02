@@ -52,7 +52,7 @@
 		$announcementQuery = "SELECT AnnouncementId, Subject, Body, StartDate, EndDate, Type, IsActive FROM announcements;";
 		$announcementIdQuery = "SELECT AnnouncementId FROM announcements;";
 		
-		// Citation: Shane Workman.
+		// The idea for this code was inspired by Shane.
 		$selectQuery = @mysqli_query($dbc, $announcementQuery);
 		$idSelectQuery = @mysqli_query($dbc, $announcementIdQuery);
 		

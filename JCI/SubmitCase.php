@@ -62,6 +62,7 @@
 		$submissionWindowQuery = 	"SELECT OpenDate, CloseDate
 						 	FROM journalofcriticalincidents
 						 	WHERE InDevelopement = 1;";
+		// The idea for this code was inspired by Shane.
 		$submissionWindowSelectQuery = @mysqli_query($dbc, $submissionWindowQuery);
 		if ($row = mysqli_fetch_array($submissionWindowSelectQuery, MYSQLI_ASSOC)) {
 			$openDate = $row['OpenDate'];
@@ -88,6 +89,7 @@
 					$nextVolumeIdQuery = 	"SELECT JournalId
 									 	FROM journalofcriticalincidents
 									 	WHERE InDevelopement = 1;";
+					// The idea for this code was inspired by Shane.
 					$nextVolumeIdSelectQuery = @mysqli_query($dbc, $nextVolumeIdQuery);
 					if ($row = mysqli_fetch_array($nextVolumeIdSelectQuery, MYSQLI_ASSOC)) {
 						$latest = $row['JournalId'];
