@@ -23,6 +23,7 @@
 		include("includes/ValidationHelper.php");
 		
 		//Mark Bowman: This will get the primary key from the url for the database query.
+		// The idea for this code was inspired by Faisal.
 		$criticalIncidentId = 0;
 		if (isset($_GET['CriticalIncidentId'])) {
 			$criticalIncidentId = $_GET['CriticalIncidentId'];
